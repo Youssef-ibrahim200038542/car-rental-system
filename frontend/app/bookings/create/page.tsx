@@ -17,6 +17,7 @@ brand?: string;
 model?: string;
 daily_rate: number;
 status: string;
+image?: string;
 category?: {
 id: number;
 name: string;
@@ -27,22 +28,17 @@ branch?: Branch;
 export default function CreateBookingPage() {
 const router = useRouter();
 const searchParams = useSearchParams();
-
 const carId = searchParams.get("car_id");
 
 const [car, setCar] = useState<Car | null>(null);
 const [branches, setBranches] = useState<Branch[]>([]);
-
 const [pickupBranchId, setPickupBranchId] = useState("");
 const [dropoffBranchId, setDropoffBranchId] = useState("");
-
 const [startDate, setStartDate] = useState("");
 const [endDate, setEndDate] = useState("");
-
 const [loading, setLoading] = useState(true);
 const [bookingLoading, setBookingLoading] = useState(false);
 const [error, setError] = useState("");
-
 const [days, setDays] = useState(0);
 const [total, setTotal] = useState(0);
 
@@ -85,11 +81,9 @@ const fetchData = async () => {
     }
 
     const selectedCar = carData.data;
-
     setCar(selectedCar);
 
     const branchList = branchesData.data || [];
-
     setBranches(branchList);
 
     if (selectedCar.branch?.id) {
@@ -105,7 +99,10 @@ const fetchData = async () => {
     }
   } catch (err) {
     console.error(err);
-    setError("Unable to load booking information.");
+
+    setError(
+      "Unable to load booking information."
+    );
   } finally {
     setLoading(false);
   }
@@ -141,6 +138,7 @@ const calculatedDays = Math.ceil(
 
 if (calculatedDays > 0) {
   setDays(calculatedDays);
+
   setTotal(
     calculatedDays * Number(car.daily_rate)
   );
@@ -152,12 +150,60 @@ if (calculatedDays > 0) {
 
 }, [startDate, endDate, car]);
 
+const getCarImage = () => {
+if (!car?.image) {
+return null;
+}
+
+
+const apiUrl =
+  process.env.NEXT_PUBLIC_API_URL || "";
+
+const backendUrl = apiUrl.replace(
+  /\/api\/?$/,
+  ""
+);
+
+let imagePath = car.image;
+
+if (
+  imagePath.startsWith("http://") ||
+  imagePath.startsWith("https://")
+) {
+  return imagePath;
+}
+
+imagePath = imagePath.replace(/^\/+/, "");
+
+if (imagePath.startsWith("public/")) {
+  imagePath = imagePath.replace(
+    /^public\//,
+    ""
+  );
+}
+
+if (!imagePath.startsWith("images/")) {
+  imagePath =
+    "images/cars/" + imagePath;
+}
+
+return (
+  backendUrl +
+  "/" +
+  imagePath
+);
+
+
+};
+
 const handleBooking = async () => {
 setError("");
 
 
 const token = localStorage.getItem("token");
-const userString = localStorage.getItem("user");
+
+const userString =
+  localStorage.getItem("user");
 
 if (!token || !userString) {
   router.push("/login");
@@ -170,12 +216,16 @@ if (!car) {
 }
 
 if (!pickupBranchId || !dropoffBranchId) {
-  setError("Please select pickup and drop-off branches.");
+  setError(
+    "Please select pickup and drop-off branches."
+  );
   return;
 }
 
 if (!startDate || !endDate) {
-  setError("Please select pickup and return dates.");
+  setError(
+    "Please select pickup and return dates."
+  );
   return;
 }
 
@@ -191,57 +241,76 @@ try {
 
   setBookingLoading(true);
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const apiUrl =
+    process.env.NEXT_PUBLIC_API_URL;
 
   const response = await fetch(
     apiUrl + "/bookings",
     {
       method: "POST",
+
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: "Bearer " + token,
+        Authorization:
+          "Bearer " + token,
       },
+
       body: JSON.stringify({
         user_id: user.id,
         car_id: car.id,
-        pickup_branch_id: Number(
-          pickupBranchId
-        ),
-        dropoff_branch_id: Number(
-          dropoffBranchId
-        ),
+
+        pickup_branch_id:
+          Number(pickupBranchId),
+
+        dropoff_branch_id:
+          Number(dropoffBranchId),
+
         pickup_date: startDate,
         return_date: endDate,
+
         daily_rate: Number(
           car.daily_rate
         ),
+
         total_days: days,
+
         subtotal: total,
+
         discount: 0,
+
         total_amount: total,
+
         status: "pending",
+
         notes: null,
       }),
     }
   );
 
-  const data = await response.json();
+  const data =
+    await response.json();
 
   if (!response.ok) {
     throw new Error(
-      data.message || "Booking failed"
+      data.message ||
+        "Booking failed"
     );
   }
 
-  router.push("/payment?booking_id=" + data.data.id);
+  router.push(
+    "/payment?booking_id=" +
+      data.data.id
+  );
 } catch (err) {
   console.error(err);
 
   if (err instanceof Error) {
     setError(err.message);
   } else {
-    setError("Something went wrong.");
+    setError(
+      "Something went wrong."
+    );
   }
 } finally {
   setBookingLoading(false);
@@ -250,10 +319,12 @@ try {
 
 };
 
+const carImage = getCarImage();
+
 if (loading) {
 return ( <main className="min-h-screen bg-[#070b14] px-6 pt-32 text-white"> <div className="mx-auto flex min-h-[400px] max-w-5xl items-center justify-center"> <div className="text-center"> <div className="mx-auto mb-5 h-11 w-11 animate-spin rounded-full border-4 border-white/10 border-t-blue-500"></div>
 
-```
+
         <p className="text-gray-400">
           Loading booking information...
         </p>
@@ -290,7 +361,6 @@ Something went wrong </h1>
 return ( <main className="min-h-screen bg-[#070b14] px-6 pb-20 pt-32 text-white"> <div className="mx-auto max-w-6xl">
 
 
-    {/* Header */}
     <div className="mb-10">
       <p className="mb-3 text-sm font-semibold uppercase tracking-[0.25em] text-blue-400">
         Reservation
@@ -307,7 +377,6 @@ return ( <main className="min-h-screen bg-[#070b14] px-6 pb-20 pt-32 text-white"
 
     <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
 
-      {/* Form */}
       <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 md:p-8">
 
         <h2 className="text-2xl font-bold">
@@ -318,7 +387,6 @@ return ( <main className="min-h-screen bg-[#070b14] px-6 pb-20 pt-32 text-white"
           Select your pickup and return information.
         </p>
 
-        {/* Branches */}
         <div className="mt-8 grid gap-5 md:grid-cols-2">
 
           <div>
@@ -329,18 +397,22 @@ return ( <main className="min-h-screen bg-[#070b14] px-6 pb-20 pt-32 text-white"
             <select
               value={pickupBranchId}
               onChange={(e) =>
-                setPickupBranchId(e.target.value)
+                setPickupBranchId(
+                  e.target.value
+                )
               }
               className="w-full rounded-xl border border-white/10 bg-[#0d1320] px-4 py-3.5 text-white outline-none transition focus:border-blue-500"
             >
-              {branches.map((branch) => (
-                <option
-                  key={branch.id}
-                  value={branch.id}
-                >
-                  {branch.name}
-                </option>
-              ))}
+              {branches.map(
+                (branch) => (
+                  <option
+                    key={branch.id}
+                    value={branch.id}
+                  >
+                    {branch.name}
+                  </option>
+                )
+              )}
             </select>
           </div>
 
@@ -352,24 +424,27 @@ return ( <main className="min-h-screen bg-[#070b14] px-6 pb-20 pt-32 text-white"
             <select
               value={dropoffBranchId}
               onChange={(e) =>
-                setDropoffBranchId(e.target.value)
+                setDropoffBranchId(
+                  e.target.value
+                )
               }
               className="w-full rounded-xl border border-white/10 bg-[#0d1320] px-4 py-3.5 text-white outline-none transition focus:border-blue-500"
             >
-              {branches.map((branch) => (
-                <option
-                  key={branch.id}
-                  value={branch.id}
-                >
-                  {branch.name}
-                </option>
-              ))}
+              {branches.map(
+                (branch) => (
+                  <option
+                    key={branch.id}
+                    value={branch.id}
+                  >
+                    {branch.name}
+                  </option>
+                )
+              )}
             </select>
           </div>
 
         </div>
 
-        {/* Dates */}
         <div className="mt-6 grid gap-5 md:grid-cols-2">
 
           <div>
@@ -386,7 +461,9 @@ return ( <main className="min-h-screen bg-[#070b14] px-6 pb-20 pt-32 text-white"
                   .split("T")[0]
               }
               onChange={(e) =>
-                setStartDate(e.target.value)
+                setStartDate(
+                  e.target.value
+                )
               }
               className="w-full rounded-xl border border-white/10 bg-[#0d1320] px-4 py-3.5 text-white outline-none transition focus:border-blue-500"
             />
@@ -400,9 +477,13 @@ return ( <main className="min-h-screen bg-[#070b14] px-6 pb-20 pt-32 text-white"
             <input
               type="date"
               value={endDate}
-              min={startDate || undefined}
+              min={
+                startDate || undefined
+              }
               onChange={(e) =>
-                setEndDate(e.target.value)
+                setEndDate(
+                  e.target.value
+                )
               }
               className="w-full rounded-xl border border-white/10 bg-[#0d1320] px-4 py-3.5 text-white outline-none transition focus:border-blue-500"
             />
@@ -410,14 +491,12 @@ return ( <main className="min-h-screen bg-[#070b14] px-6 pb-20 pt-32 text-white"
 
         </div>
 
-        {/* Error */}
         {error && (
           <div className="mt-6 rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-300">
             {error}
           </div>
         )}
 
-        {/* Summary */}
         <div className="mt-8 rounded-2xl border border-white/10 bg-black/20 p-5">
 
           <div className="flex items-center justify-between">
@@ -464,7 +543,6 @@ return ( <main className="min-h-screen bg-[#070b14] px-6 pb-20 pt-32 text-white"
 
         </div>
 
-        {/* Confirm */}
         <button
           onClick={handleBooking}
           disabled={bookingLoading}
@@ -477,18 +555,34 @@ return ( <main className="min-h-screen bg-[#070b14] px-6 pb-20 pt-32 text-white"
 
       </div>
 
-      {/* Car Summary */}
       <div className="h-fit rounded-3xl border border-white/10 bg-white/[0.03] p-6 lg:sticky lg:top-28">
 
         <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-400">
           Selected Car
         </p>
 
-        <div className="mt-6 flex h-48 items-center justify-center rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02] text-8xl">
-          🚘
+        <div className="mt-6 h-48 overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02]">
+
+          {carImage ? (
+            <img
+              src={carImage}
+              alt={
+                car?.name ||
+                `${car?.brand || ""} ${car?.model || ""}`.trim() ||
+                "Rental Car"
+              }
+              className="h-full w-full object-cover"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center text-6xl text-gray-500">
+              🚘
+            </div>
+          )}
+
         </div>
 
         <div className="mt-6">
+
           <h2 className="text-2xl font-bold">
             {car?.name ||
               (
@@ -504,6 +598,7 @@ return ( <main className="min-h-screen bg-[#070b14] px-6 pb-20 pt-32 text-white"
               {car.category.name}
             </p>
           )}
+
         </div>
 
         <div className="mt-6 rounded-2xl border border-white/10 bg-black/20 p-5">
@@ -537,16 +632,19 @@ return ( <main className="min-h-screen bg-[#070b14] px-6 pb-20 pt-32 text-white"
         </div>
 
         <Link
-          href={"/cars/" + car?.id}
+          href={
+            "/cars/" +
+            car?.id
+          }
           className="mt-5 block text-center text-sm font-medium text-gray-400 transition hover:text-white"
         >
           ← Back to Car Details
         </Link>
 
       </div>
+
     </div>
   </div>
 </main>
-
 );
 }
