@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Car;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CarController extends Controller
 {
@@ -41,9 +42,14 @@ class CarController extends Controller
             'seats' => 'required|integer|min:1|max:20',
             'daily_rate' => 'required|numeric|min:0',
             'status' => 'nullable|in:available,reserved,rented,maintenance,inactive',
-            'image' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
             'description' => 'nullable|string',
         ]);
+
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')
+                ->store('cars', 'public');
+        }
 
         $car = Car::create($validated);
 
@@ -92,9 +98,18 @@ class CarController extends Controller
             'seats' => 'sometimes|required|integer|min:1|max:20',
             'daily_rate' => 'sometimes|required|numeric|min:0',
             'status' => 'sometimes|in:available,reserved,rented,maintenance,inactive',
-            'image' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
             'description' => 'nullable|string',
         ]);
+
+        if ($request->hasFile('image')) {
+            if ($car->image) {
+                Storage::disk('public')->delete($car->image);
+            }
+
+            $validated['image'] = $request->file('image')
+                ->store('cars', 'public');
+        }
 
         $car->update($validated);
 
@@ -110,6 +125,10 @@ class CarController extends Controller
      */
     public function destroy(Car $car)
     {
+        if ($car->image) {
+            Storage::disk('public')->delete($car->image);
+        }
+
         $car->delete();
 
         return response()->json([

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -5,646 +6,664 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 type Branch = {
-id: number;
-name: string;
-city?: string;
+  id: number;
+  name: string;
+  city?: string;
+  location?: string;
 };
 
 type Car = {
-id: number;
-name?: string;
-brand?: string;
-model?: string;
-daily_rate: number;
-status: string;
-image?: string;
-category?: {
-id: number;
-name: string;
+  id: number;
+  name?: string;
+  brand?: string;
+  model?: string;
+  daily_rate: number;
+  status: string;
+  image?: string | null;
+  category?: {
+    id: number;
+    name: string;
+  } | null;
+  branch?: Branch | null;
 };
-branch?: Branch;
-};
+
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
+
+function getBackendUrl() {
+  return API_URL.replace(/\/api\/?$/, "");
+}
+
+function getCarImage(image?: string | null) {
+  if (!image) return null;
+
+  if (image.startsWith("http://") || image.startsWith("https://")) {
+    return image;
+  }
+
+  let imagePath = image.replace(/^\/+/, "");
+  imagePath = imagePath.replace(/^public\//, "");
+
+  if (!imagePath.startsWith("images/")) {
+    imagePath = `images/cars/${imagePath}`;
+  }
+
+  return `${getBackendUrl()}/${imagePath}`;
+}
+
+function getLocalToday() {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+}
+
+function calculateDays(startDate: string, endDate: string) {
+  if (!startDate || !endDate) return 0;
+
+  const [startYear, startMonth, startDay] = startDate
+    .split("-")
+    .map(Number);
+
+  const [endYear, endMonth, endDay] = endDate
+    .split("-")
+    .map(Number);
+
+  const start = Date.UTC(startYear, startMonth - 1, startDay);
+  const end = Date.UTC(endYear, endMonth - 1, endDay);
+
+  return Math.round((end - start) / 86_400_000);
+}
+
+function formatPrice(value: number) {
+  return new Intl.NumberFormat("en-US", {
+    maximumFractionDigits: 0,
+  }).format(value);
+}
 
 export default function CreateBookingPage() {
-const router = useRouter();
-const searchParams = useSearchParams();
-const carId = searchParams.get("car_id");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const carId = searchParams.get("car_id");
 
-const [car, setCar] = useState<Car | null>(null);
-const [branches, setBranches] = useState<Branch[]>([]);
-const [pickupBranchId, setPickupBranchId] = useState("");
-const [dropoffBranchId, setDropoffBranchId] = useState("");
-const [startDate, setStartDate] = useState("");
-const [endDate, setEndDate] = useState("");
-const [loading, setLoading] = useState(true);
-const [bookingLoading, setBookingLoading] = useState(false);
-const [error, setError] = useState("");
-const [days, setDays] = useState(0);
-const [total, setTotal] = useState(0);
+  const [car, setCar] = useState<Car | null>(null);
+  const [branches, setBranches] = useState<Branch[]>([]);
+  const [pickupBranchId, setPickupBranchId] = useState("");
+  const [dropoffBranchId, setDropoffBranchId] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [bookingLoading, setBookingLoading] = useState(false);
+  const [error, setError] = useState("");
 
-useEffect(() => {
-const token = localStorage.getItem("token");
-const user = localStorage.getItem("user");
+  const days = calculateDays(startDate, endDate);
+  const total = days > 0 && car ? days * Number(car.daily_rate) : 0;
+  const carImage = getCarImage(car?.image);
 
+  useEffect(() => {
+    let cancelled = false;
 
-if (!token || !user) {
-  router.push("/login");
-  return;
-}
+    const fetchData = async () => {
+      if (!carId || !/^\d+$/.test(carId)) {
+        setError("Invalid car selection. Please choose a car first.");
+        setLoading(false);
+        return;
+      }
 
-const fetchData = async () => {
-  try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+      try {
+        setLoading(true);
+        setError("");
 
-    const carResponse = await fetch(
-      apiUrl + "/cars/" + carId
-    );
+        const [carResponse, branchesResponse] = await Promise.all([
+          fetch(`${API_URL}/cars/${carId}`, {
+            headers: { Accept: "application/json" },
+          }),
+          fetch(`${API_URL}/branches`, {
+            headers: { Accept: "application/json" },
+          }),
+        ]);
 
-    const carData = await carResponse.json();
+        const carData = await carResponse.json();
+        const branchesData = await branchesResponse.json();
 
-    if (!carResponse.ok) {
-      throw new Error(
-        carData.message || "Failed to load car"
+        if (!carResponse.ok) {
+          throw new Error(carData.message || "Failed to load car.");
+        }
+
+        if (!branchesResponse.ok) {
+          throw new Error(
+            branchesData.message || "Failed to load branches."
+          );
+        }
+
+        const selectedCar = carData.data || carData;
+        const branchList = branchesData.data || branchesData;
+
+        if (!selectedCar?.id) {
+          throw new Error("Car information could not be found.");
+        }
+
+        if (!Array.isArray(branchList)) {
+          throw new Error("Unable to load branch information.");
+        }
+
+        if (cancelled) return;
+
+        setCar(selectedCar);
+        setBranches(branchList);
+
+        if (selectedCar.branch?.id) {
+          setPickupBranchId(String(selectedCar.branch.id));
+        } else if (branchList.length > 0) {
+          setPickupBranchId(String(branchList[0].id));
+        }
+
+        if (branchList.length > 0) {
+          setDropoffBranchId(String(branchList[0].id));
+        }
+      } catch (err) {
+        if (cancelled) return;
+
+        console.error("Failed to load booking information:", err);
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Unable to load booking information."
+        );
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [carId]);
+
+  const handleBooking = async () => {
+    setError("");
+
+    const token = localStorage.getItem("token");
+    const userString = localStorage.getItem("user");
+
+    if (!token || !userString) {
+      const returnTo = `/bookings/create?car_id=${encodeURIComponent(
+        carId || ""
+      )}`;
+
+      router.push(`/login?redirect=${encodeURIComponent(returnTo)}`);
+      return;
+    }
+
+    let user: { id?: number | string };
+
+    try {
+      user = JSON.parse(userString);
+    } catch {
+      setError(
+        "Your saved login information is invalid. Please log in again."
       );
+      return;
     }
 
-    const branchesResponse = await fetch(
-      apiUrl + "/branches"
-    );
-
-    const branchesData = await branchesResponse.json();
-
-    if (!branchesResponse.ok) {
-      throw new Error(
-        branchesData.message || "Failed to load branches"
+    if (!user?.id) {
+      setError(
+        "Your saved user information is incomplete. Please log in again."
       );
+      return;
     }
 
-    const selectedCar = carData.data;
-    setCar(selectedCar);
+    if (!car) {
+      setError("Car information is missing.");
+      return;
+    }
 
-    const branchList = branchesData.data || [];
-    setBranches(branchList);
+    if (car.status?.toLowerCase() !== "available") {
+      setError("This car is currently unavailable.");
+      return;
+    }
 
-    if (selectedCar.branch?.id) {
-      setPickupBranchId(
-        String(selectedCar.branch.id)
+    if (!pickupBranchId || !dropoffBranchId) {
+      setError("Please select pickup and drop-off branches.");
+      return;
+    }
+
+    if (!startDate || !endDate) {
+      setError("Please select pickup and return dates.");
+      return;
+    }
+
+    if (startDate < getLocalToday()) {
+      setError("Pickup date cannot be in the past.");
+      return;
+    }
+
+    if (days <= 0) {
+      setError("Return date must be after pickup date.");
+      return;
+    }
+
+    try {
+      setBookingLoading(true);
+
+      const response = await fetch(`${API_URL}/bookings`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          user_id: user.id,
+          car_id: car.id,
+          pickup_branch_id: Number(pickupBranchId),
+          dropoff_branch_id: Number(dropoffBranchId),
+          pickup_date: startDate,
+          return_date: endDate,
+          daily_rate: Number(car.daily_rate),
+          total_days: days,
+          subtotal: total,
+          discount: 0,
+          total_amount: total,
+          status: "pending",
+          notes: null,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        if (response.status === 401) {
+          setError(
+            "Your session has expired. Please log in again before booking."
+          );
+          return;
+        }
+
+        if (response.status === 422 && data.errors) {
+          const validationMessage = Object.values(
+            data.errors as Record<string, string[]>
+          )
+            .flat()
+            .join(" ");
+
+          throw new Error(
+            validationMessage || data.message || "Please check your booking details."
+          );
+        }
+
+        throw new Error(data.message || "Booking failed.");
+      }
+
+      const booking = data.data || data;
+
+      if (!booking?.id) {
+        throw new Error(
+          "The booking response did not include a booking ID."
+        );
+      }
+
+      router.push(`/payment?booking_id=${booking.id}`);
+    } catch (err) {
+      console.error("Booking failed:", err);
+
+      setError(
+        err instanceof Error ? err.message : "Something went wrong."
       );
+    } finally {
+      setBookingLoading(false);
     }
+  };
 
-    if (branchList.length > 0) {
-      setDropoffBranchId(
-        String(branchList[0].id)
-      );
-    }
-  } catch (err) {
-    console.error(err);
-
-    setError(
-      "Unable to load booking information."
-    );
-  } finally {
-    setLoading(false);
-  }
-};
-
-if (carId) {
-  fetchData();
-} else {
-  setError("Car not found.");
-  setLoading(false);
-}
-
-
-}, [carId, router]);
-
-useEffect(() => {
-if (!startDate || !endDate || !car) {
-setDays(0);
-setTotal(0);
-return;
-}
-
-
-const start = new Date(startDate);
-const end = new Date(endDate);
-
-const difference =
-  end.getTime() - start.getTime();
-
-const calculatedDays = Math.ceil(
-  difference / (1000 * 60 * 60 * 24)
-);
-
-if (calculatedDays > 0) {
-  setDays(calculatedDays);
-
-  setTotal(
-    calculatedDays * Number(car.daily_rate)
-  );
-} else {
-  setDays(0);
-  setTotal(0);
-}
-
-
-}, [startDate, endDate, car]);
-
-const getCarImage = () => {
-if (!car?.image) {
-return null;
-}
-
-
-const apiUrl =
-  process.env.NEXT_PUBLIC_API_URL || "";
-
-const backendUrl = apiUrl.replace(
-  /\/api\/?$/,
-  ""
-);
-
-let imagePath = car.image;
-
-if (
-  imagePath.startsWith("http://") ||
-  imagePath.startsWith("https://")
-) {
-  return imagePath;
-}
-
-imagePath = imagePath.replace(/^\/+/, "");
-
-if (imagePath.startsWith("public/")) {
-  imagePath = imagePath.replace(
-    /^public\//,
-    ""
-  );
-}
-
-if (!imagePath.startsWith("images/")) {
-  imagePath =
-    "images/cars/" + imagePath;
-}
-
-return (
-  backendUrl +
-  "/" +
-  imagePath
-);
-
-
-};
-
-const handleBooking = async () => {
-setError("");
-
-
-const token = localStorage.getItem("token");
-
-const userString =
-  localStorage.getItem("user");
-
-if (!token || !userString) {
-  router.push("/login");
-  return;
-}
-
-if (!car) {
-  setError("Car information is missing.");
-  return;
-}
-
-if (!pickupBranchId || !dropoffBranchId) {
-  setError(
-    "Please select pickup and drop-off branches."
-  );
-  return;
-}
-
-if (!startDate || !endDate) {
-  setError(
-    "Please select pickup and return dates."
-  );
-  return;
-}
-
-if (days <= 0) {
-  setError(
-    "Return date must be after pickup date."
-  );
-  return;
-}
-
-try {
-  const user = JSON.parse(userString);
-
-  setBookingLoading(true);
-
-  const apiUrl =
-    process.env.NEXT_PUBLIC_API_URL;
-
-  const response = await fetch(
-    apiUrl + "/bookings",
-    {
-      method: "POST",
-
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization:
-          "Bearer " + token,
-      },
-
-      body: JSON.stringify({
-        user_id: user.id,
-        car_id: car.id,
-
-        pickup_branch_id:
-          Number(pickupBranchId),
-
-        dropoff_branch_id:
-          Number(dropoffBranchId),
-
-        pickup_date: startDate,
-        return_date: endDate,
-
-        daily_rate: Number(
-          car.daily_rate
-        ),
-
-        total_days: days,
-
-        subtotal: total,
-
-        discount: 0,
-
-        total_amount: total,
-
-        status: "pending",
-
-        notes: null,
-      }),
-    }
-  );
-
-  const data =
-    await response.json();
-
-  if (!response.ok) {
-    throw new Error(
-      data.message ||
-        "Booking failed"
+  if (loading) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-[#f8f8f7] px-6 pt-24">
+        <div className="text-center">
+          <div className="mx-auto mb-5 h-11 w-11 animate-spin rounded-full border-4 border-[#e8e4db] border-t-[#c6a15b]" />
+          <p className="text-sm text-[#77776f]">
+            Loading booking information...
+          </p>
+        </div>
+      </main>
     );
   }
 
-  router.push(
-    "/payment?booking_id=" +
-      data.data.id
-  );
-} catch (err) {
-  console.error(err);
-
-  if (err instanceof Error) {
-    setError(err.message);
-  } else {
-    setError(
-      "Something went wrong."
+  if (!car) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-[#f8f8f7] px-6 pt-24">
+        <div className="w-full max-w-lg rounded-3xl border border-[#e8e4db] bg-white p-8 text-center sm:p-10">
+          <div className="mb-5 text-5xl">🚗</div>
+          <h1 className="text-2xl font-bold text-[#0a1411]">
+            Unable to load booking
+          </h1>
+          <p className="mt-3 text-sm leading-6 text-[#77776f]">
+            {error || "Please select a car and try again."}
+          </p>
+          <Link
+            href="/cars"
+            className="mt-7 inline-flex rounded-xl bg-[#0a1411] px-6 py-3 font-semibold text-white transition hover:bg-[#1a3027]"
+          >
+            Back to Cars
+          </Link>
+        </div>
+      </main>
     );
   }
-} finally {
-  setBookingLoading(false);
-}
 
+  const statusAvailable = car.status?.toLowerCase() === "available";
 
-};
-
-const carImage = getCarImage();
-
-if (loading) {
-return ( <main className="min-h-screen bg-[#070b14] px-6 pt-32 text-white"> <div className="mx-auto flex min-h-[400px] max-w-5xl items-center justify-center"> <div className="text-center"> <div className="mx-auto mb-5 h-11 w-11 animate-spin rounded-full border-4 border-white/10 border-t-blue-500"></div>
-
-
-        <p className="text-gray-400">
-          Loading booking information...
-        </p>
-      </div>
-    </div>
-  </main>
-);
-
-
-}
-
-if (error && !car) {
-return ( <main className="min-h-screen bg-[#070b14] px-6 pt-32 text-white"> <div className="mx-auto max-w-3xl rounded-3xl border border-red-500/20 bg-red-500/10 p-10 text-center"> <h1 className="text-2xl font-bold">
-Something went wrong </h1>
-
-
-      <p className="mt-3 text-red-300">
-        {error}
-      </p>
-
-      <Link
-        href="/cars"
-        className="mt-7 inline-block rounded-xl bg-blue-500 px-6 py-3 font-semibold hover:bg-blue-600"
-      >
-        Back to Cars
-      </Link>
-    </div>
-  </main>
-);
-
-
-}
-
-return ( <main className="min-h-screen bg-[#070b14] px-6 pb-20 pt-32 text-white"> <div className="mx-auto max-w-6xl">
-
-
-    <div className="mb-10">
-      <p className="mb-3 text-sm font-semibold uppercase tracking-[0.25em] text-blue-400">
-        Reservation
-      </p>
-
-      <h1 className="text-4xl font-bold tracking-tight md:text-5xl">
-        Book Your Car
-      </h1>
-
-      <p className="mt-3 text-gray-400">
-        Choose your dates and locations to complete your reservation.
-      </p>
-    </div>
-
-    <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
-
-      <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 md:p-8">
-
-        <h2 className="text-2xl font-bold">
-          Rental Details
-        </h2>
-
-        <p className="mt-2 text-sm text-gray-500">
-          Select your pickup and return information.
-        </p>
-
-        <div className="mt-8 grid gap-5 md:grid-cols-2">
-
-          <div>
-            <label className="mb-2 block text-sm font-medium text-gray-300">
-              Pickup Location
-            </label>
-
-            <select
-              value={pickupBranchId}
-              onChange={(e) =>
-                setPickupBranchId(
-                  e.target.value
-                )
-              }
-              className="w-full rounded-xl border border-white/10 bg-[#0d1320] px-4 py-3.5 text-white outline-none transition focus:border-blue-500"
-            >
-              {branches.map(
-                (branch) => (
-                  <option
-                    key={branch.id}
-                    value={branch.id}
-                  >
-                    {branch.name}
-                  </option>
-                )
-              )}
-            </select>
-          </div>
-
-          <div>
-            <label className="mb-2 block text-sm font-medium text-gray-300">
-              Drop-off Location
-            </label>
-
-            <select
-              value={dropoffBranchId}
-              onChange={(e) =>
-                setDropoffBranchId(
-                  e.target.value
-                )
-              }
-              className="w-full rounded-xl border border-white/10 bg-[#0d1320] px-4 py-3.5 text-white outline-none transition focus:border-blue-500"
-            >
-              {branches.map(
-                (branch) => (
-                  <option
-                    key={branch.id}
-                    value={branch.id}
-                  >
-                    {branch.name}
-                  </option>
-                )
-              )}
-            </select>
-          </div>
-
+  return (
+    <main className="min-h-screen bg-[#f8f8f7] pb-20 pt-28 text-[#202020]">
+      <div className="mx-auto max-w-7xl px-5 sm:px-8 lg:px-12">
+        <div className="mb-8">
+          <Link
+            href={`/cars/${car.id}`}
+            className="text-sm font-medium text-[#77776f] transition hover:text-[#9a783c]"
+          >
+            ← Back to Car Details
+          </Link>
         </div>
 
-        <div className="mt-6 grid gap-5 md:grid-cols-2">
-
-          <div>
-            <label className="mb-2 block text-sm font-medium text-gray-300">
-              Pickup Date
-            </label>
-
-            <input
-              type="date"
-              value={startDate}
-              min={
-                new Date()
-                  .toISOString()
-                  .split("T")[0]
-              }
-              onChange={(e) =>
-                setStartDate(
-                  e.target.value
-                )
-              }
-              className="w-full rounded-xl border border-white/10 bg-[#0d1320] px-4 py-3.5 text-white outline-none transition focus:border-blue-500"
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block text-sm font-medium text-gray-300">
-              Return Date
-            </label>
-
-            <input
-              type="date"
-              value={endDate}
-              min={
-                startDate || undefined
-              }
-              onChange={(e) =>
-                setEndDate(
-                  e.target.value
-                )
-              }
-              className="w-full rounded-xl border border-white/10 bg-[#0d1320] px-4 py-3.5 text-white outline-none transition focus:border-blue-500"
-            />
-          </div>
-
-        </div>
-
-        {error && (
-          <div className="mt-6 rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-300">
-            {error}
-          </div>
-        )}
-
-        <div className="mt-8 rounded-2xl border border-white/10 bg-black/20 p-5">
-
-          <div className="flex items-center justify-between">
-            <span className="text-gray-400">
-              Rental Duration
-            </span>
-
-            <span className="font-semibold">
-              {days > 0
-                ? days +
-                  (days === 1
-                    ? " Day"
-                    : " Days")
-                : "--"}
-            </span>
-          </div>
-
-          <div className="my-4 h-px bg-white/10"></div>
-
-          <div className="flex items-center justify-between">
-            <span className="text-gray-400">
-              Daily Rate
-            </span>
-
-            <span className="font-semibold">
-              {Number(
-                car?.daily_rate || 0
-              ).toLocaleString()}{" "}
-              EGP
-            </span>
-          </div>
-
-          <div className="my-4 h-px bg-white/10"></div>
-
-          <div className="flex items-center justify-between">
-            <span className="text-gray-300">
-              Total
-            </span>
-
-            <span className="text-2xl font-bold text-blue-400">
-              {total.toLocaleString()} EGP
-            </span>
-          </div>
-
-        </div>
-
-        <button
-          onClick={handleBooking}
-          disabled={bookingLoading}
-          className="mt-6 w-full rounded-xl bg-blue-500 py-4 text-lg font-semibold text-white shadow-lg shadow-blue-500/20 transition hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-60"
-        >
-          {bookingLoading
-            ? "Confirming Booking..."
-            : "Confirm Booking →"}
-        </button>
-
-      </div>
-
-      <div className="h-fit rounded-3xl border border-white/10 bg-white/[0.03] p-6 lg:sticky lg:top-28">
-
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-400">
-          Selected Car
-        </p>
-
-        <div className="mt-6 h-48 overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.08] to-white/[0.02]">
-
-          {carImage ? (
-            <img
-              src={carImage}
-              alt={
-                car?.name ||
-                `${car?.brand || ""} ${car?.model || ""}`.trim() ||
-                "Rental Car"
-              }
-              className="h-full w-full object-cover"
-            />
-          ) : (
-            <div className="flex h-full w-full items-center justify-center text-6xl text-gray-500">
-              🚘
-            </div>
-          )}
-
-        </div>
-
-        <div className="mt-6">
-
-          <h2 className="text-2xl font-bold">
-            {car?.name ||
-              (
-                (car?.brand || "") +
-                " " +
-                (car?.model || "")
-              ).trim() ||
-              "Rental Car"}
-          </h2>
-
-          {car?.category?.name && (
-            <p className="mt-1 text-sm text-gray-500">
-              {car.category.name}
+        <div className="mb-10">
+          <div className="mb-3 flex items-center gap-2">
+            <span className="h-[2px] w-8 bg-[#c6a15b]" />
+            <p className="text-xs font-bold uppercase tracking-[0.24em] text-[#9a783c]">
+              Reservation
             </p>
-          )}
-
-        </div>
-
-        <div className="mt-6 rounded-2xl border border-white/10 bg-black/20 p-5">
-
-          <div className="flex items-center justify-between">
-            <span className="text-gray-400">
-              Daily Rate
-            </span>
-
-            <span className="font-semibold">
-              {Number(
-                car?.daily_rate || 0
-              ).toLocaleString()}{" "}
-              EGP
-            </span>
           </div>
 
-          <div className="my-4 h-px bg-white/10"></div>
+          <h1 className="text-4xl font-bold tracking-tight text-[#0a1411] md:text-5xl">
+            Book Your Car
+          </h1>
 
-          <div className="flex items-center justify-between">
-            <span className="text-gray-400">
-              Pickup Branch
-            </span>
-
-            <span className="max-w-[170px] text-right text-sm font-medium">
-              {car?.branch?.name ||
-                "Selected Branch"}
-            </span>
-          </div>
-
+          <p className="mt-3 max-w-2xl text-sm leading-7 text-[#77776f] sm:text-base">
+            Choose your dates and locations to complete your reservation.
+          </p>
         </div>
 
-        <Link
-          href={
-            "/cars/" +
-            car?.id
-          }
-          className="mt-5 block text-center text-sm font-medium text-gray-400 transition hover:text-white"
-        >
-          ← Back to Car Details
-        </Link>
+        <div className="grid items-start gap-8 lg:grid-cols-[1fr_380px]">
+          {/* Booking Form */}
+          <section className="rounded-3xl border border-[#e8e4db] bg-white p-6 shadow-[0_8px_30px_rgba(10,20,17,0.03)] sm:p-8">
+            <h2 className="text-2xl font-bold text-[#0a1411]">
+              Rental Details
+            </h2>
+            <p className="mt-2 text-sm text-[#898981]">
+              Select your pickup and return information.
+            </p>
 
+            {!statusAvailable && (
+              <div className="mt-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                This car is currently unavailable for booking.
+              </div>
+            )}
+
+            <div className="mt-8 grid gap-5 sm:grid-cols-2">
+              <div>
+                <label
+                  htmlFor="pickup-branch"
+                  className="mb-2 block text-sm font-semibold text-[#343830]"
+                >
+                  Pickup Location
+                </label>
+                <select
+                  id="pickup-branch"
+                  value={pickupBranchId}
+                  onChange={(e) => setPickupBranchId(e.target.value)}
+                  className="h-12 w-full rounded-xl border border-[#e8e4db] bg-[#fafaf8] px-4 text-sm text-[#202020] outline-none transition focus:border-[#c6a15b]"
+                >
+                  <option value="">Select pickup location</option>
+                  {branches.map((branch) => (
+                    <option key={branch.id} value={branch.id}>
+                      {branch.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label
+                  htmlFor="dropoff-branch"
+                  className="mb-2 block text-sm font-semibold text-[#343830]"
+                >
+                  Drop-off Location
+                </label>
+                <select
+                  id="dropoff-branch"
+                  value={dropoffBranchId}
+                  onChange={(e) => setDropoffBranchId(e.target.value)}
+                  className="h-12 w-full rounded-xl border border-[#e8e4db] bg-[#fafaf8] px-4 text-sm text-[#202020] outline-none transition focus:border-[#c6a15b]"
+                >
+                  <option value="">Select drop-off location</option>
+                  {branches.map((branch) => (
+                    <option key={branch.id} value={branch.id}>
+                      {branch.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="mt-6 grid gap-5 sm:grid-cols-2">
+              <div>
+                <label
+                  htmlFor="pickup-date"
+                  className="mb-2 block text-sm font-semibold text-[#343830]"
+                >
+                  Pickup Date
+                </label>
+                <input
+                  id="pickup-date"
+                  type="date"
+                  value={startDate}
+                  min={getLocalToday()}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setStartDate(value);
+
+                    if (endDate && value && endDate <= value) {
+                      setEndDate("");
+                    }
+                  }}
+                  className="h-12 w-full rounded-xl border border-[#e8e4db] bg-[#fafaf8] px-4 text-sm text-[#202020] outline-none transition focus:border-[#c6a15b]"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="return-date"
+                  className="mb-2 block text-sm font-semibold text-[#343830]"
+                >
+                  Return Date
+                </label>
+                <input
+                  id="return-date"
+                  type="date"
+                  value={endDate}
+                  min={startDate || getLocalToday()}
+                  onChange={(e) => setEndDate(e.target.value)}
+                  className="h-12 w-full rounded-xl border border-[#e8e4db] bg-[#fafaf8] px-4 text-sm text-[#202020] outline-none transition focus:border-[#c6a15b]"
+                />
+              </div>
+            </div>
+
+            {error && (
+              <div
+                role="alert"
+                className="mt-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm leading-6 text-red-700"
+              >
+                {error}
+              </div>
+            )}
+
+            {/* Price Summary */}
+            <div className="mt-8 rounded-2xl border border-[#e8e4db] bg-[#fafaf8] p-5 sm:p-6">
+              <div className="flex items-center justify-between gap-4">
+                <span className="text-sm text-[#77776f]">
+                  Rental Duration
+                </span>
+                <span className="font-semibold text-[#0a1411]">
+                  {days > 0
+                    ? `${days} ${days === 1 ? "Day" : "Days"}`
+                    : "--"}
+                </span>
+              </div>
+
+              <div className="my-4 h-px bg-[#e8e4db]" />
+
+              <div className="flex items-center justify-between gap-4">
+                <span className="text-sm text-[#77776f]">Daily Rate</span>
+                <span className="font-semibold text-[#0a1411]">
+                  {formatPrice(Number(car.daily_rate))} EGP
+                </span>
+              </div>
+
+              <div className="my-4 h-px bg-[#e8e4db]" />
+
+              <div className="flex items-center justify-between gap-4">
+                <span className="font-semibold text-[#0a1411]">
+                  Estimated Total
+                </span>
+                <span className="text-2xl font-bold text-[#9a783c]">
+                  {formatPrice(total)} EGP
+                </span>
+              </div>
+
+              <p className="mt-3 text-xs leading-5 text-[#898981]">
+                Final booking acceptance and availability must be confirmed by
+                the server.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              onClick={handleBooking}
+              disabled={
+                bookingLoading ||
+                !statusAvailable ||
+                branches.length === 0
+              }
+              className="mt-6 flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-[#0a1411] px-5 text-base font-semibold text-white transition hover:bg-[#1a3027] disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {bookingLoading ? (
+                <>
+                  <span className="h-5 w-5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                  Confirming Booking...
+                </>
+              ) : (
+                <>
+                  Confirm Booking <span aria-hidden="true">→</span>
+                </>
+              )}
+            </button>
+          </section>
+
+          {/* Selected Car Summary */}
+          <aside className="h-fit overflow-hidden rounded-3xl border border-[#e8e4db] bg-white shadow-[0_8px_30px_rgba(10,20,17,0.03)] lg:sticky lg:top-28">
+            <div className="bg-[#0a1411] px-6 py-5 text-white">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d4af6a]">
+                Selected Car
+              </p>
+              <p className="mt-2 text-sm text-white/65">
+                Your chosen DriveX vehicle
+              </p>
+            </div>
+
+            <div className="p-6">
+              <div className="aspect-[16/10] overflow-hidden rounded-2xl bg-[#eeece6]">
+                {carImage ? (
+                  <img
+                    src={carImage}
+                    alt={
+                      car.name ||
+                      `${car.brand || ""} ${car.model || ""}`.trim() ||
+                      "Rental Car"
+                    }
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center text-6xl">
+                    🚘
+                  </div>
+                )}
+              </div>
+
+              <div className="mt-5">
+                <h2 className="text-2xl font-bold tracking-tight text-[#0a1411]">
+                  {car.name ||
+                    `${car.brand || ""} ${car.model || ""}`.trim() ||
+                    "Rental Car"}
+                </h2>
+
+                {car.category?.name && (
+                  <p className="mt-2 text-sm text-[#9a783c]">
+                    {car.category.name}
+                  </p>
+                )}
+
+                <span
+                  className={`mt-4 inline-flex items-center gap-2 rounded-full px-3 py-1.5 text-xs font-semibold ${
+                    statusAvailable
+                      ? "bg-[#e5f3e9] text-[#216b42]"
+                      : "bg-red-50 text-red-700"
+                  }`}
+                >
+                  <span
+                    className={`h-1.5 w-1.5 rounded-full ${
+                      statusAvailable ? "bg-[#2c8b52]" : "bg-red-500"
+                    }`}
+                  />
+                  {statusAvailable ? "Available" : "Unavailable"}
+                </span>
+              </div>
+
+              <div className="mt-6 rounded-2xl bg-[#fafaf8] p-5">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-sm text-[#77776f]">Daily Rate</span>
+                  <span className="font-semibold text-[#0a1411]">
+                    {formatPrice(Number(car.daily_rate))} EGP
+                  </span>
+                </div>
+
+                <div className="my-4 h-px bg-[#e8e4db]" />
+
+                <div className="flex items-start justify-between gap-3">
+                  <span className="text-sm text-[#77776f]">
+                    Default Branch
+                  </span>
+                  <span className="max-w-[160px] text-right text-sm font-semibold text-[#0a1411]">
+                    {car.branch?.name || "Choose your branch"}
+                  </span>
+                </div>
+
+                {days > 0 && (
+                  <>
+                    <div className="my-4 h-px bg-[#e8e4db]" />
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="text-sm text-[#77776f]">
+                        {days} {days === 1 ? "day" : "days"}
+                      </span>
+                      <span className="font-bold text-[#9a783c]">
+                        {formatPrice(total)} EGP
+                      </span>
+                    </div>
+                  </>
+                )}
+              </div>
+
+              <Link
+                href={`/cars/${car.id}`}
+                className="mt-5 block text-center text-sm font-semibold text-[#77776f] transition hover:text-[#9a783c]"
+              >
+                ← Back to Car Details
+              </Link>
+            </div>
+          </aside>
+        </div>
       </div>
-
-    </div>
-  </div>
-</main>
-);
+    </main>
+  );
 }

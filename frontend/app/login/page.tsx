@@ -1,8 +1,9 @@
+
     "use client";
 
     import { FormEvent, useState } from "react";
     import Link from "next/link";
-    import { useRouter } from "next/navigation";
+    import { useRouter, useSearchParams } from "next/navigation";
 
     type LoginResponse = {
     success: boolean;
@@ -21,10 +22,12 @@
 
     export default function LoginPage() {
     const router = useRouter();
+    const searchParams = useSearchParams();
+
+    const redirectParam = searchParams.get("redirect");
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
@@ -35,35 +38,60 @@
         setLoading(true);
 
         try {
-        const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/login`,
-            {
+        const apiUrl =
+            process.env.NEXT_PUBLIC_API_URL ||
+            "http://127.0.0.1:8000/api";
+
+        const response = await fetch(`${apiUrl}/login`, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
-                Accept: "application/json",
+            "Content-Type": "application/json",
+            Accept: "application/json",
             },
             body: JSON.stringify({
-                email,
-                password,
+            email: email.trim(),
+            password,
             }),
-            }
-        );
+        });
 
         const data: LoginResponse = await response.json();
 
-        if (!response.ok || !data.success || !data.data) {
-            throw new Error(data.message || "Invalid email or password");
+        if (
+            !response.ok ||
+            !data.success ||
+            !data.data?.token ||
+            !data.data?.user
+        ) {
+            throw new Error(data.message || "Invalid email or password.");
         }
 
-        localStorage.setItem("token", data.data.token);
-        localStorage.setItem("user", JSON.stringify(data.data.user));
+        const { user, token } = data.data;
 
-        router.push("/cars");
-        } catch (error) {
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+
+        window.dispatchEvent(new Event("auth-changed"));
+
+        const role = user.role?.trim().toLowerCase();
+
+        const validRedirect =
+            redirectParam &&
+            redirectParam.startsWith("/") &&
+            !redirectParam.startsWith("//") &&
+            !redirectParam.includes("\\");
+
+        const destination = validRedirect
+            ? redirectParam
+            : role === "admin"
+            ? "/admin"
+            : "/cars";
+
+        router.replace(destination);
+        router.refresh();
+        } catch (err) {
         setError(
-            error instanceof Error
-            ? error.message
+            err instanceof Error
+            ? err.message
             : "Something went wrong. Please try again."
         );
         } finally {
@@ -72,48 +100,43 @@
     }
 
     return (
-        <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-slate-950 px-6 py-32">
-        {/* Background */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(59,130,246,0.18),_transparent_40%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_rgba(14,165,233,0.10),_transparent_35%)]" />
+        <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#f8f8f7] px-6 py-32">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(198,161,91,0.14),_transparent_40%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_rgba(10,20,17,0.06),_transparent_35%)]" />
 
         <div className="relative w-full max-w-md">
-
-            {/* Header */}
             <div className="mb-8 text-center">
             <Link
                 href="/"
-                className="text-3xl font-bold tracking-tight text-white"
+                className="text-3xl font-bold tracking-tight text-[#0a1411]"
             >
-                Drive<span className="text-blue-400">X</span>
+                Drive<span className="text-[#b18b49]">X</span>
             </Link>
 
-            <h1 className="mt-8 text-3xl font-bold text-white">
+            <h1 className="mt-8 text-3xl font-bold text-[#0a1411]">
                 Welcome back
             </h1>
 
-            <p className="mt-3 text-gray-500">
+            <p className="mt-3 text-[#77776f]">
                 Sign in to continue to your account.
             </p>
             </div>
 
-            {/* Card */}
-            <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-8 shadow-2xl backdrop-blur-sm">
-
-            {/* Error */}
+            <div className="rounded-3xl border border-[#e8e4db] bg-white p-8 shadow-[0_15px_50px_rgba(10,20,17,0.07)]">
             {error && (
-                <div className="mb-6 rounded-xl border border-red-400/20 bg-red-400/10 px-4 py-3 text-sm text-red-400">
+                <div
+                role="alert"
+                className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+                >
                 {error}
                 </div>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-5">
-
-                {/* Email */}
                 <div>
                 <label
                     htmlFor="email"
-                    className="mb-2 block text-sm font-medium text-gray-300"
+                    className="mb-2 block text-sm font-semibold text-[#343830]"
                 >
                     Email address
                 </label>
@@ -121,19 +144,19 @@
                 <input
                     id="email"
                     type="email"
+                    autoComplete="email"
                     required
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
                     placeholder="you@example.com"
-                    className="w-full rounded-xl border border-white/10 bg-slate-900 px-4 py-3.5 text-white placeholder:text-gray-600 outline-none transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    className="w-full rounded-xl border border-[#e8e4db] bg-[#fafaf8] px-4 py-3.5 text-[#202020] placeholder:text-[#aaa99f] outline-none transition focus:border-[#c6a15b] focus:ring-1 focus:ring-[#c6a15b]"
                 />
                 </div>
 
-                {/* Password */}
                 <div>
                 <label
                     htmlFor="password"
-                    className="mb-2 block text-sm font-medium text-gray-300"
+                    className="mb-2 block text-sm font-semibold text-[#343830]"
                 >
                     Password
                 </label>
@@ -141,35 +164,30 @@
                 <input
                     id="password"
                     type="password"
+                    autoComplete="current-password"
                     required
                     value={password}
                     onChange={(event) => setPassword(event.target.value)}
-                    placeholder="••••••••"
-                    className="w-full rounded-xl border border-white/10 bg-slate-900 px-4 py-3.5 text-white placeholder:text-gray-600 outline-none transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    placeholder="Enter your password"
+                    className="w-full rounded-xl border border-[#e8e4db] bg-[#fafaf8] px-4 py-3.5 text-[#202020] placeholder:text-[#aaa99f] outline-none transition focus:border-[#c6a15b] focus:ring-1 focus:ring-[#c6a15b]"
                 />
                 </div>
 
-                {/* Submit */}
                 <button
                 type="submit"
                 disabled={loading}
-                className={`w-full rounded-xl py-3.5 font-semibold text-white transition ${
-                    loading
-                    ? "cursor-not-allowed bg-blue-500/50"
-                    : "bg-blue-500 shadow-lg shadow-blue-500/20 hover:bg-blue-600"
-                }`}
+                className="w-full rounded-xl bg-[#0a1411] py-3.5 font-semibold text-white transition hover:bg-[#1a3027] disabled:cursor-not-allowed disabled:opacity-60"
                 >
                 {loading ? "Signing in..." : "Sign In →"}
                 </button>
             </form>
 
-            {/* Register */}
-            <div className="mt-7 border-t border-white/10 pt-6 text-center">
-                <p className="text-sm text-gray-500">
-                Don't have an account?{" "}
+            <div className="mt-7 border-t border-[#e8e4db] pt-6 text-center">
+                <p className="text-sm text-[#77776f]">
+                Don&apos;t have an account?{" "}
                 <Link
                     href="/register"
-                    className="font-semibold text-blue-400 transition hover:text-blue-300"
+                    className="font-semibold text-[#9a783c] transition hover:text-[#74582a]"
                 >
                     Create one
                 </Link>
@@ -177,11 +195,10 @@
             </div>
             </div>
 
-            {/* Back */}
             <div className="mt-6 text-center">
             <Link
                 href="/"
-                className="text-sm text-gray-600 transition hover:text-gray-400"
+                className="text-sm text-[#898981] transition hover:text-[#343830]"
             >
                 ← Back to home
             </Link>

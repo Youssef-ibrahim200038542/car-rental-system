@@ -1,3 +1,4 @@
+
     "use client";
 
     import { useEffect, useMemo, useState } from "react";
@@ -48,11 +49,20 @@
     role?: string;
     };
 
+    type FilterType = "all" | "active" | "completed" | "cancelled";
+
+    const API_URL = (
+    process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api"
+    ).replace(/\/+$/, "");
+
+    const isActiveBooking = (status: string) =>
+    ["active", "confirmed", "pending"].includes(status.toLowerCase());
+
     export default function BookingsPage() {
     const [bookings, setBookings] = useState<Booking[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
-    const [filter, setFilter] = useState("all");
+    const [filter, setFilter] = useState<FilterType>("all");
 
     useEffect(() => {
         const fetchBookings = async () => {
@@ -67,12 +77,10 @@
 
             const user: User = JSON.parse(userString);
 
-            const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-
-            const response = await fetch(apiUrl + "/bookings", {
+            const response = await fetch(`${API_URL}/bookings`, {
             headers: {
                 Accept: "application/json",
-                Authorization: "Bearer " + token,
+                Authorization: `Bearer ${token}`,
             },
             });
 
@@ -82,7 +90,9 @@
             throw new Error(data.message || "Failed to fetch bookings");
             }
 
-            const allBookings: Booking[] = data.data || [];
+            const allBookings: Booking[] = Array.isArray(data.data)
+            ? data.data
+            : [];
 
             const userBookings = allBookings.filter(
             (booking) => Number(booking.user_id) === Number(user.id)
@@ -90,8 +100,8 @@
 
             setBookings(userBookings);
         } catch (err) {
-            console.error(err);
-            setError("Unable to load your bookings.");
+            console.error("Error fetching bookings:", err);
+            setError("Unable to load your bookings. Please try again.");
         } finally {
             setLoading(false);
         }
@@ -101,49 +111,46 @@
     }, []);
 
     const getStatusStyle = (status: string) => {
-        switch (status) {
+        switch (status.toLowerCase()) {
         case "confirmed":
-            return "border-emerald-400/20 bg-emerald-400/10 text-emerald-400";
-
+            return "border-[#b9d8c0] bg-[#edf6ee] text-[#356847]";
         case "active":
-            return "border-blue-400/20 bg-blue-400/10 text-blue-400";
-
+            return "border-[#c4d9cb] bg-[#e5f0e8] text-[#28583b]";
         case "completed":
-            return "border-violet-400/20 bg-violet-400/10 text-violet-400";
-
+            return "border-[#ded1b5] bg-[#f8f1e3] text-[#87662f]";
         case "cancelled":
-            return "border-red-400/20 bg-red-400/10 text-red-400";
-
+            return "border-[#e8caca] bg-[#fbefef] text-[#a34444]";
         default:
-            return "border-yellow-400/20 bg-yellow-400/10 text-yellow-400";
+            return "border-[#e7d7ac] bg-[#fcf6e5] text-[#87662f]";
         }
     };
 
     const getStatusDot = (status: string) => {
-        switch (status) {
+        switch (status.toLowerCase()) {
         case "confirmed":
-            return "bg-emerald-400";
-
+            return "bg-[#4d8b5e]";
         case "active":
-            return "bg-blue-400";
-
+            return "bg-[#356847]";
         case "completed":
-            return "bg-violet-400";
-
+            return "bg-[#c6a15b]";
         case "cancelled":
-            return "bg-red-400";
-
+            return "bg-[#c45a5a]";
         default:
-            return "bg-yellow-400";
+            return "bg-[#c6a15b]";
         }
     };
 
-    const formatStatus = (status: string) => {
-        return status.charAt(0).toUpperCase() + status.slice(1);
-    };
+    const formatStatus = (status: string) =>
+        status.charAt(0).toUpperCase() + status.slice(1);
 
     const formatDate = (date: string) => {
-        return new Date(date).toLocaleDateString("en-GB", {
+        const parsedDate = new Date(date);
+
+        if (Number.isNaN(parsedDate.getTime())) {
+        return date;
+        }
+
+        return parsedDate.toLocaleDateString("en-GB", {
         day: "2-digit",
         month: "short",
         year: "numeric",
@@ -153,122 +160,120 @@
     const getImageUrl = (image?: string | null) => {
         if (!image) return null;
 
-        return `http://127.0.0.1:8000/${image}`;
+        if (/^https?:\/\//i.test(image)) {
+        return image;
+        }
+
+        const baseUrl = API_URL.replace(/\/api\/?$/, "");
+        let imagePath = image.replace(/^\/+/, "").replace(/^public\//, "");
+
+        if (
+        !imagePath.startsWith("storage/") &&
+        !imagePath.startsWith("images/")
+        ) {
+        imagePath = `images/cars/${imagePath}`;
+        }
+
+        return `${baseUrl}/${imagePath}`;
     };
 
     const totalSpent = bookings.reduce(
-        (sum, booking) => sum + Number(booking.total_amount),
+        (sum, booking) => sum + Number(booking.total_amount || 0),
         0
     );
 
-    const activeBookings = bookings.filter(
-        (booking) =>
-        booking.status === "active" ||
-        booking.status === "confirmed" ||
-        booking.status === "pending"
-    );
-
-    const completedBookings = bookings.filter(
-        (booking) => booking.status === "completed"
+    const activeBookings = bookings.filter((booking) =>
+        isActiveBooking(booking.status)
     );
 
     const filteredBookings = useMemo(() => {
-        if (filter === "all") {
-        return bookings;
+        switch (filter) {
+        case "active":
+            return bookings.filter((booking) =>
+            isActiveBooking(booking.status)
+            );
+        case "completed":
+            return bookings.filter(
+            (booking) => booking.status.toLowerCase() === "completed"
+            );
+        case "cancelled":
+            return bookings.filter(
+            (booking) => booking.status.toLowerCase() === "cancelled"
+            );
+        default:
+            return bookings;
         }
-
-        if (filter === "active") {
-        return bookings.filter(
-            (booking) =>
-            booking.status === "active" ||
-            booking.status === "confirmed" ||
-            booking.status === "pending"
-        );
-        }
-
-        if (filter === "completed") {
-        return bookings.filter((booking) => booking.status === "completed");
-        }
-
-        if (filter === "cancelled") {
-        return bookings.filter((booking) => booking.status === "cancelled");
-        }
-
-        return bookings;
     }, [bookings, filter]);
 
+    const filters: { value: FilterType; label: string }[] = [
+        { value: "all", label: "All Bookings" },
+        { value: "active", label: "Active" },
+        { value: "completed", label: "Completed" },
+        { value: "cancelled", label: "Cancelled" },
+    ];
+
     return (
-        <main className="min-h-screen bg-[#05070d] px-6 pb-24 pt-32 text-white">
+        <main className="min-h-screen bg-[#f8f8f7] px-4 pb-20 pt-28 text-[#0a1411] sm:px-6 sm:pt-32">
         <div className="mx-auto max-w-7xl">
             {/* Hero */}
-            <section className="relative mb-10 overflow-hidden rounded-[2rem] border border-slate-800 bg-gradient-to-br from-blue-500/[0.08] via-white/[0.03] to-transparent px-7 py-10 md:px-10 md:py-12">
-            <div className="absolute -right-32 -top-32 h-80 w-80 rounded-full bg-blue-500/10 blur-3xl" />
+            <section className="relative mb-8 overflow-hidden rounded-[2rem] border border-[#e8e4db] bg-white px-6 py-9 shadow-[0_12px_40px_rgba(10,20,17,0.04)] sm:px-9 md:py-11">
+            <div className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-[#c6a15b]/10 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-32 -left-16 h-64 w-64 rounded-full bg-[#1a3027]/[0.06] blur-3xl" />
 
-            <div className="absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-blue-600/5 blur-3xl" />
-
-            <div className="relative z-10 flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
+            <div className="relative z-10 flex flex-col justify-between gap-7 lg:flex-row lg:items-end">
                 <div className="max-w-3xl">
                 <div className="flex items-center gap-3">
-                    <span className="h-2 w-2 rounded-full bg-blue-400 shadow-lg shadow-blue-400/50" />
-
-                    <p className="text-sm font-semibold uppercase tracking-[0.3em] text-blue-400">
+                    <span className="h-2 w-2 rounded-full bg-[#c6a15b]" />
+                    <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#9a783c] sm:text-sm">
                     Your Journey
                     </p>
                 </div>
 
-                <h1 className="mt-5 text-4xl font-bold tracking-tight md:text-6xl">
-                    My
-                    <span className="bg-gradient-to-r from-blue-400 via-blue-300 to-cyan-300 bg-clip-text text-transparent">
-                    {" "}
-                    Bookings
-                    </span>
+                <h1 className="mt-4 text-4xl font-bold tracking-tight text-[#0a1411] sm:text-5xl md:text-6xl">
+                    My <span className="text-[#9a783c]">Bookings</span>
                 </h1>
 
-                <p className="mt-5 max-w-2xl text-base leading-7 text-slate-400 md:text-lg">
-                    Manage your reservations, keep track of your rental
-                    schedule, and revisit every journey in one place.
+                <p className="mt-4 max-w-2xl text-sm leading-7 text-[#77776f] sm:text-base">
+                    Manage your reservations, keep track of your rental schedule,
+                    and revisit every journey in one place.
                 </p>
                 </div>
 
                 <Link
                 href="/cars"
-                className="inline-flex w-fit shrink-0 items-center gap-3 rounded-xl bg-blue-600 px-6 py-3.5 font-semibold text-white shadow-xl shadow-blue-500/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-blue-500 hover:shadow-blue-500/30"
+                className="inline-flex w-fit shrink-0 items-center justify-center gap-3 rounded-xl bg-[#365747] px-6 py-3.5 font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#c6a15b] hover:text-[#0a1411] hover:shadow-lg hover:shadow-[#c6a15b]/20 focus:outline-none focus:ring-2 focus:ring-[#c6a15b] focus:ring-offset-2"
                 >
                 Browse Cars
-                <span className="transition-transform duration-300 hover:translate-x-1">
-                    →
-                </span>
+                <span aria-hidden="true">→</span>
                 </Link>
             </div>
             </section>
 
-            {/* Stats */}
+            {/* Statistics */}
             {!loading && !error && bookings.length > 0 && (
-            <section className="mb-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                <div className="group rounded-2xl border border-slate-800 bg-[#0b0f1a] p-5 transition duration-300 hover:border-blue-400/20">
-                <div className="flex items-start justify-between">
+            <section className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="rounded-2xl border border-[#e8e4db] bg-white p-5 transition-colors hover:border-[#c6a15b]/60">
+                <div className="flex items-start justify-between gap-4">
                     <div>
-                    <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#898981]">
                         Total Bookings
                     </p>
-
-                    <p className="mt-3 text-3xl font-bold text-white">
+                    <p className="mt-3 text-3xl font-bold text-[#0a1411]">
                         {bookings.length}
                     </p>
-
-                    <p className="mt-1 text-sm text-slate-500">
+                    <p className="mt-1 text-sm text-[#77776f]">
                         All reservations
                     </p>
                     </div>
 
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-blue-400/10 bg-blue-400/10">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#f6f0e3] text-[#9a783c]">
                     <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
                         viewBox="0 0 24 24"
-                        strokeWidth="1.5"
+                        fill="none"
                         stroke="currentColor"
-                        className="h-5 w-5 text-blue-400"
+                        strokeWidth="1.6"
+                        className="h-5 w-5"
+                        aria-hidden="true"
                     >
                         <path
                         strokeLinecap="round"
@@ -280,55 +285,51 @@
                 </div>
                 </div>
 
-                <div className="group rounded-2xl border border-slate-800 bg-[#0b0f1a] p-5 transition duration-300 hover:border-emerald-400/20">
-                <div className="flex items-start justify-between">
+                <div className="rounded-2xl border border-[#e8e4db] bg-white p-5 transition-colors hover:border-[#b9d8c0]">
+                <div className="flex items-start justify-between gap-4">
                     <div>
-                    <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#898981]">
                         Active Trips
                     </p>
-
-                    <p className="mt-3 text-3xl font-bold text-emerald-400">
+                    <p className="mt-3 text-3xl font-bold text-[#356847]">
                         {activeBookings.length}
                     </p>
-
-                    <p className="mt-1 text-sm text-slate-500">
+                    <p className="mt-1 text-sm text-[#77776f]">
                         Current reservations
                     </p>
                     </div>
 
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-emerald-400/10 bg-emerald-400/10">
-                    <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-lg shadow-emerald-400/50" />
+                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#edf6ee]">
+                    <span className="h-2.5 w-2.5 rounded-full bg-[#4d8b5e]" />
                     </div>
                 </div>
                 </div>
 
-                <div className="group rounded-2xl border border-slate-800 bg-[#0b0f1a] p-5 transition duration-300 hover:border-violet-400/20 sm:col-span-2 lg:col-span-1">
-                <div className="flex items-start justify-between">
+                <div className="rounded-2xl border border-[#e8e4db] bg-white p-5 transition-colors hover:border-[#c6a15b]/60 sm:col-span-2 lg:col-span-1">
+                <div className="flex items-start justify-between gap-4">
                     <div>
-                    <p className="text-xs uppercase tracking-[0.2em] text-slate-500">
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#898981]">
                         Total Spent
                     </p>
-
-                    <p className="mt-3 text-3xl font-bold text-blue-400">
+                    <p className="mt-3 text-3xl font-bold text-[#9a783c]">
                         {totalSpent.toLocaleString()}
-                        <span className="ml-1 text-base font-medium text-slate-500">
+                        <span className="ml-1 text-sm font-medium text-[#898981]">
                         EGP
                         </span>
                     </p>
-
-                    <p className="mt-1 text-sm text-slate-500">
+                    <p className="mt-1 text-sm text-[#77776f]">
                         Across all bookings
                     </p>
                     </div>
 
-                    <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-violet-400/10 bg-violet-400/10">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#f6f0e3] text-[#9a783c]">
                     <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
                         viewBox="0 0 24 24"
-                        strokeWidth="1.5"
+                        fill="none"
                         stroke="currentColor"
-                        className="h-5 w-5 text-violet-400"
+                        strokeWidth="1.6"
+                        className="h-5 w-5"
+                        aria-hidden="true"
                     >
                         <path
                         strokeLinecap="round"
@@ -344,32 +345,28 @@
 
             {/* Filters */}
             {!loading && !error && bookings.length > 0 && (
-            <section className="mb-8 flex flex-col gap-4 rounded-2xl border border-slate-800 bg-[#0b0f1a] p-4 sm:flex-row sm:items-center sm:justify-between">
+            <section className="mb-7 flex flex-col gap-4 rounded-2xl border border-[#e8e4db] bg-white p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
                 <div>
-                <p className="text-sm font-semibold text-white">
+                <p className="font-semibold text-[#0a1411]">
                     Reservation History
                 </p>
-
-                <p className="mt-1 text-xs text-slate-500">
+                <p className="mt-1 text-xs text-[#898981]">
                     {filteredBookings.length} reservation
                     {filteredBookings.length !== 1 ? "s" : ""}
                 </p>
                 </div>
 
                 <div className="flex flex-wrap gap-2">
-                {[
-                    { value: "all", label: "All" },
-                    { value: "active", label: "Active" },
-                    { value: "completed", label: "Completed" },
-                    { value: "cancelled", label: "Cancelled" },
-                ].map((item) => (
+                {filters.map((item) => (
                     <button
                     key={item.value}
+                    type="button"
                     onClick={() => setFilter(item.value)}
-                    className={`rounded-xl px-4 py-2 text-xs font-semibold transition ${
+                    aria-pressed={filter === item.value}
+                    className={`rounded-xl px-4 py-2.5 text-xs font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#c6a15b] focus:ring-offset-2 ${
                         filter === item.value
-                        ? "bg-blue-600 text-white shadow-lg shadow-blue-500/20"
-                        : "border border-slate-800 bg-[#05070d] text-slate-400 hover:border-slate-700 hover:text-white"
+                        ? "bg-[#365747] text-white shadow-sm"
+                        : "border border-[#e8e4db] bg-white text-[#77776f] hover:border-[#c6a15b] hover:bg-[#fbf8f0] hover:text-[#0a1411]"
                     }`}
                     >
                     {item.label}
@@ -385,21 +382,18 @@
                 {[1, 2, 3].map((item) => (
                 <div
                     key={item}
-                    className="overflow-hidden rounded-3xl border border-slate-800 bg-[#0b0f1a]"
+                    className="overflow-hidden rounded-3xl border border-[#e8e4db] bg-white"
                 >
                     <div className="flex flex-col md:flex-row">
-                    <div className="h-64 animate-pulse bg-[#111726] md:h-auto md:w-72" />
-
+                    <div className="h-64 animate-pulse bg-[#eeede8] md:w-72" />
                     <div className="flex-1 space-y-5 p-6">
-                        <div className="h-4 w-32 animate-pulse rounded bg-[#111726]" />
-
-                        <div className="h-8 w-56 animate-pulse rounded bg-[#111726]" />
-
+                        <div className="h-4 w-32 animate-pulse rounded bg-[#eeede8]" />
+                        <div className="h-8 w-56 animate-pulse rounded bg-[#eeede8]" />
                         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                         {[1, 2, 3, 4].map((box) => (
                             <div
                             key={box}
-                            className="h-20 animate-pulse rounded-xl bg-[#111726]"
+                            className="h-20 animate-pulse rounded-xl bg-[#f1f0ec]"
                             />
                         ))}
                         </div>
@@ -412,15 +406,15 @@
 
             {/* Error */}
             {!loading && error && (
-            <div className="rounded-3xl border border-red-400/20 bg-red-400/[0.06] p-14 text-center">
-                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border border-red-400/10 bg-red-400/10">
+            <div className="rounded-3xl border border-[#e8caca] bg-white p-8 text-center sm:p-14">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#fbefef] text-[#a34444]">
                 <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
                     viewBox="0 0 24 24"
-                    strokeWidth="1.5"
+                    fill="none"
                     stroke="currentColor"
-                    className="h-8 w-8 text-red-400"
+                    strokeWidth="1.5"
+                    className="h-8 w-8"
+                    aria-hidden="true"
                 >
                     <path
                     strokeLinecap="round"
@@ -430,30 +424,37 @@
                 </svg>
                 </div>
 
-                <h2 className="mt-5 text-xl font-bold text-white">
+                <h2 className="mt-5 text-xl font-bold text-[#0a1411]">
                 Something went wrong
                 </h2>
-
-                <p className="mx-auto mt-2 max-w-md text-sm text-red-300">
+                <p className="mx-auto mt-2 max-w-md text-sm leading-6 text-[#a34444]">
                 {error}
                 </p>
+
+                <button
+                type="button"
+                onClick={() => window.location.reload()}
+                className="mt-6 inline-flex items-center justify-center rounded-xl bg-[#365747] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#c6a15b] hover:text-[#0a1411] focus:outline-none focus:ring-2 focus:ring-[#c6a15b] focus:ring-offset-2"
+                >
+                Try Again
+                </button>
             </div>
             )}
 
             {/* Empty */}
             {!loading && !error && bookings.length === 0 && (
-            <div className="relative overflow-hidden rounded-[2rem] border border-slate-800 bg-[#0b0f1a] px-6 py-20 text-center">
-                <div className="absolute left-1/2 top-0 h-64 w-64 -translate-x-1/2 rounded-full bg-blue-500/10 blur-3xl" />
+            <div className="relative overflow-hidden rounded-[2rem] border border-[#e8e4db] bg-white px-6 py-16 text-center shadow-[0_12px_40px_rgba(10,20,17,0.04)] sm:py-20">
+                <div className="pointer-events-none absolute left-1/2 top-0 h-64 w-64 -translate-x-1/2 rounded-full bg-[#c6a15b]/10 blur-3xl" />
 
                 <div className="relative z-10">
-                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl border border-slate-800 bg-white/5">
+                <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-[#f6f0e3] text-[#9a783c]">
                     <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
                     viewBox="0 0 24 24"
-                    strokeWidth="1.2"
+                    fill="none"
                     stroke="currentColor"
-                    className="h-10 w-10 text-blue-400"
+                    strokeWidth="1.4"
+                    className="h-10 w-10"
+                    aria-hidden="true"
                     >
                     <path
                         strokeLinecap="round"
@@ -463,21 +464,21 @@
                     </svg>
                 </div>
 
-                <h2 className="mt-6 text-2xl font-bold text-white">
+                <h2 className="mt-6 text-2xl font-bold text-[#0a1411]">
                     Your journey starts here
                 </h2>
 
-                <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-slate-500">
-                    You haven't made any reservations yet. Explore our fleet
+                <p className="mx-auto mt-3 max-w-md text-sm leading-7 text-[#77776f]">
+                    You haven&apos;t made any reservations yet. Explore our fleet
                     and find a car for your next journey.
                 </p>
 
                 <Link
                     href="/cars"
-                    className="mt-8 inline-flex items-center gap-3 rounded-xl bg-blue-600 px-7 py-3.5 font-semibold text-white shadow-lg shadow-blue-500/20 transition hover:bg-blue-500"
+                    className="mt-8 inline-flex items-center justify-center gap-3 rounded-xl bg-[#365747] px-7 py-3.5 font-semibold text-white transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#c6a15b] hover:text-[#0a1411] hover:shadow-lg hover:shadow-[#c6a15b]/20 focus:outline-none focus:ring-2 focus:ring-[#c6a15b] focus:ring-offset-2"
                 >
                     Explore Our Fleet
-                    <span>→</span>
+                    <span aria-hidden="true">→</span>
                 </Link>
                 </div>
             </div>
@@ -488,15 +489,15 @@
             !error &&
             bookings.length > 0 &&
             filteredBookings.length === 0 && (
-                <div className="rounded-3xl border border-slate-800 bg-[#0b0f1a] p-16 text-center">
-                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border border-slate-800 bg-white/5">
+                <div className="rounded-3xl border border-[#e8e4db] bg-white px-6 py-14 text-center">
+                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#f6f0e3] text-[#9a783c]">
                     <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
                     viewBox="0 0 24 24"
-                    strokeWidth="1.5"
+                    fill="none"
                     stroke="currentColor"
-                    className="h-8 w-8 text-blue-400"
+                    strokeWidth="1.5"
+                    className="h-8 w-8"
+                    aria-hidden="true"
                     >
                     <path
                         strokeLinecap="round"
@@ -506,13 +507,21 @@
                     </svg>
                 </div>
 
-                <h2 className="mt-5 text-xl font-bold text-white">
+                <h2 className="mt-5 text-xl font-bold text-[#0a1411]">
                     No reservations found
                 </h2>
 
-                <p className="mt-2 text-sm text-slate-500">
+                <p className="mt-2 text-sm text-[#77776f]">
                     There are no bookings in this category.
                 </p>
+
+                <button
+                    type="button"
+                    onClick={() => setFilter("all")}
+                    className="mt-5 rounded-xl border border-[#e8e4db] px-5 py-2.5 text-sm font-semibold text-[#365747] transition hover:border-[#c6a15b] hover:bg-[#fbf8f0]"
+                >
+                    View All Bookings
+                </button>
                 </div>
             )}
 
@@ -522,11 +531,7 @@
                 {filteredBookings.map((booking) => {
                 const carName =
                     booking.car?.name ||
-                    (
-                    (booking.car?.brand || "") +
-                    " " +
-                    (booking.car?.model || "")
-                    ).trim() ||
+                    `${booking.car?.brand || ""} ${booking.car?.model || ""}`.trim() ||
                     "Rental Car";
 
                 const imageUrl = getImageUrl(booking.car?.image);
@@ -534,93 +539,89 @@
                 return (
                     <article
                     key={booking.id}
-                    className="group overflow-hidden rounded-[1.75rem] border border-slate-800 bg-[#0b0f1a] shadow-2xl shadow-black/20 transition-all duration-500 hover:-translate-y-1 hover:border-blue-400/20"
+                    className="group overflow-hidden rounded-[1.75rem] border border-[#e8e4db] bg-white shadow-[0_10px_35px_rgba(10,20,17,0.04)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#c6a15b]/60 hover:shadow-[0_18px_45px_rgba(10,20,17,0.08)]"
                     >
-                    {/* Top Section */}
                     <div className="flex flex-col lg:flex-row">
                         {/* Car Image */}
-                        <div className="relative h-64 overflow-hidden bg-gradient-to-br from-[#0d111f] via-[#0a0d16] to-[#05070d] lg:h-auto lg:w-72 lg:shrink-0">
+                        <div className="relative h-64 overflow-hidden bg-[#eeede8] lg:min-h-[420px] lg:w-72 lg:shrink-0">
                         {imageUrl ? (
                             <>
                             <img
                                 src={imageUrl}
                                 alt={carName}
-                                className="h-full w-full object-cover transition duration-700 group-hover:scale-110"
+                                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                                loading="lazy"
                             />
-
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#05070d]/80 via-transparent to-transparent" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#0a1411]/50 via-transparent to-transparent" />
                             </>
                         ) : (
-                            <>
-                            <div className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-blue-500/10 blur-3xl" />
-
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <div className="flex h-24 w-24 items-center justify-center rounded-full border border-slate-800 bg-white/5 backdrop-blur-xl">
+                            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#f8f8f7] to-[#e9e6de]">
+                            <div className="flex h-24 w-24 items-center justify-center rounded-full border border-[#d9d3c6] bg-white/70 text-[#9a783c]">
                                 <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth="1.2"
-                                    stroke="currentColor"
-                                    className="h-12 w-12 text-blue-400"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="1.3"
+                                className="h-12 w-12"
+                                aria-hidden="true"
                                 >
-                                    <path
+                                <path
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
                                     d="M3 13l2-5a2 2 0 012-1.3h10A2 2 0 0119 8l2 5M3 13v5a1 1 0 001 1h1a1 1 0 001-1v-1h10v1a1 1 0 001 1h1a1 1 0 001-1v-5M3 13h18M6 13h.01M18 13h.01"
-                                    />
+                                />
                                 </svg>
-                                </div>
                             </div>
-                            </>
+                            </div>
                         )}
 
                         <div className="absolute left-5 top-5">
                             <span
-                            className={
-                                "inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold backdrop-blur-xl " +
-                                getStatusStyle(booking.status)
-                            }
+                            className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold shadow-sm backdrop-blur-md ${getStatusStyle(
+                                booking.status
+                            )}`}
                             >
                             <span
-                                className={
-                                "h-1.5 w-1.5 rounded-full " +
-                                getStatusDot(booking.status)
-                                }
+                                className={`h-1.5 w-1.5 rounded-full ${getStatusDot(
+                                booking.status
+                                )}`}
                             />
-
                             {formatStatus(booking.status)}
                             </span>
+                        </div>
+
+                        <div className="absolute bottom-5 left-5 text-xs font-semibold tracking-wide text-white">
+                            BOOKING #{booking.id}
                         </div>
                         </div>
 
                         {/* Main Info */}
-                        <div className="flex-1 p-6 lg:p-7">
-                        <div className="flex flex-col justify-between gap-6 sm:flex-row">
+                        <div className="min-w-0 flex-1 p-5 sm:p-6 lg:p-7">
+                        <div className="flex flex-col justify-between gap-5 sm:flex-row">
                             <div>
-                            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-400">
+                            <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#9a783c]">
                                 Reservation #{booking.id}
                             </p>
 
-                            <h2 className="mt-2 text-2xl font-bold tracking-tight text-white md:text-3xl">
+                            <h2 className="mt-2 break-words text-2xl font-bold tracking-tight text-[#0a1411] md:text-3xl">
                                 {carName}
                             </h2>
 
                             {booking.car?.year && (
-                                <p className="mt-1 text-sm text-slate-500">
+                                <p className="mt-1 text-sm text-[#898981]">
                                 {booking.car.year} Model
                                 </p>
                             )}
                             </div>
 
                             <div className="sm:text-right">
-                            <p className="text-xs uppercase tracking-[0.15em] text-slate-500">
-                                Total
+                            <p className="text-xs font-semibold uppercase tracking-[0.15em] text-[#898981]">
+                                Total Amount
                             </p>
 
-                            <p className="mt-1 text-3xl font-bold text-blue-400">
-                                {Number(booking.total_amount).toLocaleString()}
-                                <span className="ml-1 text-sm font-medium text-slate-500">
+                            <p className="mt-1 text-2xl font-bold text-[#9a783c] sm:text-3xl">
+                                {Number(booking.total_amount || 0).toLocaleString()}
+                                <span className="ml-1 text-sm font-medium text-[#898981]">
                                 EGP
                                 </span>
                             </p>
@@ -628,55 +629,52 @@
                         </div>
 
                         {/* Rental Timeline */}
-                        <div className="mt-7 rounded-2xl border border-slate-800 bg-[#05070d] p-5">
-                            <div className="grid gap-6 md:grid-cols-[1fr_auto_1fr] md:items-center">
+                        <div className="mt-6 rounded-2xl border border-[#e8e4db] bg-[#f8f8f7] p-4 sm:p-5">
+                            <div className="grid gap-5 md:grid-cols-[1fr_auto_1fr] md:items-center">
                             <div>
                                 <div className="flex items-center gap-2">
-                                <span className="h-2 w-2 rounded-full bg-blue-400 shadow-lg shadow-blue-400/40" />
-
-                                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-500">
+                                <span className="h-2 w-2 rounded-full bg-[#4d8b5e]" />
+                                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#898981]">
                                     Pick-up
                                 </p>
                                 </div>
 
-                                <p className="mt-2 text-lg font-bold text-white">
+                                <p className="mt-2 text-lg font-bold text-[#0a1411]">
                                 {formatDate(booking.pickup_date)}
                                 </p>
 
-                                <p className="mt-1 text-sm text-slate-500">
-                                {booking.pickup_branch?.name ||
-                                    "Pickup Branch"}
+                                <p className="mt-1 text-sm text-[#77776f]">
+                                {booking.pickup_branch?.name || "Pickup Branch"}
                                 </p>
 
                                 {booking.pickup_branch?.city && (
-                                <p className="mt-0.5 text-xs text-slate-600">
+                                <p className="mt-0.5 text-xs text-[#898981]">
                                     {booking.pickup_branch.city}
                                 </p>
                                 )}
                             </div>
 
-                            <div className="hidden h-px w-20 bg-gradient-to-r from-blue-400/40 via-slate-700 to-violet-400/40 md:block" />
+                            <div className="hidden h-px w-16 bg-gradient-to-r from-[#4d8b5e]/50 via-[#d9d3c6] to-[#c6a15b]/70 md:block" />
 
                             <div className="md:text-right">
                                 <div className="flex items-center gap-2 md:justify-end">
-                                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-500">
+                                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#898981]">
                                     Return
                                 </p>
-
-                                <span className="h-2 w-2 rounded-full bg-violet-400 shadow-lg shadow-violet-400/40" />
+                                <span className="h-2 w-2 rounded-full bg-[#c6a15b]" />
                                 </div>
 
-                                <p className="mt-2 text-lg font-bold text-white">
+                                <p className="mt-2 text-lg font-bold text-[#0a1411]">
                                 {formatDate(booking.return_date)}
                                 </p>
 
-                                <p className="mt-1 text-sm text-slate-500">
+                                <p className="mt-1 text-sm text-[#77776f]">
                                 {booking.dropoff_branch?.name ||
                                     "Drop-off Branch"}
                                 </p>
 
                                 {booking.dropoff_branch?.city && (
-                                <p className="mt-0.5 text-xs text-slate-600">
+                                <p className="mt-0.5 text-xs text-[#898981]">
                                     {booking.dropoff_branch.city}
                                 </p>
                                 )}
@@ -686,74 +684,72 @@
 
                         {/* Details */}
                         <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                            <div className="rounded-xl border border-slate-800 bg-[#05070d] p-4">
-                            <p className="text-[10px] uppercase tracking-wider text-slate-600">
+                            <div className="rounded-xl border border-[#e8e4db] bg-white p-4">
+                            <p className="text-[10px] font-semibold uppercase tracking-wider text-[#898981]">
                                 Duration
                             </p>
-
-                            <p className="mt-1 text-sm font-semibold text-slate-200">
+                            <p className="mt-1 text-sm font-bold text-[#0a1411]">
                                 {booking.total_days}{" "}
                                 {booking.total_days === 1 ? "Day" : "Days"}
                             </p>
                             </div>
 
-                            <div className="rounded-xl border border-slate-800 bg-[#05070d] p-4">
-                            <p className="text-[10px] uppercase tracking-wider text-slate-600">
+                            <div className="rounded-xl border border-[#e8e4db] bg-white p-4">
+                            <p className="text-[10px] font-semibold uppercase tracking-wider text-[#898981]">
                                 Daily Rate
                             </p>
-
-                            <p className="mt-1 text-sm font-semibold text-slate-200">
-                                {Number(booking.daily_rate).toLocaleString()} EGP
+                            <p className="mt-1 text-sm font-bold text-[#0a1411]">
+                                {Number(booking.daily_rate || 0).toLocaleString()}{" "}
+                                EGP
                             </p>
                             </div>
 
-                            <div className="rounded-xl border border-slate-800 bg-[#05070d] p-4">
-                            <p className="text-[10px] uppercase tracking-wider text-slate-600">
+                            <div className="rounded-xl border border-[#e8e4db] bg-white p-4">
+                            <p className="text-[10px] font-semibold uppercase tracking-wider text-[#898981]">
                                 Subtotal
                             </p>
-
-                            <p className="mt-1 text-sm font-semibold text-slate-200">
-                                {Number(booking.subtotal).toLocaleString()} EGP
+                            <p className="mt-1 text-sm font-bold text-[#0a1411]">
+                                {Number(booking.subtotal || 0).toLocaleString()}{" "}
+                                EGP
                             </p>
                             </div>
 
-                            <div className="rounded-xl border border-slate-800 bg-[#05070d] p-4">
-                            <p className="text-[10px] uppercase tracking-wider text-slate-600">
+                            <div className="rounded-xl border border-[#e8e4db] bg-white p-4">
+                            <p className="text-[10px] font-semibold uppercase tracking-wider text-[#898981]">
                                 Discount
                             </p>
-
-                            <p className="mt-1 text-sm font-semibold text-emerald-400">
-                                {Number(booking.discount || 0).toLocaleString()}{" "}
-                                EGP
+                            <p className="mt-1 text-sm font-bold text-[#356847]">
+                                {Number(booking.discount || 0).toLocaleString()} EGP
                             </p>
                             </div>
                         </div>
 
                         {/* Footer */}
-                        <div className="mt-6 flex flex-col gap-4 border-t border-slate-800 pt-5 sm:flex-row sm:items-center sm:justify-between">
-                            <p className="text-xs text-slate-600">
+                        <div className="mt-6 flex flex-col gap-4 border-t border-[#e8e4db] pt-5 sm:flex-row sm:items-center sm:justify-between">
+                            <p className="text-xs text-[#898981]">
                             Booking ID #{booking.id}
                             </p>
 
                             <div className="flex flex-col gap-3 sm:flex-row">
-                            {booking.status === "completed" && (
+                            {booking.status.toLowerCase() === "completed" && (
                                 <Link
-                                href={
-                                    "/reviews/create?booking_id=" + booking.id
-                                }
-                                className="inline-flex items-center justify-center gap-2 rounded-xl border border-yellow-400/10 bg-yellow-400/10 px-5 py-2.5 text-sm font-semibold text-yellow-400 transition hover:border-yellow-400/20 hover:bg-yellow-400/15"
+                                href={`/reviews/create?booking_id=${booking.id}`}
+                                className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#e7d7ac] bg-[#fcf6e5] px-5 py-2.5 text-sm font-semibold text-[#87662f] transition-all duration-200 hover:border-[#c6a15b] hover:bg-[#f6f0e3] focus:outline-none focus:ring-2 focus:ring-[#c6a15b] focus:ring-offset-2"
                                 >
-                                <span>Leave a Review</span>
-                                <span>→</span>
+                                Leave a Review
+                                <span aria-hidden="true">→</span>
                                 </Link>
                             )}
 
                             <Link
-                                href={"/cars/" + booking.car_id}
-                                className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-800 bg-[#05070d] px-5 py-2.5 text-sm font-semibold text-slate-300 transition hover:border-blue-400/20 hover:bg-blue-400/10 hover:text-blue-400"
+                                href={`/cars/${booking.car_id}`}
+                                className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#d9e2db] bg-[#edf3ee] px-5 py-2.5 text-sm font-semibold text-[#365747] transition-all duration-200 hover:border-[#c6a15b] hover:bg-[#c6a15b] hover:text-[#0a1411] focus:outline-none focus:ring-2 focus:ring-[#c6a15b] focus:ring-offset-2"
                             >
                                 View Car
-                                <span className="transition-transform group-hover:translate-x-1">
+                                <span
+                                aria-hidden="true"
+                                className="transition-transform duration-200 group-hover:translate-x-1"
+                                >
                                 →
                                 </span>
                             </Link>

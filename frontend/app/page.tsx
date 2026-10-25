@@ -1,325 +1,538 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+const API = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+
+const categories = [
+  { label: "Luxury", note: "BMW, Mercedes, Audi", type: "luxury" },
+  { label: "SUV", note: "Space for the whole family", type: "suv" },
+  { label: "Sport", note: "For the thrill of it", type: "sport" },
+  { label: "Economy", note: "Best price per day", type: "economy" },
+];
+
+const steps = [
+  {
+    title: "Choose your car",
+    text: "Browse our collection and find the vehicle that matches your style, budget, and needs.",
+  },
+  {
+    title: "Make your booking",
+    text: "Select your rental dates, pickup location, and complete your reservation in minutes.",
+  },
+  {
+    title: "Enjoy your ride",
+    text: "Pick up your car and enjoy a smooth, comfortable, and hassle-free journey.",
+  },
+];
+
+const perks = [
+  {
+    title: "Transparent pricing",
+    text: "Explore the available cars and review their daily rates before booking.",
+  },
+  {
+    title: "Flexible pickup",
+    text: "Choose a pickup branch that suits your journey.",
+  },
+  {
+    title: "Easy booking",
+    text: "Choose your vehicle and submit your booking through a simple process.",
+  },
+  {
+    title: "Find your ideal car",
+    text: "Use the AI Car Finder to discover vehicles that match your preferences.",
+  },
+];
+
 export default function Home() {
-return ( <main className="bg-slate-950">
-{/* ================= HERO ================= */} <section className="relative min-h-screen overflow-hidden">
-{/* Background Effects */} <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(37,99,235,0.18),transparent_35%)]" /> <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_80%,rgba(14,165,233,0.10),transparent_30%)]" />
+  const router = useRouter();
 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [authChecked, setAuthChecked] = useState(false);
 
-    <div className="absolute -right-40 top-20 h-96 w-96 rounded-full bg-blue-500/10 blur-3xl" />
-    <div className="absolute -left-40 bottom-10 h-96 w-96 rounded-full bg-cyan-500/5 blur-3xl" />
+  const [search, setSearch] = useState({
+    pickup: "",
+    from: "",
+    to: "",
+    seats: "any",
+  });
 
-    {/* Grid Pattern */}
-    <div
-      className="absolute inset-0 opacity-[0.025]"
-      style={{
-        backgroundImage:
-          "linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)",
-        backgroundSize: "60px 60px",
-      }}
-    />
+  const [heroFailed, setHeroFailed] = useState(false);
 
-    <div className="relative mx-auto grid min-h-screen w-full max-w-7xl items-center gap-16 px-6 pb-16 pt-32 lg:grid-cols-2 lg:gap-10">
-      {/* ================= LEFT ================= */}
-      <div className="relative z-10 max-w-2xl">
-        {/* Badge */}
-        <div className="mb-7 inline-flex items-center gap-3 rounded-full border border-blue-400/20 bg-blue-400/10 px-4 py-2 text-sm font-medium text-blue-300 backdrop-blur-sm">
-          <span className="h-2 w-2 animate-pulse rounded-full bg-blue-400" />
-          Premium car rental experience
-        </div>
+  useEffect(() => {
+    const checkAuth = () => {
+      const token = localStorage.getItem("token");
+      const user = localStorage.getItem("user");
 
-        {/* Heading */}
-        <h1 className="text-5xl font-bold leading-[1.08] tracking-tight text-white sm:text-6xl lg:text-7xl">
-          Your journey.
-          <span className="mt-2 block bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">
-            Your perfect car.
+      setIsLoggedIn(Boolean(token && user));
+      setAuthChecked(true);
+    };
+
+    checkAuth();
+
+    window.addEventListener("storage", checkAuth);
+    window.addEventListener("auth-changed", checkAuth);
+
+    return () => {
+      window.removeEventListener("storage", checkAuth);
+      window.removeEventListener("auth-changed", checkAuth);
+    };
+  }, []);
+
+  const getDestination = (path: string) => {
+    if (!authChecked) return "/login";
+    return isLoggedIn ? path : "/login";
+  };
+
+  const today = new Date().toLocaleDateString("en-CA");
+
+  const submitSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const params = new URLSearchParams();
+
+    if (search.pickup.trim()) {
+      params.set("pickup", search.pickup.trim());
+    }
+
+    if (search.from) {
+      params.set("from", search.from);
+    }
+
+    if (search.to) {
+      params.set("to", search.to);
+    }
+
+    if (search.seats !== "any") {
+      params.set("seats", search.seats);
+    }
+
+    const queryString = params.toString();
+    const destination = getDestination("/cars");
+
+    if (destination !== "/cars") {
+      router.push(destination);
+      return;
+    }
+
+    router.push(queryString ? `/cars?${queryString}` : "/cars");
+  };
+
+  const field =
+    "w-full rounded-xl border border-[#e7e0d2] bg-[#f8f6f0] px-4 py-3.5 text-sm text-[#12201b] outline-none transition placeholder:text-[#12201b]/40 focus:border-[#b8893f] focus:bg-white focus:ring-2 focus:ring-[#b8893f]/15";
+
+  const navigateToCars = () => {
+    router.push(getDestination("/cars"));
+  };
+
+  return (
+    <main className="overflow-hidden bg-[#f3efe6] text-[#12201b]">
+      
+      
+
+{/* HERO */}
+<section className="relative overflow-hidden bg-[#0a1411] text-[#f3efe6]">
+  <img
+    src="http://127.0.0.1:8000/images/cars/bmw-m4.jpg"
+    alt="BMW M4 available for rent"
+    onLoad={() => console.log("BMW Hero image loaded successfully")}
+    onError={(e) => {
+      console.error("BMW Hero image failed:", e.currentTarget.src);
+      e.currentTarget.style.display = "none";
+    }}
+    className="absolute inset-0 h-full w-full object-cover object-[65%_center]"
+  />
+
+  <div className="absolute inset-0 bg-gradient-to-r from-[#0a1411] via-[#0a1411]/90 to-[#0a1411]/25" />
+
+  <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-[#0a1411] to-transparent" />
+
+  <div className="pointer-events-none absolute -left-32 top-20 h-80 w-80 rounded-full bg-[#d4af6a]/10 blur-3xl" />
+
+  <div className="relative z-10 mx-auto min-h-[700px] max-w-[1300px] px-5 pb-40 pt-32 sm:px-8 lg:min-h-[800px] lg:px-12 lg:pb-48 lg:pt-40">
+    <div className="max-w-3xl">
+      <div className="mb-7 inline-flex items-center gap-3 rounded-full border border-[#d4af6a]/30 bg-black/20 px-4 py-2 text-sm font-medium text-[#e7cb91] backdrop-blur-sm">
+        <span className="h-2 w-2 rounded-full bg-[#d4af6a]" />
+        Your journey, your choice
+      </div>
+
+      <h1 className="text-5xl font-semibold leading-[1.03] tracking-[-0.04em] sm:text-6xl lg:text-[78px]">
+        The right car,
+        <span className="mt-2 block text-[#d4af6a]">
+          ready when you are.
+        </span>
+      </h1>
+
+      <p className="mt-7 max-w-xl text-base leading-8 text-[#f3efe6]/70 sm:text-lg">
+        Discover the right vehicle for your next trip with flexible
+        rentals, clear daily prices, and a straightforward booking
+        experience.
+      </p>
+
+      <div className="mt-9 flex flex-wrap items-center gap-3">
+        <Link
+          href={getDestination("/cars")}
+          className="group inline-flex items-center gap-3 rounded-full bg-[#d4af6a] px-7 py-3.5 text-sm font-semibold text-[#0a1411] transition duration-300 hover:-translate-y-0.5 hover:bg-[#e6c585]"
+        >
+          Browse cars
+          <span className="transition-transform group-hover:translate-x-1">
+            →
           </span>
-        </h1>
+        </Link>
 
-        {/* Description */}
-        <p className="mt-7 max-w-xl text-lg leading-8 text-gray-400">
-          Discover premium vehicles, flexible rentals, and a seamless
-          booking experience designed to get you on the road faster.
-        </p>
-
-        {/* Buttons */}
-        <div className="mt-10 flex flex-wrap gap-4">
-          <a
-            href="/cars"
-            className="group inline-flex items-center gap-3 rounded-full bg-blue-500 px-7 py-3.5 font-semibold text-white shadow-xl shadow-blue-500/20 transition duration-300 hover:-translate-y-0.5 hover:bg-blue-600 hover:shadow-blue-500/30"
-          >
-            Explore Cars
-            <span className="transition-transform duration-300 group-hover:translate-x-1">
-              →
-            </span>
-          </a>
-
-          <a
-            href="/recommendations"
-            className="group inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-7 py-3.5 font-semibold text-white backdrop-blur-md transition duration-300 hover:-translate-y-0.5 hover:border-blue-400/30 hover:bg-blue-500/10"
-          >
-            Find My Car
-            <span className="text-blue-400 transition-transform duration-300 group-hover:translate-x-1">
-              →
-            </span>
-          </a>
-        </div>
-
-        {/* Stats */}
-        <div className="mt-14 grid max-w-lg grid-cols-3 border-t border-white/10 pt-8">
-          <div>
-            <p className="text-2xl font-bold text-white">100+</p>
-            <p className="mt-1 text-xs text-gray-500 sm:text-sm">
-              Cars available
-            </p>
-          </div>
-
-          <div className="border-l border-white/10 pl-5 sm:pl-8">
-            <p className="text-2xl font-bold text-white">5+</p>
-            <p className="mt-1 text-xs text-gray-500 sm:text-sm">
-              Branches
-            </p>
-          </div>
-
-          <div className="border-l border-white/10 pl-5 sm:pl-8">
-            <p className="text-2xl font-bold text-white">24/7</p>
-            <p className="mt-1 text-xs text-gray-500 sm:text-sm">
-              Support
-            </p>
-          </div>
-        </div>
+        <Link
+          href={getDestination("/recommendations")}
+          className="inline-flex items-center gap-3 rounded-full border border-white/25 px-7 py-3.5 text-sm font-semibold text-white transition duration-300 hover:border-[#d4af6a] hover:bg-white/10"
+        >
+          Help me choose
+          <span className="text-[#d4af6a]">→</span>
+        </Link>
       </div>
 
-      {/* ================= RIGHT ================= */}
-      <div className="relative hidden lg:block">
-        {/* Glow */}
-        <div className="absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-blue-500/10 blur-[100px]" />
-
-        {/* Main Card */}
-        <div className="relative">
-          {/* Floating Badge */}
-          <div className="absolute -left-8 top-10 z-20 rounded-2xl border border-white/10 bg-slate-900/80 px-5 py-4 shadow-2xl backdrop-blur-xl">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10">
-                <svg
-                  className="h-5 w-5 text-blue-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.8}
-                    d="M5 17h14M7 17l1.5-5h7L17 17M9 12l1-3h4l1 3M6 17v2M18 17v2"
-                  />
-                </svg>
-              </div>
-
-              <div>
-                <p className="text-xs text-gray-500">Featured</p>
-                <p className="text-sm font-semibold text-white">
-                  Premium Collection
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Image Card */}
-          <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.04] p-3 shadow-2xl shadow-black/30 backdrop-blur-sm">
-            <div className="relative overflow-hidden rounded-[1.5rem] bg-gradient-to-br from-slate-800 to-slate-950">
-              {/* Image Glow */}
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent" />
-
-              <img
-                src="http://127.0.0.1:8000/images/cars/bmw-m4.jpg"
-                alt="BMW M4"
-                className="aspect-[4/3] w-full object-cover object-center transition duration-700 hover:scale-105"
-              />
-
-              {/* Image Overlay */}
-              <div className="absolute inset-x-0 bottom-0 p-7">
-                <div className="flex items-end justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-blue-300">
-                      Featured vehicle
-                    </p>
-
-                    <h2 className="mt-1 text-3xl font-bold text-white">
-                      BMW M4
-                    </h2>
-
-                    <p className="mt-1 text-sm text-gray-400">
-                      Luxury • Automatic • 4 Seats
-                    </p>
-                  </div>
-
-                  <div className="rounded-2xl border border-white/10 bg-black/30 px-4 py-3 backdrop-blur-md">
-                    <p className="text-xs text-gray-400">From</p>
-                    <p className="text-lg font-bold text-white">
-                      4,500
-                      <span className="ml-1 text-xs font-normal text-gray-400">
-                        EGP/day
-                      </span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Bottom Card */}
-            <div className="flex items-center justify-between px-3 pb-2 pt-5">
-              <div>
-                <p className="text-xs text-gray-500">
-                  Ready for your next journey?
-                </p>
-                <p className="mt-1 text-sm font-medium text-white">
-                  Choose your perfect ride
-                </p>
-              </div>
-
-              <a
-                href="/cars"
-                className="rounded-full border border-blue-400/20 bg-blue-500/10 px-4 py-2 text-sm font-medium text-blue-400 transition hover:bg-blue-500/20"
-              >
-                Explore →
-              </a>
-            </div>
-          </div>
-
-          {/* Floating Bottom Badge */}
-          <div className="absolute -bottom-7 -right-7 rounded-2xl border border-white/10 bg-slate-900/90 px-5 py-4 shadow-2xl backdrop-blur-xl">
-            <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-400/10">
-                <span className="h-2.5 w-2.5 rounded-full bg-green-400" />
-              </div>
-
-              <div>
-                <p className="text-xs text-gray-500">Availability</p>
-                <p className="text-sm font-semibold text-white">
-                  Cars ready to rent
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    {/* Bottom Fade */}
-    <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-slate-950 to-transparent" />
-  </section>
-
-  {/* ================= HOW IT WORKS ================= */}
-  <section
-    id="how-it-works"
-    className="relative overflow-hidden bg-white py-24"
-  >
-    <div className="absolute right-0 top-0 h-72 w-72 rounded-full bg-blue-100/40 blur-3xl" />
-
-    <div className="relative mx-auto max-w-7xl px-6">
-      {/* Section Header */}
-      <div className="mx-auto max-w-2xl text-center">
-        <p className="text-sm font-semibold uppercase tracking-[0.25em] text-blue-500">
-          Simple process
-        </p>
-
-        <h2 className="mt-3 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
-          Your ride in three steps
-        </h2>
-
-        <p className="mt-5 text-lg leading-7 text-gray-500">
-          From choosing your car to hitting the road, we keep the entire
-          rental experience simple.
-        </p>
-      </div>
-
-      {/* Steps */}
-      <div className="relative mt-16 grid gap-6 md:grid-cols-3">
+      <div className="mt-14 flex flex-wrap gap-x-10 gap-y-5 border-t border-white/15 pt-7">
         {[
-          {
-            number: "01",
-            title: "Choose your car",
-            description:
-              "Browse our collection and find the vehicle that matches your style, budget, and needs.",
-          },
-          {
-            number: "02",
-            title: "Make your booking",
-            description:
-              "Select your rental dates, pickup location, and complete your reservation in minutes.",
-          },
-          {
-            number: "03",
-            title: "Enjoy your ride",
-            description:
-              "Pick up your car and enjoy a smooth, comfortable, and hassle-free journey.",
-          },
-        ].map((step) => (
-          <div
-            key={step.number}
-            className="group relative rounded-3xl border border-gray-100 bg-gray-50 p-8 transition duration-300 hover:-translate-y-2 hover:border-blue-100 hover:bg-white hover:shadow-2xl hover:shadow-blue-500/10"
-          >
-            <div className="flex items-start justify-between">
-              <span className="text-sm font-bold tracking-widest text-blue-500">
-                {step.number}
-              </span>
-
-              <div className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-400 transition group-hover:border-blue-200 group-hover:bg-blue-50 group-hover:text-blue-500">
-                →
-              </div>
-            </div>
-
-            <h3 className="mt-8 text-2xl font-bold text-slate-900">
-              {step.title}
-            </h3>
-
-            <p className="mt-4 leading-7 text-gray-500">
-              {step.description}
+          ["100+", "Cars available"],
+          ["5+", "Pickup branches"],
+          ["24/7", "Support"],
+        ].map(([value, label]) => (
+          <div key={label}>
+            <p className="text-2xl font-semibold text-[#d4af6a] sm:text-3xl">
+              {value}
             </p>
-
-            <div className="mt-8 h-1 w-12 rounded-full bg-blue-500 transition-all duration-300 group-hover:w-20" />
+            <p className="mt-1 text-sm text-white/60">{label}</p>
           </div>
         ))}
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  {/* ================= CTA ================= */}
-  <section className="relative overflow-hidden bg-slate-950 py-24">
-    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.16),transparent_45%)]" />
 
-    <div className="relative mx-auto max-w-4xl px-6 text-center">
-      <p className="text-sm font-semibold uppercase tracking-[0.25em] text-blue-400">
-        Ready to drive?
-      </p>
 
-      <h2 className="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl">
-        Find the car that fits your journey.
-      </h2>
-
-      <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-gray-400">
-        Explore our collection or let our AI Car Finder recommend the
-        perfect vehicle based on your needs.
-      </p>
-
-      <div className="mt-9 flex flex-wrap justify-center gap-4">
-        <a
-          href="/cars"
-          className="rounded-full bg-blue-500 px-7 py-3.5 font-semibold text-white shadow-xl shadow-blue-500/20 transition hover:bg-blue-600"
+      {/* BOOKING SEARCH */}
+      <section className="relative z-10 mx-auto -mt-24 max-w-[1300px] px-5 sm:px-8 lg:-mt-28 lg:px-12">
+        <form
+          onSubmit={submitSearch}
+          className="grid gap-4 rounded-3xl border border-[#e8e0d1] bg-white p-5 shadow-2xl shadow-[#12201b]/10 sm:grid-cols-2 sm:p-7 lg:grid-cols-[1.3fr_1fr_1fr_0.8fr_auto] lg:items-end"
         >
-          Browse Cars
-        </a>
+          <label className="block">
+            <span className="mb-2 block text-xs font-semibold text-[#12201b]/65">
+              Pickup branch
+            </span>
+            <input
+              className={field}
+              placeholder="City or branch"
+              value={search.pickup}
+              onChange={(e) =>
+                setSearch({ ...search, pickup: e.target.value })
+              }
+            />
+          </label>
 
-        <a
-          href="/recommendations"
-          className="rounded-full border border-white/10 bg-white/5 px-7 py-3.5 font-semibold text-white transition hover:bg-white/10"
-        >
-          AI Car Finder
-        </a>
-      </div>
+          <label className="block">
+            <span className="mb-2 block text-xs font-semibold text-[#12201b]/65">
+              Pickup date
+            </span>
+            <input
+              type="date"
+              min={today}
+              className={field}
+              value={search.from}
+              onChange={(e) =>
+                setSearch({
+                  ...search,
+                  from: e.target.value,
+                  to:
+                    search.to && search.to < e.target.value
+                      ? ""
+                      : search.to,
+                })
+              }
+            />
+          </label>
+
+          <label className="block">
+            <span className="mb-2 block text-xs font-semibold text-[#12201b]/65">
+              Return date
+            </span>
+            <input
+              type="date"
+              min={search.from || today}
+              className={field}
+              value={search.to}
+              onChange={(e) =>
+                setSearch({ ...search, to: e.target.value })
+              }
+            />
+          </label>
+
+          <label className="block">
+            <span className="mb-2 block text-xs font-semibold text-[#12201b]/65">
+              Seats
+            </span>
+            <select
+              className={field}
+              value={search.seats}
+              onChange={(e) =>
+                setSearch({ ...search, seats: e.target.value })
+              }
+            >
+              <option value="any">Any</option>
+              <option value="2">2 seats</option>
+              <option value="4">4 seats</option>
+              <option value="5">5 seats</option>
+              <option value="7">7+ seats</option>
+            </select>
+          </label>
+
+          <button
+            type="submit"
+            className="rounded-xl bg-[#12201b] px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-[#1f3a30] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#b8893f] sm:col-span-2 lg:col-span-1"
+          >
+            Search cars
+            <span className="ml-2 text-[#d4af6a]">→</span>
+          </button>
+        </form>
+      </section>
+
+      {/* CATEGORIES */}
+      <section className="mx-auto max-w-[1300px] px-5 py-20 sm:px-8 lg:px-12 lg:py-24">
+        <div className="flex flex-wrap items-end justify-between gap-5">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#ad8845]">
+              Explore our collection
+            </p>
+            <h2 className="mt-3 max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">
+              A car for every kind of journey.
+            </h2>
+          </div>
+
+          <Link
+            href={getDestination("/cars")}
+            className="text-sm font-semibold text-[#12201b] underline decoration-[#b8893f] decoration-2 underline-offset-4 transition hover:text-[#806329]"
+          >
+            View all cars →
+          </Link>
+        </div>
+
+        <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {categories.map((category, index) => (
+            <Link
+              key={category.type}
+              href={getDestination(`/cars?type=${category.type}`)}
+              className="group relative flex min-h-[190px] flex-col justify-between overflow-hidden rounded-2xl border border-[#e3dccf] bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-[#c6a15b]/70 hover:bg-[#12201b] hover:text-white hover:shadow-xl hover:shadow-[#12201b]/10"
+            >
+              <div className="flex items-start justify-between">
+                <span className="text-xs font-semibold tracking-[0.18em] text-[#ad8845]">
+                  0{index + 1}
+                </span>
+                <span className="flex h-9 w-9 items-center justify-center rounded-full border border-[#e3dccf] text-lg transition group-hover:border-[#d4af6a]/40 group-hover:text-[#d4af6a]">
+                  ↗
+                </span>
+              </div>
+
+              <div>
+                <h3 className="text-2xl font-semibold">{category.label}</h3>
+                <p className="mt-2 text-sm text-[#12201b]/60 transition group-hover:text-white/65">
+                  {category.note}
+                </p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* FEATURED CAR + AI FINDER */}
+      <section className="mx-auto grid max-w-[1300px] gap-5 px-5 pb-20 sm:px-8 lg:grid-cols-[1.4fr_1fr] lg:px-12 lg:pb-24">
+        
+
+<article className="relative min-h-[440px] overflow-hidden rounded-3xl bg-[#0a1411] text-white">
+  <img
+    src="http://127.0.0.1:8000/images/cars/bmw-m4.jpg"
+    alt="BMW M4"
+    className="absolute inset-0 h-full w-full object-cover"
+    onLoad={() => console.log("BMW image loaded successfully")}
+    onError={(e) => console.error("BMW image failed:", e.currentTarget.src)}
+  />
+
+  <div className="absolute inset-0 bg-gradient-to-t from-[#0a1411] via-[#0a1411]/40 to-transparent" />
+
+  <div className="absolute inset-x-0 bottom-0 z-10 flex flex-wrap items-end justify-between gap-5 p-7 sm:p-9">
+    <div>
+      <p className="text-sm font-semibold text-[#d4af6a]">
+        Featured vehicle
+      </p>
+      <h3 className="mt-2 text-4xl font-semibold tracking-tight">
+        BMW M4
+      </h3>
+      <ul className="mt-4 flex flex-wrap gap-2 text-xs">
+        {["Luxury", "Automatic", "4 seats"].map((item) => (
+          <li
+            key={item}
+            className="rounded-full border border-white/25 px-3 py-1.5"
+          >
+            {item}
+          </li>
+        ))}
+      </ul>
     </div>
-  </section>
-</main>
-);
+
+    <div>
+      <p className="text-3xl font-semibold">4,500</p>
+      <p className="mt-1 text-xs text-white/65">EGP per day</p>
+      <button
+        type="button"
+        onClick={navigateToCars}
+        className="mt-4 rounded-full bg-[#d4af6a] px-6 py-3 text-sm font-semibold text-[#0a1411] hover:bg-[#e6c585]"
+      >
+        Explore cars →
+      </button>
+    </div>
+  </div>
+</article>
+
+
+
+        <aside className="flex flex-col justify-between rounded-3xl bg-[#1a3a2e] p-7 text-[#f3efe6] sm:p-9">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#d4af6a]">
+              AI Car Finder
+            </p>
+            <h2 className="mt-4 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">
+              Not sure which car fits?
+            </h2>
+            <p className="mt-4 text-sm leading-7 text-white/70">
+              Tell us your budget, how many people are travelling, and the
+              style you prefer. Discover cars that match your needs.
+            </p>
+          </div>
+
+          <div className="mt-10">
+            <ul className="mb-7 space-y-4 text-sm text-white/85">
+              {[
+                "Set your daily budget",
+                "Choose passenger capacity",
+                "Get recommendations based on your needs",
+              ].map((item) => (
+                <li key={item} className="flex items-center gap-3">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#d4af6a]/15 text-xs text-[#d4af6a]">
+                    ✓
+                  </span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+
+            <Link
+              href={getDestination("/recommendations")}
+              className="inline-flex items-center gap-3 rounded-full bg-[#f3efe6] px-6 py-3 text-sm font-semibold text-[#12201b] transition hover:bg-white"
+            >
+              Find my car
+              <span>→</span>
+            </Link>
+          </div>
+        </aside>
+      </section>
+
+      {/* HOW IT WORKS */}
+      <section
+        id="how-it-works"
+        className="bg-[#12201b] py-20 text-[#f3efe6] lg:py-24"
+      >
+        <div className="mx-auto max-w-[1300px] px-5 sm:px-8 lg:px-12">
+          <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#d4af6a]">
+            The process
+          </p>
+
+          <h2 className="mt-3 max-w-2xl text-3xl font-semibold tracking-tight sm:text-4xl">
+            From choosing to driving in three steps.
+          </h2>
+
+          <ol className="mt-12 grid gap-10 md:grid-cols-3 md:gap-8">
+            {steps.map((step, index) => (
+              <li
+                key={step.title}
+                className="relative border-t border-white/20 pt-7"
+              >
+                <span className="absolute -top-3 left-0 bg-[#12201b] pr-3 text-sm font-semibold text-[#d4af6a]">
+                  STEP 0{index + 1}
+                </span>
+
+                <h3 className="text-xl font-semibold">{step.title}</h3>
+                <p className="mt-3 max-w-sm text-sm leading-7 text-white/65">
+                  {step.text}
+                </p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      {/* WHY DRIVEX */}
+      <section className="mx-auto max-w-[1300px] px-5 py-20 sm:px-8 lg:px-12 lg:py-24">
+        <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#ad8845]">
+          The DriveX difference
+        </p>
+
+        <h2 className="mt-3 max-w-xl text-3xl font-semibold tracking-tight sm:text-4xl">
+          Renting should feel easy.
+        </h2>
+
+        <dl className="mt-10 grid gap-x-12 gap-y-9 sm:grid-cols-2">
+          {perks.map((perk, index) => (
+            <div
+              key={perk.title}
+              className="flex gap-4 border-t border-[#12201b]/10 pt-5"
+            >
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#e8dfca] text-sm font-bold text-[#806329]">
+                0{index + 1}
+              </span>
+
+              <div>
+                <dt className="text-lg font-semibold">{perk.title}</dt>
+                <dd className="mt-2 max-w-md text-sm leading-7 text-[#12201b]/65">
+                  {perk.text}
+                </dd>
+              </div>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      {/* FINAL CTA */}
+      <section className="px-5 pb-20 sm:px-8 lg:px-12">
+        <div className="relative mx-auto flex max-w-[1300px] flex-col items-start justify-between gap-8 overflow-hidden rounded-3xl bg-[#0a1411] p-8 text-[#f3efe6] sm:p-12 lg:flex-row lg:items-center">
+          <div className="pointer-events-none absolute -right-20 -top-28 h-72 w-72 rounded-full bg-[#d4af6a]/10 blur-3xl" />
+
+          <div className="relative">
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-[#d4af6a]">
+              Your next journey
+            </p>
+            <h2 className="mt-3 max-w-xl text-3xl font-semibold leading-tight tracking-tight sm:text-5xl">
+              Your next trip starts with one booking.
+            </h2>
+          </div>
+
+          <div className="relative flex flex-wrap gap-3">
+            <Link
+              href={getDestination("/cars")}
+              className="rounded-full bg-[#d4af6a] px-7 py-3.5 text-sm font-semibold text-[#0a1411] transition hover:bg-[#e6c585]"
+            >
+              Browse cars
+            </Link>
+
+            <Link
+              href={getDestination("/recommendations")}
+              className="rounded-full border border-white/25 px-7 py-3.5 text-sm font-semibold transition hover:border-[#d4af6a] hover:bg-white/5"
+            >
+              Help me choose
+            </Link>
+          </div>
+        </div>
+      </section>
+    </main>
+  );
 }

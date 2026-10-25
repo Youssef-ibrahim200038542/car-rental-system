@@ -45,6 +45,15 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/logout', [AuthController::class, 'logout']);
 
+    Route::get('/me', function (\Illuminate\Http\Request $request) {
+    return response()->json([
+        'success' => true,
+        'data' => [
+            'user' => $request->user(),
+        ],
+    ]);
+});
+
     Route::post('/reviews', [ReviewController::class, 'store']);
 
     Route::put('/reviews/{review}', [ReviewController::class, 'update']);
