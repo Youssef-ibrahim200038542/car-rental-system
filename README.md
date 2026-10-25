@@ -1,294 +1,176 @@
-# 🚗 Car Rental Management System
+# 🚗 DriveX — Car Rental Management System
 
-A full-stack **Car Rental Management System** built to provide a modern and efficient platform for managing rental cars, bookings, branches, categories, payments, customer reviews, and more.
-
-The system consists of a **Next.js frontend** connected to a **Laravel REST API backend** with a **MySQL database**.
-
----
+A full-stack car rental platform designed to simplify vehicle discovery, rental bookings, payment workflows, customer reviews, and fleet management through a modern web interface.
 
 ## ✨ Features
 
-* 🚗 Browse available rental cars
-* 🔎 View detailed car information
-* 📅 Create and manage bookings
-* 💳 Booking and payment flow
-* ⭐ Customer reviews and ratings
-* 🤖 AI-powered assistant
-* 🏢 Branch management
-* 🚘 Car category management
-* 📊 Car availability and rental status
-* 🛠️ Admin dashboard
-* 📱 Responsive and modern user interface
-* 🔗 RESTful API integration
+### Customer Experience
+- Browse available rental cars and view detailed vehicle information.
+- Explore car categories and rental branches.
+- Create and manage rental bookings.
+- Follow the booking payment flow.
+- Rate completed rentals and submit customer reviews.
+- Explore car recommendations.
 
----
+### Administration
+- Admin dashboard for managing the rental system.
+- Manage cars, categories, and branches.
+- View and manage customer bookings.
+- Manage users, payments, and customer reviews.
+- Track rental availability and booking status.
 
-## 🛠️ Technologies
+### Technical Highlights
+- Frontend and backend communicate through a REST API.
+- Laravel backend with MySQL database integration.
+- Authentication for protected operations.
+- Reusable UI components and responsive page layouts.
 
-### Frontend
+## 🛠️ Tech Stack
 
-* Next.js
-* React
-* TypeScript
-* Tailwind CSS
-
-### Backend
-
-* Laravel
-* PHP
-* REST API
-* MySQL
-
-### Tools
-
-* Git
-* GitHub
-* Postman
-* XAMPP
-
----
+| Layer | Technologies |
+|---|---|
+| Frontend | Next.js, React, TypeScript, Tailwind CSS |
+| Backend | PHP, Laravel |
+| Database | MySQL |
+| API | REST API |
+| Development Tools | Git, GitHub, Postman, XAMPP |
 
 ## 📸 Screenshots
 
-### 🏠 Home Page
+### Home Page
+![DriveX Home Page](screenshots/home-page.png)
 
-![Home Page](screenshots/home-page.png)
+### Cars Listing
+![DriveX Cars Page](screenshots/car-page.png)
 
-### 🚗 Cars Page
+### Car Details
+![DriveX Car Details](screenshots/car-details.png)
 
-![Cars Page](screenshots/car-page.png)
+### Booking
+![DriveX Booking Page](screenshots/booking-details-page.png)
 
-### 🚘 Car Details
+### Admin Dashboard
+![DriveX Admin Dashboard](screenshots/admin-dashboard.png)
 
-![Car Details](screenshots/car-details.png)
-
-### 📅 Booking Details
-
-![Booking Details](screenshots/booking-details-page.png)
-
-### 🤖 AI Assistant
-
-![AI Assistant](screenshots/ai-assistant-page.png)
-
-### 🛠️ Admin Dashboard
-
-![Admin Dashboard](screenshots/admin-dashboard.png)
-
-![Admin Dashboard](screenshots/admin-dashboard-1.png)
-
-![Admin Dashboard](screenshots/admin-dashboard-2.png)
-
-![Admin Dashboard](screenshots/admin-dashboard-3.png)
-
----
+> Make sure the screenshot filenames above match the actual files in the `screenshots/` directory.
 
 ## 📁 Project Structure
 
-```
+```text
 car-rental-system/
-│
 ├── backend/
 │   ├── app/
+│   ├── config/
 │   ├── database/
 │   ├── routes/
-│   ├── resources/
 │   └── ...
-│
 ├── frontend/
 │   ├── app/
+│   │   ├── admin/
 │   │   ├── bookings/
 │   │   ├── cars/
 │   │   ├── payment/
-│   │   └── ...
+│   │   ├── recommendations/
+│   │   └── reviews/
 │   └── ...
-│
 ├── screenshots/
-│   ├── home-page.png
-│   ├── car-page.png
-│   ├── car-details.png
-│   ├── booking-details-page.png
-│   ├── ai-assistant-page.png
-│   ├── admin-dashboard.png
-│   ├── admin-dashboard-1.png
-│   ├── admin-dashboard-2.png
-│   └── admin-dashboard-3.png
-│
 └── README.md
 ```
 
----
+## ⚙️ Getting Started
 
-## ⚙️ Installation
+### Prerequisites
+
+Install the following before running the project:
+
+- PHP and Composer
+- Node.js and npm
+- MySQL
+- Git
 
 ### 1. Clone the Repository
 
-```
-git clone https://github.com/YOUR_USERNAME/car-rental-system.git
-
+```bash
+git clone https://github.com/Youssef-ibrahim200038542/car-rental-system.git
 cd car-rental-system
 ```
 
----
+### 2. Configure the Backend
 
-### 2. Backend Setup
-
-Navigate to the backend directory:
-
-```
+```bash
 cd backend
-```
-
-Install Laravel dependencies:
-
-```
 composer install
 ```
 
-Create the environment file:
+Create your local environment file from the example:
 
-```
+```bash
 cp .env.example .env
 ```
 
-Generate the application key:
+On Windows PowerShell, you can use:
 
+```powershell
+Copy-Item .env.example .env
 ```
+
+Configure your database connection in `backend/.env`, then run:
+
+```bash
 php artisan key:generate
-```
-
-Configure your database credentials inside the `.env` file.
-
-Run the database migrations:
-
-```
 php artisan migrate
-```
-
-Start the Laravel development server:
-
-```
 php artisan serve
 ```
 
-The backend API will run at:
+The Laravel development server normally runs at:
 
-```
+```text
 http://127.0.0.1:8000
 ```
 
----
+If the project requires existing seed data, storage setup, or additional migrations, follow the project's actual database setup requirements before running it.
 
-### 3. Frontend Setup
+### 3. Configure the Frontend
 
-Open another terminal and navigate to the frontend:
+Open a new terminal at the project root:
 
-```
+```bash
 cd frontend
-```
-
-Install dependencies:
-
-```
 npm install
 ```
 
-Create a `.env.local` file and add:
+Create `frontend/.env.local` and configure the backend API URL:
 
-```
+```env
 NEXT_PUBLIC_API_URL=http://127.0.0.1:8000/api
 ```
 
-Start the Next.js development server:
+Start the frontend:
 
-```
+```bash
 npm run dev
 ```
 
-The frontend will run at:
+Open the local frontend URL shown in the terminal, usually:
 
-```
+```text
 http://localhost:3000
 ```
 
----
+## 🔐 Environment Configuration
 
-## 🔐 Environment Variables
-
-### Frontend
-
-```
-NEXT_PUBLIC_API_URL=http://127.0.0.1:8000/api
-```
-
-### Backend
-
-Configure the Laravel `.env` file with your database and application settings.
-
-> Never commit `.env` or other files containing sensitive credentials to GitHub.
-
----
-
-## 🔄 System Architecture
-
-```
-┌──────────────────────┐
-│   Next.js Frontend   │
-│   React + TypeScript │
-└──────────┬───────────┘
-           │
-           │ REST API
-           ▼
-┌──────────────────────┐
-│   Laravel Backend    │
-│      PHP / API       │
-└──────────┬───────────┘
-           │
-           ▼
-┌──────────────────────┐
-│    MySQL Database    │
-└──────────────────────┘
-```
-
----
-
-## 📌 Main Modules
-
-| Module          | Description                                       |
-| --------------- | ------------------------------------------------- |
-| Cars            | Browse and manage rental cars                     |
-| Car Details     | Display detailed information about each car       |
-| Bookings        | Create and manage rental bookings                 |
-| Payments        | Handle the booking payment flow                   |
-| Reviews         | Customer ratings and reviews                      |
-| AI Assistant    | Assist users with car rental-related interactions |
-| Categories      | Organize cars by category                         |
-| Branches        | Manage rental locations                           |
-| Admin Dashboard | Manage and monitor the rental system              |
-
----
-
-## 🚀 Future Improvements
-
-* 🔐 User authentication and authorization
-* 👨‍💼 Advanced admin management
-* 💳 Online payment gateway integration
-* 🔎 Advanced car search and filtering
-* 📋 Booking history
-* 📧 Email notifications
-* 📊 Advanced analytics and reporting
-* ☁️ Production deployment
-
----
+- Keep backend credentials in `backend/.env`.
+- Keep local frontend environment settings in `frontend/.env.local`.
+- Never commit real passwords, API keys, tokens, or other secrets.
+- Use example environment files to document required variable names without exposing secret values.
 
 ## 👨‍💻 Developer
 
 **Youssef Ibrahim**
 
-Computer Science Student
-AI Specialization
-
----
+Computer Science Student — AI Specialization  
+Modern web development | React | PHP | Laravel | MySQL
 
 ## 📄 License
 
-This project was developed for educational and development purposes.
+This project was developed for educational and portfolio purposes.
