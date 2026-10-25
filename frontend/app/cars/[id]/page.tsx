@@ -3,6 +3,10 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import {
+  getCarImageUrl,
+  getLocalCarImage,
+} from "@/lib/car-images";
 
 type Car = {
   id: number;
@@ -40,32 +44,6 @@ type Review = {
 
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
-
-
-function getImageUrl(image: string | null | undefined) {
-  if (!image?.trim()) return null;
-
-  const value = image.trim();
-
-  if (/^https?:\/\//i.test(value)) {
-    return value;
-  }
-
-  const imagePath = value
-    .replace(/^\/+/, "")
-    .replace(/^public\//, "");
-
-  const baseUrl = API_URL.replace(/\/api\/?$/, "");
-
-  if (imagePath.startsWith("images/")) {
-    return `${baseUrl}/${imagePath}`;
-  }
-
-  const storagePath = imagePath.replace(/^storage\//, "");
-
-  return `${baseUrl}/storage/${storagePath}`;
-}
-
 
 function formatPrice(price: number) {
   return new Intl.NumberFormat("en-US", {
@@ -227,7 +205,13 @@ export default function CarDetailsPage() {
     );
   }
 
-  const imageUrl = getImageUrl(car.image);
+  const imageUrl = getCarImageUrl(
+    car.image,
+    car.brand,
+    car.model,
+    `${car.brand} ${car.model}`
+  );
+
   const statusAvailable = car.status?.toLowerCase() === "available";
 
   const averageRating =
@@ -281,17 +265,25 @@ export default function CarDetailsPage() {
           {/* Image */}
           <div className="overflow-hidden rounded-3xl border border-[#e8e4db] bg-white shadow-[0_8px_30px_rgba(10,20,17,0.04)]">
             <div className="relative aspect-[4/3] min-h-[280px] overflow-hidden bg-[#eeece6] sm:min-h-[400px]">
-              {imageUrl ? (
-                <img
-                  src={imageUrl}
-                  alt={`${car.brand} ${car.model}`}
-                  className="h-full w-full object-cover"
-                />
-              ) : (
-                <div className="flex h-full w-full items-center justify-center text-8xl">
-                  🚗
-                </div>
-              )}
+              <img
+                src={imageUrl}
+                alt={`${car.brand} ${car.model}`}
+                className="h-full w-full object-cover"
+                onError={(event) => {
+                  const fallbackImage = getLocalCarImage(
+                    car.brand,
+                    car.model,
+                    `${car.brand} ${car.model}`
+                  );
+
+                  if (event.currentTarget.src.endsWith(fallbackImage)) {
+                    return;
+                  }
+
+                  event.currentTarget.onerror = null;
+                  event.currentTarget.src = fallbackImage;
+                }}
+              />
 
               <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-black/10" />
 

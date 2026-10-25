@@ -1,0 +1,1001 @@
+id,employee_id,inspection_date,notes,passed,vehicle_id
+1,108,2022-11-28 17:02:47,Worn tires,false,1196
+2,102,2021-07-22 20:41:23,Worn tires,true,934
+3,55,2023-08-19 18:22:58,Chipped windshield,true,952
+4,116,2022-05-11 14:48:16,Chipped windshield,true,865
+5,27,2021-12-21 10:13:06,Chipped windshield,false,935
+6,206,2022-02-18 10:15:58,Chipped windshield,true,332
+7,156,2025-10-12 18:09:28,Scratch on rear bumper,true,1027
+8,100,2021-02-27 14:54:12,Worn tires,true,1000
+9,64,2024-06-09 10:53:11,Scratch on rear bumper,true,947
+10,214,2022-07-04 13:52:13,Scratch on rear bumper,true,332
+11,23,2022-09-28 14:44:58,No issues,true,883
+12,141,2024-03-21 10:58:59,Chipped windshield,true,950
+13,3,2022-11-30 17:44:19,Dent on driver door,true,510
+14,95,2022-06-05 11:57:19,Scratch on rear bumper,false,994
+15,123,2021-10-05 15:53:17,No issues,false,1094
+16,34,2025-03-14 06:52:20,Scratch on rear bumper,true,803
+17,41,2023-05-16 15:40:50,No issues,false,19
+18,178,2024-04-21 13:55:53,No issues,true,806
+19,237,2025-12-10 13:36:02,Chipped windshield,false,1024
+20,96,2021-07-23 10:42:41,Worn tires,true,994
+21,119,2024-10-18 09:58:40,No issues,true,1182
+22,88,2021-04-05 10:15:06,Scratch on rear bumper,true,1197
+23,230,2021-11-16 14:47:56,No issues,true,372
+24,34,2025-07-02 10:23:43,Dent on driver door,true,22
+25,27,2021-03-11 16:14:24,No issues,true,844
+26,31,2023-06-13 10:01:03,Dent on driver door,false,248
+27,209,2024-03-15 12:37:59,Dent on driver door,true,866
+28,89,2023-09-14 18:16:48,Dent on driver door,true,762
+29,167,2023-09-28 14:37:41,Worn tires,false,960
+30,202,2021-04-15 12:50:45,No issues,true,130
+31,136,2022-12-23 09:18:36,Chipped windshield,true,877
+32,84,2022-12-13 11:03:02,Worn tires,true,711
+33,103,2023-06-09 12:36:28,Chipped windshield,true,656
+34,95,2023-02-22 16:12:24,Worn tires,true,557
+35,57,2021-05-03 10:35:21,No issues,false,28
+36,111,2022-12-06 11:53:48,Scratch on rear bumper,true,607
+37,173,2025-11-13 12:58:18,Worn tires,true,152
+38,37,2022-08-29 21:31:58,Chipped windshield,false,377
+39,58,2022-05-11 07:24:06,Worn tires,true,494
+40,45,2025-12-08 17:00:42,Worn tires,false,1070
+41,216,2023-02-23 11:07:43,Chipped windshield,false,864
+42,43,2025-05-23 18:29:26,Dent on driver door,true,18
+43,137,2023-05-19 17:53:47,Scratch on rear bumper,false,980
+44,133,2022-05-12 11:00:41,Scratch on rear bumper,true,243
+45,43,2021-08-09 15:42:19,Dent on driver door,true,65
+46,5,2023-10-24 12:08:48,Worn tires,true,805
+47,24,2022-12-08 09:53:13,Dent on driver door,false,1182
+48,174,2024-02-08 18:50:09,Dent on driver door,true,110
+49,39,2023-02-03 18:54:26,Scratch on rear bumper,true,667
+50,231,2023-11-24 08:20:38,Dent on driver door,true,690
+51,60,2021-02-27 18:54:23,Dent on driver door,false,123
+52,160,2025-08-27 16:20:35,Worn tires,true,8
+53,225,2021-05-27 15:34:25,Worn tires,true,120
+54,83,2025-09-13 16:34:44,Worn tires,true,537
+55,43,2023-12-18 20:20:15,Scratch on rear bumper,true,483
+56,145,2022-01-27 12:32:45,Chipped windshield,true,315
+57,152,2024-10-09 09:09:38,Dent on driver door,true,1
+58,26,2025-10-19 16:04:32,Scratch on rear bumper,true,89
+59,101,2024-07-02 11:45:04,Worn tires,true,59
+60,193,2024-11-29 16:14:53,Scratch on rear bumper,true,676
+61,101,2024-11-28 15:30:20,Scratch on rear bumper,true,475
+62,88,2022-08-25 09:48:09,No issues,true,587
+63,229,2025-07-01 15:04:11,No issues,true,860
+64,41,2023-08-24 10:42:54,Dent on driver door,true,262
+65,214,2021-11-14 13:06:09,Scratch on rear bumper,true,390
+66,74,2024-02-04 13:07:52,Worn tires,true,492
+67,82,2024-10-25 16:43:42,No issues,true,1112
+68,128,2023-11-27 16:57:01,Scratch on rear bumper,true,575
+69,33,2022-12-14 08:02:49,Worn tires,true,304
+70,194,2024-12-27 08:10:48,Chipped windshield,true,568
+71,79,2022-06-08 15:26:11,Worn tires,false,1070
+72,167,2021-04-05 10:36:06,Dent on driver door,true,364
+73,117,2023-11-27 12:47:16,Chipped windshield,true,202
+74,236,2021-10-04 07:51:21,Dent on driver door,true,1006
+75,11,2022-08-05 11:19:18,No issues,true,1053
+76,180,2021-07-13 22:40:13,Chipped windshield,true,541
+77,27,2023-09-27 15:45:57,Worn tires,true,1155
+78,169,2023-08-13 13:31:38,Worn tires,true,835
+79,71,2024-04-06 10:40:12,Chipped windshield,false,785
+80,134,2025-10-26 05:05:23,No issues,true,268
+81,29,2023-10-12 10:04:44,Dent on driver door,true,287
+82,62,2025-10-02 14:48:06,Scratch on rear bumper,true,536
+83,91,2021-09-27 10:16:59,Chipped windshield,false,157
+84,196,2021-05-23 12:31:30,No issues,true,562
+85,108,2023-07-01 09:12:16,Scratch on rear bumper,true,1024
+86,79,2025-06-26 08:55:44,Worn tires,true,705
+87,165,2023-12-21 06:12:11,Worn tires,true,132
+88,57,2025-12-04 09:27:09,Chipped windshield,false,15
+89,86,2024-08-23 15:17:53,Scratch on rear bumper,true,446
+90,187,2021-10-31 14:39:24,Worn tires,true,612
+91,73,2021-02-02 14:35:09,No issues,true,167
+92,64,2022-03-15 01:21:33,Scratch on rear bumper,true,300
+93,200,2023-12-24 11:07:05,No issues,false,71
+94,207,2025-02-01 17:07:41,No issues,true,825
+95,58,2022-10-29 14:27:50,Scratch on rear bumper,true,876
+96,159,2024-09-01 11:12:55,Dent on driver door,true,118
+97,91,2024-04-09 14:12:02,No issues,true,560
+98,33,2022-05-28 10:07:55,Chipped windshield,true,777
+99,200,2023-01-06 13:20:40,Chipped windshield,false,43
+100,210,2022-12-30 13:38:37,No issues,true,398
+101,15,2022-05-24 13:56:19,No issues,true,1164
+102,79,2021-10-13 10:11:27,Worn tires,false,241
+103,94,2022-12-22 10:48:16,Chipped windshield,true,953
+104,163,2024-03-30 09:42:57,Chipped windshield,true,905
+105,66,2023-09-18 14:26:42,Dent on driver door,true,701
+106,231,2024-07-26 09:03:44,Dent on driver door,true,1057
+107,206,2022-07-16 09:49:01,Dent on driver door,true,144
+108,17,2024-11-01 08:18:31,Dent on driver door,true,887
+109,215,2021-05-04 16:05:01,Dent on driver door,true,130
+110,123,2023-10-13 09:48:07,No issues,false,53
+111,98,2023-03-15 15:49:06,Dent on driver door,true,736
+112,136,2022-05-30 16:45:14,Dent on driver door,true,1096
+113,191,2024-09-24 14:56:00,Dent on driver door,true,15
+114,116,2023-11-11 16:12:20,Scratch on rear bumper,false,447
+115,218,2025-10-14 17:24:47,Dent on driver door,true,356
+116,47,2023-01-15 08:20:27,Scratch on rear bumper,true,718
+117,22,2022-02-20 10:49:47,Worn tires,true,985
+118,64,2022-11-18 16:52:10,Scratch on rear bumper,true,1164
+119,66,2022-05-11 12:57:39,Dent on driver door,true,597
+120,19,2024-03-23 11:11:47,Scratch on rear bumper,true,1068
+121,166,2024-02-02 18:56:11,Chipped windshield,true,1125
+122,46,2023-09-15 02:49:10,Dent on driver door,false,691
+123,52,2025-05-30 14:30:04,Scratch on rear bumper,false,583
+124,102,2025-04-27 08:46:18,Chipped windshield,true,321
+125,183,2021-06-08 13:21:59,Chipped windshield,true,654
+126,117,2022-12-29 13:43:45,No issues,true,847
+127,58,2025-12-28 23:05:28,Scratch on rear bumper,true,298
+128,39,2024-03-10 15:05:03,Scratch on rear bumper,true,88
+129,100,2023-05-08 13:15:04,No issues,false,1102
+130,114,2022-04-08 17:00:07,Worn tires,true,888
+131,71,2021-02-22 17:06:47,No issues,false,181
+132,143,2022-07-11 16:25:38,Worn tires,true,74
+133,47,2025-06-19 12:53:54,Worn tires,true,832
+134,54,2024-09-12 11:15:08,Dent on driver door,true,1177
+135,182,2021-05-07 13:58:07,No issues,false,744
+136,59,2023-11-28 11:42:23,Dent on driver door,true,295
+137,176,2024-03-13 08:51:47,Worn tires,true,141
+138,139,2023-06-27 17:23:21,Chipped windshield,true,248
+139,144,2024-01-15 08:23:13,No issues,true,243
+140,202,2023-06-08 15:15:22,Worn tires,true,1024
+141,43,2021-07-28 11:53:55,No issues,true,345
+142,206,2024-04-23 14:25:51,Scratch on rear bumper,true,22
+143,217,2025-02-19 14:26:40,No issues,true,743
+144,58,2021-10-19 10:12:22,Chipped windshield,true,776
+145,120,2024-01-17 13:09:38,No issues,false,289
+146,30,2024-03-02 15:19:52,Worn tires,true,1019
+147,37,2023-04-20 08:28:29,Worn tires,true,281
+148,69,2022-08-12 09:43:36,Dent on driver door,true,436
+149,64,2022-08-09 12:30:28,Dent on driver door,false,90
+150,115,2021-01-20 12:45:00,No issues,true,984
+151,82,2023-02-02 14:31:40,No issues,true,66
+152,117,2022-09-04 10:24:26,No issues,false,492
+153,106,2025-07-30 12:46:38,Worn tires,true,424
+154,30,2024-05-10 16:42:54,Scratch on rear bumper,true,1034
+155,134,2023-08-05 18:48:47,No issues,true,393
+156,89,2022-04-19 09:49:59,No issues,true,443
+157,85,2025-03-11 16:30:38,Worn tires,true,393
+158,110,2021-08-11 19:43:45,Worn tires,false,133
+159,134,2022-08-28 09:29:01,Scratch on rear bumper,true,981
+160,224,2024-12-11 13:04:13,Chipped windshield,true,614
+161,111,2025-04-16 17:03:32,Scratch on rear bumper,true,355
+162,81,2025-11-21 10:25:36,Worn tires,true,937
+163,180,2025-08-28 14:37:10,Chipped windshield,true,820
+164,169,2021-10-07 15:09:33,No issues,true,288
+165,28,2023-08-31 10:34:36,Scratch on rear bumper,true,1013
+166,13,2024-08-18 16:54:36,Scratch on rear bumper,true,508
+167,173,2023-08-02 19:36:40,Dent on driver door,true,466
+168,94,2025-06-23 10:19:50,Dent on driver door,true,151
+169,153,2022-12-27 09:14:54,Chipped windshield,true,845
+170,53,2022-05-09 06:00:35,Worn tires,true,91
+171,154,2022-08-09 11:03:48,Chipped windshield,true,246
+172,36,2021-11-27 12:20:22,Worn tires,true,725
+173,146,2022-06-19 12:12:35,Dent on driver door,false,566
+174,105,2023-06-01 16:27:48,Scratch on rear bumper,true,1061
+175,227,2025-10-28 10:33:23,Scratch on rear bumper,true,275
+176,137,2022-08-06 13:15:25,Worn tires,true,796
+177,229,2023-05-21 11:07:31,Scratch on rear bumper,true,724
+178,235,2025-05-21 14:20:36,Dent on driver door,true,714
+179,19,2021-03-15 17:07:36,Dent on driver door,true,98
+180,78,2023-02-28 14:30:44,Dent on driver door,true,1134
+181,93,2021-09-27 11:43:34,Worn tires,true,606
+182,96,2024-01-27 15:48:58,Chipped windshield,false,421
+183,217,2022-06-27 09:42:23,Dent on driver door,true,711
+184,111,2025-11-02 11:27:30,Worn tires,true,1107
+185,79,2021-05-04 08:31:32,No issues,true,625
+186,10,2024-01-10 10:51:41,Chipped windshield,true,213
+187,42,2025-02-22 12:52:04,Scratch on rear bumper,false,450
+188,5,2023-10-21 14:40:30,Worn tires,true,706
+189,45,2021-05-29 16:32:45,Scratch on rear bumper,true,580
+190,131,2021-02-22 11:48:00,Chipped windshield,true,419
+191,154,2022-06-07 16:24:18,Scratch on rear bumper,true,69
+192,211,2022-02-20 11:12:20,Worn tires,true,415
+193,200,2023-04-06 19:38:09,Chipped windshield,true,474
+194,130,2023-07-14 11:47:40,Scratch on rear bumper,true,470
+195,74,2021-01-31 15:08:51,Chipped windshield,true,775
+196,98,2021-03-06 17:59:57,Worn tires,false,884
+197,65,2025-08-20 17:19:23,Chipped windshield,true,698
+198,90,2025-10-17 09:26:27,Scratch on rear bumper,false,600
+199,12,2025-07-18 15:27:17,Scratch on rear bumper,true,524
+200,58,2024-10-31 10:06:27,No issues,true,73
+201,192,2025-05-07 11:51:32,No issues,true,769
+202,155,2025-04-17 12:38:27,Chipped windshield,true,854
+203,202,2023-06-18 15:10:22,Worn tires,false,1018
+204,158,2024-11-11 12:35:05,Dent on driver door,true,736
+205,238,2025-04-12 17:33:52,Worn tires,true,1112
+206,87,2022-10-25 16:42:14,Dent on driver door,true,477
+207,171,2022-03-06 13:47:50,Dent on driver door,true,647
+208,8,2025-01-23 14:52:38,Worn tires,true,729
+209,159,2021-04-16 16:41:04,Chipped windshield,true,926
+210,207,2023-06-12 17:47:28,Chipped windshield,true,471
+211,126,2021-05-06 16:54:54,Scratch on rear bumper,true,905
+212,240,2024-08-12 09:49:19,Chipped windshield,true,294
+213,210,2025-12-06 14:11:33,Worn tires,false,718
+214,181,2025-01-30 14:09:19,No issues,true,367
+215,104,2022-05-15 16:33:31,Scratch on rear bumper,true,1120
+216,28,2021-03-23 10:57:55,No issues,true,1026
+217,225,2023-10-23 03:49:10,Scratch on rear bumper,true,315
+218,56,2021-05-14 14:17:48,Scratch on rear bumper,true,1056
+219,44,2021-08-17 16:00:57,Dent on driver door,true,1022
+220,66,2022-07-09 17:35:38,Worn tires,true,998
+221,169,2023-04-12 10:51:49,Scratch on rear bumper,true,445
+222,172,2024-10-28 13:19:51,No issues,true,801
+223,209,2021-07-09 11:58:00,Dent on driver door,true,715
+224,216,2023-01-09 15:29:02,Scratch on rear bumper,true,997
+225,232,2023-05-25 11:01:55,Worn tires,true,57
+226,24,2024-03-29 15:28:32,Scratch on rear bumper,true,781
+227,59,2021-04-22 11:37:24,Chipped windshield,true,224
+228,116,2021-04-05 08:19:24,Chipped windshield,true,573
+229,42,2025-04-23 06:40:45,Chipped windshield,false,1043
+230,178,2025-10-07 14:22:58,No issues,false,192
+231,236,2021-07-13 13:07:19,Scratch on rear bumper,false,4
+232,41,2025-08-29 15:42:31,Chipped windshield,true,219
+233,54,2022-08-05 10:42:40,No issues,true,676
+234,1,2025-09-01 12:04:59,Worn tires,false,1046
+235,208,2024-01-11 13:58:02,Worn tires,true,378
+236,13,2021-08-10 10:05:01,Chipped windshield,true,526
+237,90,2024-05-18 17:30:17,Worn tires,true,1088
+238,138,2021-11-25 13:24:20,Scratch on rear bumper,true,46
+239,102,2021-03-30 11:48:21,No issues,true,548
+240,80,2025-11-05 08:26:01,No issues,true,372
+241,43,2023-03-29 14:29:58,Chipped windshield,true,545
+242,153,2022-06-07 13:46:35,No issues,true,319
+243,121,2022-07-25 15:13:07,Dent on driver door,true,771
+244,212,2024-02-03 13:24:39,Scratch on rear bumper,true,743
+245,9,2022-01-23 14:46:17,Chipped windshield,true,288
+246,15,2023-08-15 15:11:46,Scratch on rear bumper,true,876
+247,50,2021-07-09 19:34:53,Scratch on rear bumper,true,552
+248,168,2022-06-18 12:33:01,Scratch on rear bumper,true,1001
+249,32,2023-02-06 14:29:44,Chipped windshield,true,946
+250,230,2025-03-04 09:22:10,No issues,true,264
+251,136,2024-03-17 11:57:18,Scratch on rear bumper,true,137
+252,50,2025-09-24 13:10:29,Worn tires,true,443
+253,72,2024-04-05 15:04:43,Dent on driver door,true,26
+254,37,2024-01-15 23:44:29,No issues,true,407
+255,14,2023-05-20 09:16:36,Worn tires,true,1196
+256,89,2024-04-17 14:40:22,Scratch on rear bumper,true,482
+257,152,2023-12-23 22:08:53,Scratch on rear bumper,true,704
+258,81,2024-05-10 18:10:57,Scratch on rear bumper,true,7
+259,42,2022-08-23 09:24:00,No issues,true,382
+260,208,2021-06-09 12:59:37,Chipped windshield,true,769
+261,195,2025-09-25 13:56:19,Chipped windshield,true,795
+262,30,2025-04-02 15:36:08,Chipped windshield,true,924
+263,80,2025-06-20 14:44:55,Scratch on rear bumper,true,30
+264,168,2021-08-22 19:32:41,No issues,true,420
+265,86,2024-09-22 14:45:48,Chipped windshield,true,1005
+266,120,2024-08-19 14:47:15,Scratch on rear bumper,true,1161
+267,165,2023-03-03 12:36:30,Dent on driver door,true,281
+268,198,2024-12-03 22:15:37,Scratch on rear bumper,true,1125
+269,158,2025-05-06 15:28:13,No issues,false,301
+270,208,2023-10-25 18:12:39,Worn tires,true,762
+271,209,2025-04-28 08:14:55,Worn tires,false,144
+272,111,2024-04-26 14:26:20,Scratch on rear bumper,true,134
+273,146,2024-06-02 07:38:26,Scratch on rear bumper,false,535
+274,237,2025-02-12 11:39:26,Scratch on rear bumper,true,1128
+275,113,2021-07-02 15:52:54,No issues,true,69
+276,234,2023-09-01 17:25:28,Worn tires,true,533
+277,23,2025-08-28 13:19:28,Worn tires,true,224
+278,225,2023-10-08 10:51:07,Worn tires,false,82
+279,219,2022-12-14 14:45:28,Worn tires,false,635
+280,25,2025-08-25 13:07:01,Worn tires,true,935
+281,229,2023-06-28 14:50:08,No issues,true,950
+282,72,2024-05-14 12:47:46,No issues,true,525
+283,159,2025-01-30 14:47:59,No issues,true,427
+284,104,2022-03-14 14:29:30,No issues,true,1060
+285,104,2021-06-02 12:58:43,No issues,true,382
+286,152,2024-12-27 17:42:18,Dent on driver door,true,177
+287,106,2025-04-05 17:47:06,Scratch on rear bumper,true,541
+288,84,2024-11-12 14:54:43,Scratch on rear bumper,true,271
+289,193,2023-03-21 08:35:48,Scratch on rear bumper,true,188
+290,93,2021-09-10 13:10:24,No issues,true,841
+291,89,2023-05-21 13:29:09,No issues,true,339
+292,149,2021-06-04 20:31:25,Chipped windshield,true,992
+293,45,2025-09-17 11:35:24,Dent on driver door,true,825
+294,184,2022-05-15 15:05:49,Dent on driver door,true,1085
+295,65,2025-02-09 15:11:57,Worn tires,true,169
+296,132,2023-03-02 16:31:11,Chipped windshield,true,844
+297,66,2025-06-20 14:53:27,Scratch on rear bumper,true,264
+298,138,2022-12-31 18:16:12,Chipped windshield,true,551
+299,99,2024-06-21 08:47:56,No issues,true,324
+300,179,2023-08-09 15:16:33,Scratch on rear bumper,true,239
+301,112,2024-01-08 17:54:57,Scratch on rear bumper,true,864
+302,12,2021-08-10 10:12:29,No issues,true,175
+303,92,2023-02-06 10:00:23,Dent on driver door,true,736
+304,20,2025-09-26 15:57:55,Worn tires,true,14
+305,168,2022-01-23 15:35:54,Chipped windshield,true,773
+306,121,2024-03-09 11:45:39,Chipped windshield,true,1048
+307,130,2021-09-06 08:32:38,Dent on driver door,true,1110
+308,58,2022-06-11 14:04:32,Worn tires,true,439
+309,12,2021-03-05 11:26:13,Scratch on rear bumper,true,405
+310,219,2025-12-25 08:39:21,Worn tires,true,365
+311,65,2023-02-23 10:04:08,No issues,true,459
+312,148,2022-02-15 08:30:05,Worn tires,false,313
+313,34,2024-11-11 19:36:21,Dent on driver door,true,339
+314,92,2023-01-22 10:56:05,Worn tires,true,750
+315,72,2024-04-18 16:37:31,No issues,true,1042
+316,143,2024-12-31 13:33:46,Dent on driver door,true,194
+317,1,2023-02-16 09:39:02,Chipped windshield,true,1180
+318,142,2022-11-22 15:21:18,No issues,true,771
+319,166,2021-07-28 13:33:09,Chipped windshield,true,60
+320,148,2023-04-10 12:36:51,No issues,true,976
+321,143,2025-02-19 13:01:26,Scratch on rear bumper,true,734
+322,145,2023-12-09 11:05:21,Chipped windshield,true,941
+323,121,2025-01-26 09:09:45,No issues,true,858
+324,15,2021-02-28 12:12:53,Chipped windshield,false,642
+325,50,2024-04-15 12:45:52,Scratch on rear bumper,true,887
+326,18,2022-12-03 10:27:59,No issues,true,959
+327,6,2021-10-28 09:17:11,Dent on driver door,true,79
+328,112,2022-09-22 20:49:27,Worn tires,true,769
+329,62,2023-10-09 13:28:49,Scratch on rear bumper,true,635
+330,182,2025-11-14 10:51:15,Scratch on rear bumper,true,1105
+331,78,2023-08-10 23:58:36,Worn tires,true,770
+332,214,2022-04-13 11:40:05,Chipped windshield,true,255
+333,101,2023-05-09 17:44:13,Dent on driver door,true,281
+334,122,2021-10-12 00:11:09,Worn tires,true,808
+335,147,2022-03-15 15:55:30,Dent on driver door,false,77
+336,130,2022-03-27 13:38:06,Chipped windshield,true,390
+337,158,2022-02-06 10:15:04,No issues,true,30
+338,6,2023-01-22 08:51:01,No issues,true,875
+339,189,2024-11-18 13:34:10,Worn tires,false,1012
+340,156,2023-09-02 12:18:03,Scratch on rear bumper,true,658
+341,200,2025-12-19 08:51:56,Worn tires,true,1097
+342,44,2025-10-27 19:39:04,No issues,true,1064
+343,36,2023-12-12 10:52:21,Worn tires,true,601
+344,12,2024-08-27 18:40:03,Dent on driver door,true,6
+345,101,2025-11-08 12:09:11,Chipped windshield,true,920
+346,240,2023-04-15 09:26:03,No issues,true,413
+347,37,2025-07-23 14:23:49,Worn tires,true,515
+348,137,2025-12-30 15:09:37,Scratch on rear bumper,false,470
+349,100,2021-02-06 13:04:57,Worn tires,true,452
+350,103,2023-04-05 15:38:36,Chipped windshield,true,514
+351,99,2021-07-17 12:03:56,Chipped windshield,true,165
+352,44,2023-06-01 11:18:16,Worn tires,true,569
+353,104,2024-02-19 16:08:54,No issues,false,168
+354,167,2024-04-17 15:24:28,Worn tires,true,211
+355,119,2025-09-11 10:33:35,No issues,true,414
+356,41,2025-10-02 15:08:23,Worn tires,true,911
+357,67,2024-02-19 12:59:20,Chipped windshield,true,385
+358,174,2024-12-31 13:31:38,Scratch on rear bumper,true,723
+359,112,2023-07-22 15:46:37,Worn tires,true,1039
+360,49,2024-09-21 08:06:59,Chipped windshield,true,452
+361,238,2024-11-17 09:49:52,No issues,true,282
+362,77,2023-10-16 13:58:22,Worn tires,true,247
+363,179,2023-06-12 12:42:34,Dent on driver door,true,978
+364,142,2021-08-22 12:54:49,No issues,true,382
+365,64,2022-04-13 12:02:41,Chipped windshield,true,926
+366,23,2023-11-21 09:52:55,Scratch on rear bumper,true,671
+367,123,2025-12-20 07:33:57,Scratch on rear bumper,true,726
+368,183,2025-04-24 10:41:32,Dent on driver door,true,851
+369,185,2021-05-21 15:01:19,Worn tires,true,258
+370,229,2024-08-06 14:29:21,Scratch on rear bumper,false,311
+371,167,2024-11-05 09:30:59,No issues,true,858
+372,164,2023-01-12 11:41:48,Worn tires,true,721
+373,35,2023-10-29 10:41:03,Chipped windshield,true,806
+374,202,2024-03-05 10:14:24,Worn tires,true,169
+375,3,2024-09-03 17:02:05,Worn tires,true,623
+376,27,2021-12-09 14:55:58,Chipped windshield,true,548
+377,171,2023-01-22 17:32:12,No issues,true,680
+378,227,2025-04-13 10:45:53,Chipped windshield,true,1014
+379,103,2021-10-09 09:42:30,Dent on driver door,true,509
+380,97,2024-04-04 07:38:22,Dent on driver door,true,389
+381,168,2022-11-08 15:35:46,Scratch on rear bumper,true,495
+382,73,2023-03-16 09:22:00,Worn tires,true,14
+383,115,2022-09-14 10:50:38,No issues,true,572
+384,92,2024-12-02 13:24:52,Chipped windshield,true,993
+385,228,2025-07-12 16:33:58,Dent on driver door,true,826
+386,101,2023-06-26 09:12:05,Chipped windshield,true,605
+387,221,2021-06-25 08:50:49,Worn tires,true,713
+388,198,2023-09-17 16:12:05,Scratch on rear bumper,false,41
+389,37,2024-07-22 11:35:31,Worn tires,false,783
+390,90,2025-12-27 10:38:05,Worn tires,true,1155
+391,107,2023-10-19 14:55:47,No issues,true,315
+392,12,2024-07-04 08:30:29,Dent on driver door,true,77
+393,98,2025-10-11 13:20:57,Chipped windshield,true,188
+394,218,2022-09-14 14:53:03,Dent on driver door,true,1118
+395,216,2025-11-03 16:52:21,No issues,true,834
+396,150,2021-05-10 13:32:13,Chipped windshield,true,1163
+397,79,2025-04-27 17:46:18,No issues,false,713
+398,77,2022-09-27 15:34:31,No issues,true,1051
+399,155,2022-10-19 15:22:49,Chipped windshield,true,840
+400,62,2025-11-10 21:06:04,Worn tires,true,1144
+401,141,2025-03-10 17:34:48,Chipped windshield,true,1044
+402,84,2022-09-24 09:17:15,Dent on driver door,true,290
+403,176,2023-08-01 16:53:52,Worn tires,true,693
+404,72,2023-09-09 10:14:26,Worn tires,true,913
+405,152,2023-12-15 09:23:56,Scratch on rear bumper,true,625
+406,182,2022-05-22 13:24:45,No issues,true,979
+407,192,2025-07-30 17:56:51,Worn tires,true,656
+408,113,2023-03-09 17:36:16,No issues,false,15
+409,42,2025-05-22 17:55:23,Dent on driver door,true,1075
+410,90,2021-12-17 15:03:37,Scratch on rear bumper,true,1116
+411,23,2022-01-15 08:51:34,No issues,true,719
+412,231,2023-03-11 04:11:24,No issues,true,260
+413,118,2024-02-09 17:51:41,No issues,true,88
+414,222,2025-06-07 10:37:25,Scratch on rear bumper,true,824
+415,226,2025-12-07 09:34:34,Dent on driver door,true,195
+416,231,2024-03-16 13:53:25,Scratch on rear bumper,true,796
+417,80,2023-10-25 14:04:32,Dent on driver door,true,975
+418,16,2022-05-11 15:12:08,Dent on driver door,true,350
+419,22,2023-08-15 18:10:39,Worn tires,true,619
+420,237,2025-10-09 15:19:34,Worn tires,false,947
+421,238,2022-05-27 19:01:49,Scratch on rear bumper,true,1005
+422,70,2023-01-20 15:19:19,Worn tires,true,1126
+423,128,2023-10-19 17:32:26,Dent on driver door,true,793
+424,152,2024-04-07 13:47:37,Worn tires,true,47
+425,101,2024-12-12 13:27:00,Dent on driver door,true,679
+426,76,2025-09-13 16:17:17,Worn tires,true,439
+427,69,2022-02-27 11:01:52,No issues,false,1199
+428,217,2022-04-07 08:37:27,Scratch on rear bumper,true,838
+429,115,2023-06-14 07:18:29,Worn tires,true,256
+430,171,2021-07-05 11:19:57,Chipped windshield,false,94
+431,23,2022-06-18 17:45:05,Worn tires,true,416
+432,195,2021-10-20 12:54:12,Chipped windshield,true,101
+433,203,2021-02-11 08:23:18,Worn tires,true,979
+434,221,2024-08-03 11:13:09,Chipped windshield,false,564
+435,65,2025-05-20 11:24:07,Worn tires,true,532
+436,21,2022-07-28 16:50:11,No issues,true,222
+437,71,2024-02-02 12:39:07,Chipped windshield,true,363
+438,62,2025-02-24 15:56:31,Dent on driver door,true,1164
+439,71,2025-01-27 09:04:58,Dent on driver door,true,472
+440,188,2025-09-08 11:34:24,Scratch on rear bumper,true,481
+441,139,2025-12-01 08:43:31,Worn tires,true,500
+442,19,2025-06-29 19:01:21,Scratch on rear bumper,true,1014
+443,10,2021-02-08 15:24:36,Chipped windshield,false,593
+444,106,2022-02-26 17:27:19,Chipped windshield,true,53
+445,233,2023-01-16 13:42:58,Scratch on rear bumper,true,895
+446,165,2025-01-04 14:55:41,Worn tires,true,1128
+447,154,2022-01-31 15:07:04,Worn tires,true,10
+448,99,2024-05-10 09:02:15,Scratch on rear bumper,true,25
+449,153,2022-12-11 12:06:50,Scratch on rear bumper,true,309
+450,166,2023-04-24 16:44:14,Chipped windshield,true,95
+451,31,2021-08-13 13:25:55,Scratch on rear bumper,true,652
+452,56,2023-08-18 13:26:48,Worn tires,true,110
+453,211,2023-07-19 11:59:37,Worn tires,true,561
+454,36,2022-05-13 15:44:24,Scratch on rear bumper,true,374
+455,47,2022-12-19 14:38:16,Dent on driver door,true,442
+456,128,2021-12-24 13:36:28,Chipped windshield,true,27
+457,151,2024-08-13 08:35:17,No issues,true,1028
+458,173,2021-06-17 11:39:24,Chipped windshield,false,550
+459,121,2025-10-23 17:45:19,Worn tires,true,626
+460,84,2025-01-13 08:07:19,Chipped windshield,true,818
+461,5,2021-06-22 11:22:37,Worn tires,true,349
+462,55,2023-09-25 16:36:34,Scratch on rear bumper,true,283
+463,1,2024-08-26 10:42:40,No issues,true,358
+464,83,2021-01-12 09:15:37,Dent on driver door,false,1081
+465,171,2022-09-28 16:58:21,Dent on driver door,true,530
+466,128,2023-09-23 09:48:57,No issues,false,1018
+467,151,2023-08-16 14:33:48,No issues,true,1059
+468,224,2025-03-26 09:41:11,Dent on driver door,true,230
+469,11,2024-09-01 09:55:06,Dent on driver door,true,715
+470,42,2022-03-09 11:45:13,No issues,false,802
+471,183,2023-02-22 11:13:57,Chipped windshield,true,1037
+472,237,2024-04-23 10:31:12,Worn tires,true,1200
+473,45,2022-12-26 13:55:37,No issues,true,1131
+474,238,2025-06-19 15:16:01,No issues,true,873
+475,213,2023-06-03 17:36:35,Worn tires,false,660
+476,219,2024-06-29 09:23:29,Scratch on rear bumper,true,1023
+477,195,2021-06-08 09:40:55,Chipped windshield,true,1199
+478,233,2022-05-05 08:22:24,Chipped windshield,true,1177
+479,36,2025-02-28 17:50:15,No issues,false,457
+480,105,2021-04-01 11:10:21,No issues,true,995
+481,144,2025-01-02 12:30:07,Scratch on rear bumper,true,481
+482,38,2023-08-02 11:46:16,Dent on driver door,true,655
+483,47,2022-05-24 13:20:45,Scratch on rear bumper,true,477
+484,66,2024-01-19 12:14:04,Scratch on rear bumper,true,278
+485,96,2024-06-23 14:18:56,Worn tires,true,540
+486,189,2024-03-11 16:16:26,Chipped windshield,true,524
+487,45,2025-07-07 08:46:59,Scratch on rear bumper,true,1004
+488,26,2023-06-03 13:42:32,Worn tires,true,296
+489,239,2022-01-29 12:57:30,Scratch on rear bumper,true,773
+490,159,2024-04-08 15:59:07,Chipped windshield,true,65
+491,67,2023-09-25 13:29:33,Dent on driver door,true,607
+492,236,2021-11-28 13:39:50,Chipped windshield,true,953
+493,146,2021-01-02 13:42:43,Dent on driver door,true,1026
+494,141,2024-04-16 06:29:18,Dent on driver door,true,726
+495,168,2024-05-28 14:42:43,Dent on driver door,true,160
+496,145,2024-11-10 07:03:19,Dent on driver door,false,1027
+497,104,2025-05-18 15:59:41,Worn tires,true,604
+498,1,2024-06-03 13:23:12,Chipped windshield,true,977
+499,39,2023-12-13 16:12:36,No issues,false,542
+500,43,2022-08-20 07:19:48,Dent on driver door,true,862
+501,145,2023-12-21 16:55:47,Worn tires,true,164
+502,158,2023-06-14 10:55:06,Dent on driver door,true,489
+503,85,2024-09-02 12:48:57,Chipped windshield,true,719
+504,31,2023-08-29 09:13:44,Dent on driver door,true,416
+505,210,2024-08-26 09:13:57,Scratch on rear bumper,true,398
+506,195,2025-01-31 12:44:29,Scratch on rear bumper,true,621
+507,123,2024-04-12 10:26:58,Chipped windshield,true,246
+508,120,2021-05-24 10:37:37,Chipped windshield,true,734
+509,176,2021-04-06 14:05:39,Worn tires,false,124
+510,76,2025-12-20 09:05:11,Dent on driver door,true,152
+511,169,2023-07-16 19:02:12,Chipped windshield,true,256
+512,226,2021-07-12 10:18:59,Dent on driver door,true,795
+513,221,2021-04-11 16:04:08,Chipped windshield,true,859
+514,155,2022-02-01 10:49:48,Worn tires,true,355
+515,201,2021-01-11 14:42:05,Worn tires,true,182
+516,168,2025-05-30 13:44:51,Scratch on rear bumper,true,839
+517,168,2021-06-21 14:47:06,Chipped windshield,true,182
+518,60,2022-11-24 12:46:47,No issues,true,784
+519,112,2021-03-09 17:22:30,No issues,true,130
+520,82,2025-02-09 10:22:29,Chipped windshield,false,642
+521,238,2025-07-13 05:04:42,No issues,true,813
+522,220,2023-02-10 12:13:11,Dent on driver door,true,1184
+523,146,2025-09-15 09:31:13,Chipped windshield,true,828
+524,14,2023-09-30 14:52:26,Scratch on rear bumper,true,318
+525,72,2024-01-05 15:13:19,Worn tires,false,538
+526,114,2022-03-31 03:43:52,Chipped windshield,true,1
+527,96,2025-11-11 10:37:39,Chipped windshield,true,598
+528,240,2022-10-18 08:55:45,Dent on driver door,false,888
+529,129,2023-04-24 11:02:13,No issues,true,33
+530,171,2024-11-09 10:55:44,Worn tires,true,115
+531,208,2022-12-03 14:53:06,Chipped windshield,true,432
+532,13,2024-10-23 14:27:40,Dent on driver door,true,74
+533,4,2024-10-25 11:47:48,Dent on driver door,true,1123
+534,2,2021-02-15 09:05:52,Scratch on rear bumper,true,434
+535,215,2024-06-12 11:01:16,Dent on driver door,true,930
+536,26,2023-03-05 13:59:45,No issues,true,288
+537,201,2024-06-24 12:51:12,Chipped windshield,true,321
+538,211,2021-12-12 05:01:41,Chipped windshield,true,340
+539,22,2021-02-20 18:33:16,Dent on driver door,true,194
+540,36,2025-10-29 18:43:51,Worn tires,true,1047
+541,200,2023-01-30 10:03:49,Worn tires,true,526
+542,23,2024-12-17 14:19:08,Dent on driver door,true,1049
+543,91,2023-04-17 08:25:24,Chipped windshield,true,11
+544,33,2024-06-27 15:57:13,No issues,true,1145
+545,30,2025-10-19 16:21:08,Scratch on rear bumper,true,1149
+546,106,2023-04-28 10:05:19,Scratch on rear bumper,true,780
+547,126,2023-02-10 13:05:23,Scratch on rear bumper,true,949
+548,197,2025-03-21 13:13:41,No issues,true,23
+549,200,2024-02-13 14:55:27,Dent on driver door,true,579
+550,148,2023-09-27 07:39:15,Worn tires,true,234
+551,147,2024-08-05 17:22:12,Chipped windshield,true,729
+552,132,2025-02-24 10:30:05,Worn tires,true,293
+553,216,2022-05-29 09:18:25,Dent on driver door,true,807
+554,41,2024-06-18 09:36:31,Chipped windshield,true,997
+555,199,2023-07-11 16:56:31,No issues,true,948
+556,212,2022-06-30 11:41:55,Worn tires,true,723
+557,100,2024-12-27 08:23:47,Worn tires,true,782
+558,218,2023-01-31 16:21:41,No issues,true,135
+559,118,2023-08-26 15:37:56,Scratch on rear bumper,true,582
+560,175,2025-04-21 08:56:02,Chipped windshield,true,858
+561,130,2025-07-22 11:49:22,Chipped windshield,true,319
+562,34,2024-01-01 11:48:26,No issues,true,1086
+563,74,2022-06-12 14:25:00,Worn tires,true,1140
+564,205,2025-07-30 10:43:13,Scratch on rear bumper,true,53
+565,122,2024-09-01 09:05:11,Scratch on rear bumper,true,961
+566,39,2023-06-18 09:35:42,Dent on driver door,true,1003
+567,153,2024-02-06 16:41:09,Chipped windshield,true,995
+568,131,2023-04-12 15:57:58,Chipped windshield,true,1043
+569,239,2022-07-16 14:03:27,Scratch on rear bumper,false,299
+570,185,2021-08-16 12:58:56,Chipped windshield,true,848
+571,70,2024-08-10 15:27:11,Dent on driver door,true,251
+572,41,2021-11-10 11:44:31,No issues,true,3
+573,213,2023-12-03 11:09:28,Chipped windshield,false,636
+574,195,2023-11-05 08:27:12,Chipped windshield,true,832
+575,90,2024-04-29 10:34:03,No issues,true,252
+576,112,2022-10-18 09:10:40,Scratch on rear bumper,false,1073
+577,211,2024-05-19 13:36:11,Worn tires,true,808
+578,63,2022-09-07 15:40:41,Scratch on rear bumper,true,179
+579,3,2022-12-03 12:36:45,Dent on driver door,true,512
+580,63,2023-12-06 13:26:28,Worn tires,true,661
+581,133,2022-10-15 10:43:46,Scratch on rear bumper,true,48
+582,1,2025-12-13 11:38:00,Worn tires,true,1025
+583,103,2023-01-19 17:30:10,Dent on driver door,true,407
+584,88,2024-01-23 15:41:41,No issues,true,1062
+585,44,2024-01-10 09:24:35,Chipped windshield,false,586
+586,89,2021-09-05 08:41:33,Dent on driver door,true,178
+587,37,2021-12-10 16:41:48,Dent on driver door,true,755
+588,31,2023-10-04 11:51:12,Scratch on rear bumper,true,471
+589,150,2022-04-08 16:54:20,Scratch on rear bumper,true,901
+590,117,2024-03-26 01:29:36,Worn tires,true,928
+591,212,2023-11-27 15:27:46,Chipped windshield,true,114
+592,47,2023-08-06 21:10:59,No issues,true,1128
+593,202,2023-03-28 06:46:59,Worn tires,true,394
+594,208,2024-02-29 08:00:53,Dent on driver door,true,179
+595,19,2021-04-12 09:53:01,Dent on driver door,true,262
+596,162,2023-07-12 09:07:56,Scratch on rear bumper,true,711
+597,45,2023-08-04 14:33:27,Dent on driver door,true,1140
+598,101,2021-04-29 17:09:37,Dent on driver door,true,83
+599,133,2021-05-16 15:48:38,Chipped windshield,true,1040
+600,81,2025-06-27 11:52:58,Chipped windshield,true,133
+601,60,2024-08-01 11:55:51,Scratch on rear bumper,true,291
+602,101,2024-05-29 14:43:14,Chipped windshield,true,670
+603,179,2022-03-07 14:34:44,Worn tires,false,913
+604,11,2024-08-24 16:21:27,Worn tires,true,27
+605,225,2022-06-28 14:17:35,Chipped windshield,true,571
+606,181,2022-10-09 08:00:41,No issues,true,106
+607,14,2025-03-22 11:10:42,Chipped windshield,true,634
+608,100,2023-08-19 18:17:16,Scratch on rear bumper,true,497
+609,197,2022-10-27 09:39:09,Worn tires,true,296
+610,233,2021-11-28 15:07:31,Chipped windshield,false,132
+611,64,2021-01-15 09:19:33,Scratch on rear bumper,true,106
+612,78,2025-04-02 15:22:11,Dent on driver door,true,1143
+613,87,2022-02-26 13:33:23,Dent on driver door,true,1152
+614,27,2021-08-15 17:37:12,Scratch on rear bumper,true,982
+615,161,2025-06-06 16:30:16,Chipped windshield,true,7
+616,138,2023-05-25 14:38:44,Chipped windshield,true,773
+617,66,2024-09-17 13:47:11,Dent on driver door,true,1159
+618,64,2024-11-08 09:31:20,Chipped windshield,true,184
+619,121,2022-05-28 11:14:39,Dent on driver door,true,890
+620,25,2023-01-25 13:19:46,Chipped windshield,true,1041
+621,224,2024-11-24 15:47:07,Worn tires,false,528
+622,205,2025-12-31 06:16:42,Dent on driver door,true,471
+623,35,2023-07-23 09:40:53,Worn tires,true,484
+624,183,2021-10-10 11:32:06,Scratch on rear bumper,false,66
+625,200,2024-02-08 15:48:40,Scratch on rear bumper,true,257
+626,136,2024-06-25 21:49:22,Chipped windshield,true,157
+627,97,2025-08-07 13:27:03,Dent on driver door,true,22
+628,77,2021-01-02 11:33:36,Worn tires,false,163
+629,27,2024-06-10 14:04:56,Scratch on rear bumper,true,537
+630,233,2022-01-30 11:34:03,No issues,true,188
+631,119,2024-03-11 13:11:06,No issues,true,1126
+632,231,2021-09-30 16:54:56,No issues,true,1085
+633,140,2023-03-12 11:09:00,Chipped windshield,true,935
+634,30,2022-06-24 06:45:48,Chipped windshield,true,927
+635,112,2022-05-09 14:00:45,Dent on driver door,true,1032
+636,68,2023-10-28 09:40:47,Scratch on rear bumper,true,332
+637,79,2022-10-31 13:10:10,No issues,true,230
+638,141,2022-03-17 11:52:53,Chipped windshield,true,682
+639,2,2021-11-24 18:58:56,Chipped windshield,true,879
+640,84,2021-01-24 16:31:32,No issues,true,776
+641,123,2022-04-22 03:25:19,No issues,true,51
+642,79,2024-10-13 14:34:44,Scratch on rear bumper,false,674
+643,194,2023-01-19 15:33:23,No issues,true,660
+644,159,2021-11-06 10:52:50,Dent on driver door,true,225
+645,61,2024-09-10 08:15:43,Scratch on rear bumper,true,690
+646,235,2021-09-09 15:09:07,Worn tires,true,160
+647,12,2022-09-11 11:31:57,Chipped windshield,true,603
+648,42,2025-09-09 09:19:40,No issues,true,1150
+649,194,2024-05-12 14:38:53,Scratch on rear bumper,false,1134
+650,9,2022-11-17 08:40:16,Scratch on rear bumper,true,18
+651,165,2024-11-12 11:08:49,Scratch on rear bumper,false,218
+652,123,2023-04-03 13:25:44,Chipped windshield,true,750
+653,150,2024-07-10 14:14:20,Scratch on rear bumper,true,92
+654,159,2025-11-25 14:55:57,Chipped windshield,true,1013
+655,5,2023-01-21 14:31:14,No issues,true,190
+656,176,2023-03-24 10:45:01,No issues,true,182
+657,92,2025-12-20 22:18:50,Chipped windshield,true,799
+658,37,2025-08-27 11:05:48,Scratch on rear bumper,true,527
+659,199,2021-09-23 12:09:11,Worn tires,true,1133
+660,238,2021-09-10 12:34:55,Scratch on rear bumper,true,276
+661,179,2022-08-01 17:46:19,Chipped windshield,false,128
+662,58,2025-01-10 16:44:43,Scratch on rear bumper,true,606
+663,52,2021-02-05 14:22:13,Dent on driver door,false,793
+664,133,2025-03-20 17:00:12,Chipped windshield,true,971
+665,52,2022-06-04 20:14:21,Scratch on rear bumper,false,761
+666,190,2021-11-17 15:53:55,Dent on driver door,true,577
+667,224,2024-04-06 11:53:29,Dent on driver door,true,981
+668,88,2021-04-21 10:57:41,No issues,true,337
+669,57,2024-03-22 09:14:22,Scratch on rear bumper,true,465
+670,105,2025-03-23 18:10:10,Dent on driver door,true,112
+671,109,2023-05-29 19:52:55,No issues,true,204
+672,124,2022-10-14 16:21:12,Chipped windshield,true,8
+673,38,2023-08-29 09:19:12,No issues,true,381
+674,122,2021-01-27 09:08:46,Dent on driver door,false,886
+675,212,2021-10-06 05:52:36,Chipped windshield,true,119
+676,108,2021-07-26 14:33:28,Dent on driver door,false,1194
+677,121,2023-02-19 10:48:28,No issues,true,1090
+678,124,2023-05-09 15:55:48,Scratch on rear bumper,true,918
+679,233,2021-06-07 11:04:07,Dent on driver door,true,1167
+680,68,2022-03-03 09:22:30,No issues,true,619
+681,184,2025-11-28 11:46:58,Dent on driver door,true,578
+682,96,2021-09-27 10:10:45,Worn tires,true,190
+683,44,2021-01-25 16:18:53,Worn tires,true,975
+684,67,2024-03-10 09:24:34,Scratch on rear bumper,true,1159
+685,213,2023-01-13 10:21:35,No issues,true,196
+686,236,2023-11-10 13:25:01,Chipped windshield,true,125
+687,191,2022-05-30 11:42:38,Worn tires,true,910
+688,210,2022-07-08 11:49:00,Chipped windshield,false,465
+689,37,2022-02-15 16:29:03,No issues,true,521
+690,188,2021-08-01 13:03:33,Dent on driver door,true,614
+691,166,2022-10-26 10:15:49,Scratch on rear bumper,true,214
+692,138,2021-05-29 16:20:15,Worn tires,true,45
+693,179,2025-01-05 15:04:40,Chipped windshield,true,1059
+694,185,2023-12-21 14:23:17,Scratch on rear bumper,true,349
+695,1,2021-09-30 09:31:27,Scratch on rear bumper,true,1145
+696,86,2021-12-14 13:56:01,Chipped windshield,true,779
+697,102,2024-06-20 11:25:47,Dent on driver door,true,177
+698,178,2023-11-01 14:58:13,Chipped windshield,true,312
+699,187,2023-01-04 19:22:51,Dent on driver door,true,253
+700,109,2025-11-28 14:06:38,Scratch on rear bumper,true,856
+701,85,2021-05-10 14:06:21,Scratch on rear bumper,true,303
+702,149,2021-12-21 17:35:53,Worn tires,true,728
+703,214,2025-07-22 11:59:02,Worn tires,true,496
+704,104,2023-06-28 10:01:20,Scratch on rear bumper,false,95
+705,123,2023-06-03 14:43:26,Scratch on rear bumper,true,954
+706,193,2025-07-20 21:53:06,Scratch on rear bumper,true,1009
+707,151,2022-08-04 15:51:58,Chipped windshield,true,1156
+708,199,2022-04-02 10:05:06,No issues,true,327
+709,25,2022-10-07 08:02:13,Dent on driver door,false,3
+710,161,2023-04-20 11:53:51,Dent on driver door,true,1070
+711,146,2021-02-21 09:21:44,Dent on driver door,true,62
+712,99,2025-04-06 20:53:24,No issues,true,1001
+713,41,2021-08-30 15:08:47,Worn tires,false,178
+714,229,2021-11-25 13:14:13,Scratch on rear bumper,true,987
+715,98,2022-01-07 17:58:01,Worn tires,true,597
+716,49,2025-09-18 11:37:44,Worn tires,true,626
+717,122,2022-02-04 14:24:55,Scratch on rear bumper,true,1055
+718,186,2021-03-13 17:17:55,Dent on driver door,true,588
+719,172,2022-04-09 23:09:10,No issues,true,523
+720,240,2025-04-18 08:48:54,Dent on driver door,false,1090
+721,199,2024-11-11 15:45:30,Chipped windshield,true,54
+722,224,2023-06-10 09:10:23,Dent on driver door,true,566
+723,153,2022-09-06 16:52:09,Scratch on rear bumper,false,43
+724,161,2022-01-12 08:42:52,Worn tires,true,1026
+725,239,2023-04-25 10:04:53,No issues,true,558
+726,144,2022-08-18 12:53:08,Worn tires,false,789
+727,142,2022-11-15 21:08:12,Scratch on rear bumper,false,943
+728,180,2025-05-04 05:48:52,Chipped windshield,true,533
+729,12,2025-11-02 16:03:40,Chipped windshield,true,416
+730,179,2023-07-04 09:49:15,Dent on driver door,false,1063
+731,208,2021-05-18 06:03:53,Dent on driver door,true,284
+732,17,2023-03-07 12:47:26,Chipped windshield,false,331
+733,173,2021-07-19 15:15:50,Dent on driver door,true,8
+734,31,2021-08-31 13:17:42,Worn tires,false,742
+735,79,2022-10-07 22:35:32,No issues,true,1049
+736,205,2021-01-04 10:00:39,Scratch on rear bumper,true,693
+737,125,2025-10-26 14:20:32,No issues,true,584
+738,95,2022-05-14 09:56:07,Worn tires,true,537
+739,208,2021-12-21 16:57:34,Scratch on rear bumper,true,197
+740,68,2021-12-10 14:43:55,Chipped windshield,true,15
+741,134,2023-09-17 09:33:48,Dent on driver door,true,553
+742,120,2025-01-25 08:07:11,No issues,true,651
+743,44,2024-12-05 09:38:21,Dent on driver door,true,1162
+744,49,2024-05-11 08:08:39,No issues,true,728
+745,36,2025-09-10 14:20:34,Scratch on rear bumper,true,1162
+746,146,2025-02-23 11:45:38,No issues,true,1097
+747,63,2024-03-04 19:56:42,Dent on driver door,true,152
+748,93,2021-06-29 14:48:46,No issues,false,1055
+749,160,2024-01-14 23:59:09,Chipped windshield,true,929
+750,190,2021-12-06 11:24:45,Worn tires,true,1114
+751,141,2022-06-02 05:50:28,Worn tires,true,189
+752,158,2024-03-20 10:19:57,No issues,true,1043
+753,185,2021-11-26 10:14:48,Chipped windshield,true,580
+754,238,2024-05-07 14:20:16,Scratch on rear bumper,true,828
+755,155,2025-05-02 12:35:36,Chipped windshield,false,173
+756,91,2022-01-17 13:08:01,Worn tires,true,349
+757,29,2022-03-26 09:00:57,Worn tires,true,1188
+758,209,2021-04-28 09:25:22,Dent on driver door,true,25
+759,101,2023-06-20 16:55:54,Worn tires,true,889
+760,212,2021-06-29 16:52:45,Chipped windshield,true,72
+761,70,2024-09-01 11:07:37,Chipped windshield,true,62
+762,66,2024-05-07 08:36:58,No issues,true,514
+763,199,2025-12-04 10:09:59,Worn tires,true,1000
+764,220,2024-09-03 11:37:12,Worn tires,false,376
+765,169,2021-06-08 15:21:06,Dent on driver door,true,905
+766,178,2022-12-08 14:53:34,No issues,true,303
+767,25,2022-02-19 16:05:22,Chipped windshield,true,1180
+768,60,2024-06-23 15:49:29,Dent on driver door,true,218
+769,204,2024-12-31 17:09:05,No issues,true,1056
+770,236,2025-06-29 12:48:46,Worn tires,true,478
+771,236,2024-10-08 15:12:59,Worn tires,true,792
+772,201,2023-08-23 15:57:41,No issues,true,262
+773,231,2023-01-05 15:16:39,No issues,true,6
+774,6,2022-07-13 14:47:08,Dent on driver door,true,688
+775,140,2022-11-11 10:18:02,Scratch on rear bumper,true,559
+776,198,2023-10-08 09:30:43,Scratch on rear bumper,true,1141
+777,149,2025-08-09 13:43:37,Scratch on rear bumper,true,50
+778,236,2025-01-23 17:26:18,Dent on driver door,false,1100
+779,129,2022-03-19 13:36:53,No issues,true,1094
+780,122,2022-04-05 11:31:08,Dent on driver door,true,1059
+781,238,2021-01-14 10:37:17,No issues,true,68
+782,36,2022-08-20 12:05:21,Dent on driver door,true,635
+783,68,2023-02-03 09:38:05,Scratch on rear bumper,true,252
+784,192,2024-01-11 15:23:35,Chipped windshield,true,430
+785,216,2021-06-09 10:13:53,Chipped windshield,true,982
+786,48,2023-05-13 08:05:35,Chipped windshield,true,819
+787,61,2023-11-19 14:37:02,Chipped windshield,false,1174
+788,222,2024-01-27 12:38:31,Chipped windshield,false,235
+789,40,2025-03-29 13:34:33,Worn tires,false,803
+790,140,2025-11-11 11:14:43,Scratch on rear bumper,true,861
+791,13,2025-09-24 16:44:02,Dent on driver door,true,650
+792,91,2025-01-20 13:39:00,Chipped windshield,true,383
+793,104,2022-09-07 10:06:25,Worn tires,true,16
+794,78,2021-05-25 14:21:57,Worn tires,true,770
+795,43,2025-06-01 15:29:02,Dent on driver door,true,277
+796,7,2024-03-16 15:41:41,Chipped windshield,true,1078
+797,172,2022-05-21 15:58:02,Scratch on rear bumper,true,64
+798,44,2025-02-23 18:42:28,Scratch on rear bumper,false,991
+799,166,2025-08-19 10:11:04,Dent on driver door,true,545
+800,132,2025-10-04 13:11:13,Dent on driver door,true,1060
+801,74,2022-07-12 11:20:06,Chipped windshield,true,536
+802,172,2021-05-16 23:39:18,Chipped windshield,true,155
+803,9,2023-10-03 11:35:19,Worn tires,true,88
+804,115,2024-12-25 13:19:56,Dent on driver door,false,748
+805,106,2025-07-01 18:17:49,No issues,true,119
+806,126,2024-03-27 14:07:28,Scratch on rear bumper,true,618
+807,67,2022-02-08 14:45:41,Scratch on rear bumper,false,1050
+808,184,2021-05-17 14:53:09,Dent on driver door,true,248
+809,139,2024-08-25 11:57:59,Dent on driver door,true,505
+810,170,2023-08-26 13:06:45,Worn tires,true,527
+811,149,2023-01-04 16:46:40,Scratch on rear bumper,true,943
+812,77,2025-08-29 10:14:08,Dent on driver door,true,984
+813,140,2022-10-04 08:34:08,Dent on driver door,true,333
+814,181,2025-10-07 14:35:05,Chipped windshield,true,1026
+815,174,2022-06-01 10:10:54,Chipped windshield,true,480
+816,107,2023-07-30 13:27:52,Worn tires,true,902
+817,166,2025-07-29 11:25:47,Dent on driver door,true,551
+818,42,2022-10-09 08:49:46,Scratch on rear bumper,true,605
+819,12,2021-08-17 18:48:56,Dent on driver door,false,141
+820,25,2021-11-18 08:49:23,Dent on driver door,true,388
+821,154,2021-02-26 11:14:28,Dent on driver door,false,519
+822,86,2024-07-11 10:03:13,No issues,true,1040
+823,230,2023-05-05 14:02:40,Scratch on rear bumper,true,1083
+824,142,2021-05-20 15:22:59,Worn tires,true,1136
+825,151,2025-11-02 17:59:14,Chipped windshield,true,456
+826,200,2022-03-21 14:12:13,No issues,true,998
+827,222,2025-03-31 09:15:35,Scratch on rear bumper,false,1106
+828,125,2023-04-04 13:02:47,No issues,true,618
+829,167,2024-04-16 15:15:36,Scratch on rear bumper,true,890
+830,75,2025-07-10 14:46:53,Scratch on rear bumper,true,1000
+831,53,2025-05-24 07:55:47,Worn tires,true,484
+832,97,2023-01-29 14:22:34,Chipped windshield,true,60
+833,178,2021-06-14 14:07:53,Dent on driver door,true,111
+834,140,2024-09-12 12:02:36,Worn tires,false,81
+835,154,2022-07-05 11:58:16,Scratch on rear bumper,true,575
+836,40,2025-06-11 09:59:41,Scratch on rear bumper,true,485
+837,26,2025-11-10 09:20:00,Scratch on rear bumper,true,552
+838,230,2022-01-14 13:39:16,Dent on driver door,true,826
+839,105,2021-08-27 17:30:19,Scratch on rear bumper,true,107
+840,85,2022-06-08 09:26:16,Chipped windshield,true,228
+841,32,2021-12-10 12:34:25,Chipped windshield,true,72
+842,33,2023-08-05 10:32:09,Dent on driver door,true,302
+843,21,2024-12-31 10:15:34,Scratch on rear bumper,true,940
+844,189,2025-09-19 13:56:19,Worn tires,true,1075
+845,196,2022-04-26 09:30:56,Scratch on rear bumper,true,807
+846,114,2024-01-08 09:44:53,Chipped windshield,true,857
+847,234,2022-06-22 15:59:14,No issues,true,1129
+848,14,2023-05-25 12:07:34,Scratch on rear bumper,true,629
+849,205,2021-12-11 11:54:00,No issues,true,358
+850,13,2023-07-16 10:50:53,Worn tires,true,786
+851,8,2025-01-08 11:42:43,Chipped windshield,false,118
+852,143,2022-05-21 12:52:39,No issues,true,433
+853,102,2024-01-25 14:21:49,Dent on driver door,true,521
+854,124,2022-01-28 12:02:06,Scratch on rear bumper,true,690
+855,159,2023-01-16 13:48:50,Chipped windshield,false,842
+856,67,2025-03-17 10:01:00,Chipped windshield,true,705
+857,196,2021-01-02 07:34:44,Worn tires,true,393
+858,189,2023-06-02 05:05:21,Scratch on rear bumper,true,501
+859,141,2022-01-18 16:32:46,No issues,true,425
+860,203,2021-02-20 07:12:32,Worn tires,true,624
+861,45,2025-12-28 17:21:05,Worn tires,true,895
+862,233,2022-04-05 09:48:41,No issues,false,729
+863,189,2023-06-19 14:10:18,No issues,true,975
+864,177,2024-07-31 15:29:09,Chipped windshield,true,137
+865,95,2025-04-03 17:20:40,Chipped windshield,true,909
+866,170,2024-06-24 10:31:29,Dent on driver door,true,629
+867,92,2025-07-12 10:16:19,Chipped windshield,true,1110
+868,51,2021-06-11 20:10:57,Chipped windshield,true,1135
+869,114,2021-03-15 13:17:48,Worn tires,true,937
+870,214,2025-06-11 15:20:20,Scratch on rear bumper,true,884
+871,184,2021-11-06 05:55:32,Chipped windshield,true,560
+872,100,2021-04-27 10:28:04,No issues,false,174
+873,23,2025-12-03 14:09:42,No issues,true,965
+874,29,2021-05-15 12:00:34,No issues,true,929
+875,115,2021-09-25 12:11:53,Dent on driver door,true,48
+876,233,2024-12-01 14:42:55,No issues,true,811
+877,234,2024-01-13 16:00:56,No issues,true,212
+878,55,2024-11-07 21:56:04,Dent on driver door,true,663
+879,84,2024-04-09 17:33:45,Worn tires,true,1043
+880,49,2023-03-04 11:51:24,Worn tires,false,473
+881,228,2021-09-07 16:32:25,Worn tires,true,86
+882,204,2022-12-26 12:08:57,No issues,true,738
+883,233,2023-09-13 10:52:43,Scratch on rear bumper,true,107
+884,157,2024-03-14 15:30:42,No issues,true,395
+885,54,2024-10-12 18:14:03,Scratch on rear bumper,true,952
+886,239,2024-11-24 14:49:34,Dent on driver door,true,440
+887,47,2022-06-05 13:21:23,Worn tires,true,405
+888,227,2022-11-11 11:22:42,Worn tires,true,90
+889,31,2024-04-20 14:13:06,Chipped windshield,true,321
+890,174,2024-10-31 16:25:32,Worn tires,true,202
+891,227,2025-09-10 10:12:47,No issues,true,1052
+892,179,2024-12-24 12:43:35,No issues,true,357
+893,101,2023-05-15 16:11:31,No issues,true,110
+894,170,2025-11-19 15:39:45,Scratch on rear bumper,true,236
+895,21,2021-02-11 12:09:00,No issues,true,980
+896,73,2022-02-24 15:07:42,Dent on driver door,true,644
+897,34,2021-04-21 10:33:18,Worn tires,false,450
+898,165,2022-03-20 11:46:31,Chipped windshield,true,735
+899,11,2021-01-13 12:17:32,Scratch on rear bumper,true,230
+900,104,2025-11-24 06:08:08,Scratch on rear bumper,false,802
+901,85,2023-01-16 15:21:09,Worn tires,true,235
+902,65,2022-05-03 13:07:15,No issues,true,1022
+903,28,2022-11-04 14:12:13,Worn tires,false,851
+904,64,2025-02-28 08:30:45,No issues,true,363
+905,207,2021-02-11 14:46:47,Scratch on rear bumper,false,285
+906,161,2025-11-06 07:13:02,Dent on driver door,true,243
+907,48,2022-10-01 14:09:55,Scratch on rear bumper,true,1128
+908,25,2024-08-21 10:42:03,Worn tires,true,205
+909,61,2023-03-02 12:11:45,No issues,true,93
+910,225,2023-07-22 16:29:40,Chipped windshield,true,629
+911,166,2023-07-08 11:40:30,Dent on driver door,true,1167
+912,42,2024-01-22 13:38:26,Chipped windshield,true,964
+913,160,2022-08-18 09:50:19,Scratch on rear bumper,true,410
+914,186,2021-04-12 12:48:30,Dent on driver door,true,1148
+915,54,2023-11-01 16:47:08,Scratch on rear bumper,false,987
+916,187,2021-02-03 14:00:13,Chipped windshield,true,237
+917,84,2022-01-17 11:14:24,Worn tires,true,954
+918,146,2022-11-16 16:36:05,Worn tires,true,871
+919,24,2021-10-05 10:59:37,Scratch on rear bumper,true,35
+920,36,2025-09-14 11:24:24,Worn tires,true,178
+921,200,2023-08-25 15:47:27,No issues,true,12
+922,126,2024-05-28 08:16:42,Worn tires,false,1006
+923,45,2023-05-04 14:01:59,Chipped windshield,true,497
+924,84,2022-12-22 13:09:57,Worn tires,true,75
+925,49,2022-12-23 08:13:30,No issues,false,1006
+926,17,2023-03-26 17:13:54,Chipped windshield,true,735
+927,157,2024-02-18 21:18:53,Dent on driver door,true,789
+928,148,2025-07-06 13:28:52,Scratch on rear bumper,true,589
+929,70,2024-04-05 13:05:54,No issues,true,886
+930,38,2022-04-05 14:11:13,Worn tires,true,25
+931,149,2022-02-02 10:13:59,Worn tires,true,330
+932,231,2024-07-14 16:00:49,No issues,true,31
+933,186,2025-06-09 18:29:16,Worn tires,true,730
+934,206,2023-08-12 10:26:52,No issues,true,333
+935,10,2021-02-25 09:50:55,Worn tires,true,958
+936,121,2022-07-30 08:54:29,No issues,true,791
+937,237,2025-03-02 18:25:53,No issues,true,298
+938,152,2024-03-01 08:14:04,Chipped windshield,true,599
+939,75,2022-09-24 14:38:54,No issues,true,682
+940,167,2025-11-11 15:30:10,Chipped windshield,true,370
+941,196,2022-03-28 16:39:07,Worn tires,false,125
+942,144,2022-05-26 07:59:43,Scratch on rear bumper,true,513
+943,234,2023-06-15 16:26:07,Chipped windshield,true,75
+944,116,2022-04-24 10:00:04,Chipped windshield,true,1170
+945,101,2024-05-14 17:32:56,Chipped windshield,true,340
+946,17,2024-01-11 12:56:21,Dent on driver door,true,237
+947,126,2021-05-05 10:27:48,Worn tires,true,744
+948,166,2025-05-01 11:09:00,Worn tires,true,299
+949,220,2023-04-07 12:45:48,No issues,false,1092
+950,1,2024-07-26 08:50:59,No issues,false,534
+951,229,2021-07-28 18:24:31,Scratch on rear bumper,true,667
+952,130,2024-03-17 15:30:07,Scratch on rear bumper,false,416
+953,198,2021-05-03 11:22:34,Scratch on rear bumper,true,614
+954,116,2022-09-24 09:38:37,Dent on driver door,true,107
+955,221,2025-05-12 08:33:37,Scratch on rear bumper,true,1158
+956,167,2022-01-23 17:33:13,Worn tires,false,311
+957,121,2024-11-10 16:48:39,Chipped windshield,true,121
+958,109,2021-12-19 12:25:27,Chipped windshield,true,525
+959,158,2022-03-05 19:22:41,Worn tires,true,100
+960,40,2023-08-05 11:31:22,Chipped windshield,true,750
+961,166,2025-11-25 13:33:26,Worn tires,true,969
+962,155,2025-10-13 17:01:52,Scratch on rear bumper,true,762
+963,82,2024-09-11 11:44:53,No issues,false,922
+964,51,2024-10-05 17:00:43,Dent on driver door,true,374
+965,47,2025-02-17 13:27:51,Chipped windshield,true,631
+966,66,2024-08-21 14:58:04,Dent on driver door,true,19
+967,133,2025-02-25 15:08:25,Chipped windshield,true,422
+968,1,2021-12-26 16:35:15,Scratch on rear bumper,true,1160
+969,160,2021-05-14 11:49:56,Worn tires,true,775
+970,60,2024-02-16 14:12:55,No issues,true,311
+971,73,2023-10-19 17:14:32,Dent on driver door,true,80
+972,151,2024-12-29 19:43:36,No issues,true,965
+973,123,2025-04-07 12:00:41,Chipped windshield,true,1148
+974,230,2023-03-23 17:25:13,No issues,true,659
+975,150,2024-08-17 11:09:25,No issues,true,658
+976,88,2021-07-09 14:12:04,Chipped windshield,true,158
+977,112,2023-03-28 13:30:48,Chipped windshield,true,108
+978,181,2022-03-12 11:31:34,Scratch on rear bumper,true,951
+979,188,2025-03-03 09:37:53,Dent on driver door,true,541
+980,202,2022-04-11 08:57:50,No issues,true,629
+981,132,2022-02-11 10:00:03,Worn tires,true,1027
+982,19,2025-06-11 11:14:02,Chipped windshield,true,383
+983,176,2024-08-06 14:58:35,No issues,true,161
+984,179,2025-11-28 15:55:34,Scratch on rear bumper,true,935
+985,200,2024-01-05 07:33:33,Dent on driver door,true,225
+986,106,2024-01-03 09:36:19,Worn tires,true,452
+987,61,2024-05-01 13:10:54,Scratch on rear bumper,true,1037
+988,59,2021-10-03 10:35:09,Worn tires,true,368
+989,136,2021-09-03 11:36:28,Dent on driver door,true,698
+990,17,2022-04-01 16:09:29,Scratch on rear bumper,true,585
+991,122,2023-02-28 13:56:30,Worn tires,true,846
+992,92,2024-12-19 12:15:41,Dent on driver door,false,448
+993,230,2023-01-06 10:53:03,Scratch on rear bumper,true,598
+994,87,2025-01-31 16:36:21,No issues,true,120
+995,237,2024-10-23 09:43:39,Scratch on rear bumper,true,83
+996,191,2021-05-02 16:34:50,Scratch on rear bumper,true,197
+997,229,2022-09-29 09:00:16,Dent on driver door,false,964
+998,167,2021-07-13 15:03:49,Worn tires,false,396
+999,33,2025-12-30 10:17:57,Worn tires,false,1032
+1000,89,2023-02-23 09:45:42,Scratch on rear bumper,true,511

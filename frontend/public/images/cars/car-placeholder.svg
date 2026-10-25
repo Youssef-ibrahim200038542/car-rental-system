@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="600" viewBox="0 0 900 600">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#17251f"/>
+      <stop offset="100%" stop-color="#35463c"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="600" fill="url(#bg)"/>
+  <g fill="none" stroke="#c6a15b" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M180 350 L225 255 Q240 225 280 225 H600 Q635 225 655 260 L710 350 V420 H180 Z"/>
+    <path d="M250 255 H625 L665 330 H215 Z"/>
+    <path d="M180 350 H710"/>
+  </g>
+  <g fill="#c6a15b">
+    <circle cx="285" cy="420" r="48"/>
+    <circle cx="605" cy="420" r="48"/>
+  </g>
+  <g fill="#17251f">
+    <circle cx="285" cy="420" r="22"/>
+    <circle cx="605" cy="420" r="22"/>
+  </g>
+  <text x="450" y="520" fill="#ffffff" font-family="Arial,sans-serif" font-size="28" text-anchor="middle" letter-spacing="6">DRIVEX</text>
+</svg>

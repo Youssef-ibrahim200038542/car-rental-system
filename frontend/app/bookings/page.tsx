@@ -3,6 +3,7 @@
 
     import { useEffect, useMemo, useState } from "react";
     import Link from "next/link";
+    import { getCarImageUrl, getLocalCarImage } from "@/lib/car-images";
 
     type Booking = {
     id: number;
@@ -155,26 +156,6 @@
         month: "short",
         year: "numeric",
         });
-    };
-
-    const getImageUrl = (image?: string | null) => {
-        if (!image) return null;
-
-        if (/^https?:\/\//i.test(image)) {
-        return image;
-        }
-
-        const baseUrl = API_URL.replace(/\/api\/?$/, "");
-        let imagePath = image.replace(/^\/+/, "").replace(/^public\//, "");
-
-        if (
-        !imagePath.startsWith("storage/") &&
-        !imagePath.startsWith("images/")
-        ) {
-        imagePath = `images/cars/${imagePath}`;
-        }
-
-        return `${baseUrl}/${imagePath}`;
     };
 
     const totalSpent = bookings.reduce(
@@ -534,7 +515,18 @@
                     `${booking.car?.brand || ""} ${booking.car?.model || ""}`.trim() ||
                     "Rental Car";
 
-                const imageUrl = getImageUrl(booking.car?.image);
+                const imageUrl = getCarImageUrl(
+                    booking.car?.image,
+                    booking.car?.brand,
+                    booking.car?.model,
+                    carName
+                );
+
+                const fallbackImage = getLocalCarImage(
+                    booking.car?.brand,
+                    booking.car?.model,
+                    carName
+                );
 
                 return (
                     <article
@@ -544,36 +536,18 @@
                     <div className="flex flex-col lg:flex-row">
                         {/* Car Image */}
                         <div className="relative h-64 overflow-hidden bg-[#eeede8] lg:min-h-[420px] lg:w-72 lg:shrink-0">
-                        {imageUrl ? (
-                            <>
-                            <img
-                                src={imageUrl}
-                                alt={carName}
-                                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                loading="lazy"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#0a1411]/50 via-transparent to-transparent" />
-                            </>
-                        ) : (
-                            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-[#f8f8f7] to-[#e9e6de]">
-                            <div className="flex h-24 w-24 items-center justify-center rounded-full border border-[#d9d3c6] bg-white/70 text-[#9a783c]">
-                                <svg
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="1.3"
-                                className="h-12 w-12"
-                                aria-hidden="true"
-                                >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M3 13l2-5a2 2 0 012-1.3h10A2 2 0 0119 8l2 5M3 13v5a1 1 0 001 1h1a1 1 0 001-1v-1h10v1a1 1 0 001 1h1a1 1 0 001-1v-5M3 13h18M6 13h.01M18 13h.01"
-                                />
-                                </svg>
-                            </div>
-                            </div>
-                        )}
+                        <img
+                            src={imageUrl}
+                            alt={carName}
+                            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            loading="lazy"
+                            onError={(event) => {
+                            event.currentTarget.onerror = null;
+                            event.currentTarget.src = fallbackImage;
+                            }}
+                        />
+
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#0a1411]/50 via-transparent to-transparent" />
 
                         <div className="absolute left-5 top-5">
                             <span
@@ -620,7 +594,9 @@
                             </p>
 
                             <p className="mt-1 text-2xl font-bold text-[#9a783c] sm:text-3xl">
-                                {Number(booking.total_amount || 0).toLocaleString()}
+                                {Number(
+                                booking.total_amount || 0
+                                ).toLocaleString()}
                                 <span className="ml-1 text-sm font-medium text-[#898981]">
                                 EGP
                                 </span>

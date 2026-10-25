@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { getCarImageUrl, getLocalCarImage } from "@/lib/car-images";
 
 type Booking = {
   id: number;
@@ -24,7 +25,7 @@ type Booking = {
     model?: string;
     name?: string;
     year?: number;
-    image?: string;
+    image?: string | null;
   };
   pickup_branch?: {
     id: number;
@@ -90,9 +91,7 @@ export default function PaymentPage() {
         const data: BookingResponse = await response.json();
 
         if (!response.ok) {
-          throw new Error(
-            data.message || "Failed to load booking."
-          );
+          throw new Error(data.message || "Failed to load booking.");
         }
 
         if (!data.data) {
@@ -242,42 +241,20 @@ export default function PaymentPage() {
       maximumFractionDigits: 2,
     });
 
-  const getCarImage = () => {
-    if (!booking?.car?.image) {
-      return null;
-    }
-
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "";
-    const backendUrl = apiUrl.replace(/\/api\/?$/, "");
-
-    let imagePath = booking.car.image;
-
-    if (
-      imagePath.startsWith("http://") ||
-      imagePath.startsWith("https://")
-    ) {
-      return imagePath;
-    }
-
-    imagePath = imagePath.replace(/^\/+/, "");
-
-    if (imagePath.startsWith("public/")) {
-      imagePath = imagePath.replace(/^public\//, "");
-    }
-
-    if (!imagePath.startsWith("images/")) {
-      imagePath = `images/cars/${imagePath}`;
-    }
-
-    return `${backendUrl}/${imagePath}`;
-  };
-
   const carName =
     booking?.car?.name ||
     `${booking?.car?.brand || ""} ${booking?.car?.model || ""}`.trim() ||
     "Rental Car";
 
-  const carImage = getCarImage();
+  const carImage = booking?.car
+    ? getCarImageUrl(
+        booking.car.image,
+        booking.car.brand,
+        booking.car.model,
+        booking.car.name || carName
+      )
+    : null;
+
   const isCashPayment = paymentMethod === "cash";
 
   if (loading) {
@@ -630,9 +607,7 @@ export default function PaymentPage() {
 
                 <div>
                   <p className="font-semibold text-[#343830]">
-                    {isCashPayment
-                      ? "Pay at the Branch"
-                      : "Demo Payment"}
+                    {isCashPayment ? "Pay at the Branch" : "Demo Payment"}
                   </p>
 
                   <p className="mt-1 text-sm leading-6 text-[#77776f]">
@@ -684,29 +659,36 @@ export default function PaymentPage() {
             </p>
 
             <div className="mt-5 h-48 overflow-hidden rounded-2xl bg-[#f2f1ec] sm:h-44">
-              {carImage ? (
-                <img
-                  src={carImage}
-                  alt={carName}
-                  className="h-full w-full object-cover"
-                />
-              ) : (
-                <div className="flex h-full w-full items-center justify-center text-[#9a783c]">
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    className="h-20 w-20"
-                    stroke="currentColor"
-                    strokeWidth="1.2"
-                    aria-hidden="true"
-                  >
-                    <path d="m3 13 1.5-5A3 3 0 0 1 7.4 6h9.2a3 3 0 0 1 2.9 2l1.5 5v5h-2v-2H5v2H3z" />
-                    <path d="M4.5 12h15M7 16h.01M17 16h.01" />
-                    <circle cx="7" cy="13" r="1.5" />
-                    <circle cx="17" cy="13" r="1.5" />
-                  </svg>
-                </div>
-              )}
+              <img
+                src={
+                  carImage ||
+                  getLocalCarImage(
+                    booking.car?.brand,
+                    booking.car?.model,
+                    carName
+                  )
+                }
+                alt={carName}
+                className="h-full w-full object-cover"
+                loading="lazy"
+                onError={(event) => {
+                  const fallbackImage = getLocalCarImage(
+                    booking.car?.brand,
+                    booking.car?.model,
+                    carName
+                  );
+
+                  if (
+                    event.currentTarget.getAttribute("src") ===
+                    fallbackImage
+                  ) {
+                    return;
+                  }
+
+                  event.currentTarget.onerror = null;
+                  event.currentTarget.src = fallbackImage;
+                }}
+              />
             </div>
 
             <h2 className="mt-5 text-2xl font-bold tracking-tight">

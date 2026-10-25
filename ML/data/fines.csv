@@ -1,0 +1,1001 @@
+id,amount,issued_date,paid,reason,rental_id
+1,50,2025-10-26,true,Smoking in the car,64535
+2,35,2022-10-25,true,Smoking in the car,13476
+3,150,2022-04-09,true,Toll not paid,25545
+4,50,2023-01-26,true,Speeding camera,2850
+5,50,2023-09-24,true,Toll not paid,4355
+6,35,2025-01-31,true,Smoking in the car,6815
+7,75,2022-11-06,true,Late return,45474
+8,50,2022-02-10,true,Late return,40088
+9,35,2021-05-12,true,Parking ticket,32550
+10,35,2024-09-04,true,Parking ticket,22705
+11,35,2021-03-17,true,Late return,44623
+12,150,2021-09-18,true,Late return,10771
+13,50,2022-11-19,true,Parking ticket,46051
+14,50,2024-04-11,false,Toll not paid,8196
+15,50,2023-12-18,true,Smoking in the car,59870
+16,50,2023-02-21,true,Smoking in the car,34085
+17,75,2025-02-20,true,Speeding camera,31744
+18,35,2022-10-23,true,Parking ticket,64655
+19,50,2024-02-04,true,Smoking in the car,25128
+20,50,2021-08-26,true,Smoking in the car,14465
+21,50,2021-10-05,true,Late return,52630
+22,75,2025-10-25,true,Late return,8708
+23,35,2025-04-30,true,Smoking in the car,61223
+24,75,2023-09-07,true,Smoking in the car,55055
+25,50,2025-03-12,true,Late return,1539
+26,75,2021-08-29,true,Toll not paid,30246
+27,35,2022-02-08,true,Toll not paid,55819
+28,35,2022-10-15,true,Speeding camera,22613
+29,50,2022-04-12,true,Toll not paid,2186
+30,35,2025-02-01,true,Smoking in the car,54434
+31,35,2026-01-18,true,Late return,43910
+32,75,2021-03-14,true,Late return,22872
+33,75,2025-09-01,true,Speeding camera,62577
+34,50,2021-11-28,true,Smoking in the car,4759
+35,75,2021-11-01,true,Speeding camera,60147
+36,50,2023-12-10,true,Parking ticket,32034
+37,35,2021-10-16,true,Smoking in the car,18131
+38,75,2024-09-15,true,Parking ticket,46415
+39,50,2021-03-23,true,Speeding camera,9064
+40,50,2021-03-13,true,Parking ticket,16752
+41,35,2023-11-21,true,Speeding camera,51475
+42,75,2021-11-19,true,Late return,56625
+43,75,2021-12-19,true,Late return,8825
+44,150,2026-01-19,true,Toll not paid,32365
+45,50,2023-09-18,true,Toll not paid,3699
+46,35,2022-12-01,true,Smoking in the car,62659
+47,50,2023-11-01,true,Speeding camera,1022
+48,35,2021-10-30,true,Speeding camera,53118
+49,75,2023-01-18,true,Smoking in the car,45201
+50,35,2025-02-16,true,Late return,52438
+51,50,2025-09-18,false,Speeding camera,39874
+52,35,2025-01-06,true,Smoking in the car,33103
+53,50,2025-10-18,true,Late return,55250
+54,150,2024-04-26,true,Smoking in the car,30675
+55,35,2022-11-04,true,Late return,5290
+56,50,2022-01-27,true,Speeding camera,20196
+57,35,2023-06-26,true,Late return,63708
+58,50,2024-11-14,true,Toll not paid,30766
+59,50,2024-11-17,true,Parking ticket,1772
+60,50,2022-11-29,true,Late return,21789
+61,75,2024-02-14,true,Toll not paid,2257
+62,50,2021-02-27,true,Speeding camera,51107
+63,50,2023-10-03,true,Speeding camera,32275
+64,35,2021-02-25,true,Smoking in the car,51112
+65,75,2021-12-19,true,Parking ticket,60483
+66,50,2023-07-15,true,Speeding camera,49379
+67,35,2025-11-13,true,Parking ticket,14384
+68,50,2025-11-12,true,Speeding camera,2077
+69,35,2023-06-22,false,Smoking in the car,57174
+70,35,2024-10-20,true,Late return,56414
+71,75,2024-11-01,true,Speeding camera,61854
+72,50,2023-12-29,true,Smoking in the car,29123
+73,50,2022-12-24,true,Speeding camera,21794
+74,35,2024-12-11,true,Toll not paid,11863
+75,50,2023-02-05,true,Toll not paid,3568
+76,35,2021-06-21,true,Parking ticket,36064
+77,75,2025-05-14,true,Toll not paid,63731
+78,35,2025-11-29,true,Late return,21812
+79,35,2023-03-23,true,Parking ticket,32770
+80,150,2023-03-11,false,Late return,59399
+81,50,2025-12-02,true,Late return,5089
+82,150,2025-01-25,true,Toll not paid,48382
+83,35,2024-10-26,true,Toll not paid,62728
+84,35,2025-02-04,true,Speeding camera,8907
+85,50,2025-09-26,true,Toll not paid,44962
+86,50,2021-02-24,true,Smoking in the car,30277
+87,50,2022-03-19,true,Parking ticket,2102
+88,35,2023-02-11,true,Smoking in the car,15019
+89,75,2023-11-30,true,Toll not paid,4241
+90,150,2026-01-14,true,Parking ticket,6692
+91,35,2025-09-25,true,Parking ticket,20230
+92,35,2024-10-15,true,Smoking in the car,40278
+93,35,2022-04-20,true,Late return,717
+94,50,2023-10-09,true,Late return,32470
+95,50,2021-11-18,true,Speeding camera,54155
+96,50,2023-08-19,true,Toll not paid,40363
+97,50,2022-12-30,true,Late return,12930
+98,35,2022-11-11,true,Speeding camera,19224
+99,50,2023-01-20,true,Smoking in the car,57346
+100,75,2022-10-21,true,Smoking in the car,33182
+101,35,2024-11-27,true,Smoking in the car,24633
+102,150,2022-07-27,true,Speeding camera,31318
+103,35,2021-02-27,true,Parking ticket,13600
+104,50,2021-09-15,true,Parking ticket,39123
+105,50,2022-02-22,true,Late return,11362
+106,35,2021-08-28,true,Toll not paid,38951
+107,50,2023-12-28,true,Speeding camera,59616
+108,35,2023-04-02,true,Smoking in the car,33498
+109,150,2022-08-13,true,Speeding camera,44294
+110,35,2023-09-08,true,Speeding camera,5862
+111,35,2021-11-19,true,Late return,55879
+112,35,2024-09-17,true,Late return,64464
+113,50,2024-06-20,true,Speeding camera,28745
+114,50,2024-01-25,true,Smoking in the car,21852
+115,50,2024-12-17,true,Late return,24986
+116,75,2023-06-03,true,Late return,34661
+117,50,2022-12-15,true,Toll not paid,44452
+118,50,2024-08-17,true,Smoking in the car,55522
+119,150,2021-04-30,true,Toll not paid,62260
+120,35,2023-10-29,false,Late return,24363
+121,35,2024-12-21,true,Late return,47281
+122,150,2022-11-20,true,Late return,20455
+123,35,2024-03-01,true,Smoking in the car,40518
+124,75,2021-01-26,true,Late return,60317
+125,35,2024-01-20,true,Parking ticket,33562
+126,50,2024-12-08,true,Smoking in the car,34762
+127,150,2023-10-30,true,Speeding camera,20438
+128,50,2021-02-23,true,Smoking in the car,3549
+129,35,2022-02-19,true,Parking ticket,21745
+130,35,2024-08-30,true,Speeding camera,60190
+131,35,2022-02-14,true,Smoking in the car,43329
+132,75,2025-09-15,true,Speeding camera,43541
+133,75,2021-02-05,true,Toll not paid,29337
+134,75,2022-12-26,true,Toll not paid,47267
+135,35,2024-01-20,true,Parking ticket,60845
+136,50,2025-03-12,true,Speeding camera,30378
+137,50,2021-09-09,true,Parking ticket,53982
+138,35,2023-10-02,true,Late return,20638
+139,35,2023-02-10,true,Speeding camera,781
+140,75,2022-10-10,true,Parking ticket,41525
+141,35,2025-05-31,true,Parking ticket,40730
+142,35,2023-03-17,true,Speeding camera,37997
+143,35,2023-09-19,true,Toll not paid,41108
+144,35,2022-01-05,true,Speeding camera,9787
+145,75,2022-01-09,false,Late return,53584
+146,150,2022-06-17,true,Parking ticket,15154
+147,150,2024-08-09,true,Speeding camera,5763
+148,50,2025-02-06,true,Speeding camera,62796
+149,35,2022-09-30,true,Toll not paid,43289
+150,35,2024-05-02,true,Speeding camera,10804
+151,35,2024-10-16,true,Toll not paid,47664
+152,50,2023-11-25,true,Speeding camera,30197
+153,150,2022-05-16,true,Smoking in the car,1527
+154,50,2021-03-19,false,Late return,4483
+155,35,2021-12-30,true,Late return,5684
+156,50,2022-10-19,true,Parking ticket,29257
+157,50,2021-10-05,true,Late return,49450
+158,35,2025-12-31,true,Toll not paid,44272
+159,75,2022-01-22,false,Speeding camera,53935
+160,35,2024-11-24,true,Toll not paid,60028
+161,35,2024-09-01,true,Smoking in the car,8989
+162,35,2021-11-26,true,Speeding camera,9982
+163,50,2023-09-27,true,Speeding camera,59624
+164,35,2024-09-29,true,Parking ticket,49970
+165,75,2021-02-09,true,Speeding camera,51920
+166,35,2025-01-28,true,Parking ticket,59349
+167,150,2021-03-17,true,Parking ticket,3062
+168,35,2023-12-23,true,Late return,23131
+169,35,2023-06-17,true,Smoking in the car,34325
+170,150,2025-04-16,true,Parking ticket,41555
+171,35,2022-10-05,true,Smoking in the car,41441
+172,35,2023-02-05,true,Toll not paid,4746
+173,35,2021-02-16,true,Toll not paid,17829
+174,75,2024-10-28,true,Parking ticket,16935
+175,35,2022-11-01,true,Speeding camera,15648
+176,75,2024-09-02,true,Late return,30271
+177,35,2022-12-07,true,Speeding camera,37915
+178,50,2023-02-27,true,Late return,44870
+179,150,2021-09-11,true,Late return,56137
+180,75,2025-01-21,true,Toll not paid,38155
+181,35,2025-10-24,true,Late return,35896
+182,75,2021-03-14,true,Parking ticket,16404
+183,35,2024-12-11,true,Toll not paid,47565
+184,50,2022-11-06,false,Late return,41132
+185,35,2024-09-25,true,Smoking in the car,58083
+186,150,2022-01-20,true,Late return,58235
+187,35,2022-12-09,true,Smoking in the car,31924
+188,35,2021-10-01,true,Speeding camera,55836
+189,35,2022-07-18,true,Late return,13650
+190,35,2024-11-17,true,Parking ticket,35595
+191,50,2022-09-24,true,Smoking in the car,57376
+192,75,2025-08-11,true,Toll not paid,20133
+193,35,2024-11-17,true,Late return,60848
+194,50,2025-09-22,true,Late return,36510
+195,75,2023-02-12,true,Speeding camera,6996
+196,35,2025-09-10,true,Speeding camera,16488
+197,35,2024-10-27,true,Smoking in the car,53959
+198,75,2025-01-21,true,Smoking in the car,64363
+199,75,2022-10-07,true,Speeding camera,17659
+200,35,2025-12-06,true,Smoking in the car,44138
+201,50,2025-07-31,true,Parking ticket,56667
+202,50,2023-01-20,true,Toll not paid,55249
+203,35,2021-11-02,true,Late return,60582
+204,75,2023-12-12,true,Speeding camera,27731
+205,50,2024-02-07,true,Toll not paid,9643
+206,50,2021-05-06,true,Parking ticket,5824
+207,150,2024-11-21,true,Toll not paid,59115
+208,75,2022-12-16,true,Parking ticket,22308
+209,150,2026-01-08,true,Toll not paid,5364
+210,50,2025-01-15,true,Toll not paid,21222
+211,75,2024-05-06,true,Smoking in the car,3303
+212,50,2025-02-15,true,Smoking in the car,54129
+213,35,2023-10-12,true,Smoking in the car,58775
+214,50,2023-05-18,true,Parking ticket,20019
+215,35,2023-10-15,true,Smoking in the car,41059
+216,35,2025-12-07,true,Smoking in the car,37937
+217,50,2025-03-22,true,Parking ticket,41426
+218,150,2025-12-17,true,Late return,35630
+219,75,2024-09-08,true,Smoking in the car,60808
+220,50,2024-08-13,true,Late return,63959
+221,50,2022-01-08,true,Speeding camera,16233
+222,35,2021-12-22,true,Speeding camera,18132
+223,75,2024-11-07,true,Parking ticket,24525
+224,35,2023-07-27,true,Parking ticket,5836
+225,50,2022-02-24,true,Parking ticket,39526
+226,35,2022-12-15,true,Toll not paid,54798
+227,50,2021-01-16,true,Late return,4538
+228,35,2024-02-15,false,Parking ticket,45341
+229,75,2023-11-29,true,Late return,6977
+230,150,2022-10-03,true,Parking ticket,7710
+231,50,2024-11-22,false,Toll not paid,62682
+232,35,2021-01-10,true,Smoking in the car,59815
+233,75,2024-11-06,true,Parking ticket,27955
+234,75,2022-11-29,true,Speeding camera,35863
+235,75,2023-02-16,true,Toll not paid,51534
+236,50,2025-09-21,false,Toll not paid,305
+237,50,2023-01-03,true,Toll not paid,13483
+238,35,2021-01-30,true,Speeding camera,43171
+239,50,2024-10-11,true,Smoking in the car,4876
+240,75,2025-09-09,true,Toll not paid,6017
+241,50,2024-10-20,true,Parking ticket,44596
+242,35,2023-08-29,true,Smoking in the car,20365
+243,75,2021-09-14,true,Late return,29520
+244,35,2025-09-30,true,Speeding camera,15939
+245,150,2024-12-16,true,Smoking in the car,5030
+246,75,2023-04-09,true,Late return,46145
+247,35,2021-02-04,true,Smoking in the car,9459
+248,35,2025-10-24,true,Speeding camera,29312
+249,35,2021-10-22,true,Smoking in the car,30282
+250,35,2022-11-09,false,Speeding camera,50798
+251,35,2025-07-24,true,Toll not paid,7807
+252,75,2024-11-25,true,Smoking in the car,26765
+253,50,2022-05-30,false,Toll not paid,17214
+254,50,2024-03-19,true,Smoking in the car,20192
+255,35,2022-09-21,true,Late return,64769
+256,35,2023-09-05,true,Toll not paid,898
+257,35,2022-10-03,true,Toll not paid,47848
+258,50,2022-01-16,true,Speeding camera,50630
+259,35,2021-07-18,true,Smoking in the car,27999
+260,50,2022-10-28,true,Parking ticket,15256
+261,35,2024-02-24,true,Smoking in the car,62625
+262,50,2022-10-11,true,Parking ticket,51493
+263,35,2023-08-06,true,Smoking in the car,33125
+264,35,2022-09-25,false,Speeding camera,41020
+265,50,2024-01-14,true,Speeding camera,3041
+266,50,2025-08-06,true,Speeding camera,45967
+267,35,2021-11-11,true,Toll not paid,39809
+268,150,2024-01-03,true,Smoking in the car,28692
+269,75,2021-02-21,true,Late return,64158
+270,150,2021-12-23,false,Smoking in the car,45396
+271,50,2024-01-05,true,Smoking in the car,8354
+272,35,2021-09-24,false,Late return,32509
+273,75,2025-11-15,true,Parking ticket,19529
+274,50,2022-11-21,true,Late return,48747
+275,150,2022-12-01,true,Speeding camera,41246
+276,75,2024-10-29,true,Smoking in the car,21445
+277,50,2023-10-31,false,Parking ticket,61133
+278,35,2025-02-11,true,Parking ticket,1996
+279,75,2025-09-28,true,Late return,18446
+280,35,2025-01-07,true,Speeding camera,46105
+281,75,2024-01-02,true,Smoking in the car,13858
+282,50,2021-05-16,false,Toll not paid,55967
+283,35,2024-11-12,false,Speeding camera,8770
+284,35,2023-11-03,true,Late return,14360
+285,35,2025-12-29,true,Parking ticket,18477
+286,75,2025-03-15,true,Toll not paid,8675
+287,50,2024-07-19,true,Parking ticket,63384
+288,50,2021-11-12,true,Late return,30999
+289,50,2024-12-25,true,Smoking in the car,50415
+290,150,2022-10-11,true,Toll not paid,4278
+291,50,2024-12-23,true,Toll not paid,829
+292,50,2024-12-15,true,Speeding camera,14846
+293,50,2022-03-01,true,Late return,42703
+294,35,2024-04-08,true,Parking ticket,39310
+295,75,2021-10-25,true,Parking ticket,19741
+296,35,2025-04-29,true,Toll not paid,28528
+297,50,2025-01-27,true,Smoking in the car,26279
+298,35,2025-09-28,true,Late return,24798
+299,75,2021-01-27,true,Smoking in the car,16864
+300,50,2023-01-23,true,Late return,42845
+301,75,2024-02-10,true,Speeding camera,47714
+302,35,2023-12-01,true,Parking ticket,46003
+303,35,2025-11-13,false,Toll not paid,29339
+304,50,2025-02-24,true,Parking ticket,48016
+305,50,2023-07-06,true,Smoking in the car,28598
+306,35,2023-03-02,true,Speeding camera,14471
+307,35,2022-09-12,true,Smoking in the car,27800
+308,150,2023-10-14,true,Speeding camera,24631
+309,35,2021-02-20,true,Smoking in the car,12349
+310,50,2022-12-01,true,Parking ticket,31680
+311,75,2024-09-13,true,Parking ticket,55195
+312,50,2023-10-31,true,Late return,55783
+313,35,2023-12-17,true,Parking ticket,1660
+314,35,2025-01-13,true,Smoking in the car,49693
+315,75,2025-03-23,true,Smoking in the car,43396
+316,50,2023-09-16,true,Speeding camera,3383
+317,75,2023-11-16,true,Parking ticket,13254
+318,75,2022-09-18,true,Smoking in the car,62702
+319,50,2025-04-01,true,Parking ticket,13136
+320,75,2025-02-17,true,Speeding camera,8942
+321,35,2024-11-22,false,Parking ticket,14208
+322,150,2022-11-12,true,Parking ticket,31565
+323,50,2025-11-06,true,Speeding camera,21296
+324,75,2022-08-01,true,Smoking in the car,20982
+325,75,2025-11-03,true,Toll not paid,51436
+326,35,2024-11-24,true,Smoking in the car,15311
+327,35,2024-02-01,true,Late return,6632
+328,50,2022-01-29,true,Speeding camera,40337
+329,75,2024-01-13,true,Late return,37868
+330,50,2024-12-18,false,Late return,62261
+331,75,2025-11-07,true,Speeding camera,38076
+332,50,2023-12-16,true,Speeding camera,7084
+333,35,2022-12-29,true,Speeding camera,52239
+334,50,2024-07-21,true,Speeding camera,21786
+335,35,2025-12-07,true,Parking ticket,40536
+336,50,2023-09-29,true,Late return,13441
+337,75,2023-03-06,false,Speeding camera,51500
+338,75,2022-10-14,true,Parking ticket,7944
+339,150,2025-03-11,true,Parking ticket,11784
+340,50,2021-11-19,true,Smoking in the car,41528
+341,50,2021-11-29,false,Parking ticket,12419
+342,75,2024-05-13,true,Parking ticket,21798
+343,50,2021-03-07,true,Toll not paid,19888
+344,35,2023-10-28,true,Speeding camera,18724
+345,75,2022-04-06,true,Late return,26678
+346,75,2023-02-11,true,Toll not paid,38441
+347,35,2025-10-15,true,Smoking in the car,38386
+348,50,2024-02-29,true,Late return,39241
+349,35,2021-05-28,true,Parking ticket,39672
+350,150,2022-01-11,true,Speeding camera,48803
+351,50,2021-02-08,true,Smoking in the car,12228
+352,75,2024-03-24,true,Late return,42757
+353,75,2023-08-09,true,Late return,49785
+354,35,2022-10-07,false,Late return,17546
+355,35,2023-02-13,false,Toll not paid,23061
+356,50,2025-01-18,true,Toll not paid,13429
+357,75,2025-12-22,true,Late return,10586
+358,35,2024-03-26,true,Late return,59067
+359,35,2022-05-24,true,Toll not paid,985
+360,50,2021-02-14,true,Toll not paid,24649
+361,50,2024-03-25,true,Toll not paid,46064
+362,35,2023-03-28,true,Late return,10525
+363,75,2023-07-06,true,Toll not paid,6176
+364,35,2022-12-29,true,Parking ticket,52955
+365,35,2024-01-25,true,Speeding camera,18568
+366,35,2021-02-13,true,Speeding camera,40777
+367,35,2021-07-09,true,Parking ticket,47660
+368,35,2021-08-26,true,Parking ticket,37924
+369,35,2023-03-05,true,Toll not paid,23474
+370,75,2022-06-02,false,Speeding camera,17506
+371,50,2023-02-11,true,Toll not paid,20763
+372,35,2024-04-25,true,Late return,55399
+373,35,2023-12-19,true,Speeding camera,40988
+374,35,2022-10-14,true,Speeding camera,30794
+375,35,2025-01-04,false,Parking ticket,42471
+376,50,2023-01-07,true,Late return,48155
+377,50,2024-11-11,true,Speeding camera,37693
+378,150,2024-01-25,true,Toll not paid,22221
+379,150,2023-03-20,true,Parking ticket,14471
+380,150,2022-08-20,false,Parking ticket,60295
+381,50,2024-01-03,false,Speeding camera,33254
+382,35,2025-01-19,true,Parking ticket,22294
+383,35,2023-09-04,true,Parking ticket,6899
+384,35,2023-04-09,true,Smoking in the car,21140
+385,35,2025-09-21,true,Late return,30597
+386,50,2025-03-30,true,Smoking in the car,2065
+387,50,2024-11-18,true,Toll not paid,3259
+388,50,2021-06-29,true,Late return,50243
+389,75,2025-10-18,true,Toll not paid,1740
+390,35,2023-08-31,true,Speeding camera,45533
+391,35,2024-02-23,true,Speeding camera,41167
+392,50,2024-05-26,true,Speeding camera,29952
+393,150,2024-02-07,true,Smoking in the car,41855
+394,75,2022-03-06,true,Smoking in the car,18549
+395,35,2024-01-12,true,Late return,48405
+396,75,2024-12-30,true,Speeding camera,41510
+397,75,2025-02-04,false,Smoking in the car,7004
+398,75,2021-07-22,true,Parking ticket,29924
+399,50,2022-02-15,true,Speeding camera,13939
+400,50,2023-02-25,true,Parking ticket,28727
+401,50,2021-09-06,true,Late return,63808
+402,35,2023-03-22,false,Late return,50099
+403,150,2025-10-31,true,Parking ticket,49137
+404,50,2022-04-08,true,Smoking in the car,39354
+405,50,2024-01-17,true,Speeding camera,8630
+406,35,2021-05-06,true,Late return,39122
+407,35,2022-03-22,true,Speeding camera,59229
+408,50,2022-01-06,true,Late return,63487
+409,35,2025-06-14,false,Toll not paid,16722
+410,150,2024-09-09,true,Speeding camera,58080
+411,35,2023-09-04,true,Toll not paid,11560
+412,150,2025-12-24,true,Toll not paid,289
+413,50,2024-10-10,true,Speeding camera,61429
+414,50,2021-11-23,true,Late return,15496
+415,35,2021-01-12,true,Smoking in the car,55375
+416,50,2023-06-20,true,Parking ticket,64256
+417,50,2023-03-29,false,Toll not paid,16865
+418,35,2024-07-01,true,Smoking in the car,42686
+419,35,2025-11-13,true,Parking ticket,47434
+420,150,2024-11-28,true,Late return,21941
+421,50,2025-03-06,true,Speeding camera,9055
+422,35,2024-12-12,true,Late return,4951
+423,50,2025-09-13,true,Smoking in the car,8650
+424,35,2024-01-28,true,Toll not paid,6299
+425,50,2021-07-22,true,Parking ticket,61011
+426,50,2025-02-20,true,Speeding camera,328
+427,75,2025-09-27,true,Toll not paid,10468
+428,50,2024-03-03,false,Speeding camera,7330
+429,35,2022-10-06,true,Toll not paid,2299
+430,75,2021-06-25,true,Speeding camera,58325
+431,35,2021-07-07,true,Speeding camera,34443
+432,150,2025-01-08,true,Speeding camera,35614
+433,75,2024-11-20,true,Speeding camera,45140
+434,75,2024-12-20,true,Toll not paid,38173
+435,75,2023-07-24,true,Parking ticket,56952
+436,35,2023-03-28,true,Smoking in the car,59649
+437,35,2023-01-26,true,Parking ticket,11817
+438,35,2025-09-23,true,Toll not paid,3468
+439,35,2025-02-20,true,Toll not paid,48742
+440,35,2022-01-05,true,Late return,8225
+441,50,2023-01-09,true,Smoking in the car,46891
+442,150,2021-01-29,true,Smoking in the car,42228
+443,150,2022-12-20,true,Smoking in the car,25942
+444,75,2023-10-31,true,Late return,39484
+445,50,2023-02-23,true,Speeding camera,53523
+446,35,2021-11-06,true,Smoking in the car,22059
+447,75,2021-10-29,true,Parking ticket,38965
+448,35,2021-04-26,false,Speeding camera,10814
+449,35,2025-03-07,true,Late return,25735
+450,50,2022-01-16,true,Toll not paid,37812
+451,50,2021-12-03,true,Toll not paid,29122
+452,150,2024-12-18,false,Parking ticket,23520
+453,35,2021-02-23,true,Parking ticket,7751
+454,50,2025-01-11,true,Smoking in the car,25125
+455,50,2024-01-09,true,Late return,28035
+456,50,2024-03-14,true,Late return,393
+457,75,2022-10-19,true,Parking ticket,23680
+458,50,2024-02-04,true,Late return,43854
+459,35,2024-05-03,true,Toll not paid,14830
+460,35,2023-02-26,true,Toll not paid,13746
+461,35,2025-09-19,false,Toll not paid,35566
+462,35,2023-03-06,false,Speeding camera,27258
+463,35,2022-06-09,true,Toll not paid,54482
+464,35,2021-05-01,true,Toll not paid,43380
+465,35,2024-12-03,true,Smoking in the car,35267
+466,50,2025-09-30,true,Parking ticket,31251
+467,75,2024-03-31,true,Smoking in the car,14752
+468,35,2023-12-24,true,Late return,3750
+469,75,2022-10-12,true,Smoking in the car,9738
+470,50,2022-09-03,true,Late return,21793
+471,50,2025-12-31,true,Speeding camera,5331
+472,150,2023-12-22,true,Toll not paid,34145
+473,35,2022-12-25,true,Speeding camera,29881
+474,50,2025-10-31,true,Toll not paid,15234
+475,75,2025-01-09,true,Speeding camera,31622
+476,75,2024-11-14,true,Parking ticket,49813
+477,35,2022-12-04,true,Toll not paid,38267
+478,75,2023-06-03,false,Late return,30481
+479,75,2024-11-29,false,Toll not paid,55705
+480,50,2022-02-16,true,Smoking in the car,27913
+481,150,2022-01-20,true,Parking ticket,57244
+482,50,2022-04-23,true,Smoking in the car,61264
+483,50,2025-06-25,true,Late return,58094
+484,35,2025-01-07,false,Toll not paid,12903
+485,35,2024-10-16,true,Parking ticket,58593
+486,50,2021-09-13,true,Toll not paid,48854
+487,35,2024-05-04,true,Toll not paid,38415
+488,50,2025-09-09,true,Late return,44467
+489,150,2024-10-12,true,Smoking in the car,47407
+490,75,2025-11-20,true,Smoking in the car,56486
+491,35,2026-01-19,true,Parking ticket,27852
+492,75,2024-11-20,true,Parking ticket,44397
+493,75,2021-01-10,true,Parking ticket,22913
+494,35,2023-12-07,true,Toll not paid,27833
+495,50,2021-05-28,true,Parking ticket,25376
+496,35,2021-08-22,true,Smoking in the car,57201
+497,35,2025-05-02,true,Parking ticket,27775
+498,75,2025-02-28,true,Late return,63429
+499,50,2022-08-27,true,Toll not paid,37063
+500,150,2024-09-15,true,Toll not paid,40416
+501,35,2022-01-31,true,Toll not paid,14255
+502,50,2023-03-10,true,Parking ticket,15397
+503,35,2022-02-21,true,Toll not paid,24041
+504,50,2022-08-26,true,Speeding camera,23591
+505,35,2021-12-13,true,Speeding camera,42148
+506,35,2025-04-27,true,Speeding camera,183
+507,35,2025-01-12,true,Toll not paid,36286
+508,75,2022-11-14,true,Late return,55890
+509,150,2021-11-30,true,Toll not paid,21632
+510,35,2022-01-31,true,Toll not paid,40130
+511,35,2024-02-10,false,Late return,23787
+512,50,2021-08-17,true,Parking ticket,60634
+513,35,2022-04-27,true,Toll not paid,32236
+514,75,2023-03-15,true,Late return,19558
+515,35,2024-09-17,true,Parking ticket,36673
+516,35,2025-11-30,true,Toll not paid,38829
+517,50,2022-05-12,true,Parking ticket,7218
+518,150,2021-11-12,true,Toll not paid,44777
+519,75,2025-11-08,true,Late return,17775
+520,50,2023-12-27,true,Toll not paid,35288
+521,150,2025-02-11,true,Speeding camera,63101
+522,150,2023-11-14,true,Parking ticket,37100
+523,75,2023-09-24,true,Late return,49123
+524,50,2024-03-15,true,Toll not paid,17062
+525,35,2024-01-23,true,Smoking in the car,28017
+526,35,2022-08-08,true,Speeding camera,42136
+527,50,2025-12-08,true,Speeding camera,24339
+528,35,2023-02-23,true,Speeding camera,8914
+529,35,2023-03-29,true,Parking ticket,29034
+530,150,2022-11-10,true,Parking ticket,56834
+531,35,2022-12-04,true,Late return,55333
+532,35,2022-11-22,true,Toll not paid,19920
+533,150,2025-02-10,true,Toll not paid,42034
+534,35,2025-02-08,true,Toll not paid,21077
+535,75,2025-02-13,true,Late return,31721
+536,75,2021-04-11,true,Late return,51020
+537,75,2022-07-27,true,Speeding camera,27501
+538,35,2024-04-16,true,Parking ticket,35798
+539,50,2024-10-28,true,Parking ticket,62157
+540,50,2021-01-29,true,Toll not paid,36611
+541,50,2021-04-23,true,Smoking in the car,58457
+542,35,2021-10-03,true,Toll not paid,50205
+543,35,2022-10-07,true,Toll not paid,20048
+544,35,2021-08-19,true,Smoking in the car,28223
+545,35,2023-12-14,true,Toll not paid,11938
+546,50,2023-11-26,true,Late return,21735
+547,75,2021-03-23,true,Smoking in the car,10513
+548,50,2023-12-29,true,Smoking in the car,53219
+549,35,2025-03-21,true,Late return,24546
+550,50,2021-11-23,true,Speeding camera,10838
+551,35,2023-10-05,true,Late return,44814
+552,35,2022-09-24,true,Smoking in the car,39340
+553,35,2022-12-25,true,Late return,26417
+554,75,2023-11-04,true,Toll not paid,49488
+555,35,2021-11-26,true,Late return,50132
+556,35,2024-05-29,true,Parking ticket,10244
+557,75,2024-09-12,true,Speeding camera,5427
+558,35,2025-01-02,true,Late return,16696
+559,50,2025-10-12,true,Speeding camera,16907
+560,150,2023-03-17,true,Toll not paid,42245
+561,35,2025-03-28,true,Speeding camera,16596
+562,35,2024-08-14,true,Parking ticket,45214
+563,35,2022-09-15,true,Toll not paid,8703
+564,35,2021-05-06,true,Late return,5533
+565,50,2021-12-20,true,Late return,46205
+566,35,2024-09-07,true,Smoking in the car,42001
+567,75,2025-06-22,true,Speeding camera,32793
+568,50,2023-02-21,true,Toll not paid,36701
+569,35,2021-02-19,true,Speeding camera,5291
+570,75,2023-10-31,true,Smoking in the car,44047
+571,35,2022-04-30,false,Speeding camera,44010
+572,150,2021-11-20,true,Toll not paid,32042
+573,75,2024-10-07,true,Speeding camera,8163
+574,50,2021-11-28,true,Speeding camera,26257
+575,50,2022-01-17,true,Smoking in the car,27175
+576,75,2025-01-18,true,Smoking in the car,46292
+577,35,2022-07-24,true,Parking ticket,21588
+578,35,2023-08-17,true,Parking ticket,20543
+579,35,2023-12-08,true,Late return,43177
+580,35,2022-05-03,true,Smoking in the car,53624
+581,150,2021-04-07,true,Speeding camera,61078
+582,35,2022-12-07,true,Late return,49176
+583,35,2021-02-17,true,Late return,20684
+584,35,2025-11-28,true,Smoking in the car,5199
+585,35,2023-04-08,true,Smoking in the car,61245
+586,75,2024-10-18,false,Parking ticket,6109
+587,75,2025-04-03,true,Speeding camera,12688
+588,50,2021-07-08,true,Smoking in the car,63148
+589,150,2025-11-29,true,Toll not paid,16623
+590,150,2022-06-04,true,Parking ticket,6683
+591,50,2021-11-13,true,Late return,12157
+592,75,2024-01-04,true,Late return,1913
+593,75,2021-06-02,true,Smoking in the car,56442
+594,50,2024-09-22,true,Parking ticket,26643
+595,150,2022-12-18,true,Toll not paid,19785
+596,75,2023-03-23,true,Speeding camera,4808
+597,50,2023-10-19,false,Smoking in the car,18900
+598,75,2022-11-10,false,Smoking in the car,19308
+599,150,2026-01-03,true,Speeding camera,26654
+600,35,2022-05-26,true,Speeding camera,58605
+601,35,2021-08-21,true,Smoking in the car,32020
+602,35,2023-09-05,false,Parking ticket,64345
+603,35,2025-07-24,true,Smoking in the car,23173
+604,35,2025-10-02,true,Late return,5987
+605,50,2023-12-27,true,Late return,9212
+606,150,2023-02-14,true,Parking ticket,61275
+607,50,2024-04-15,true,Toll not paid,60627
+608,35,2021-05-10,true,Late return,22316
+609,50,2022-01-11,true,Parking ticket,48565
+610,150,2024-03-12,true,Late return,62519
+611,150,2025-10-03,false,Toll not paid,49890
+612,75,2022-12-06,true,Late return,52733
+613,35,2025-06-19,true,Toll not paid,57959
+614,75,2023-02-01,true,Toll not paid,31910
+615,75,2023-04-18,true,Late return,30216
+616,50,2022-10-24,true,Parking ticket,9408
+617,50,2021-10-15,true,Speeding camera,7849
+618,50,2025-02-07,true,Smoking in the car,8804
+619,35,2023-10-10,true,Parking ticket,24230
+620,35,2022-05-01,true,Late return,14319
+621,35,2023-07-06,true,Toll not paid,62906
+622,35,2023-11-30,true,Smoking in the car,15582
+623,35,2024-03-08,true,Parking ticket,25409
+624,150,2021-09-19,true,Late return,58118
+625,75,2025-01-19,true,Smoking in the car,8108
+626,75,2023-05-11,true,Toll not paid,55709
+627,150,2024-08-28,true,Smoking in the car,53929
+628,50,2025-03-18,true,Parking ticket,49182
+629,75,2021-08-27,true,Late return,41648
+630,75,2022-11-06,true,Speeding camera,20631
+631,75,2022-02-27,false,Speeding camera,46468
+632,35,2023-01-27,true,Speeding camera,29128
+633,50,2024-09-22,true,Toll not paid,15279
+634,150,2021-11-27,true,Toll not paid,48330
+635,50,2023-10-20,true,Smoking in the car,36522
+636,50,2024-05-16,true,Smoking in the car,56248
+637,35,2024-01-08,true,Smoking in the car,39238
+638,50,2025-07-21,true,Late return,47542
+639,50,2023-10-17,true,Speeding camera,20454
+640,35,2024-02-08,true,Smoking in the car,30950
+641,50,2026-01-06,true,Parking ticket,45907
+642,50,2022-01-18,true,Late return,9929
+643,50,2025-08-14,true,Late return,58062
+644,75,2021-02-17,true,Late return,9018
+645,35,2022-05-22,false,Speeding camera,56799
+646,50,2021-11-06,false,Late return,24676
+647,35,2023-07-24,true,Parking ticket,8372
+648,35,2021-12-23,true,Speeding camera,41003
+649,35,2022-11-03,true,Smoking in the car,30388
+650,35,2022-09-30,false,Toll not paid,34842
+651,35,2024-10-03,true,Toll not paid,42742
+652,75,2021-10-21,true,Toll not paid,41972
+653,35,2022-02-02,true,Toll not paid,25240
+654,75,2025-03-27,true,Late return,60432
+655,75,2025-08-06,true,Speeding camera,34295
+656,35,2021-01-29,false,Toll not paid,56615
+657,50,2024-09-17,true,Toll not paid,36601
+658,150,2022-01-23,true,Late return,4664
+659,75,2025-12-25,true,Late return,52692
+660,50,2022-05-19,false,Toll not paid,52210
+661,35,2025-11-10,false,Parking ticket,27376
+662,150,2024-01-22,true,Toll not paid,44585
+663,75,2025-12-23,true,Speeding camera,48262
+664,35,2022-11-07,false,Parking ticket,34277
+665,50,2024-09-10,true,Toll not paid,43601
+666,35,2024-08-05,true,Smoking in the car,39603
+667,50,2021-02-21,false,Smoking in the car,44566
+668,35,2021-07-29,true,Toll not paid,64966
+669,50,2021-12-15,true,Smoking in the car,52635
+670,35,2023-11-28,true,Late return,32333
+671,50,2024-01-10,true,Smoking in the car,47571
+672,75,2024-01-21,true,Speeding camera,63501
+673,50,2021-08-16,true,Speeding camera,13175
+674,150,2024-11-25,false,Speeding camera,14989
+675,35,2025-07-03,true,Late return,64033
+676,150,2022-12-13,true,Toll not paid,8150
+677,35,2023-10-08,true,Speeding camera,45569
+678,50,2023-01-13,false,Toll not paid,27778
+679,75,2022-12-10,true,Smoking in the car,32497
+680,35,2024-11-07,true,Parking ticket,6368
+681,35,2022-10-21,true,Speeding camera,41531
+682,35,2021-07-29,true,Toll not paid,48692
+683,50,2023-12-26,true,Late return,63512
+684,35,2022-06-16,true,Speeding camera,51969
+685,50,2024-10-01,true,Parking ticket,64373
+686,75,2021-08-05,true,Toll not paid,59850
+687,50,2025-04-28,true,Smoking in the car,27821
+688,150,2021-11-16,false,Parking ticket,7270
+689,35,2024-03-04,true,Late return,8981
+690,50,2023-08-19,true,Parking ticket,59773
+691,35,2025-12-15,true,Parking ticket,41405
+692,50,2022-10-25,true,Toll not paid,23262
+693,50,2022-05-20,false,Parking ticket,29957
+694,75,2025-12-16,true,Smoking in the car,58026
+695,35,2022-01-26,true,Parking ticket,37123
+696,75,2021-10-25,true,Toll not paid,12865
+697,50,2024-03-21,true,Toll not paid,2745
+698,35,2024-11-22,true,Smoking in the car,61289
+699,75,2022-04-03,true,Toll not paid,9149
+700,75,2024-05-09,true,Smoking in the car,14484
+701,35,2023-01-08,true,Speeding camera,64766
+702,75,2025-12-11,true,Smoking in the car,25397
+703,35,2024-11-23,true,Late return,8702
+704,35,2023-07-24,false,Toll not paid,17433
+705,35,2021-12-01,true,Parking ticket,52166
+706,75,2021-12-26,true,Speeding camera,43891
+707,35,2022-05-21,true,Parking ticket,17956
+708,35,2022-10-17,true,Late return,57437
+709,35,2024-09-18,true,Toll not paid,29789
+710,50,2024-01-27,true,Speeding camera,49867
+711,75,2023-09-05,true,Parking ticket,48046
+712,35,2022-10-11,true,Toll not paid,63625
+713,35,2022-11-20,true,Speeding camera,20415
+714,50,2023-09-29,true,Toll not paid,63552
+715,35,2024-02-15,true,Toll not paid,59496
+716,35,2021-09-30,true,Speeding camera,16737
+717,50,2025-11-02,true,Smoking in the car,30745
+718,50,2021-07-04,true,Smoking in the car,52796
+719,50,2023-02-11,true,Toll not paid,46806
+720,35,2022-11-23,true,Toll not paid,12261
+721,75,2024-06-07,true,Parking ticket,6788
+722,50,2022-02-19,true,Late return,578
+723,35,2021-01-21,true,Smoking in the car,63188
+724,50,2021-12-19,true,Late return,63884
+725,150,2022-11-17,true,Parking ticket,37557
+726,35,2021-07-28,true,Toll not paid,13524
+727,35,2023-04-07,true,Speeding camera,31645
+728,35,2022-12-15,true,Smoking in the car,3656
+729,35,2021-11-06,true,Parking ticket,46304
+730,35,2023-03-26,true,Smoking in the car,22758
+731,75,2023-09-26,true,Speeding camera,54021
+732,35,2025-01-08,true,Late return,9479
+733,50,2023-08-10,false,Speeding camera,11020
+734,50,2024-09-15,true,Smoking in the car,55898
+735,50,2024-04-29,true,Parking ticket,57594
+736,35,2024-03-27,true,Parking ticket,28449
+737,50,2024-02-22,true,Smoking in the car,36818
+738,35,2024-03-12,true,Speeding camera,7377
+739,35,2024-04-19,true,Speeding camera,32898
+740,35,2021-04-10,true,Speeding camera,49037
+741,35,2021-07-02,true,Toll not paid,24955
+742,75,2023-04-01,true,Smoking in the car,49053
+743,50,2023-01-22,true,Late return,43322
+744,35,2024-09-14,true,Toll not paid,30271
+745,75,2022-04-05,false,Toll not paid,109
+746,50,2024-05-19,true,Toll not paid,56966
+747,35,2021-03-02,true,Late return,57792
+748,50,2021-03-19,true,Smoking in the car,58081
+749,35,2025-07-02,true,Parking ticket,59967
+750,35,2025-08-25,true,Late return,27374
+751,35,2025-12-27,true,Speeding camera,58872
+752,50,2023-12-02,true,Toll not paid,25235
+753,75,2022-08-03,true,Late return,58815
+754,35,2022-01-20,true,Toll not paid,33729
+755,50,2025-12-28,true,Speeding camera,41277
+756,50,2022-11-28,true,Parking ticket,43082
+757,150,2025-11-23,true,Toll not paid,10707
+758,50,2025-07-16,true,Smoking in the car,5812
+759,50,2021-08-12,true,Parking ticket,57850
+760,75,2022-04-26,true,Speeding camera,33773
+761,35,2024-11-24,true,Late return,1267
+762,50,2025-01-20,true,Parking ticket,39250
+763,35,2025-10-31,true,Toll not paid,12441
+764,35,2025-12-13,false,Parking ticket,17907
+765,35,2022-07-30,true,Smoking in the car,58242
+766,75,2022-06-04,true,Smoking in the car,8156
+767,35,2024-02-16,true,Smoking in the car,12616
+768,75,2023-02-07,true,Parking ticket,14286
+769,150,2025-04-28,true,Smoking in the car,45404
+770,35,2021-10-24,true,Smoking in the car,57349
+771,75,2023-11-19,true,Parking ticket,33235
+772,75,2022-02-02,true,Speeding camera,20738
+773,35,2024-05-22,false,Parking ticket,54873
+774,35,2021-06-11,true,Late return,41878
+775,75,2022-01-31,true,Smoking in the car,49759
+776,50,2025-11-29,true,Late return,57038
+777,50,2021-11-23,true,Parking ticket,19930
+778,150,2024-01-07,true,Parking ticket,8912
+779,50,2021-03-24,true,Parking ticket,35185
+780,35,2024-11-13,false,Smoking in the car,23107
+781,75,2022-02-02,true,Smoking in the car,37677
+782,35,2024-11-16,true,Smoking in the car,5477
+783,50,2022-08-01,true,Smoking in the car,10094
+784,50,2025-07-09,true,Toll not paid,23173
+785,35,2025-01-09,true,Parking ticket,47015
+786,50,2025-03-28,true,Late return,6533
+787,35,2021-11-09,true,Parking ticket,35822
+788,35,2023-03-16,true,Parking ticket,3476
+789,75,2024-03-01,true,Parking ticket,42320
+790,75,2021-12-06,true,Smoking in the car,20526
+791,50,2023-11-05,true,Smoking in the car,26328
+792,150,2023-02-21,false,Late return,3415
+793,50,2026-01-05,true,Parking ticket,52906
+794,35,2025-08-23,true,Toll not paid,35935
+795,75,2025-08-15,true,Parking ticket,9695
+796,35,2024-02-01,true,Late return,38928
+797,50,2021-09-24,true,Parking ticket,48854
+798,75,2021-08-09,true,Late return,884
+799,75,2025-04-09,true,Parking ticket,14014
+800,75,2023-11-25,true,Speeding camera,44278
+801,75,2025-05-04,true,Smoking in the car,11883
+802,50,2026-01-01,true,Parking ticket,49239
+803,35,2023-03-11,true,Speeding camera,60602
+804,35,2023-02-18,true,Smoking in the car,62649
+805,50,2021-01-26,true,Speeding camera,30717
+806,50,2021-09-10,true,Speeding camera,33731
+807,50,2022-11-29,true,Speeding camera,34193
+808,50,2021-12-04,false,Smoking in the car,43017
+809,150,2022-02-03,true,Toll not paid,31878
+810,75,2021-06-26,true,Late return,24811
+811,75,2021-12-04,true,Parking ticket,13737
+812,35,2021-08-20,true,Late return,55953
+813,35,2025-12-17,true,Late return,18177
+814,35,2022-01-01,true,Speeding camera,48910
+815,150,2026-01-07,true,Speeding camera,29401
+816,75,2022-10-20,true,Speeding camera,20070
+817,50,2023-08-10,true,Smoking in the car,50601
+818,35,2021-11-24,true,Smoking in the car,24954
+819,50,2022-11-01,true,Parking ticket,22676
+820,50,2024-12-01,true,Toll not paid,64230
+821,35,2025-07-11,true,Toll not paid,33344
+822,50,2021-08-20,true,Parking ticket,59409
+823,35,2024-01-05,true,Toll not paid,9623
+824,50,2021-08-23,false,Toll not paid,15943
+825,35,2023-03-03,true,Parking ticket,62970
+826,50,2023-02-06,true,Toll not paid,16450
+827,75,2023-01-08,true,Speeding camera,37732
+828,35,2021-10-20,true,Speeding camera,5742
+829,35,2022-12-02,true,Smoking in the car,52280
+830,35,2025-03-11,true,Toll not paid,48355
+831,35,2021-11-10,true,Late return,39021
+832,50,2023-08-27,true,Speeding camera,38679
+833,50,2024-10-14,true,Speeding camera,31524
+834,150,2024-10-18,true,Parking ticket,2755
+835,75,2021-02-20,true,Speeding camera,55702
+836,50,2021-04-01,true,Toll not paid,4946
+837,75,2025-12-10,true,Speeding camera,63591
+838,35,2021-11-14,true,Speeding camera,36828
+839,35,2023-02-03,false,Late return,58505
+840,75,2024-04-11,false,Late return,20794
+841,75,2021-02-01,true,Late return,59523
+842,75,2023-01-19,false,Parking ticket,21906
+843,50,2023-02-15,true,Late return,22844
+844,35,2021-03-10,true,Late return,39133
+845,150,2025-09-26,true,Parking ticket,35476
+846,35,2023-09-02,true,Speeding camera,4880
+847,50,2022-02-27,true,Late return,35499
+848,35,2024-07-10,true,Late return,24331
+849,35,2022-11-25,true,Late return,17760
+850,75,2025-02-17,true,Parking ticket,39463
+851,50,2024-02-16,true,Toll not paid,64732
+852,35,2021-11-05,false,Speeding camera,60529
+853,75,2022-12-13,true,Parking ticket,16547
+854,35,2025-11-22,true,Toll not paid,32084
+855,35,2022-02-23,true,Speeding camera,33059
+856,35,2025-11-22,true,Parking ticket,19203
+857,35,2023-02-28,true,Parking ticket,14215
+858,150,2023-12-12,true,Toll not paid,17553
+859,35,2025-07-31,true,Smoking in the car,41136
+860,50,2024-01-03,true,Smoking in the car,21879
+861,150,2024-11-24,true,Speeding camera,27015
+862,150,2022-01-01,true,Toll not paid,64109
+863,50,2026-01-03,true,Late return,4485
+864,35,2025-12-14,true,Smoking in the car,19418
+865,35,2024-02-07,true,Smoking in the car,27651
+866,35,2024-05-31,true,Smoking in the car,661
+867,35,2024-02-04,true,Speeding camera,16695
+868,150,2022-05-21,true,Late return,48883
+869,75,2023-11-03,false,Late return,62216
+870,35,2023-04-02,true,Parking ticket,23537
+871,50,2023-11-04,true,Smoking in the car,41243
+872,35,2022-10-20,true,Toll not paid,7623
+873,35,2021-11-26,true,Parking ticket,36432
+874,35,2023-07-15,true,Smoking in the car,56412
+875,35,2025-11-15,true,Parking ticket,57138
+876,50,2023-11-17,true,Toll not paid,3162
+877,50,2025-08-26,true,Toll not paid,28934
+878,75,2021-02-12,true,Toll not paid,45167
+879,75,2025-07-15,true,Speeding camera,56562
+880,35,2023-12-12,true,Smoking in the car,53621
+881,50,2023-09-04,true,Smoking in the car,16362
+882,35,2025-12-07,false,Smoking in the car,12014
+883,50,2024-01-26,true,Smoking in the car,47151
+884,50,2023-11-05,true,Smoking in the car,35068
+885,50,2025-11-02,true,Parking ticket,45221
+886,75,2025-01-16,true,Toll not paid,59647
+887,50,2026-01-07,true,Late return,36046
+888,35,2022-11-17,true,Toll not paid,43788
+889,35,2023-12-23,true,Speeding camera,57728
+890,35,2023-07-20,true,Late return,35926
+891,35,2024-10-17,true,Smoking in the car,58349
+892,150,2021-08-26,true,Late return,10963
+893,150,2021-03-09,true,Speeding camera,52840
+894,35,2023-02-06,true,Toll not paid,45353
+895,35,2021-12-19,true,Toll not paid,27985
+896,75,2021-12-10,true,Speeding camera,42045
+897,35,2023-03-31,true,Late return,39294
+898,50,2021-09-11,false,Parking ticket,9217
+899,35,2021-01-21,true,Smoking in the car,53133
+900,150,2022-02-03,true,Late return,42774
+901,75,2023-10-13,true,Parking ticket,40877
+902,50,2024-08-08,false,Parking ticket,49381
+903,75,2022-01-31,true,Speeding camera,38368
+904,50,2021-04-29,true,Smoking in the car,8997
+905,50,2025-10-14,true,Late return,25358
+906,35,2026-01-09,true,Parking ticket,49957
+907,35,2023-02-27,true,Parking ticket,41996
+908,35,2022-02-16,true,Toll not paid,41439
+909,50,2023-12-26,true,Late return,63654
+910,50,2022-04-26,true,Parking ticket,4224
+911,150,2023-10-15,true,Smoking in the car,37425
+912,35,2024-04-09,true,Smoking in the car,3733
+913,35,2025-09-16,true,Late return,8267
+914,35,2024-11-30,true,Speeding camera,55097
+915,35,2022-09-10,true,Late return,35659
+916,35,2023-03-03,true,Speeding camera,400
+917,75,2023-09-29,true,Speeding camera,4370
+918,35,2021-01-25,true,Toll not paid,1205
+919,75,2023-08-06,true,Late return,20339
+920,75,2024-02-28,true,Parking ticket,19125
+921,35,2022-10-02,true,Late return,9915
+922,35,2021-11-10,true,Toll not paid,27795
+923,75,2024-07-10,true,Parking ticket,29051
+924,75,2023-03-14,true,Speeding camera,22953
+925,150,2022-03-31,true,Smoking in the car,11728
+926,50,2024-03-09,true,Late return,26948
+927,50,2024-01-07,true,Parking ticket,5531
+928,50,2025-01-06,true,Late return,58537
+929,75,2024-01-14,true,Parking ticket,42607
+930,50,2025-03-19,true,Speeding camera,6409
+931,50,2026-01-07,true,Parking ticket,47991
+932,50,2024-10-01,true,Speeding camera,40356
+933,75,2022-02-08,true,Speeding camera,26244
+934,50,2023-01-13,true,Late return,39914
+935,35,2025-07-03,false,Parking ticket,47384
+936,35,2025-10-28,true,Parking ticket,30220
+937,75,2021-10-01,true,Parking ticket,32626
+938,35,2025-12-20,true,Speeding camera,4694
+939,75,2024-08-21,true,Parking ticket,9989
+940,35,2022-06-29,true,Smoking in the car,48120
+941,50,2021-10-09,true,Parking ticket,46046
+942,35,2025-03-10,true,Late return,8620
+943,50,2021-08-20,true,Speeding camera,10152
+944,75,2023-12-14,true,Smoking in the car,62494
+945,35,2025-11-18,true,Toll not paid,63126
+946,35,2021-04-19,false,Speeding camera,37896
+947,35,2023-05-18,false,Smoking in the car,21355
+948,50,2023-05-09,true,Late return,28346
+949,35,2021-10-09,true,Speeding camera,20431
+950,50,2022-11-06,true,Speeding camera,550
+951,75,2025-04-16,true,Speeding camera,41603
+952,35,2021-10-29,false,Parking ticket,16349
+953,50,2024-01-31,true,Parking ticket,29495
+954,75,2023-01-10,true,Toll not paid,44633
+955,35,2021-03-04,true,Smoking in the car,51457
+956,50,2023-01-25,true,Parking ticket,29186
+957,50,2025-06-17,true,Parking ticket,48088
+958,75,2022-11-28,true,Late return,59120
+959,150,2023-10-07,true,Smoking in the car,49123
+960,35,2021-10-28,true,Speeding camera,52306
+961,35,2021-12-22,true,Toll not paid,49316
+962,35,2022-11-13,true,Smoking in the car,55760
+963,35,2023-12-10,true,Parking ticket,21400
+964,50,2023-01-29,true,Toll not paid,13325
+965,150,2024-03-16,true,Speeding camera,9617
+966,50,2024-05-16,true,Smoking in the car,14183
+967,35,2021-10-25,false,Toll not paid,4185
+968,35,2023-07-13,true,Toll not paid,56935
+969,150,2025-12-18,true,Smoking in the car,13839
+970,75,2022-03-24,true,Parking ticket,27857
+971,150,2023-04-13,false,Parking ticket,45110
+972,50,2024-09-30,true,Toll not paid,16361
+973,50,2025-08-01,true,Speeding camera,54924
+974,50,2023-10-29,true,Smoking in the car,50048
+975,50,2023-09-30,true,Speeding camera,424
+976,50,2024-10-19,true,Smoking in the car,38110
+977,35,2022-12-01,true,Speeding camera,51744
+978,50,2021-04-12,true,Late return,758
+979,50,2025-09-22,true,Late return,586
+980,150,2025-10-04,false,Speeding camera,29688
+981,50,2024-04-10,true,Parking ticket,31616
+982,35,2023-05-17,true,Parking ticket,34414
+983,50,2021-10-26,true,Smoking in the car,61328
+984,35,2022-09-01,true,Toll not paid,10443
+985,50,2024-09-15,true,Late return,4858
+986,35,2025-03-10,true,Speeding camera,26113
+987,75,2022-03-02,true,Smoking in the car,17636
+988,35,2021-03-07,true,Smoking in the car,41572
+989,35,2021-02-13,false,Smoking in the car,28020
+990,75,2024-06-04,true,Late return,24747
+991,35,2025-01-09,true,Late return,6858
+992,50,2021-11-17,true,Parking ticket,11119
+993,50,2024-09-25,true,Smoking in the car,2335
+994,35,2024-12-23,true,Speeding camera,115
+995,150,2024-12-23,true,Speeding camera,48908
+996,35,2022-01-23,true,Smoking in the car,39142
+997,35,2023-01-14,false,Toll not paid,11501
+998,50,2024-11-19,true,Toll not paid,8706
+999,35,2024-01-14,false,Late return,21356
+1000,75,2023-02-25,true,Late return,11294

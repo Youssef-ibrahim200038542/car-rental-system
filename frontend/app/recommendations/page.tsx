@@ -1,723 +1,508 @@
 
-    "use client";
+"use client";
 
-    import { useState } from "react";
+import { useState } from "react";
+import { getLocalCarImage } from "@/lib/car-images";
 
-    type Car = {
-    id: number;
-    category_id: number;
-    branch_id: number;
-    brand: string;
-    model: string;
-    year: number;
-    color: string;
-    license_plate: string;
-    vin: string;
-    mileage: number;
-    fuel_type: string;
-    transmission: string;
-    seats: number;
-    daily_rate: string;
-    status: string;
-    image?: string | null;
-    description?: string;
-    category?: {
-        id: number;
-        name: string;
-    };
-    branch?: {
-        id: number;
-        name: string;
-        address: string;
-        city: string;
-    };
-    };
+type Recommendation = {
+  vehicle_id: number;
+  manufacturer: string;
+  model_name: string;
+  category: string;
+  vehicle_year: number;
+  vehicle_color: string;
+  fuel_type: string;
+  transmission: string;
+  vehicle_mileage: number;
+  branch_name: string;
+  city: string;
+  source_daily_rate: number;
+  features: string;
+  average_rating: number | null;
+  review_count: number;
+  matched_features?: string;
+  feature_score?: number;
+  result_type: string;
+  differences?: string;
+};
 
-    type Recommendation = {
-    car: Car;
-    score: number;
-    reasons: string[];
-    estimated_total: number;
-    within_budget: boolean;
-    };
+type RecommendationResponse = {
+  success: boolean;
+  result_type?: string;
+  count?: number;
+  message?: string;
+  recommendations?: Recommendation[];
+  error?: string;
+};
 
-    type Preferences = {
-    budget?: number | null;
-    seats?: number | null;
-    duration?: number | null;
-    fuel_type?: string | null;
-    category?: string | null;
-    };
+const categories = [
+  "Economy",
+  "Compact",
+  "Midsize",
+  "SUV",
+  "Minivan",
+  "Luxury",
+];
 
-    type RecommendationResponse = {
-    success: boolean;
-    message?: string;
-    preferences?: Preferences;
-    budget_match?: boolean;
-    data?: Recommendation[];
-    };
+const inputClass =
+  "mt-2 w-full rounded-xl border border-[#e5e6e1] bg-white px-4 py-3.5 text-sm text-[#0a1411] outline-none transition focus:border-[#c6a15b] focus:ring-2 focus:ring-[#c6a15b]/20";
 
-    const examples = [
-    "I need a hybrid SUV for 5 people for one week. My budget is 15000.",
-    "I need a comfortable sedan for 4 people for 3 days.",
-    "I need a cheap car for 2 people for one day. My budget is 2000.",
-    ];
+const labelClass = "text-sm font-semibold text-[#526057]";
 
-    export default function RecommendationsPage() {
-    const [message, setMessage] = useState("");
-    const [results, setResults] = useState<Recommendation[]>([]);
-    const [preferences, setPreferences] = useState<Preferences>();
-    const [budgetMatch, setBudgetMatch] = useState<boolean | undefined>();
-    const [loading, setLoading] = useState(false);
-    const [searched, setSearched] = useState(false);
-    const [error, setError] = useState("");
+export default function RecommendationsPage() {
+  const apiUrl =
+    process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
 
-    const apiUrl =
-        process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
+  const [budget, setBudget] = useState("80");
+  const [category, setCategory] = useState("");
+  const [fuelType, setFuelType] = useState("");
+  const [transmission, setTransmission] = useState("");
+  const [city, setCity] = useState("");
+  const [minYear, setMinYear] = useState("");
+  const [limit, setLimit] = useState("5");
 
-    const handleSearch = async () => {
-        if (!message.trim()) {
-        setError("Tell me what kind of car you're looking for first.");
-        return;
-        }
+  const [results, setResults] = useState<Recommendation[]>([]);
+  const [resultType, setResultType] = useState("");
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [searched, setSearched] = useState(false);
+  const [error, setError] = useState("");
 
-        setLoading(true);
-        setError("");
-        setSearched(false);
-        setResults([]);
+  async function handleSearch(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
 
-        try {
-        const response = await fetch(`${apiUrl}/ai/recommendations`, {
-            method: "POST",
-            headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            },
-            body: JSON.stringify({
-            message: message.trim(),
-            }),
-        });
+    const numericBudget = Number(budget);
 
-        const data: RecommendationResponse = await response.json();
+    if (
+      !budget.trim() ||
+      !Number.isFinite(numericBudget) ||
+      numericBudget < 0
+    ) {
+      setError("Please enter a valid budget.");
+      return;
+    }
 
-        if (!response.ok || !data.success) {
-            throw new Error(data.message || "Something went wrong.");
-        }
+    setLoading(true);
+    setError("");
+    setSearched(false);
+    setResults([]);
 
-        setPreferences(data.preferences);
-        setBudgetMatch(data.budget_match);
-        setResults(data.data || []);
-        setSearched(true);
-        } catch (err) {
-        setError(
-            err instanceof Error
-            ? err.message
-            : "Unable to connect to the AI service."
+    try {
+      const response = await fetch(`${apiUrl}/ml/recommendations`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          budget: numericBudget,
+          category: category || null,
+          fuel_type: fuelType || null,
+          transmission: transmission || null,
+          city: city.trim() || null,
+          min_year: minYear ? Number(minYear) : null,
+          limit: Number(limit),
+        }),
+      });
+
+      const data: RecommendationResponse = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(
+          data.message ||
+            data.error ||
+            "Unable to generate recommendations."
         );
-        } finally {
-        setLoading(false);
-        }
-    };
+      }
 
-    const getImageUrl = (image?: string | null) => {
-        if (!image) return null;
-        if (image.startsWith("http")) return image;
+      setResults(data.recommendations || []);
+      setResultType(data.result_type || "");
+      setMessage(data.message || "Recommendations generated successfully.");
+      setSearched(true);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Unable to connect to the recommendation service."
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
 
-        return `${apiUrl.replace(/\/api\/?$/, "")}/${image.replace(/^\/+/, "")}`;
-    };
+  function resetSearch() {
+    setBudget("80");
+    setCategory("");
+    setFuelType("");
+    setTransmission("");
+    setCity("");
+    setMinYear("");
+    setLimit("5");
+    setResults([]);
+    setResultType("");
+    setMessage("");
+    setError("");
+    setSearched(false);
+  }
 
-    const formatFuel = (fuel?: string | null) => {
-        if (!fuel) return "Any fuel";
-        return fuel.charAt(0).toUpperCase() + fuel.slice(1);
-    };
+  const isAlternative = resultType.toLowerCase().includes("alternative");
 
-    const resetSearch = () => {
-        setMessage("");
-        setResults([]);
-        setPreferences(undefined);
-        setBudgetMatch(undefined);
-        setSearched(false);
-        setError("");
-    };
+  return (
+    <main className="min-h-screen bg-[#f8f8f7] text-[#0a1411]">
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(198,161,91,0.16),transparent_55%)]" />
+        <div className="absolute -left-40 top-40 h-96 w-96 rounded-full bg-[#c6a15b]/10 blur-[120px]" />
+        <div className="absolute -right-40 top-72 h-96 w-96 rounded-full bg-[#1a3027]/10 blur-[120px]" />
 
-    return (
-        <main className="min-h-screen bg-[#f8f8f7] text-[#0a1411]">
-        <section className="relative overflow-hidden">
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(198,161,91,0.14),transparent_55%)]" />
-
-            <div className="absolute -left-40 top-40 h-96 w-96 rounded-full bg-[#c6a15b]/10 blur-[120px]" />
-
-            <div className="absolute -right-40 top-72 h-96 w-96 rounded-full bg-[#1a3027]/10 blur-[120px]" />
-
-            <div
-            className="absolute inset-0 opacity-[0.035]"
-            style={{
-                backgroundImage:
-                "linear-gradient(#0a1411 1px, transparent 1px), linear-gradient(90deg, #0a1411 1px, transparent 1px)",
-                backgroundSize: "60px 60px",
-            }}
-            />
-
-            <div className="relative mx-auto max-w-5xl px-5 pb-20 pt-32 text-center sm:px-8">
-            <div className="mx-auto mb-7 inline-flex items-center gap-3 rounded-full border border-[#c6a15b]/30 bg-white/80 px-5 py-2.5 text-sm font-semibold text-[#80612d] shadow-sm backdrop-blur">
-                <span className="relative flex h-2.5 w-2.5">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#c6a15b] opacity-50" />
-                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#9a783c]" />
-                </span>
-                AI-Powered Car Recommendations
+        <div className="relative mx-auto max-w-6xl px-5 pb-16 pt-28 sm:px-8 sm:pt-32">
+          <div className="mx-auto max-w-3xl text-center">
+            <div className="mb-7 inline-flex items-center gap-3 rounded-full border border-[#c6a15b]/30 bg-white/80 px-5 py-2.5 text-sm font-semibold text-[#80612d] shadow-sm backdrop-blur">
+              <span className="h-2.5 w-2.5 rounded-full bg-[#9a783c]" />
+              Content-Based Car Recommendations
             </div>
 
-            <h1 className="mx-auto max-w-4xl text-5xl font-bold leading-[1.05] tracking-tight text-[#0a1411] sm:text-6xl lg:text-7xl">
-                Find your
-                <span className="block bg-gradient-to-r from-[#9a783c] via-[#c6a15b] to-[#80612d] bg-clip-text text-transparent">
+            <h1 className="text-5xl font-bold leading-tight tracking-tight sm:text-6xl lg:text-7xl">
+              Find your
+              <span className="block bg-gradient-to-r from-[#9a783c] via-[#c6a15b] to-[#80612d] bg-clip-text text-transparent">
                 perfect car.
-                </span>
+              </span>
             </h1>
 
-            <p className="mx-auto mt-7 max-w-2xl text-lg leading-8 text-[#68736d] sm:text-xl">
-                Tell us what you need in natural language. Our AI understands your
-                requirements and finds the best matching cars for your trip.
+            <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-[#68736d] sm:text-lg">
+              Tell us your budget and preferred specifications. Our
+              recommendation system analyzes the available dataset and ranks
+              cars based on your requirements.
             </p>
+          </div>
 
-            <div className="mx-auto mt-12 max-w-4xl">
-                <div className="rounded-[2rem] border border-[#e5e6e1] bg-white p-2 shadow-xl shadow-[#0a1411]/5">
-                <div className="rounded-[1.5rem] bg-[#f8f8f7] p-5 sm:p-7">
-                    <div className="flex items-start gap-4">
-                    <div className="hidden h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#0a1411] text-[#c6a15b] sm:flex">
-                        <svg
-                        className="h-6 w-6"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={1.7}
-                            d="M9.75 3.75h4.5M12 3.75v2.25M6.75 8.25h10.5a2.25 2.25 0 012.25 2.25v7.5a2.25 2.25 0 01-2.25 2.25H6.75a2.25 2.25 0 01-2.25-2.25v-7.5a2.25 2.25 0 012.25-2.25z"
-                        />
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={1.7}
-                            d="M8.25 13.5h.01M15.75 13.5h.01M9.75 16.5a3.5 3.5 0 004.5 0"
-                        />
-                        </svg>
-                    </div>
-
-                    <textarea
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        onKeyDown={(e) => {
-                        if (e.key === "Enter" && !e.shiftKey) {
-                            e.preventDefault();
-                            if (!loading) handleSearch();
-                        }
-                        }}
-                        rows={3}
-                        placeholder="Describe the car you need..."
-                        className="min-h-[100px] flex-1 resize-y bg-transparent text-base leading-7 text-[#0a1411] outline-none placeholder:text-[#9ba29d]"
-                    />
-                    </div>
-
-                    <div className="mt-4 flex flex-col gap-4 border-t border-[#e5e6e1] pt-4 sm:flex-row sm:items-center sm:justify-between">
-                    <p className="text-xs leading-5 text-[#929a94]">
-                        Press Enter to search · Shift + Enter for a new line
-                    </p>
-
-                    <button
-                        type="button"
-                        onClick={handleSearch}
-                        disabled={loading}
-                        className="group inline-flex items-center justify-center gap-3 rounded-xl bg-[#0a1411] px-6 py-3.5 font-semibold text-white shadow-lg shadow-[#0a1411]/10 transition duration-200 hover:bg-[#c6a15b] hover:text-[#0a1411] disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-[#0a1411] disabled:hover:text-white"
-                    >
-                        {loading ? (
-                        <>
-                            <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-                            AI is thinking...
-                        </>
-                        ) : (
-                        <>
-                            Find My Perfect Car
-                            <span className="transition-transform duration-200 group-hover:translate-x-1">
-                            →
-                            </span>
-                        </>
-                        )}
-                    </button>
-                    </div>
-                </div>
-                </div>
-
-                <div className="mt-7">
-                <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-[#929a94]">
-                    Try an example
-                </p>
-
-                <div className="flex flex-wrap justify-center gap-2">
-                    {examples.map((example) => (
-                    <button
-                        key={example}
-                        type="button"
-                        onClick={() => {
-                        setMessage(example);
-                        setError("");
-                        }}
-                        className="rounded-full border border-[#e1e3dc] bg-white px-4 py-2.5 text-xs leading-5 text-[#68736d] transition hover:border-[#c6a15b] hover:bg-[#c6a15b]/10 hover:text-[#80612d]"
-                    >
-                        {example}
-                    </button>
-                    ))}
-                </div>
-                </div>
-
-                {error && (
-                <div
-                    role="alert"
-                    className="mt-6 rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-left text-sm leading-6 text-red-700"
-                >
-                    {error}
-                </div>
-                )}
+          <form
+            onSubmit={handleSearch}
+            className="mx-auto mt-12 max-w-4xl rounded-[2rem] border border-[#e5e6e1] bg-white p-5 shadow-xl shadow-[#0a1411]/5 sm:p-8"
+          >
+            <div className="mb-7">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#9a783c]">
+                Personalize your search
+              </p>
+              <h2 className="mt-2 text-2xl font-bold">Your ideal rental</h2>
+              <p className="mt-2 text-sm leading-6 text-[#68736d]">
+                Choose the details that matter to you. Optional fields can be
+                left empty.
+              </p>
             </div>
-            </div>
-        </section>
 
-        {searched && (
-            <section className="border-t border-[#e5e6e1] bg-white py-16 sm:py-20">
-            <div className="mx-auto max-w-7xl px-5 sm:px-8">
-                <div className="mb-10">
-                <div className="mb-3 flex items-center gap-3">
-                    <span className="h-px w-8 bg-[#c6a15b]" />
-                    <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#9a783c]">
-                    AI Analysis
-                    </p>
-                </div>
-
-                <h2 className="text-3xl font-bold tracking-tight text-[#0a1411] sm:text-4xl">
-                    Here&apos;s what we understood.
-                </h2>
-
-                <p className="mt-3 text-[#68736d]">
-                    Your request translated into rental preferences.
-                </p>
-                </div>
-
-                <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-                <PreferenceCard
-                    label="Budget"
-                    value={
-                    preferences?.budget
-                        ? `${preferences.budget.toLocaleString()} EGP`
-                        : "Any budget"
-                    }
-                    icon="₣"
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              <label className={labelClass}>
+                Maximum daily budget
+                <input
+                  type="number"
+                  min="0"
+                  step="any"
+                  required
+                  value={budget}
+                  onChange={(event) => setBudget(event.target.value)}
+                  placeholder="Enter your budget"
+                  className={inputClass}
                 />
+              </label>
 
-                <PreferenceCard
-                    label="Passengers"
-                    value={
-                    preferences?.seats
-                        ? `${preferences.seats} people`
-                        : "Any size"
-                    }
-                    icon="P"
-                />
-
-                <PreferenceCard
-                    label="Duration"
-                    value={
-                    preferences?.duration
-                        ? `${preferences.duration} days`
-                        : "Flexible"
-                    }
-                    icon="D"
-                />
-
-                <PreferenceCard
-                    label="Fuel"
-                    value={formatFuel(preferences?.fuel_type)}
-                    icon="E"
-                />
-
-                <PreferenceCard
-                    label="Car type"
-                    value={
-                    preferences?.category
-                        ? preferences.category.charAt(0).toUpperCase() +
-                        preferences.category.slice(1)
-                        : "Any type"
-                    }
-                    icon="C"
-                />
-                </div>
-
-                {budgetMatch === false && (
-                <div className="mt-6 rounded-2xl border border-[#c6a15b]/30 bg-[#c6a15b]/10 px-5 py-4 text-sm leading-6 text-[#80612d]">
-                    We couldn&apos;t find a match within your budget, so these
-                    recommendations show the closest alternatives.
-                </div>
-                )}
-
-                <div className="mt-16 flex flex-col gap-5 border-b border-[#e5e6e1] pb-7 sm:flex-row sm:items-end sm:justify-between">
-                <div>
-                    <p className="text-sm text-[#68736d]">
-                    {results.length}{" "}
-                    {results.length === 1 ? "vehicle" : "vehicles"} matched
-                    </p>
-
-                    <h2 className="mt-2 text-3xl font-bold text-[#0a1411]">
-                    {budgetMatch === false
-                        ? "Closest alternatives"
-                        : "Best matches for you"}
-                    </h2>
-                </div>
-
-                <button
-                    type="button"
-                    onClick={resetSearch}
-                    className="w-fit rounded-xl border border-[#e1e3dc] bg-white px-5 py-3 text-sm font-semibold text-[#0a1411] transition hover:border-[#c6a15b] hover:bg-[#c6a15b]/10 hover:text-[#80612d]"
+              <label className={labelClass}>
+                Car category
+                <select
+                  value={category}
+                  onChange={(event) => setCategory(event.target.value)}
+                  className={inputClass}
                 >
-                    New Search
-                </button>
-                </div>
+                  <option value="">Any category</option>
+                  {categories.map((item) => (
+                    <option key={item} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </label>
 
-                {results.length === 0 ? (
-                <div className="mt-8 rounded-3xl border border-[#e5e6e1] bg-[#f8f8f7] p-10 text-center sm:p-12">
-                    <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#0a1411] text-2xl text-[#c6a15b]">
-                    🚘
-                    </div>
+              <label className={labelClass}>
+                Fuel type
+                <select
+                  value={fuelType}
+                  onChange={(event) => setFuelType(event.target.value)}
+                  className={inputClass}
+                >
+                  <option value="">Any fuel type</option>
+                  <option value="gasoline">Gasoline</option>
+                  <option value="petrol">Petrol</option>
+                  <option value="diesel">Diesel</option>
+                  <option value="hybrid">Hybrid</option>
+                  <option value="electric">Electric</option>
+                </select>
+              </label>
 
-                    <h3 className="mt-5 text-xl font-bold text-[#0a1411]">
-                    No matching cars found
-                    </h3>
+              <label className={labelClass}>
+                Transmission
+                <select
+                  value={transmission}
+                  onChange={(event) => setTransmission(event.target.value)}
+                  className={inputClass}
+                >
+                  <option value="">Any transmission</option>
+                  <option value="automatic">Automatic</option>
+                  <option value="manual">Manual</option>
+                </select>
+              </label>
 
-                    <p className="mx-auto mt-2 max-w-md leading-7 text-[#68736d]">
-                    Try increasing your budget or describing your requirements
-                    differently.
-                    </p>
+              <label className={labelClass}>
+                Preferred city
+                <input
+                  type="text"
+                  value={city}
+                  onChange={(event) => setCity(event.target.value)}
+                  placeholder="e.g. Atlanta"
+                  className={inputClass}
+                />
+              </label>
 
-                    <button
-                    type="button"
-                    onClick={() => {
-                        setMessage("");
-                        setError("");
-                    }}
-                    className="mt-6 rounded-xl bg-[#0a1411] px-6 py-3 font-semibold text-white transition hover:bg-[#c6a15b] hover:text-[#0a1411]"
-                    >
-                    Try Another Search
-                    </button>
-                </div>
+              <label className={labelClass}>
+                Minimum model year
+                <input
+                  type="number"
+                  min="1900"
+                  max="2100"
+                  value={minYear}
+                  onChange={(event) => setMinYear(event.target.value)}
+                  placeholder="Any year"
+                  className={inputClass}
+                />
+              </label>
+
+              <label className={labelClass}>
+                Number of recommendations
+                <select
+                  value={limit}
+                  onChange={(event) => setLimit(event.target.value)}
+                  className={inputClass}
+                >
+                  <option value="5">5 cars</option>
+                  <option value="10">10 cars</option>
+                  <option value="15">15 cars</option>
+                  <option value="20">20 cars</option>
+                </select>
+              </label>
+            </div>
+
+            <div className="mt-7 flex flex-col gap-4 border-t border-[#e5e6e1] pt-6 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-xs leading-5 text-[#929a94]">
+                Results are based on the current dataset and its daily rates.
+              </p>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="inline-flex items-center justify-center gap-3 rounded-xl bg-[#0a1411] px-7 py-4 font-semibold text-white transition hover:bg-[#c6a15b] hover:text-[#0a1411] disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {loading ? (
+                  <>
+                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                    Finding recommendations...
+                  </>
                 ) : (
-                <div className="mt-8 grid gap-6 lg:grid-cols-2">
-                    {results.map((recommendation, index) => {
-                    const car = recommendation.car;
-                    const imageUrl = getImageUrl(car.image);
-
-                    return (
-                        <article
-                        key={car.id}
-                        className="group overflow-hidden rounded-3xl border border-[#e5e6e1] bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-[#c6a15b]/60 hover:shadow-xl hover:shadow-[#0a1411]/5"
-                        >
-                        <div className="relative aspect-[16/9] overflow-hidden bg-[#eeeee9]">
-                            {imageUrl ? (
-                            <img
-                                src={imageUrl}
-                                alt={`${car.brand} ${car.model}`}
-                                loading="lazy"
-                                className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                            />
-                            ) : (
-                            <div className="flex h-full items-center justify-center">
-                                <div className="text-center">
-                                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-3xl">
-                                    🚘
-                                </div>
-                                <p className="mt-3 text-xs text-[#929a94]">
-                                    No image available
-                                </p>
-                                </div>
-                            </div>
-                            )}
-
-                            <div className="absolute inset-0 bg-gradient-to-t from-[#0a1411]/90 via-[#0a1411]/10 to-transparent" />
-
-                            {index === 0 && (
-                            <div className="absolute left-5 top-5 rounded-full border border-white/30 bg-[#c6a15b] px-4 py-2 text-xs font-bold text-[#0a1411] shadow-lg">
-                                Best Match
-                            </div>
-                            )}
-
-                            <div className="absolute right-5 top-5 rounded-2xl border border-white/20 bg-[#0a1411]/80 px-4 py-3 text-center backdrop-blur-md">
-                            <p className="text-[10px] uppercase tracking-widest text-white/70">
-                                Match
-                            </p>
-                            <p className="mt-0.5 text-xl font-bold text-[#e0bd78]">
-                                {recommendation.score}%
-                            </p>
-                            </div>
-
-                            <div className="absolute bottom-5 left-6 right-5">
-                            <p className="text-sm font-semibold text-[#e0bd78]">
-                                {car.category?.name || "Vehicle"}
-                            </p>
-
-                            <h3 className="mt-1 text-2xl font-bold text-white sm:text-3xl">
-                                {car.brand} {car.model}
-                            </h3>
-
-                            <p className="mt-1 text-sm text-white/75">
-                                {car.year} <span className="mx-1">·</span>{" "}
-                                {car.color}
-                            </p>
-                            </div>
-                        </div>
-
-                        <div className="p-5 sm:p-6">
-                            <div className="flex items-start justify-between gap-4">
-                            <div>
-                                <p className="text-xs text-[#929a94]">
-                                Daily rate
-                                </p>
-                                <p className="mt-1 text-xl font-bold text-[#0a1411]">
-                                {Number(car.daily_rate).toLocaleString()}
-                                <span className="ml-1 text-xs font-medium text-[#68736d]">
-                                    EGP
-                                </span>
-                                </p>
-                            </div>
-
-                            <div className="text-right">
-                                <p className="text-xs text-[#929a94]">
-                                Estimated total
-                                </p>
-                                <p className="mt-1 text-xl font-bold text-[#9a783c]">
-                                {Number(
-                                    recommendation.estimated_total
-                                ).toLocaleString()}
-                                <span className="ml-1 text-xs font-medium text-[#68736d]">
-                                    EGP
-                                </span>
-                                </p>
-                            </div>
-                            </div>
-
-                            <div className="mt-6 grid grid-cols-3 divide-x divide-[#e5e6e1] rounded-2xl border border-[#e5e6e1] bg-[#f8f8f7] py-4">
-                            <Spec label="Seats" value={`${car.seats}`} />
-                            <Spec
-                                label="Fuel"
-                                value={formatFuel(car.fuel_type)}
-                            />
-                            <Spec
-                                label="Gear"
-                                value={
-                                car.transmission?.toLowerCase() === "automatic"
-                                    ? "Auto"
-                                    : "Manual"
-                                }
-                            />
-                            </div>
-
-                            {recommendation.reasons?.length > 0 && (
-                            <div className="mt-5 rounded-2xl border border-[#c6a15b]/25 bg-[#c6a15b]/[0.08] p-4">
-                                <p className="mb-3 text-xs font-bold uppercase tracking-wider text-[#80612d]">
-                                Why AI picked this
-                                </p>
-
-                                <div className="space-y-2">
-                                {recommendation.reasons
-                                    .slice(0, 4)
-                                    .map((reason, reasonIndex) => (
-                                    <div
-                                        key={reasonIndex}
-                                        className="flex items-start gap-2 text-sm leading-6 text-[#526057]"
-                                    >
-                                        <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#0a1411] text-[10px] text-[#e0bd78]">
-                                        ✓
-                                        </span>
-                                        <span>{reason}</span>
-                                    </div>
-                                    ))}
-                                </div>
-                            </div>
-                            )}
-
-                            <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-                            <a
-                                href={`/cars/${car.id}`}
-                                className="flex-1 rounded-xl border border-[#dfe2da] bg-white px-5 py-3.5 text-center text-sm font-semibold text-[#0a1411] transition hover:border-[#c6a15b] hover:bg-[#c6a15b]/10 hover:text-[#80612d]"
-                            >
-                                View Car
-                            </a>
-
-                            <a
-                                href={`/bookings/create?car_id=${car.id}`}
-                                className="flex-1 rounded-xl bg-[#0a1411] px-5 py-3.5 text-center text-sm font-semibold text-white transition hover:bg-[#c6a15b] hover:text-[#0a1411]"
-                            >
-                                Book Now <span aria-hidden="true">→</span>
-                            </a>
-                            </div>
-                        </div>
-                        </article>
-                    );
-                    })}
-                </div>
+                  <>
+                    Find My Perfect Car <span aria-hidden="true">→</span>
+                  </>
                 )}
+              </button>
             </div>
-            </section>
-        )}
 
-        {!searched && (
-            <>
-            <section className="border-t border-[#e5e6e1] bg-white py-20 sm:py-24">
-                <div className="mx-auto max-w-7xl px-5 sm:px-8">
-                <div className="mx-auto max-w-2xl text-center">
-                    <p className="text-sm font-bold uppercase tracking-[0.25em] text-[#9a783c]">
-                    How it works
-                    </p>
+            {error && (
+              <div
+                role="alert"
+                className="mt-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm leading-6 text-red-700"
+              >
+                {error}
+              </div>
+            )}
+          </form>
+        </div>
+      </section>
 
-                    <h2 className="mt-4 text-4xl font-bold tracking-tight text-[#0a1411] sm:text-5xl">
-                    Let AI do the searching.
-                    </h2>
-
-                    <p className="mt-5 text-lg leading-8 text-[#68736d]">
-                    No complicated filters. Just describe what you need and let
-                    our AI turn your words into rental options.
-                    </p>
-                </div>
-
-                <div className="mt-14 grid gap-6 md:grid-cols-3">
-                    <FeatureCard
-                    number="01"
-                    title="Tell us your budget"
-                    description="Mention how much you want to spend for the entire rental and the AI will prioritize cars that fit."
-                    icon="₣"
-                    />
-
-                    <FeatureCard
-                    number="02"
-                    title="Describe your needs"
-                    description="Passengers, car type, fuel preference, comfort, or anything else important to you."
-                    icon="AI"
-                    />
-
-                    <FeatureCard
-                    number="03"
-                    title="Get smart matches"
-                    description="The system analyzes your request and ranks vehicles based on how well they fit."
-                    icon="★"
-                    />
-                </div>
-                </div>
-            </section>
-
-            <section className="relative overflow-hidden border-t border-[#e5e6e1] bg-[#0a1411] py-20">
-                <div className="absolute left-1/2 top-0 h-72 w-72 -translate-x-1/2 rounded-full bg-[#c6a15b]/10 blur-[100px]" />
-
-                <div className="relative mx-auto max-w-3xl px-5 text-center sm:px-8">
-                <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border border-[#c6a15b]/30 bg-[#c6a15b]/10 text-3xl text-[#e0bd78]">
-                    ✦
-                </div>
-
-                <h2 className="mt-6 text-3xl font-bold text-white sm:text-4xl">
-                    Your next ride is one sentence away.
-                </h2>
-
-                <p className="mx-auto mt-4 max-w-xl leading-7 text-white/65">
-                    Describe your perfect rental above and let AI handle the rest.
+      {searched && (
+        <section className="border-t border-[#e5e6e1] bg-white py-14 sm:py-20">
+          <div className="mx-auto max-w-7xl px-5 sm:px-8">
+            <div className="flex flex-col gap-5 border-b border-[#e5e6e1] pb-7 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-sm font-bold uppercase tracking-[0.2em] text-[#9a783c]">
+                  Recommendation results
                 </p>
+                <h2 className="mt-3 text-3xl font-bold sm:text-4xl">
+                  {isAlternative
+                    ? "Closest alternatives"
+                    : "Your best matches"}
+                </h2>
+                <p className="mt-3 max-w-2xl text-sm leading-6 text-[#68736d]">
+                  {message}
+                </p>
+              </div>
 
-                <button
-                    type="button"
-                    onClick={() =>
-                    document.querySelector("textarea")?.focus()
-                    }
-                    className="mt-7 rounded-xl bg-[#c6a15b] px-6 py-3.5 font-semibold text-[#0a1411] transition hover:bg-[#e0bd78]"
-                >
-                    Find My Car <span aria-hidden="true">↑</span>
-                </button>
-                </div>
-            </section>
-            </>
-        )}
-        </main>
-    );
-    }
-
-    function PreferenceCard({
-    label,
-    value,
-    icon,
-    }: {
-    label: string;
-    value: string;
-    icon: string;
-    }) {
-    return (
-        <div className="rounded-2xl border border-[#e5e6e1] bg-[#f8f8f7] p-5 transition hover:border-[#c6a15b]/60 hover:bg-white">
-        <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#0a1411] text-xs font-bold text-[#e0bd78]">
-            {icon}
+              <button
+                type="button"
+                onClick={resetSearch}
+                className="w-fit rounded-xl border border-[#e1e3dc] px-5 py-3 text-sm font-semibold transition hover:border-[#c6a15b] hover:bg-[#c6a15b]/10"
+              >
+                New Search
+              </button>
             </div>
-            <p className="text-xs font-semibold uppercase tracking-wider text-[#68736d]">
-            {label}
+
+            {results.length === 0 ? (
+              <div className="mt-8 rounded-3xl border border-[#e5e6e1] bg-[#f8f8f7] p-10 text-center">
+                <div className="text-4xl">🚘</div>
+                <h3 className="mt-4 text-xl font-bold">No cars found</h3>
+                <p className="mt-2 text-sm leading-6 text-[#68736d]">
+                  Try increasing your budget or relaxing some of your
+                  preferences.
+                </p>
+              </div>
+            ) : (
+              <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+                {results.map((car, index) => (
+                  <article
+                    key={car.vehicle_id}
+                    className="overflow-hidden rounded-3xl border border-[#e5e6e1] bg-white shadow-sm transition hover:-translate-y-1 hover:border-[#c6a15b]/60 hover:shadow-xl"
+                  >
+                    {/* Local car image */}
+                    <div className="relative h-52 overflow-hidden bg-gradient-to-br from-[#17251f] to-[#35463c]">
+                      <img
+                        src={getLocalCarImage(
+                          car.manufacturer,
+                          car.model_name,
+                          `${car.manufacturer} ${car.model_name}`
+                        )}
+                        alt={`${car.manufacturer} ${car.model_name}`}
+                        className="absolute inset-0 h-full w-full object-cover"
+                        loading="lazy"
+                      />
+
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10" />
+
+                      <span className="absolute left-4 top-4 rounded-full bg-[#c6a15b] px-3 py-1.5 text-xs font-bold text-[#0a1411]">
+                        {index === 0
+                          ? "Top recommendation"
+                          : `Option ${index + 1}`}
+                      </span>
+
+                      <span className="absolute right-4 top-4 rounded-full border border-white/20 bg-black/40 px-3 py-1.5 text-xs font-medium text-white">
+                        {car.result_type?.toLowerCase().includes("alternative")
+                          ? "Alternative"
+                          : "Match"}
+                      </span>
+
+                      <div className="absolute bottom-4 left-4 right-4">
+                        <p className="text-xs font-bold uppercase tracking-wider text-white/80">
+                          {car.category} · {car.vehicle_year}
+                        </p>
+                        <h3 className="mt-1 text-2xl font-bold text-white drop-shadow">
+                          {car.manufacturer} {car.model_name}
+                        </h3>
+                      </div>
+                    </div>
+
+                    <div className="p-5">
+                      <p className="text-sm text-[#68736d]">
+                        {car.city} · {car.branch_name}
+                      </p>
+
+                      <div className="mt-5 flex items-end justify-between gap-3 border-b border-[#e5e6e1] pb-5">
+                        <div>
+                          <p className="text-xs text-[#929a94]">Daily rate</p>
+                          <p className="mt-1 text-2xl font-bold">
+                            {Number(car.source_daily_rate).toLocaleString()}
+                          </p>
+                          <p className="text-xs text-[#929a94]">
+                            Dataset rate; currency unverified
+                          </p>
+                        </div>
+
+                        <div className="text-right">
+                          <p className="text-xs text-[#929a94]">Rating</p>
+                          <p className="mt-1 text-lg font-bold text-[#9a783c]">
+                            {car.average_rating != null
+                              ? `★ ${Number(car.average_rating).toFixed(1)}`
+                              : "Not rated"}
+                          </p>
+                          <p className="text-xs text-[#929a94]">
+                            {car.review_count} reviews
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="mt-5 grid grid-cols-2 gap-3">
+                        <Spec label="Fuel" value={car.fuel_type} />
+                        <Spec
+                          label="Transmission"
+                          value={car.transmission}
+                        />
+                        <Spec
+                          label="Mileage"
+                          value={Number(car.vehicle_mileage).toLocaleString()}
+                        />
+                        <Spec label="Color" value={car.vehicle_color} />
+                      </div>
+
+                      {car.features && (
+                        <div className="mt-5">
+                          <p className="text-xs font-bold uppercase tracking-wider text-[#929a94]">
+                            Features
+                          </p>
+                          <p className="mt-2 text-sm leading-6 text-[#526057]">
+                            {car.features}
+                          </p>
+                        </div>
+                      )}
+
+                      {car.matched_features && (
+                        <div className="mt-4 rounded-xl bg-emerald-50 p-3 text-sm leading-6 text-emerald-800">
+                          <span className="font-semibold">
+                            Matched features:{" "}
+                          </span>
+                          {car.matched_features}
+                        </div>
+                      )}
+
+                      {car.differences && (
+                        <div className="mt-4 rounded-xl border border-[#c6a15b]/30 bg-[#c6a15b]/10 p-3">
+                          <p className="text-xs font-bold uppercase tracking-wider text-[#80612d]">
+                            Differences from your request
+                          </p>
+                          <p className="mt-2 text-sm leading-6 text-[#526057]">
+                            {car.differences}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </article>
+                ))}
+              </div>
+            )}
+
+            <p className="mt-8 text-xs leading-6 text-[#929a94]">
+              These recommendations come from the ML dataset. Vehicle
+              availability and booking details must be verified against the
+              live DriveX database before booking.
             </p>
-        </div>
+          </div>
+        </section>
+      )}
+    </main>
+  );
+}
 
-        <p className="mt-4 truncate text-sm font-bold text-[#0a1411]">
-            {value}
-        </p>
-        </div>
-    );
-    }
-
-    function Spec({
-    label,
-    value,
-    }: {
-    label: string;
-    value: string;
-    }) {
-    return (
-        <div className="min-w-0 px-1 text-center">
-        <p className="text-[10px] uppercase tracking-wider text-[#929a94]">
-            {label}
-        </p>
-        <p className="mt-1 truncate text-sm font-semibold text-[#0a1411]">
-            {value}
-        </p>
-        </div>
-    );
-    }
-
-    function FeatureCard({
-    number,
-    title,
-    description,
-    icon,
-    }: {
-    number: string;
-    title: string;
-    description: string;
-    icon: string;
-    }) {
-    return (
-        <div className="group rounded-3xl border border-[#e5e6e1] bg-[#f8f8f7] p-7 transition duration-300 hover:-translate-y-1 hover:border-[#c6a15b]/60 hover:bg-white hover:shadow-xl hover:shadow-[#0a1411]/5 sm:p-8">
-        <div className="flex items-start justify-between">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#0a1411] text-sm font-bold text-[#e0bd78]">
-            {icon}
-            </div>
-
-            <span className="text-sm font-bold tracking-widest text-[#c3c8c1]">
-            {number}
-            </span>
-        </div>
-
-        <h3 className="mt-8 text-xl font-bold text-[#0a1411]">{title}</h3>
-
-        <p className="mt-4 leading-7 text-[#68736d]">{description}</p>
-
-        <div className="mt-8 h-1 w-10 rounded-full bg-[#c6a15b] transition-all duration-300 group-hover:w-20" />
-        </div>
-    );
-    }
+function Spec({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="min-w-0 rounded-xl border border-[#e5e6e1] bg-[#f8f8f7] p-3">
+      <p className="text-[10px] font-semibold uppercase tracking-wider text-[#929a94]">
+        {label}
+      </p>
+      <p className="mt-1 truncate text-sm font-semibold capitalize text-[#0a1411]">
+        {value || "N/A"}
+      </p>
+    </div>
+  );
+}

@@ -1,0 +1,5 @@
+id,discount_percent,points_multiplier,tier
+1,0,1,standard
+2,5,1.25,silver
+3,10,1.5,gold
+4,15,2,platinum

@@ -1,0 +1,999 @@
+================================================================================
+FILE: bookings.csv
+ROWS: 100000
+COLUMNS: 9
+COLUMN NAMES: ['id', 'booking_date', 'customer_id', 'discount_id', 'dropoff_date', 'dropoff_location_id', 'pickup_date', 'pickup_location_id', 'vehicle_id']
+
+DATA TYPES:
+id                     int64
+booking_date             str
+customer_id            int64
+discount_id            int64
+dropoff_date             str
+dropoff_location_id    int64
+pickup_date              str
+pickup_location_id     int64
+vehicle_id             int64
+
+MISSING VALUES:
+id                     0
+booking_date           0
+customer_id            0
+discount_id            0
+dropoff_date           0
+dropoff_location_id    0
+pickup_date            0
+pickup_location_id     0
+vehicle_id             0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id        booking_date  customer_id  discount_id        dropoff_date  dropoff_location_id         pickup_date  pickup_location_id  vehicle_id
+  1 2022-09-11 23:18:54          712            1 2022-11-14 11:24:58                    9 2022-11-01 17:36:24                   1         384
+  2 2021-06-10 19:10:49            8            1 2021-08-22 18:11:46                    5 2021-08-09 14:04:03                   4         433
+  3 2022-07-12 21:22:57          583            1 2022-08-10 12:28:41                    5 2022-07-30 10:32:21                   4         669
+
+================================================================================
+FILE: categories.csv
+ROWS: 6
+COLUMNS: 3
+COLUMN NAMES: ['id', 'description', 'name']
+
+DATA TYPES:
+id             int64
+description      str
+name             str
+
+MISSING VALUES:
+id             0
+description    0
+name           0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id         description    name
+  1    Small and frugal Economy
+  2       Room for four Compact
+  3 A comfortable sedan Midsize
+
+================================================================================
+FILE: customers.csv
+ROWS: 4000
+COLUMNS: 7
+COLUMN NAMES: ['id', 'birth_date', 'email', 'first_name', 'last_name', 'membership_id', 'phone']
+
+DATA TYPES:
+id               int64
+birth_date         str
+email              str
+first_name         str
+last_name          str
+membership_id    int64
+phone              str
+
+MISSING VALUES:
+id               0
+birth_date       0
+email            0
+first_name       0
+last_name        0
+membership_id    0
+phone            0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id birth_date                          email first_name last_name  membership_id          phone
+  1 1989-07-02 friedrich.carter25@hotmail.com  Friedrich    Carter              3 (864) 599-7799
+  2 1993-08-05          fay.corkery@gmail.com        Fay   Corkery              1 (558) 959-0999
+  3 1958-09-19   flossie_cummings11@gmail.com    Flossie  Cummings              1 (537) 595-3281
+
+================================================================================
+FILE: damages.csv
+ROWS: 200
+COLUMNS: 4
+COLUMN NAMES: ['id', 'description', 'estimated_repair_cost', 'inspection_id']
+
+DATA TYPES:
+id                         int64
+description                  str
+estimated_repair_cost    float64
+inspection_id              int64
+
+MISSING VALUES:
+id                       0
+description              0
+estimated_repair_cost    0
+inspection_id            0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id        description  estimated_repair_cost  inspection_id
+  1 Cracked windshield                  84.50            398
+  2          Torn seat                2618.25            143
+  3      Broken mirror                 326.24            746
+
+================================================================================
+FILE: departments.csv
+ROWS: 4
+COLUMNS: 3
+COLUMN NAMES: ['id', 'description', 'name']
+
+DATA TYPES:
+id             int64
+description      str
+name             str
+
+MISSING VALUES:
+id             0
+description    0
+name           0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id       description        name
+  1 Runs the branches       Fleet
+  2          Workshop Maintenance
+  3    Front of house Rental Desk
+
+================================================================================
+FILE: discounts.csv
+ROWS: 4
+COLUMNS: 5
+COLUMN NAMES: ['id', 'code', 'end_date', 'percent', 'start_date']
+
+DATA TYPES:
+id            int64
+code            str
+end_date        str
+percent       int64
+start_date      str
+
+MISSING VALUES:
+id            0
+code          0
+end_date      0
+percent       0
+start_date    0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id     code   end_date  percent start_date
+  1     NONE 2025-12-31        0 2021-01-01
+  2 SPRING10 2025-12-31       10 2021-01-01
+  3 WEEKLY15 2025-12-31       15 2021-01-01
+
+================================================================================
+FILE: employees.csv
+ROWS: 240
+COLUMNS: 9
+COLUMN NAMES: ['id', 'department_id', 'email', 'first_name', 'hire_date', 'last_name', 'location_id', 'phone', 'role_id']
+
+DATA TYPES:
+id               int64
+department_id    int64
+email              str
+first_name         str
+hire_date          str
+last_name          str
+location_id      int64
+phone              str
+role_id          int64
+
+MISSING VALUES:
+id               0
+department_id    0
+email            0
+first_name       0
+hire_date        0
+last_name        0
+location_id      0
+phone            0
+role_id          0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id  department_id                    email first_name  hire_date last_name  location_id          phone  role_id
+  1              1     josh.veum4@yahoo.com       Josh 2016-01-04      Veum            6 (520) 673-0814        2
+  2              1 lance.maggio@hotmail.com      Lance 2013-04-04    Maggio           11 (628) 548-0900        1
+  3              1 jany.rodriguez@yahoo.com       Jany 2024-06-02 Rodriguez            2 (577) 428-6871        1
+
+================================================================================
+FILE: features.csv
+ROWS: 12
+COLUMNS: 3
+COLUMN NAMES: ['id', 'description', 'name']
+
+DATA TYPES:
+id             int64
+description      str
+name             str
+
+MISSING VALUES:
+id             0
+description    0
+name           0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id description           name
+  1  Technology GPS navigation
+  2      Safety      Bluetooth
+  3     Comfort  Backup camera
+
+================================================================================
+FILE: fines.csv
+ROWS: 1000
+COLUMNS: 6
+COLUMN NAMES: ['id', 'amount', 'issued_date', 'paid', 'reason', 'rental_id']
+
+DATA TYPES:
+id             int64
+amount         int64
+issued_date      str
+paid            bool
+reason           str
+rental_id      int64
+
+MISSING VALUES:
+id             0
+amount         0
+issued_date    0
+paid           0
+reason         0
+rental_id      0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id  amount issued_date  paid             reason  rental_id
+  1      50  2025-10-26  True Smoking in the car      64535
+  2      35  2022-10-25  True Smoking in the car      13476
+  3     150  2022-04-09  True      Toll not paid      25545
+
+================================================================================
+FILE: fuels.csv
+ROWS: 4
+COLUMNS: 2
+COLUMN NAMES: ['id', 'type']
+
+DATA TYPES:
+id      int64
+type      str
+
+MISSING VALUES:
+id      0
+type    0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id     type
+  1 gasoline
+  2 electric
+  3   hybrid
+
+================================================================================
+FILE: inspections.csv
+ROWS: 1000
+COLUMNS: 6
+COLUMN NAMES: ['id', 'employee_id', 'inspection_date', 'notes', 'passed', 'vehicle_id']
+
+DATA TYPES:
+id                 int64
+employee_id        int64
+inspection_date      str
+notes                str
+passed              bool
+vehicle_id         int64
+
+MISSING VALUES:
+id                 0
+employee_id        0
+inspection_date    0
+notes              0
+passed             0
+vehicle_id         0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id  employee_id     inspection_date              notes  passed  vehicle_id
+  1          108 2022-11-28 17:02:47         Worn tires   False        1196
+  2          102 2021-07-22 20:41:23         Worn tires    True         934
+  3           55 2023-08-19 18:22:58 Chipped windshield    True         952
+
+================================================================================
+FILE: insurance_types.csv
+ROWS: 4
+COLUMNS: 4
+COLUMN NAMES: ['id', 'daily_cost', 'description', 'name']
+
+DATA TYPES:
+id               int64
+daily_cost     float64
+description        str
+name               str
+
+MISSING VALUES:
+id             0
+daily_cost     0
+description    0
+name           0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id  daily_cost              description                    name
+  1        0.00         Third party only                   Basic
+  2       19.99 Covers damage to the car Collision Damage Waiver
+  3        9.99  Covers theft of the car        Theft Protection
+
+================================================================================
+FILE: insurances.csv
+ROWS: 8000
+COLUMNS: 4
+COLUMN NAMES: ['id', 'booking_id', 'coverage_limit', 'insurance_type_id']
+
+DATA TYPES:
+id                   int64
+booking_id           int64
+coverage_limit       int64
+insurance_type_id    int64
+
+MISSING VALUES:
+id                   0
+booking_id           0
+coverage_limit       0
+insurance_type_id    0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id  booking_id  coverage_limit  insurance_type_id
+  1       84655           25000                  2
+  2       42475           50000                  4
+  3       51308           50000                  1
+
+================================================================================
+FILE: licenses.csv
+ROWS: 4000
+COLUMNS: 5
+COLUMN NAMES: ['id', 'customer_id', 'expiry_date', 'license_number', 'state_issued']
+
+DATA TYPES:
+id                int64
+customer_id       int64
+expiry_date         str
+license_number      str
+state_issued        str
+
+MISSING VALUES:
+id                0
+customer_id       0
+expiry_date       0
+license_number    0
+state_issued      0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id  customer_id expiry_date license_number state_issued
+  1         3169  2030-11-24    DL-G6753527           IL
+  2          387  2029-11-09    DL-F9201968           FL
+  3         1257  2031-12-14    DL-R6786999           NY
+
+================================================================================
+FILE: locations.csv
+ROWS: 12
+COLUMNS: 8
+COLUMN NAMES: ['id', 'address', 'city', 'email', 'name', 'phone', 'state', 'zip_code']
+
+DATA TYPES:
+id          int64
+address       str
+city          str
+email         str
+name          str
+phone         str
+state         str
+zip_code    int64
+
+MISSING VALUES:
+id          0
+address     0
+city        0
+email       0
+name        0
+phone       0
+state       0
+zip_code    0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id              address    city                            email                 name          phone state  zip_code
+  1     333 Dulce Forest Phoenix     downtown@rentals.example.com      Downtown Branch (982) 541-3822    AZ     85009
+  2 35553 W Union Street Chicago      airport@rentals.example.com       Airport Branch (277) 745-0936    IL     60626
+  3  633 Davis Stravenue  Dallas unionstation@rentals.example.com Union Station Branch (391) 732-3382    TX     75291
+
+================================================================================
+FILE: maintenance_types.csv
+ROWS: 6
+COLUMNS: 3
+COLUMN NAMES: ['id', 'description', 'name']
+
+DATA TYPES:
+id             int64
+description      str
+name             str
+
+MISSING VALUES:
+id             0
+description    0
+name           0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id description                name
+  1     Routine Battery replacement
+  2     Routine          Inspection
+  3      Repair       Brake service
+
+================================================================================
+FILE: maintenances.csv
+ROWS: 500
+COLUMNS: 7
+COLUMN NAMES: ['id', 'cost', 'end_date', 'maintenance_type_id', 'start_date', 'vehicle_id', 'vendor_id']
+
+DATA TYPES:
+id                       int64
+cost                   float64
+end_date                   str
+maintenance_type_id      int64
+start_date                 str
+vehicle_id               int64
+vendor_id                int64
+
+MISSING VALUES:
+id                     0
+cost                   0
+end_date               0
+maintenance_type_id    0
+start_date             0
+vehicle_id             0
+vendor_id              0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id    cost   end_date  maintenance_type_id start_date  vehicle_id  vendor_id
+  1  846.48 2025-08-28                    1 2025-08-21         924          8
+  2 1578.52 2025-08-08                    2 2025-08-06          60          5
+  3 1899.41 2023-09-30                    2 2023-09-24         652          9
+
+================================================================================
+FILE: manufacturers.csv
+ROWS: 10
+COLUMNS: 3
+COLUMN NAMES: ['id', 'country', 'name']
+
+DATA TYPES:
+id         int64
+country      str
+name         str
+
+MISSING VALUES:
+id         0
+country    0
+name       0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id       country   name
+  1         Japan Toyota
+  2         Japan  Honda
+  3 United States   Ford
+
+================================================================================
+FILE: memberships.csv
+ROWS: 4
+COLUMNS: 4
+COLUMN NAMES: ['id', 'discount_percent', 'points_multiplier', 'tier']
+
+DATA TYPES:
+id                     int64
+discount_percent       int64
+points_multiplier    float64
+tier                     str
+
+MISSING VALUES:
+id                   0
+discount_percent     0
+points_multiplier    0
+tier                 0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id  discount_percent  points_multiplier     tier
+  1                 0               1.00 standard
+  2                 5               1.25   silver
+  3                10               1.50     gold
+
+================================================================================
+FILE: models.csv
+ROWS: 40
+COLUMNS: 4
+COLUMN NAMES: ['id', 'category_id', 'manufacturer_id', 'name']
+
+DATA TYPES:
+id                 int64
+category_id        int64
+manufacturer_id    int64
+name                 str
+
+MISSING VALUES:
+id                 0
+category_id        0
+manufacturer_id    0
+name               0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id  category_id  manufacturer_id    name
+  1            1                1   Yaris
+  2            2                1 Corolla
+  3            3                1   Camry
+
+================================================================================
+FILE: payment_methods.csv
+ROWS: 4
+COLUMNS: 2
+COLUMN NAMES: ['id', 'name']
+
+DATA TYPES:
+id      int64
+name      str
+
+MISSING VALUES:
+id      0
+name    0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id              name
+  1 Corporate account
+  2           Voucher
+  3       Credit card
+
+================================================================================
+FILE: payments.csv
+ROWS: 35000
+COLUMNS: 5
+COLUMN NAMES: ['id', 'amount', 'booking_id', 'payment_date', 'payment_method_id']
+
+DATA TYPES:
+id                     int64
+amount               float64
+booking_id             int64
+payment_date             str
+payment_method_id      int64
+
+MISSING VALUES:
+id                   0
+amount               0
+booking_id           0
+payment_date         0
+payment_method_id    0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id  amount  booking_id        payment_date  payment_method_id
+  1   220.0        1971 2021-04-14 06:03:43                  1
+  2   105.3       17032 2024-11-05 10:52:52                  1
+  3   525.0       16818 2021-06-06 10:17:17                  3
+
+================================================================================
+FILE: rates.csv
+ROWS: 6
+COLUMNS: 5
+COLUMN NAMES: ['id', 'category_id', 'daily_rate', 'hourly_rate', 'weekly_rate']
+
+DATA TYPES:
+id             int64
+category_id    int64
+daily_rate     int64
+hourly_rate    int64
+weekly_rate    int64
+
+MISSING VALUES:
+id             0
+category_id    0
+daily_rate     0
+hourly_rate    0
+weekly_rate    0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id  category_id  daily_rate  hourly_rate  weekly_rate
+  1            1          39            9          235
+  2            2          45           10          270
+  3            3          55           12          330
+
+================================================================================
+FILE: rentals.csv
+ROWS: 65000
+COLUMNS: 6
+COLUMN NAMES: ['id', 'actual_pickup_time', 'booking_id', 'employee_id', 'fuel_level_percent', 'starting_mileage']
+
+DATA TYPES:
+id                    int64
+actual_pickup_time      str
+booking_id            int64
+employee_id           int64
+fuel_level_percent    int64
+starting_mileage      int64
+
+MISSING VALUES:
+id                    0
+actual_pickup_time    0
+booking_id            0
+employee_id           0
+fuel_level_percent    0
+starting_mileage      0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id  actual_pickup_time  booking_id  employee_id  fuel_level_percent  starting_mileage
+  1 2021-01-19 17:01:59       22347           83                 100             17974
+  2 2025-12-22 09:45:07       22892          176                 100            115377
+  3 2025-12-23 17:54:07        1540          182                 100             73180
+
+================================================================================
+FILE: returns.csv
+ROWS: 65000
+COLUMNS: 6
+COLUMN NAMES: ['id', 'actual_dropoff_time', 'employee_id', 'ending_mileage', 'fuel_level_percent', 'rental_id']
+
+DATA TYPES:
+id                     int64
+actual_dropoff_time      str
+employee_id            int64
+ending_mileage         int64
+fuel_level_percent     int64
+rental_id              int64
+
+MISSING VALUES:
+id                     0
+actual_dropoff_time    0
+employee_id            0
+ending_mileage         0
+fuel_level_percent     0
+rental_id              0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id actual_dropoff_time  employee_id  ending_mileage  fuel_level_percent  rental_id
+  1 2024-05-15 05:39:51           45           88352                  75      54858
+  2 2023-10-16 16:33:28          190           48266                 100      55991
+  3 2023-12-10 10:59:01          187           45380                 100      13967
+
+================================================================================
+FILE: reviews.csv
+ROWS: 2000
+COLUMNS: 6
+COLUMN NAMES: ['id', 'comments', 'customer_id', 'rating', 'review_date', 'vehicle_id']
+
+DATA TYPES:
+id             int64
+comments         str
+customer_id    int64
+rating         int64
+review_date      str
+vehicle_id     int64
+
+MISSING VALUES:
+id               0
+comments       593
+customer_id      0
+rating           0
+review_date      0
+vehicle_id       0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id              comments  customer_id  rating         review_date  vehicle_id
+  1       Clean and quick         2332       4 2023-06-02 22:15:07         589
+  2                   NaN         3166       4 2022-01-20 17:18:59         108
+  3 Long wait at the desk         2188       5 2021-07-12 05:27:11         848
+
+================================================================================
+FILE: roadside_assists.csv
+ROWS: 500
+COLUMNS: 6
+COLUMN NAMES: ['id', 'cost', 'issue_description', 'rental_id', 'request_time', 'resolved_time']
+
+DATA TYPES:
+id                     int64
+cost                 float64
+issue_description        str
+rental_id              int64
+request_time             str
+resolved_time            str
+
+MISSING VALUES:
+id                   0
+cost                 0
+issue_description    0
+rental_id            0
+request_time         0
+resolved_time        0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id   cost    issue_description  rental_id        request_time       resolved_time
+  1  56.78 Engine warning light      20885 2022-04-09 17:28:33 2022-04-09 19:25:55
+  2 334.76         Dead battery      14740 2024-02-27 21:06:09 2024-02-27 22:52:20
+  3  92.58           Locked out      44609 2024-12-22 12:46:05 2024-12-22 16:35:17
+
+================================================================================
+FILE: roles.csv
+ROWS: 5
+COLUMNS: 3
+COLUMN NAMES: ['id', 'base_salary', 'title']
+
+DATA TYPES:
+id             int64
+base_salary    int64
+title            str
+
+MISSING VALUES:
+id             0
+base_salary    0
+title          0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id  base_salary         title
+  1        38000  Rental Agent
+  2        32000 Lot Attendant
+  3        52000      Mechanic
+
+================================================================================
+FILE: shift_schedules.csv
+ROWS: 500
+COLUMNS: 4
+COLUMN NAMES: ['id', 'employee_id', 'end_time', 'start_time']
+
+DATA TYPES:
+id             int64
+employee_id    int64
+end_time         str
+start_time       str
+
+MISSING VALUES:
+id             0
+employee_id    0
+end_time       0
+start_time     0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id  employee_id            end_time          start_time
+  1          158 2021-10-19 21:16:50 2021-10-19 15:05:47
+  2          162 2025-09-12 22:45:49 2025-09-12 13:07:10
+  3          117 2025-08-16 21:58:32 2025-08-16 14:53:27
+
+================================================================================
+FILE: statuses.csv
+ROWS: 4
+COLUMNS: 3
+COLUMN NAMES: ['id', 'description', 'name']
+
+DATA TYPES:
+id             int64
+description      str
+name             str
+
+MISSING VALUES:
+id             0
+description    0
+name           0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id      description      name
+  1  In the workshop    rented
+  2 Sold or scrapped   retired
+  3  In the workshop available
+
+================================================================================
+FILE: tax_rates.csv
+ROWS: 12
+COLUMNS: 3
+COLUMN NAMES: ['id', 'percentage', 'state_code']
+
+DATA TYPES:
+id              int64
+percentage    float64
+state_code        str
+
+MISSING VALUES:
+id            0
+percentage    0
+state_code    0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id  percentage state_code
+  1        7.25         CA
+  2        8.88         NY
+  3        6.25         TX
+
+================================================================================
+FILE: transmissions.csv
+ROWS: 2
+COLUMNS: 2
+COLUMN NAMES: ['id', 'type']
+
+DATA TYPES:
+id      int64
+type      str
+
+MISSING VALUES:
+id      0
+type    0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id      type
+  1    manual
+  2 automatic
+
+================================================================================
+FILE: vehicle_features.csv
+ROWS: 3000
+COLUMNS: 3
+COLUMN NAMES: ['id', 'feature_id', 'vehicle_id']
+
+DATA TYPES:
+id            int64
+feature_id    int64
+vehicle_id    int64
+
+MISSING VALUES:
+id            0
+feature_id    0
+vehicle_id    0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id  feature_id  vehicle_id
+  1          11         864
+  2           1         592
+  3           9         910
+
+================================================================================
+FILE: vehicles.csv
+ROWS: 1200
+COLUMNS: 11
+COLUMN NAMES: ['id', 'color', 'fuel_id', 'license_plate', 'location_id', 'mileage', 'model_id', 'status_id', 'transmission_id', 'vin', 'year']
+
+DATA TYPES:
+id                 int64
+color                str
+fuel_id            int64
+license_plate        str
+location_id        int64
+mileage            int64
+model_id           int64
+status_id          int64
+transmission_id    int64
+vin                  str
+year               int64
+
+MISSING VALUES:
+id                 0
+color              0
+fuel_id            0
+license_plate      0
+location_id        0
+mileage            0
+model_id           0
+status_id          0
+transmission_id    0
+vin                0
+year               0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id color  fuel_id license_plate  location_id  mileage  model_id  status_id  transmission_id               vin  year
+  1 white        1       760-GLU           10     1019        14          1                1 1AFZT14LU4L604029  2024
+  2   red        3       892-MSM            7    30701         4          1                1 1OZGM71VE1Q652031  2025
+  3 black        3       400-KQM           10    43222        18          1                1 1LUFL96GT0O225365  2019
+
+================================================================================
+FILE: vendors.csv
+ROWS: 20
+COLUMNS: 4
+COLUMN NAMES: ['id', 'address', 'name', 'phone']
+
+DATA TYPES:
+id         int64
+address      str
+name         str
+phone        str
+
+MISSING VALUES:
+id         0
+address    0
+name       0
+phone      0
+
+DUPLICATE ROWS:
+0
+
+SAMPLE ROWS:
+ id             address              name          phone
+  1  1424 D'Amore Glens    Gusikowski LLC (381) 528-8719
+  2 56435 Mollie Drives Gottlieb and Sons (325) 306-0727
+  3  738 S Broad Street           Toy LLC (358) 666-6394

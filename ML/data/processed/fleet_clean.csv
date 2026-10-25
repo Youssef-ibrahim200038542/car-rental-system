@@ -1,0 +1,1201 @@
+vehicle_id,manufacturer,model_name,category,vehicle_year,vehicle_color,fuel_type,transmission,vehicle_mileage,status,branch_name,city,state,source_daily_rate,source_hourly_rate,source_weekly_rate,features,average_rating,review_count
+1,Ford,Explorer,SUV,2024,white,gasoline,manual,1019,rented,Southpoint Branch,Atlanta,GA,75,16,450,"Backup camera, Bluetooth, Heated seats",4.5,2
+2,Toyota,RAV4,SUV,2025,red,hybrid,manual,30701,rented,Westside Branch,San Diego,CA,75,16,450,"Android Auto, Apple CarPlay, Cruise control, Heated seats, Roof rack",3.6666666666666665,3
+3,Chevrolet,Tahoe,SUV,2019,black,hybrid,manual,43222,rented,Southpoint Branch,Atlanta,GA,75,16,450,"Backup camera, GPS navigation, Lane assist",2.0,1
+4,Toyota,Yaris,Economy,2024,black,gasoline,manual,571,rented,Union Station Branch,Dallas,TX,39,9,235,"Apple CarPlay, Bluetooth",3.2,5
+5,Toyota,Corolla,Compact,2025,white,gasoline,manual,15187,available,Union Station Branch,Dallas,TX,45,10,270,"Apple CarPlay, Bluetooth, Child seat anchors",5.0,1
+6,Honda,CR-V,SUV,2021,blue,diesel,manual,59880,retired,Convention Center Branch,San Diego,CA,75,16,450,"Backup camera, Lane assist",5.0,2
+7,Volkswagen,Tiguan,SUV,2024,gray,gasoline,manual,28343,available,Union Station Branch,Dallas,TX,75,16,450,"Bluetooth, GPS navigation, Lane assist",4.333333333333333,3
+8,Hyundai,Sonata,Midsize,2024,white,gasoline,manual,11844,retired,Harbor Branch,Boston,MA,55,12,330,"Bluetooth, Child seat anchors, Heated seats",3.5,4
+9,Toyota,RAV4,SUV,2018,white,hybrid,manual,2922,rented,Eastside Branch,Charlotte,NC,75,16,450,Roof rack,,0
+10,Volkswagen,Jetta,Compact,2022,black,gasoline,manual,504,rented,Eastside Branch,Charlotte,NC,45,10,270,"Blind spot monitor, Cruise control, Lane assist",3.25,4
+11,Volkswagen,Jetta,Compact,2020,gray,gasoline,manual,814,retired,Uptown Branch,Austin,TX,45,10,270,Backup camera,3.3333333333333335,3
+12,Toyota,Camry,Midsize,2021,gray,gasoline,manual,1003,maintenance,Westside Branch,San Diego,CA,55,12,330,"Backup camera, Heated seats",2.5,2
+13,Toyota,Yaris,Economy,2022,white,gasoline,manual,48935,rented,Northgate Branch,Chicago,IL,39,9,235,"Bluetooth, Child seat anchors, Cruise control, GPS navigation",3.0,2
+14,Kia,Forte,Compact,2025,black,gasoline,manual,11499,rented,Northgate Branch,Chicago,IL,45,10,270,"Apple CarPlay, Sunroof",,0
+15,Kia,Rio,Economy,2019,silver,gasoline,manual,1933,rented,Uptown Branch,Austin,TX,39,9,235,"Child seat anchors, Sunroof",3.5,2
+16,Kia,K5,Midsize,2020,black,electric,manual,776,retired,Union Station Branch,Dallas,TX,55,12,330,"Apple CarPlay, Blind spot monitor, Child seat anchors, Lane assist",5.0,1
+17,Toyota,Yaris,Economy,2024,black,hybrid,manual,29011,rented,University Branch,New York,NY,39,9,235,"Apple CarPlay, Heated seats, Lane assist",3.75,4
+18,BMW,3 Series,Luxury,2025,white,gasoline,manual,51609,rented,Airport Branch,Chicago,IL,129,26,775,"Backup camera, Bluetooth",3.0,1
+19,Toyota,Yaris,Economy,2021,silver,gasoline,manual,41999,retired,Southpoint Branch,Atlanta,GA,39,9,235,"Blind spot monitor, Cruise control, Lane assist, Roof rack, Sunroof",,0
+20,Ford,Explorer,SUV,2020,white,gasoline,manual,669,rented,Southpoint Branch,Atlanta,GA,75,16,450,"Android Auto, Heated seats",2.0,1
+21,Toyota,Yaris,Economy,2018,white,gasoline,manual,53633,maintenance,Eastside Branch,Charlotte,NC,39,9,235,"Child seat anchors, Cruise control, Sunroof",4.0,2
+22,Toyota,Yaris,Economy,2025,red,gasoline,manual,54672,rented,Lakeside Branch,San Francisco,CA,39,9,235,"Android Auto, Lane assist",4.0,3
+23,Toyota,Yaris,Economy,2025,silver,hybrid,manual,646,retired,Airport Branch,Chicago,IL,39,9,235,"Child seat anchors, Roof rack",4.0,1
+24,Toyota,Yaris,Economy,2020,silver,gasoline,manual,41553,rented,Union Station Branch,Dallas,TX,39,9,235,,4.0,2
+25,Toyota,Sienna,Minivan,2025,black,gasoline,manual,13508,available,Harbor Branch,Boston,MA,85,18,510,"Backup camera, Bluetooth",,0
+26,Kia,Carnival,Minivan,2025,black,electric,manual,3990,retired,Convention Center Branch,San Diego,CA,85,18,510,"Bluetooth, Sunroof",4.5,2
+27,Hyundai,Sonata,Midsize,2022,white,gasoline,manual,3508,available,Lakeside Branch,San Francisco,CA,55,12,330,"GPS navigation, Roof rack",,0
+28,Honda,Civic,Compact,2021,red,gasoline,manual,55548,rented,Harbor Branch,Boston,MA,45,10,270,"Heated seats, Sunroof",,0
+29,Ford,Explorer,SUV,2025,white,gasoline,manual,11587,retired,Uptown Branch,Austin,TX,75,16,450,"Backup camera, Blind spot monitor",5.0,1
+30,Toyota,Yaris,Economy,2020,white,gasoline,manual,5529,retired,Eastside Branch,Charlotte,NC,39,9,235,"Blind spot monitor, Bluetooth, GPS navigation",4.333333333333333,3
+31,Toyota,Yaris,Economy,2019,gray,gasoline,manual,806,retired,Downtown Branch,Phoenix,AZ,39,9,235,"Android Auto, Bluetooth",4.5,2
+32,Toyota,Yaris,Economy,2022,blue,gasoline,manual,13608,rented,Convention Center Branch,San Diego,CA,39,9,235,"Apple CarPlay, Child seat anchors, Roof rack, Sunroof",4.25,4
+33,Hyundai,Tucson,SUV,2025,black,gasoline,manual,41633,rented,Westside Branch,San Diego,CA,75,16,450,"Android Auto, Backup camera, Blind spot monitor, Child seat anchors, Lane assist",,0
+34,Kia,Carnival,Minivan,2025,black,gasoline,manual,50162,retired,Southpoint Branch,Atlanta,GA,85,18,510,,,0
+35,Honda,Civic,Compact,2024,gray,gasoline,manual,46084,rented,Eastside Branch,Charlotte,NC,45,10,270,"Android Auto, Cruise control, Lane assist",,0
+36,Kia,Forte,Compact,2024,blue,electric,manual,1157,rented,Convention Center Branch,San Diego,CA,45,10,270,"Apple CarPlay, Blind spot monitor, Bluetooth",3.0,1
+37,Toyota,RAV4,SUV,2025,black,gasoline,manual,49654,rented,Convention Center Branch,San Diego,CA,75,16,450,"Child seat anchors, GPS navigation, Lane assist",,0
+38,Honda,Odyssey,Minivan,2025,black,gasoline,manual,44618,rented,Downtown Branch,Phoenix,AZ,85,18,510,"Blind spot monitor, Bluetooth, Cruise control, GPS navigation, Lane assist, Sunroof",4.333333333333333,3
+39,Toyota,Corolla,Compact,2021,white,hybrid,manual,6075,rented,Convention Center Branch,San Diego,CA,45,10,270,,4.0,3
+40,Tesla,Model Y,Luxury,2025,gray,gasoline,manual,51922,rented,Southpoint Branch,Atlanta,GA,129,26,775,Lane assist,2.0,2
+41,Hyundai,Tucson,SUV,2019,blue,gasoline,manual,15954,rented,Northgate Branch,Chicago,IL,75,16,450,"Apple CarPlay, GPS navigation",,0
+42,Ford,Explorer,SUV,2024,black,gasoline,manual,704,rented,Downtown Branch,Phoenix,AZ,75,16,450,Blind spot monitor,4.666666666666667,3
+43,Ford,Escape,SUV,2023,silver,electric,manual,49154,rented,Harbor Branch,Boston,MA,75,16,450,"Android Auto, Apple CarPlay, Roof rack",5.0,1
+44,Tesla,Model Y,Luxury,2025,gray,gasoline,manual,43354,retired,Southpoint Branch,Atlanta,GA,129,26,775,Sunroof,4.0,1
+45,Kia,Carnival,Minivan,2024,gray,gasoline,manual,55793,rented,Southpoint Branch,Atlanta,GA,85,18,510,"Android Auto, Blind spot monitor, Lane assist",4.0,1
+46,Toyota,RAV4,SUV,2025,black,gasoline,manual,3007,rented,University Branch,New York,NY,75,16,450,Android Auto,3.0,2
+47,Hyundai,Sonata,Midsize,2024,gray,hybrid,manual,730,rented,Union Station Branch,Dallas,TX,55,12,330,Cruise control,5.0,1
+48,Volkswagen,Jetta,Compact,2025,white,gasoline,manual,11689,available,Convention Center Branch,San Diego,CA,45,10,270,"Backup camera, Bluetooth, Roof rack",4.0,1
+49,Hyundai,Tucson,SUV,2018,silver,hybrid,manual,2256,rented,University Branch,New York,NY,75,16,450,"Android Auto, GPS navigation, Roof rack",5.0,1
+50,Ford,Focus,Compact,2024,white,hybrid,manual,46036,retired,Southpoint Branch,Atlanta,GA,45,10,270,"GPS navigation, Heated seats",,0
+51,Ford,Pacifica,Minivan,2021,gray,gasoline,manual,49087,rented,Union Station Branch,Dallas,TX,85,18,510,"Bluetooth, Heated seats, Lane assist",,0
+52,Chevrolet,Tahoe,SUV,2025,gray,gasoline,manual,1542,rented,Uptown Branch,Austin,TX,75,16,450,"Blind spot monitor, Bluetooth",5.0,3
+53,Ford,Escape,SUV,2018,red,hybrid,manual,42966,retired,Airport Branch,Chicago,IL,75,16,450,"Android Auto, Bluetooth",3.6666666666666665,3
+54,Honda,Civic,Compact,2022,gray,hybrid,manual,48804,rented,Lakeside Branch,San Francisco,CA,45,10,270,,5.0,1
+55,Toyota,Yaris,Economy,2023,black,gasoline,manual,1223,rented,Eastside Branch,Charlotte,NC,39,9,235,Lane assist,,0
+56,Chevrolet,Tahoe,SUV,2020,black,diesel,manual,4328,rented,Union Station Branch,Dallas,TX,75,16,450,Roof rack,2.0,1
+57,Toyota,Corolla,Compact,2025,silver,gasoline,manual,33306,rented,Westside Branch,San Diego,CA,45,10,270,Android Auto,,0
+58,Toyota,Yaris,Economy,2022,white,gasoline,manual,9836,rented,Convention Center Branch,San Diego,CA,39,9,235,"Blind spot monitor, Cruise control",3.0,1
+59,Toyota,Camry,Midsize,2024,black,electric,manual,33131,rented,Harbor Branch,Boston,MA,55,12,330,"Apple CarPlay, Blind spot monitor, GPS navigation",4.0,2
+60,Honda,Accord,Midsize,2025,gray,gasoline,manual,9319,rented,Union Station Branch,Dallas,TX,55,12,330,"Android Auto, Blind spot monitor, Child seat anchors, Cruise control, Sunroof",2.0,2
+61,Toyota,Yaris,Economy,2017,gray,hybrid,manual,31342,rented,Uptown Branch,Austin,TX,39,9,235,Bluetooth,3.0,3
+62,Ford,Explorer,SUV,2024,white,gasoline,automatic,18307,rented,Union Station Branch,Dallas,TX,75,16,450,"Android Auto, Roof rack",5.0,1
+63,Honda,Accord,Midsize,2018,blue,gasoline,manual,2620,rented,Southpoint Branch,Atlanta,GA,55,12,330,Bluetooth,3.0,1
+64,Nissan,Versa,Economy,2018,black,gasoline,manual,45352,rented,Southpoint Branch,Atlanta,GA,39,9,235,"Apple CarPlay, Blind spot monitor, Bluetooth, Sunroof",3.0,2
+65,Toyota,Camry,Midsize,2021,silver,gasoline,manual,7621,rented,Convention Center Branch,San Diego,CA,55,12,330,Android Auto,2.0,1
+66,Toyota,Corolla,Compact,2019,black,gasoline,manual,8943,maintenance,University Branch,New York,NY,45,10,270,"Child seat anchors, GPS navigation, Heated seats, Lane assist",3.0,3
+67,Toyota,RAV4,SUV,2023,white,gasoline,manual,50884,rented,Convention Center Branch,San Diego,CA,75,16,450,Lane assist,3.6666666666666665,3
+68,Toyota,Sienna,Minivan,2024,black,gasoline,manual,7737,rented,Northgate Branch,Chicago,IL,85,18,510,"Apple CarPlay, Child seat anchors, Roof rack",3.0,1
+69,Ford,Pacifica,Minivan,2023,black,gasoline,manual,4597,retired,Harbor Branch,Boston,MA,85,18,510,"Apple CarPlay, Bluetooth, Lane assist",5.0,1
+70,Honda,Fit,Economy,2023,white,gasoline,manual,921,retired,Uptown Branch,Austin,TX,39,9,235,"Android Auto, Backup camera, Blind spot monitor",4.0,2
+71,Honda,Fit,Economy,2025,white,hybrid,manual,7236,available,University Branch,New York,NY,39,9,235,"Android Auto, Apple CarPlay, GPS navigation, Lane assist",4.0,2
+72,Nissan,Rogue,SUV,2025,black,gasoline,manual,22348,rented,University Branch,New York,NY,75,16,450,,,0
+73,Volkswagen,Passat,Midsize,2021,white,gasoline,manual,8647,rented,Downtown Branch,Phoenix,AZ,55,12,330,"Apple CarPlay, Bluetooth, Child seat anchors",5.0,1
+74,Toyota,Sienna,Minivan,2024,silver,gasoline,manual,29337,rented,Union Station Branch,Dallas,TX,85,18,510,"Blind spot monitor, Child seat anchors, GPS navigation, Sunroof",4.5,2
+75,Ford,Fusion,Midsize,2025,red,gasoline,manual,38480,rented,Airport Branch,Chicago,IL,55,12,330,"Apple CarPlay, Bluetooth",4.666666666666667,3
+76,Toyota,Corolla,Compact,2023,white,gasoline,manual,18892,rented,Southpoint Branch,Atlanta,GA,45,10,270,"Android Auto, GPS navigation, Roof rack",3.0,1
+77,Hyundai,Accent,Economy,2020,white,gasoline,manual,2897,rented,Convention Center Branch,San Diego,CA,39,9,235,Bluetooth,,0
+78,Toyota,Yaris,Economy,2025,red,gasoline,manual,25830,rented,Union Station Branch,Dallas,TX,39,9,235,"Backup camera, Bluetooth, Cruise control",3.0,2
+79,Toyota,Yaris,Economy,2023,black,gasoline,manual,1599,rented,Northgate Branch,Chicago,IL,39,9,235,"Backup camera, GPS navigation",,0
+80,Toyota,Yaris,Economy,2025,white,gasoline,manual,45834,rented,Convention Center Branch,San Diego,CA,39,9,235,"Backup camera, Bluetooth, Roof rack",3.0,2
+81,Toyota,Yaris,Economy,2019,black,gasoline,manual,50174,rented,Airport Branch,Chicago,IL,39,9,235,Roof rack,4.0,2
+82,Toyota,Yaris,Economy,2025,gray,gasoline,manual,11523,retired,Westside Branch,San Diego,CA,39,9,235,Child seat anchors,3.0,2
+83,Hyundai,Elantra,Compact,2017,black,hybrid,manual,33182,rented,University Branch,New York,NY,45,10,270,"Bluetooth, Lane assist, Roof rack",3.0,1
+84,Toyota,Corolla,Compact,2022,red,hybrid,manual,12331,rented,Harbor Branch,Boston,MA,45,10,270,"Android Auto, GPS navigation",,0
+85,Ford,Focus,Compact,2024,white,gasoline,manual,8871,maintenance,Westside Branch,San Diego,CA,45,10,270,"Backup camera, Roof rack",5.0,2
+86,Honda,Fit,Economy,2019,white,gasoline,automatic,654,rented,University Branch,New York,NY,39,9,235,"Backup camera, Cruise control, Lane assist",,0
+87,Toyota,Yaris,Economy,2020,white,electric,manual,28208,rented,Lakeside Branch,San Francisco,CA,39,9,235,"Blind spot monitor, Bluetooth",,0
+88,Hyundai,Sonata,Midsize,2020,gray,gasoline,manual,45345,rented,Union Station Branch,Dallas,TX,55,12,330,Backup camera,3.0,1
+89,Kia,Sportage,SUV,2019,silver,hybrid,manual,705,rented,Eastside Branch,Charlotte,NC,75,16,450,Android Auto,3.5,2
+90,Hyundai,Elantra,Compact,2025,white,gasoline,manual,51314,rented,Lakeside Branch,San Francisco,CA,45,10,270,,3.6666666666666665,3
+91,Kia,Forte,Compact,2025,silver,hybrid,manual,16768,available,Airport Branch,Chicago,IL,45,10,270,"Android Auto, Apple CarPlay",,0
+92,Kia,Carnival,Minivan,2025,silver,gasoline,manual,17069,retired,Uptown Branch,Austin,TX,85,18,510,"Lane assist, Roof rack",,0
+93,Kia,Forte,Compact,2024,gray,gasoline,manual,23284,retired,Harbor Branch,Boston,MA,45,10,270,"Child seat anchors, Lane assist",4.25,4
+94,Chevrolet,Equinox,SUV,2025,white,gasoline,manual,3352,retired,Northgate Branch,Chicago,IL,75,16,450,"Bluetooth, Child seat anchors, Lane assist, Roof rack",4.0,1
+95,Honda,Civic,Compact,2023,gray,gasoline,manual,47873,retired,Eastside Branch,Charlotte,NC,45,10,270,,,0
+96,BMW,5 Series,Luxury,2025,red,diesel,automatic,32899,rented,University Branch,New York,NY,129,26,775,Backup camera,,0
+97,Toyota,Yaris,Economy,2025,gray,gasoline,automatic,28511,available,Convention Center Branch,San Diego,CA,39,9,235,"Backup camera, Bluetooth, GPS navigation, Heated seats",2.0,1
+98,Toyota,RAV4,SUV,2024,silver,gasoline,manual,38508,rented,University Branch,New York,NY,75,16,450,"Blind spot monitor, Child seat anchors, GPS navigation",3.5,2
+99,Ford,Escape,SUV,2021,gray,gasoline,manual,27024,rented,Downtown Branch,Phoenix,AZ,75,16,450,"Backup camera, Child seat anchors",3.0,3
+100,Toyota,Yaris,Economy,2024,white,gasoline,manual,1413,rented,Harbor Branch,Boston,MA,39,9,235,"Apple CarPlay, Cruise control, GPS navigation",3.8333333333333335,6
+101,Toyota,Corolla,Compact,2025,black,gasoline,automatic,52318,available,Southpoint Branch,Atlanta,GA,45,10,270,"Android Auto, Backup camera, Sunroof",4.0,3
+102,Kia,Sportage,SUV,2024,white,gasoline,manual,21434,rented,University Branch,New York,NY,75,16,450,Bluetooth,5.0,3
+103,Toyota,Yaris,Economy,2025,silver,gasoline,manual,5170,rented,Airport Branch,Chicago,IL,39,9,235,"Child seat anchors, Cruise control, GPS navigation",3.4,5
+104,Kia,Rio,Economy,2017,white,gasoline,manual,28591,rented,Westside Branch,San Diego,CA,39,9,235,"Apple CarPlay, Lane assist, Roof rack",,0
+105,Honda,Accord,Midsize,2020,black,gasoline,manual,19366,retired,Uptown Branch,Austin,TX,55,12,330,"Android Auto, Child seat anchors, Lane assist",3.0,2
+106,Kia,K5,Midsize,2023,silver,gasoline,manual,16469,rented,Uptown Branch,Austin,TX,55,12,330,"Backup camera, Blind spot monitor, Bluetooth, Cruise control, GPS navigation, Heated seats",5.0,1
+107,Toyota,Corolla,Compact,2025,white,gasoline,manual,4849,rented,Downtown Branch,Phoenix,AZ,45,10,270,"Heated seats, Lane assist",5.0,1
+108,Ford,Fusion,Midsize,2019,black,gasoline,manual,540,rented,University Branch,New York,NY,55,12,330,"Apple CarPlay, GPS navigation",3.5,4
+109,Honda,Odyssey,Minivan,2022,red,gasoline,manual,59257,rented,Northgate Branch,Chicago,IL,85,18,510,"Android Auto, Bluetooth",3.0,3
+110,Toyota,Corolla,Compact,2023,black,diesel,manual,6680,rented,Southpoint Branch,Atlanta,GA,45,10,270,,,0
+111,Honda,Civic,Compact,2017,blue,gasoline,manual,12169,rented,Southpoint Branch,Atlanta,GA,45,10,270,"Bluetooth, Heated seats",4.5,2
+112,Ford,Pacifica,Minivan,2018,gray,gasoline,manual,6761,rented,Harbor Branch,Boston,MA,85,18,510,"Backup camera, Child seat anchors, Heated seats",3.75,4
+113,Toyota,Yaris,Economy,2019,silver,gasoline,manual,46501,rented,Northgate Branch,Chicago,IL,39,9,235,"Apple CarPlay, GPS navigation",3.5,2
+114,Ford,Focus,Compact,2025,black,diesel,manual,2405,retired,Airport Branch,Chicago,IL,45,10,270,"Bluetooth, Sunroof",4.0,4
+115,Kia,K5,Midsize,2025,gray,gasoline,manual,18602,rented,Airport Branch,Chicago,IL,55,12,330,"Apple CarPlay, Backup camera, Blind spot monitor, Child seat anchors, Cruise control, Sunroof",3.0,2
+116,Honda,Civic,Compact,2019,gray,gasoline,manual,9534,rented,Southpoint Branch,Atlanta,GA,45,10,270,"Android Auto, Apple CarPlay, Blind spot monitor",3.3333333333333335,3
+117,Nissan,Rogue,SUV,2020,black,gasoline,manual,11659,retired,Downtown Branch,Phoenix,AZ,75,16,450,"Bluetooth, Child seat anchors, Lane assist",,0
+118,BMW,3 Series,Luxury,2021,white,gasoline,manual,10536,rented,Convention Center Branch,San Diego,CA,129,26,775,"Backup camera, Child seat anchors, Heated seats",2.5,2
+119,Toyota,Yaris,Economy,2017,blue,gasoline,manual,4625,rented,Eastside Branch,Charlotte,NC,39,9,235,Lane assist,4.5,2
+120,Toyota,Sienna,Minivan,2020,gray,hybrid,manual,14079,rented,Northgate Branch,Chicago,IL,85,18,510,Cruise control,4.0,2
+121,Toyota,Corolla,Compact,2025,gray,gasoline,manual,56189,rented,University Branch,New York,NY,45,10,270,"Apple CarPlay, GPS navigation, Heated seats, Lane assist",4.2,5
+122,Chevrolet,Spark,Economy,2023,blue,gasoline,manual,3380,rented,Eastside Branch,Charlotte,NC,39,9,235,"Cruise control, Heated seats, Lane assist",3.25,4
+123,Kia,Sportage,SUV,2024,black,hybrid,manual,4810,rented,Convention Center Branch,San Diego,CA,75,16,450,Backup camera,2.0,2
+124,Chevrolet,Spark,Economy,2024,white,gasoline,manual,34230,retired,Eastside Branch,Charlotte,NC,39,9,235,"Apple CarPlay, Backup camera, Heated seats",,0
+125,Honda,Fit,Economy,2021,black,gasoline,manual,563,rented,Harbor Branch,Boston,MA,39,9,235,"Android Auto, Bluetooth, Cruise control, Lane assist",,0
+126,Toyota,Sienna,Minivan,2025,white,gasoline,manual,4535,retired,Westside Branch,San Diego,CA,85,18,510,Apple CarPlay,3.0,1
+127,Hyundai,Tucson,SUV,2024,blue,gasoline,manual,1639,rented,Uptown Branch,Austin,TX,75,16,450,"Apple CarPlay, Blind spot monitor, GPS navigation, Heated seats",4.0,1
+128,Tesla,Model Y,Luxury,2021,red,gasoline,manual,19136,retired,Harbor Branch,Boston,MA,129,26,775,"Bluetooth, Cruise control",,0
+129,Honda,Accord,Midsize,2025,red,gasoline,manual,1405,rented,Airport Branch,Chicago,IL,55,12,330,"Android Auto, Blind spot monitor, Child seat anchors, Roof rack",1.5,2
+130,Kia,K5,Midsize,2023,blue,electric,manual,1866,rented,University Branch,New York,NY,55,12,330,Android Auto,3.6666666666666665,3
+131,Ford,Fusion,Midsize,2020,gray,gasoline,manual,52551,rented,Downtown Branch,Phoenix,AZ,55,12,330,Android Auto,3.0,2
+132,Honda,Accord,Midsize,2024,red,gasoline,manual,39222,maintenance,Convention Center Branch,San Diego,CA,55,12,330,"Cruise control, GPS navigation",2.0,2
+133,Toyota,Yaris,Economy,2019,silver,hybrid,manual,13950,rented,Uptown Branch,Austin,TX,39,9,235,"Blind spot monitor, Child seat anchors, GPS navigation, Sunroof",4.0,2
+134,Toyota,Corolla,Compact,2018,white,gasoline,manual,500,rented,Downtown Branch,Phoenix,AZ,45,10,270,Blind spot monitor,3.0,1
+135,Nissan,Altima,Midsize,2018,gray,gasoline,manual,43720,rented,Southpoint Branch,Atlanta,GA,55,12,330,"Bluetooth, Cruise control, Lane assist",2.5,2
+136,Chevrolet,Malibu,Midsize,2019,silver,hybrid,manual,29625,rented,Convention Center Branch,San Diego,CA,55,12,330,Blind spot monitor,4.0,2
+137,Nissan,Sentra,Compact,2023,white,hybrid,manual,47621,rented,Airport Branch,Chicago,IL,45,10,270,"Apple CarPlay, Blind spot monitor, Cruise control, Roof rack",3.6666666666666665,3
+138,Ford,Focus,Compact,2021,red,gasoline,manual,24527,rented,Airport Branch,Chicago,IL,45,10,270,"Child seat anchors, GPS navigation",3.5,2
+139,Toyota,Yaris,Economy,2025,white,electric,manual,36431,available,Lakeside Branch,San Francisco,CA,39,9,235,Android Auto,4.5,2
+140,Chevrolet,Tahoe,SUV,2024,silver,gasoline,manual,19186,rented,Convention Center Branch,San Diego,CA,75,16,450,"Android Auto, Backup camera, Child seat anchors, Heated seats",,0
+141,Honda,Civic,Compact,2024,red,gasoline,manual,42218,available,Uptown Branch,Austin,TX,45,10,270,"Apple CarPlay, Blind spot monitor, Cruise control, GPS navigation",3.6666666666666665,3
+142,Tesla,Model Y,Luxury,2025,black,gasoline,manual,56573,retired,Southpoint Branch,Atlanta,GA,129,26,775,"Android Auto, Backup camera",4.0,1
+143,Chevrolet,Malibu,Midsize,2025,red,gasoline,manual,32876,rented,Northgate Branch,Chicago,IL,55,12,330,Heated seats,2.0,1
+144,Honda,Fit,Economy,2017,white,hybrid,manual,41390,rented,Union Station Branch,Dallas,TX,39,9,235,"Blind spot monitor, GPS navigation",4.0,2
+145,Toyota,RAV4,SUV,2022,silver,gasoline,manual,5316,maintenance,Union Station Branch,Dallas,TX,75,16,450,"Android Auto, Apple CarPlay, Bluetooth",5.0,2
+146,Hyundai,Sonata,Midsize,2023,red,gasoline,automatic,2225,rented,Downtown Branch,Phoenix,AZ,55,12,330,"GPS navigation, Heated seats, Lane assist",5.0,1
+147,Toyota,Corolla,Compact,2021,black,hybrid,manual,2365,rented,Airport Branch,Chicago,IL,45,10,270,"Child seat anchors, Roof rack",1.0,1
+148,Ford,Fusion,Midsize,2021,black,gasoline,manual,10040,rented,Downtown Branch,Phoenix,AZ,55,12,330,"Apple CarPlay, GPS navigation, Lane assist",4.0,2
+149,Volkswagen,Jetta,Compact,2020,white,gasoline,manual,55611,rented,Eastside Branch,Charlotte,NC,45,10,270,Roof rack,3.5,4
+150,Honda,CR-V,SUV,2023,gray,gasoline,manual,21925,rented,Uptown Branch,Austin,TX,75,16,450,Apple CarPlay,,0
+151,Honda,CR-V,SUV,2024,white,hybrid,manual,45482,rented,Union Station Branch,Dallas,TX,75,16,450,,,0
+152,BMW,X5,Luxury,2025,gray,electric,manual,47529,rented,Union Station Branch,Dallas,TX,129,26,775,"Android Auto, Child seat anchors, GPS navigation, Lane assist",5.0,1
+153,Kia,Rio,Economy,2025,blue,gasoline,manual,14779,rented,University Branch,New York,NY,39,9,235,"Blind spot monitor, Bluetooth, Heated seats",3.0,1
+154,Toyota,RAV4,SUV,2024,blue,gasoline,manual,702,retired,Northgate Branch,Chicago,IL,75,16,450,Lane assist,4.5,2
+155,Toyota,Yaris,Economy,2025,gray,gasoline,manual,9281,rented,Lakeside Branch,San Francisco,CA,39,9,235,"Backup camera, Roof rack, Sunroof",3.5,2
+156,Kia,Rio,Economy,2021,silver,hybrid,automatic,24849,rented,Convention Center Branch,San Diego,CA,39,9,235,"GPS navigation, Heated seats",2.0,1
+157,Tesla,Model 3,Luxury,2025,white,gasoline,manual,13060,maintenance,Eastside Branch,Charlotte,NC,129,26,775,"Blind spot monitor, Bluetooth",,0
+158,Toyota,Corolla,Compact,2022,white,gasoline,manual,27797,rented,Westside Branch,San Diego,CA,45,10,270,Roof rack,,0
+159,Ford,Pacifica,Minivan,2022,gray,diesel,manual,11993,rented,University Branch,New York,NY,85,18,510,"Android Auto, Bluetooth, GPS navigation, Heated seats, Lane assist, Roof rack",3.0,2
+160,Toyota,Corolla,Compact,2021,white,gasoline,manual,1075,retired,Southpoint Branch,Atlanta,GA,45,10,270,"Bluetooth, GPS navigation, Heated seats",3.0,1
+161,Kia,Carnival,Minivan,2021,white,gasoline,automatic,29610,retired,Harbor Branch,Boston,MA,85,18,510,Bluetooth,4.5,2
+162,Ford,Focus,Compact,2025,silver,gasoline,manual,26963,rented,Lakeside Branch,San Francisco,CA,45,10,270,,,0
+163,Tesla,Model Y,Luxury,2024,white,gasoline,manual,58011,rented,Union Station Branch,Dallas,TX,129,26,775,"Backup camera, Heated seats, Sunroof",3.0,2
+164,Honda,Accord,Midsize,2025,white,gasoline,manual,21971,rented,Airport Branch,Chicago,IL,55,12,330,"Android Auto, Child seat anchors, Lane assist, Sunroof",3.5,2
+165,Toyota,Yaris,Economy,2025,gray,hybrid,manual,1652,rented,Union Station Branch,Dallas,TX,39,9,235,"Apple CarPlay, Blind spot monitor, GPS navigation, Roof rack",3.0,2
+166,Toyota,RAV4,SUV,2024,white,gasoline,manual,2803,retired,Lakeside Branch,San Francisco,CA,75,16,450,"Apple CarPlay, Backup camera, Heated seats",3.0,2
+167,Chevrolet,Malibu,Midsize,2023,white,diesel,manual,8613,rented,Uptown Branch,Austin,TX,55,12,330,Android Auto,,0
+168,Toyota,RAV4,SUV,2025,white,hybrid,automatic,15525,rented,Convention Center Branch,San Diego,CA,75,16,450,"Backup camera, Blind spot monitor, Heated seats, Lane assist",5.0,1
+169,Toyota,Corolla,Compact,2023,black,diesel,manual,2052,retired,Westside Branch,San Diego,CA,45,10,270,"Blind spot monitor, Child seat anchors",3.0,1
+170,Toyota,Sienna,Minivan,2025,black,electric,manual,42404,rented,Westside Branch,San Diego,CA,85,18,510,"Blind spot monitor, Cruise control, GPS navigation",3.6666666666666665,3
+171,Hyundai,Sonata,Midsize,2018,white,gasoline,manual,502,available,Uptown Branch,Austin,TX,55,12,330,"Android Auto, Blind spot monitor, Bluetooth",,0
+172,Chevrolet,Equinox,SUV,2023,silver,electric,manual,44897,rented,Convention Center Branch,San Diego,CA,75,16,450,"Blind spot monitor, Roof rack, Sunroof",2.0,1
+173,Volkswagen,Jetta,Compact,2024,black,gasoline,manual,27630,rented,Northgate Branch,Chicago,IL,45,10,270,"GPS navigation, Heated seats",3.5,2
+174,Toyota,Yaris,Economy,2024,white,gasoline,manual,31430,rented,Convention Center Branch,San Diego,CA,39,9,235,"Android Auto, Blind spot monitor, Bluetooth, Heated seats, Roof rack",4.0,2
+175,Toyota,Yaris,Economy,2025,gray,gasoline,manual,56938,rented,Southpoint Branch,Atlanta,GA,39,9,235,"Apple CarPlay, Blind spot monitor, Child seat anchors",2.0,1
+176,Volkswagen,Tiguan,SUV,2025,black,hybrid,manual,757,rented,Convention Center Branch,San Diego,CA,75,16,450,"Android Auto, Apple CarPlay, Cruise control",4.5,2
+177,Nissan,Rogue,SUV,2024,white,gasoline,manual,47181,rented,Northgate Branch,Chicago,IL,75,16,450,,,0
+178,Ford,Fusion,Midsize,2023,white,diesel,manual,6008,rented,Uptown Branch,Austin,TX,55,12,330,"Backup camera, Sunroof",4.0,2
+179,Toyota,Yaris,Economy,2024,gray,electric,manual,34277,rented,Harbor Branch,Boston,MA,39,9,235,Bluetooth,5.0,1
+180,Honda,Odyssey,Minivan,2025,black,gasoline,manual,4155,rented,Convention Center Branch,San Diego,CA,85,18,510,"Bluetooth, GPS navigation",4.5,4
+181,Kia,Sportage,SUV,2022,white,gasoline,manual,26762,rented,Uptown Branch,Austin,TX,75,16,450,"Child seat anchors, Cruise control, Lane assist",3.5,2
+182,Toyota,Sienna,Minivan,2022,white,gasoline,manual,42737,rented,Southpoint Branch,Atlanta,GA,85,18,510,"Child seat anchors, GPS navigation, Heated seats",4.0,1
+183,Toyota,Corolla,Compact,2021,white,gasoline,manual,12969,rented,Airport Branch,Chicago,IL,45,10,270,Cruise control,3.6666666666666665,3
+184,Ford,Fusion,Midsize,2021,red,gasoline,manual,8921,retired,Convention Center Branch,San Diego,CA,55,12,330,Sunroof,3.5,2
+185,Honda,CR-V,SUV,2019,white,hybrid,manual,19382,retired,Union Station Branch,Dallas,TX,75,16,450,"Apple CarPlay, GPS navigation",2.0,1
+186,Kia,Carnival,Minivan,2023,white,hybrid,manual,38491,available,Lakeside Branch,San Francisco,CA,85,18,510,"Blind spot monitor, GPS navigation, Heated seats, Roof rack",4.0,2
+187,Kia,Sportage,SUV,2022,gray,electric,manual,45523,retired,Convention Center Branch,San Diego,CA,75,16,450,"Cruise control, GPS navigation, Roof rack",3.0,1
+188,Toyota,Yaris,Economy,2023,silver,gasoline,manual,6146,rented,Northgate Branch,Chicago,IL,39,9,235,,4.666666666666667,3
+189,Chevrolet,Equinox,SUV,2017,silver,gasoline,manual,43948,rented,Northgate Branch,Chicago,IL,75,16,450,"Child seat anchors, GPS navigation, Lane assist",3.0,1
+190,Kia,K5,Midsize,2021,white,electric,manual,36432,rented,Airport Branch,Chicago,IL,55,12,330,"Blind spot monitor, Cruise control",,0
+191,BMW,3 Series,Luxury,2023,gray,gasoline,manual,1644,rented,Airport Branch,Chicago,IL,129,26,775,Cruise control,3.5,2
+192,Toyota,Yaris,Economy,2025,black,gasoline,manual,551,rented,Harbor Branch,Boston,MA,39,9,235,Bluetooth,,0
+193,Kia,Forte,Compact,2024,red,diesel,manual,1354,maintenance,Convention Center Branch,San Diego,CA,45,10,270,Child seat anchors,4.0,3
+194,Tesla,Model Y,Luxury,2023,white,hybrid,manual,7512,rented,Southpoint Branch,Atlanta,GA,129,26,775,Child seat anchors,3.0,2
+195,Nissan,Altima,Midsize,2025,black,gasoline,manual,13810,available,Downtown Branch,Phoenix,AZ,55,12,330,"Backup camera, Sunroof",2.0,1
+196,Toyota,Corolla,Compact,2025,black,gasoline,manual,35261,rented,University Branch,New York,NY,45,10,270,"Cruise control, GPS navigation",2.0,1
+197,Honda,CR-V,SUV,2021,white,gasoline,manual,39397,rented,Convention Center Branch,San Diego,CA,75,16,450,"Cruise control, Lane assist, Roof rack",,0
+198,Toyota,Yaris,Economy,2025,gray,gasoline,manual,42225,retired,Southpoint Branch,Atlanta,GA,39,9,235,"Android Auto, Heated seats, Lane assist",4.0,2
+199,BMW,5 Series,Luxury,2023,silver,gasoline,manual,45471,rented,Harbor Branch,Boston,MA,129,26,775,Child seat anchors,3.0,1
+200,Toyota,RAV4,SUV,2024,gray,hybrid,manual,22232,rented,Airport Branch,Chicago,IL,75,16,450,"GPS navigation, Lane assist, Roof rack",3.6666666666666665,3
+201,Toyota,Camry,Midsize,2025,black,gasoline,manual,3137,rented,Harbor Branch,Boston,MA,55,12,330,"Blind spot monitor, Lane assist",5.0,1
+202,Toyota,RAV4,SUV,2023,gray,gasoline,manual,4548,rented,Southpoint Branch,Atlanta,GA,75,16,450,"Apple CarPlay, Backup camera, Blind spot monitor, Sunroof",2.5,4
+203,Chevrolet,Spark,Economy,2024,silver,gasoline,manual,40535,rented,Airport Branch,Chicago,IL,39,9,235,"Android Auto, Apple CarPlay, Backup camera, Bluetooth, Heated seats",,0
+204,Toyota,Yaris,Economy,2025,gray,gasoline,manual,13950,available,Lakeside Branch,San Francisco,CA,39,9,235,"Child seat anchors, Heated seats, Sunroof",,0
+205,Toyota,Sienna,Minivan,2022,blue,gasoline,manual,17976,rented,Convention Center Branch,San Diego,CA,85,18,510,Lane assist,4.5,2
+206,Toyota,Yaris,Economy,2024,gray,gasoline,automatic,7596,rented,University Branch,New York,NY,39,9,235,"Child seat anchors, Heated seats, Sunroof",,0
+207,Toyota,Yaris,Economy,2025,silver,diesel,manual,4260,rented,Harbor Branch,Boston,MA,39,9,235,"Apple CarPlay, Child seat anchors",3.5,2
+208,Honda,CR-V,SUV,2025,black,gasoline,manual,4047,available,Airport Branch,Chicago,IL,75,16,450,Blind spot monitor,,0
+209,BMW,3 Series,Luxury,2025,white,gasoline,manual,1170,rented,Convention Center Branch,San Diego,CA,129,26,775,"Blind spot monitor, Lane assist",2.3333333333333335,3
+210,Honda,Accord,Midsize,2018,white,hybrid,manual,1630,rented,Union Station Branch,Dallas,TX,55,12,330,"Bluetooth, Heated seats",,0
+211,Toyota,Corolla,Compact,2023,gray,hybrid,manual,27809,retired,Westside Branch,San Diego,CA,45,10,270,"GPS navigation, Roof rack",4.333333333333333,3
+212,Chevrolet,Spark,Economy,2023,black,gasoline,manual,6010,rented,Southpoint Branch,Atlanta,GA,39,9,235,"GPS navigation, Lane assist, Sunroof",4.0,1
+213,Nissan,Rogue,SUV,2024,blue,gasoline,manual,10227,rented,Union Station Branch,Dallas,TX,75,16,450,Apple CarPlay,4.0,3
+214,Ford,Pacifica,Minivan,2022,black,gasoline,manual,14256,rented,Southpoint Branch,Atlanta,GA,85,18,510,Blind spot monitor,5.0,1
+215,Ford,Explorer,SUV,2019,gray,gasoline,manual,500,rented,Airport Branch,Chicago,IL,75,16,450,"Android Auto, Backup camera",4.333333333333333,3
+216,Toyota,Corolla,Compact,2023,gray,gasoline,manual,24184,retired,Eastside Branch,Charlotte,NC,45,10,270,"Child seat anchors, Cruise control, Lane assist, Sunroof",2.0,1
+217,Chevrolet,Spark,Economy,2024,gray,gasoline,manual,25565,retired,Eastside Branch,Charlotte,NC,39,9,235,,2.0,1
+218,Toyota,Camry,Midsize,2024,black,gasoline,manual,6828,rented,University Branch,New York,NY,55,12,330,Roof rack,4.0,4
+219,Toyota,RAV4,SUV,2023,black,gasoline,manual,8980,rented,University Branch,New York,NY,75,16,450,Bluetooth,,0
+220,BMW,5 Series,Luxury,2017,silver,gasoline,manual,3464,rented,Southpoint Branch,Atlanta,GA,129,26,775,"Bluetooth, Sunroof",5.0,1
+221,Toyota,Corolla,Compact,2021,white,diesel,automatic,13257,rented,Convention Center Branch,San Diego,CA,45,10,270,"Android Auto, Backup camera, Blind spot monitor, Lane assist",4.333333333333333,3
+222,Volkswagen,Jetta,Compact,2023,white,hybrid,manual,38685,rented,Westside Branch,San Diego,CA,45,10,270,"Blind spot monitor, Heated seats, Roof rack, Sunroof",4.5,4
+223,Hyundai,Sonata,Midsize,2025,red,diesel,manual,5974,rented,Westside Branch,San Diego,CA,55,12,330,"Backup camera, GPS navigation, Sunroof",4.0,1
+224,Nissan,Altima,Midsize,2017,white,electric,manual,5534,retired,Northgate Branch,Chicago,IL,55,12,330,Roof rack,2.6666666666666665,3
+225,BMW,5 Series,Luxury,2023,white,gasoline,manual,48157,rented,Eastside Branch,Charlotte,NC,129,26,775,"Apple CarPlay, Blind spot monitor, GPS navigation, Heated seats, Roof rack, Sunroof",3.3333333333333335,3
+226,Toyota,Corolla,Compact,2023,white,gasoline,manual,30555,rented,Northgate Branch,Chicago,IL,45,10,270,"Apple CarPlay, Blind spot monitor, Bluetooth, Heated seats",4.0,1
+227,Toyota,Yaris,Economy,2023,white,electric,manual,14812,rented,University Branch,New York,NY,39,9,235,"Android Auto, Backup camera, Bluetooth",,0
+228,Toyota,Yaris,Economy,2022,blue,gasoline,manual,13484,rented,Airport Branch,Chicago,IL,39,9,235,"Android Auto, Backup camera, Child seat anchors, Heated seats",1.0,1
+229,Honda,Civic,Compact,2025,silver,gasoline,manual,7014,retired,Lakeside Branch,San Francisco,CA,45,10,270,"Blind spot monitor, Cruise control, GPS navigation, Sunroof",4.0,1
+230,Toyota,Corolla,Compact,2018,black,gasoline,manual,52376,retired,Southpoint Branch,Atlanta,GA,45,10,270,Sunroof,,0
+231,Honda,Odyssey,Minivan,2021,gray,gasoline,manual,28160,maintenance,Uptown Branch,Austin,TX,85,18,510,"Apple CarPlay, Bluetooth, Heated seats, Roof rack",,0
+232,Ford,Fusion,Midsize,2024,black,gasoline,manual,12421,rented,Lakeside Branch,San Francisco,CA,55,12,330,"Backup camera, Blind spot monitor, Lane assist",1.5,2
+233,Toyota,Yaris,Economy,2023,white,electric,manual,10366,rented,Union Station Branch,Dallas,TX,39,9,235,Cruise control,4.0,2
+234,Toyota,Corolla,Compact,2018,black,electric,manual,49134,rented,Lakeside Branch,San Francisco,CA,45,10,270,"Android Auto, Apple CarPlay, Sunroof",,0
+235,Hyundai,Tucson,SUV,2024,black,gasoline,manual,695,rented,University Branch,New York,NY,75,16,450,"Android Auto, Bluetooth, Child seat anchors",2.5,2
+236,Chevrolet,Equinox,SUV,2023,black,hybrid,manual,33925,rented,University Branch,New York,NY,75,16,450,"Blind spot monitor, Roof rack",,0
+237,Toyota,RAV4,SUV,2017,gray,gasoline,manual,26111,rented,Southpoint Branch,Atlanta,GA,75,16,450,,3.5,2
+238,Toyota,Corolla,Compact,2019,white,gasoline,manual,21604,rented,Southpoint Branch,Atlanta,GA,45,10,270,"Apple CarPlay, Lane assist, Roof rack",4.5,4
+239,Honda,CR-V,SUV,2021,gray,gasoline,manual,58000,rented,Convention Center Branch,San Diego,CA,75,16,450,"Apple CarPlay, Child seat anchors, Lane assist",3.0,1
+240,Ford,Explorer,SUV,2017,white,gasoline,manual,20901,rented,Airport Branch,Chicago,IL,75,16,450,,5.0,1
+241,Nissan,Sentra,Compact,2022,gray,diesel,automatic,581,rented,Airport Branch,Chicago,IL,45,10,270,Apple CarPlay,3.0,1
+242,Toyota,Camry,Midsize,2021,white,hybrid,manual,46417,rented,Downtown Branch,Phoenix,AZ,55,12,330,Backup camera,4.75,4
+243,Toyota,Camry,Midsize,2023,blue,hybrid,manual,53147,retired,Airport Branch,Chicago,IL,55,12,330,"Backup camera, Child seat anchors",1.0,1
+244,Hyundai,Accent,Economy,2020,black,gasoline,manual,5525,rented,Union Station Branch,Dallas,TX,39,9,235,"Blind spot monitor, Child seat anchors, Heated seats",3.0,2
+245,Kia,K5,Midsize,2024,black,gasoline,automatic,2499,rented,Airport Branch,Chicago,IL,55,12,330,"Child seat anchors, GPS navigation, Roof rack, Sunroof",4.5,2
+246,Tesla,Model Y,Luxury,2024,gray,gasoline,manual,14339,rented,Airport Branch,Chicago,IL,129,26,775,"Apple CarPlay, Bluetooth, Child seat anchors, Cruise control, Lane assist",4.0,3
+247,Honda,Civic,Compact,2023,white,electric,automatic,4751,rented,Southpoint Branch,Atlanta,GA,45,10,270,"Bluetooth, Child seat anchors",4.0,1
+248,Kia,K5,Midsize,2021,gray,gasoline,manual,12071,rented,University Branch,New York,NY,55,12,330,"Heated seats, Sunroof",4.333333333333333,3
+249,Ford,Focus,Compact,2024,white,gasoline,manual,3183,maintenance,Southpoint Branch,Atlanta,GA,45,10,270,,5.0,1
+250,Toyota,Yaris,Economy,2024,black,gasoline,manual,9362,available,Downtown Branch,Phoenix,AZ,39,9,235,"Child seat anchors, Roof rack",4.0,2
+251,Honda,Fit,Economy,2024,white,gasoline,manual,8621,rented,Westside Branch,San Diego,CA,39,9,235,"Android Auto, Apple CarPlay, Blind spot monitor, Bluetooth, GPS navigation",4.0,3
+252,Toyota,Sienna,Minivan,2025,silver,gasoline,manual,38637,retired,Harbor Branch,Boston,MA,85,18,510,"Backup camera, Heated seats",3.5,2
+253,Honda,Fit,Economy,2022,red,electric,manual,46874,rented,Convention Center Branch,San Diego,CA,39,9,235,"Apple CarPlay, Child seat anchors, Heated seats, Lane assist",4.5,2
+254,Toyota,Camry,Midsize,2022,gray,gasoline,manual,1871,retired,University Branch,New York,NY,55,12,330,"Android Auto, Apple CarPlay, Blind spot monitor, Cruise control, GPS navigation, Lane assist, Roof rack",5.0,1
+255,Toyota,Camry,Midsize,2019,black,gasoline,manual,16153,rented,Harbor Branch,Boston,MA,55,12,330,"Apple CarPlay, Backup camera, Blind spot monitor, Roof rack",3.0,3
+256,Toyota,Yaris,Economy,2019,silver,gasoline,manual,1771,rented,Lakeside Branch,San Francisco,CA,39,9,235,"Backup camera, Lane assist",2.0,1
+257,Toyota,Yaris,Economy,2024,white,gasoline,manual,39031,rented,Westside Branch,San Diego,CA,39,9,235,"Android Auto, Backup camera, Cruise control, GPS navigation, Sunroof",4.0,1
+258,Toyota,Yaris,Economy,2022,gray,hybrid,manual,30615,rented,Lakeside Branch,San Francisco,CA,39,9,235,"Android Auto, Blind spot monitor, Cruise control, Sunroof",2.5,2
+259,Kia,Rio,Economy,2021,white,gasoline,manual,5023,rented,University Branch,New York,NY,39,9,235,"Apple CarPlay, Backup camera, Bluetooth, GPS navigation, Heated seats",5.0,1
+260,Toyota,Corolla,Compact,2018,black,gasoline,manual,18918,retired,Eastside Branch,Charlotte,NC,45,10,270,"Apple CarPlay, Cruise control",3.0,1
+261,Toyota,Yaris,Economy,2023,black,hybrid,manual,58452,retired,Downtown Branch,Phoenix,AZ,39,9,235,"Apple CarPlay, Sunroof",3.0,3
+262,Honda,CR-V,SUV,2020,white,electric,manual,512,rented,Convention Center Branch,San Diego,CA,75,16,450,"Backup camera, Heated seats, Roof rack",5.0,3
+263,Honda,Odyssey,Minivan,2024,black,gasoline,manual,14290,rented,Westside Branch,San Diego,CA,85,18,510,Sunroof,3.5,2
+264,Toyota,Yaris,Economy,2024,white,hybrid,manual,5122,maintenance,Eastside Branch,Charlotte,NC,39,9,235,"Backup camera, Bluetooth, Child seat anchors, Lane assist",3.3333333333333335,3
+265,Toyota,Sienna,Minivan,2024,blue,gasoline,manual,29386,available,University Branch,New York,NY,85,18,510,"Backup camera, Cruise control, GPS navigation, Lane assist, Sunroof",,0
+266,Hyundai,Tucson,SUV,2021,black,electric,manual,42994,rented,Lakeside Branch,San Francisco,CA,75,16,450,"Android Auto, Apple CarPlay, Blind spot monitor, Child seat anchors, GPS navigation",5.0,2
+267,Toyota,Corolla,Compact,2018,red,gasoline,manual,2616,rented,Airport Branch,Chicago,IL,45,10,270,"Apple CarPlay, Cruise control",5.0,1
+268,Chevrolet,Tahoe,SUV,2024,white,gasoline,manual,3189,maintenance,Downtown Branch,Phoenix,AZ,75,16,450,"Backup camera, Child seat anchors, Roof rack",3.6666666666666665,3
+269,Toyota,Corolla,Compact,2025,silver,gasoline,manual,58678,rented,Lakeside Branch,San Francisco,CA,45,10,270,"Blind spot monitor, Lane assist",,0
+270,Toyota,Corolla,Compact,2024,silver,hybrid,manual,10475,available,Eastside Branch,Charlotte,NC,45,10,270,"Android Auto, Child seat anchors",2.5,2
+271,Hyundai,Elantra,Compact,2025,gray,gasoline,manual,647,rented,Harbor Branch,Boston,MA,45,10,270,"Child seat anchors, GPS navigation, Heated seats, Sunroof",,0
+272,Ford,Explorer,SUV,2021,white,gasoline,manual,1663,retired,Lakeside Branch,San Francisco,CA,75,16,450,"Blind spot monitor, Lane assist",,0
+273,Toyota,Sienna,Minivan,2017,white,gasoline,manual,56647,rented,Downtown Branch,Phoenix,AZ,85,18,510,"Backup camera, Cruise control, Heated seats, Lane assist, Roof rack",4.0,1
+274,Hyundai,Accent,Economy,2024,black,gasoline,manual,19924,retired,Union Station Branch,Dallas,TX,39,9,235,"Android Auto, Bluetooth, Heated seats, Lane assist",4.5,2
+275,Ford,Focus,Compact,2024,blue,diesel,manual,2629,rented,Lakeside Branch,San Francisco,CA,45,10,270,"Backup camera, Child seat anchors, GPS navigation",5.0,1
+276,Toyota,Camry,Midsize,2023,black,gasoline,manual,502,rented,Lakeside Branch,San Francisco,CA,55,12,330,"Apple CarPlay, Bluetooth, Roof rack",2.5,2
+277,Chevrolet,Spark,Economy,2025,white,gasoline,manual,7229,rented,Harbor Branch,Boston,MA,39,9,235,"Apple CarPlay, Backup camera, Blind spot monitor, GPS navigation, Heated seats",4.333333333333333,3
+278,Nissan,Sentra,Compact,2024,red,gasoline,manual,38046,retired,Convention Center Branch,San Diego,CA,45,10,270,"Cruise control, GPS navigation",5.0,1
+279,Honda,Odyssey,Minivan,2024,black,gasoline,manual,13210,rented,Uptown Branch,Austin,TX,85,18,510,"Heated seats, Roof rack",,0
+280,Ford,Pacifica,Minivan,2025,gray,diesel,manual,29757,rented,Uptown Branch,Austin,TX,85,18,510,"Android Auto, Blind spot monitor, Roof rack",,0
+281,Toyota,Yaris,Economy,2021,white,gasoline,manual,1717,retired,Harbor Branch,Boston,MA,39,9,235,Cruise control,4.333333333333333,3
+282,Toyota,Yaris,Economy,2022,silver,gasoline,automatic,2716,rented,Airport Branch,Chicago,IL,39,9,235,"Apple CarPlay, Blind spot monitor, Bluetooth, Cruise control, GPS navigation, Lane assist",2.5,2
+283,Chevrolet,Malibu,Midsize,2024,black,gasoline,manual,1441,rented,Harbor Branch,Boston,MA,55,12,330,"Backup camera, Sunroof",4.333333333333333,3
+284,Volkswagen,Jetta,Compact,2025,blue,gasoline,manual,36451,rented,Convention Center Branch,San Diego,CA,45,10,270,"Android Auto, Lane assist",5.0,1
+285,Ford,Escape,SUV,2024,black,gasoline,manual,551,rented,Lakeside Branch,San Francisco,CA,75,16,450,"Blind spot monitor, GPS navigation, Heated seats",3.0,4
+286,Toyota,Yaris,Economy,2021,white,gasoline,manual,38229,rented,Eastside Branch,Charlotte,NC,39,9,235,Roof rack,4.0,4
+287,Honda,Accord,Midsize,2023,white,gasoline,manual,4773,rented,Union Station Branch,Dallas,TX,55,12,330,"Blind spot monitor, GPS navigation",3.0,3
+288,Hyundai,Accent,Economy,2020,black,gasoline,manual,28172,rented,Eastside Branch,Charlotte,NC,39,9,235,"Backup camera, Blind spot monitor, Bluetooth, GPS navigation, Heated seats",,0
+289,BMW,X5,Luxury,2021,black,hybrid,manual,38544,rented,Uptown Branch,Austin,TX,129,26,775,"Android Auto, Backup camera, GPS navigation, Lane assist, Sunroof",3.0,2
+290,Volkswagen,Jetta,Compact,2024,silver,diesel,manual,59217,retired,Lakeside Branch,San Francisco,CA,45,10,270,"Backup camera, Roof rack",4.333333333333333,3
+291,Toyota,Yaris,Economy,2024,white,gasoline,manual,42327,maintenance,Airport Branch,Chicago,IL,39,9,235,"Android Auto, Cruise control",5.0,2
+292,Toyota,Yaris,Economy,2021,silver,hybrid,manual,14744,rented,Airport Branch,Chicago,IL,39,9,235,"Android Auto, Apple CarPlay, Backup camera, Child seat anchors, Heated seats, Lane assist",,0
+293,Toyota,Yaris,Economy,2025,white,gasoline,manual,1228,rented,Northgate Branch,Chicago,IL,39,9,235,"Apple CarPlay, Sunroof",,0
+294,Chevrolet,Malibu,Midsize,2024,white,gasoline,manual,27182,rented,Southpoint Branch,Atlanta,GA,55,12,330,"Blind spot monitor, Child seat anchors, Heated seats",4.5,2
+295,Toyota,Yaris,Economy,2024,blue,gasoline,manual,15870,rented,Uptown Branch,Austin,TX,39,9,235,"GPS navigation, Roof rack, Sunroof",5.0,2
+296,Hyundai,Tucson,SUV,2019,blue,hybrid,manual,17159,retired,Union Station Branch,Dallas,TX,75,16,450,"Cruise control, Heated seats, Sunroof",2.0,2
+297,Nissan,Altima,Midsize,2019,red,gasoline,manual,48085,available,Eastside Branch,Charlotte,NC,55,12,330,"Apple CarPlay, Blind spot monitor, Lane assist, Sunroof",3.5,2
+298,Toyota,Yaris,Economy,2024,red,gasoline,manual,5972,retired,Lakeside Branch,San Francisco,CA,39,9,235,"Backup camera, Blind spot monitor, Cruise control",2.6666666666666665,3
+299,Chevrolet,Equinox,SUV,2021,silver,gasoline,manual,28443,rented,Airport Branch,Chicago,IL,75,16,450,"Apple CarPlay, Roof rack",2.0,2
+300,Toyota,Yaris,Economy,2025,white,gasoline,automatic,17005,rented,Convention Center Branch,San Diego,CA,39,9,235,"Apple CarPlay, Heated seats, Lane assist, Sunroof",5.0,1
+301,Nissan,Sentra,Compact,2023,white,gasoline,manual,28661,rented,Westside Branch,San Diego,CA,45,10,270,"Blind spot monitor, Lane assist, Roof rack",3.0,5
+302,Toyota,Yaris,Economy,2023,blue,gasoline,manual,42000,rented,Westside Branch,San Diego,CA,39,9,235,"Backup camera, Heated seats, Sunroof",4.0,1
+303,Toyota,RAV4,SUV,2018,gray,gasoline,manual,1113,rented,Convention Center Branch,San Diego,CA,75,16,450,"Apple CarPlay, Lane assist, Sunroof",5.0,1
+304,Nissan,Sentra,Compact,2023,black,gasoline,manual,23151,available,University Branch,New York,NY,45,10,270,"Backup camera, Bluetooth, Roof rack",2.0,2
+305,Toyota,RAV4,SUV,2025,black,gasoline,manual,907,rented,Northgate Branch,Chicago,IL,75,16,450,Lane assist,3.25,4
+306,Toyota,Yaris,Economy,2017,white,electric,manual,23996,rented,Lakeside Branch,San Francisco,CA,39,9,235,"Bluetooth, Heated seats, Sunroof",4.5,2
+307,Hyundai,Tucson,SUV,2020,silver,diesel,manual,1616,rented,University Branch,New York,NY,75,16,450,"Apple CarPlay, Bluetooth, Roof rack",5.0,2
+308,Chevrolet,Equinox,SUV,2025,white,hybrid,manual,1329,rented,Eastside Branch,Charlotte,NC,75,16,450,"Android Auto, Backup camera, Blind spot monitor",4.0,3
+309,Toyota,Yaris,Economy,2017,gray,diesel,manual,26274,rented,Convention Center Branch,San Diego,CA,39,9,235,Lane assist,,0
+310,Toyota,RAV4,SUV,2025,black,diesel,manual,9700,rented,Airport Branch,Chicago,IL,75,16,450,Backup camera,3.0,1
+311,Chevrolet,Tahoe,SUV,2022,red,gasoline,manual,1143,retired,Westside Branch,San Diego,CA,75,16,450,"Apple CarPlay, Child seat anchors, GPS navigation, Lane assist",,0
+312,Toyota,Corolla,Compact,2020,white,gasoline,manual,9376,rented,Harbor Branch,Boston,MA,45,10,270,"Apple CarPlay, Blind spot monitor",4.0,1
+313,Nissan,Altima,Midsize,2024,black,hybrid,manual,27729,rented,Convention Center Branch,San Diego,CA,55,12,330,,4.0,1
+314,Toyota,Yaris,Economy,2024,white,gasoline,manual,14023,retired,Downtown Branch,Phoenix,AZ,39,9,235,"Apple CarPlay, Child seat anchors, Cruise control, Heated seats, Roof rack",4.5,2
+315,Honda,Odyssey,Minivan,2020,white,gasoline,manual,42781,rented,Union Station Branch,Dallas,TX,85,18,510,"Android Auto, Child seat anchors, Heated seats, Sunroof",5.0,1
+316,Honda,CR-V,SUV,2018,white,gasoline,manual,551,available,Westside Branch,San Diego,CA,75,16,450,"Blind spot monitor, Bluetooth, Lane assist, Roof rack",3.0,2
+317,Nissan,Versa,Economy,2025,white,gasoline,manual,34919,rented,Union Station Branch,Dallas,TX,39,9,235,"GPS navigation, Lane assist",5.0,1
+318,Chevrolet,Tahoe,SUV,2025,black,gasoline,manual,600,rented,Union Station Branch,Dallas,TX,75,16,450,"Backup camera, Lane assist",4.5,2
+319,Ford,Explorer,SUV,2024,black,electric,manual,6876,rented,Eastside Branch,Charlotte,NC,75,16,450,"Backup camera, Blind spot monitor, Child seat anchors",4.0,3
+320,Honda,Accord,Midsize,2021,white,gasoline,manual,502,rented,University Branch,New York,NY,55,12,330,"Child seat anchors, Cruise control",4.333333333333333,3
+321,Honda,Accord,Midsize,2024,red,gasoline,automatic,8074,rented,Harbor Branch,Boston,MA,55,12,330,Apple CarPlay,5.0,1
+322,Toyota,Corolla,Compact,2025,white,electric,manual,11315,rented,Airport Branch,Chicago,IL,45,10,270,"Apple CarPlay, Roof rack, Sunroof",2.0,1
+323,Toyota,Corolla,Compact,2020,red,gasoline,manual,6364,rented,Uptown Branch,Austin,TX,45,10,270,"Apple CarPlay, Blind spot monitor, GPS navigation",3.6666666666666665,3
+324,Toyota,Corolla,Compact,2023,white,gasoline,manual,33479,rented,University Branch,New York,NY,45,10,270,,5.0,1
+325,Toyota,Yaris,Economy,2021,gray,gasoline,manual,10903,rented,Northgate Branch,Chicago,IL,39,9,235,GPS navigation,4.0,1
+326,Tesla,Model Y,Luxury,2023,blue,gasoline,manual,12340,retired,Uptown Branch,Austin,TX,129,26,775,"Apple CarPlay, Cruise control, GPS navigation, Sunroof",4.25,4
+327,Honda,Odyssey,Minivan,2023,white,gasoline,manual,10486,rented,Airport Branch,Chicago,IL,85,18,510,Android Auto,3.5,2
+328,Toyota,RAV4,SUV,2020,gray,gasoline,manual,8389,rented,Uptown Branch,Austin,TX,75,16,450,"Apple CarPlay, Backup camera, Child seat anchors, GPS navigation, Lane assist",4.5,4
+329,Tesla,Model Y,Luxury,2019,blue,diesel,manual,1113,maintenance,Northgate Branch,Chicago,IL,129,26,775,"Apple CarPlay, Backup camera, Bluetooth, GPS navigation, Heated seats, Lane assist",5.0,2
+330,Hyundai,Accent,Economy,2017,white,gasoline,manual,24393,rented,Airport Branch,Chicago,IL,39,9,235,,4.5,2
+331,Kia,Rio,Economy,2025,white,gasoline,manual,47211,rented,Uptown Branch,Austin,TX,39,9,235,,4.0,2
+332,Nissan,Rogue,SUV,2024,black,gasoline,manual,46222,rented,University Branch,New York,NY,75,16,450,"Bluetooth, Cruise control, Lane assist",,0
+333,Ford,Fusion,Midsize,2024,white,hybrid,manual,29166,rented,Airport Branch,Chicago,IL,55,12,330,"Apple CarPlay, Backup camera, Blind spot monitor, Child seat anchors",4.0,3
+334,Toyota,Yaris,Economy,2021,gray,gasoline,automatic,1254,rented,University Branch,New York,NY,39,9,235,"Blind spot monitor, Cruise control",2.0,1
+335,Kia,Carnival,Minivan,2018,white,gasoline,manual,47843,rented,Westside Branch,San Diego,CA,85,18,510,Heated seats,3.25,4
+336,Nissan,Rogue,SUV,2025,silver,gasoline,manual,59121,retired,Southpoint Branch,Atlanta,GA,75,16,450,"Android Auto, Apple CarPlay, Backup camera, Heated seats, Lane assist, Sunroof",4.0,1
+337,Hyundai,Accent,Economy,2021,silver,gasoline,manual,12584,rented,Westside Branch,San Diego,CA,39,9,235,"Backup camera, Blind spot monitor, Roof rack",,0
+338,Chevrolet,Spark,Economy,2022,blue,gasoline,manual,717,rented,Downtown Branch,Phoenix,AZ,39,9,235,Child seat anchors,2.0,1
+339,Toyota,Yaris,Economy,2020,red,gasoline,manual,9978,rented,Southpoint Branch,Atlanta,GA,39,9,235,,4.5,2
+340,Toyota,Corolla,Compact,2020,white,gasoline,manual,7879,rented,Harbor Branch,Boston,MA,45,10,270,"Android Auto, Backup camera, Blind spot monitor, Cruise control, GPS navigation, Lane assist",4.5,2
+341,Toyota,Yaris,Economy,2024,silver,gasoline,manual,505,rented,Northgate Branch,Chicago,IL,39,9,235,"Apple CarPlay, Backup camera, Bluetooth, Heated seats",4.0,4
+342,Volkswagen,Jetta,Compact,2025,blue,hybrid,manual,9903,rented,Eastside Branch,Charlotte,NC,45,10,270,"Child seat anchors, GPS navigation",,0
+343,Toyota,Camry,Midsize,2023,gray,gasoline,manual,3428,rented,Union Station Branch,Dallas,TX,55,12,330,"Blind spot monitor, Cruise control, Heated seats, Roof rack",3.5,2
+344,Ford,Explorer,SUV,2025,gray,gasoline,manual,3756,rented,Harbor Branch,Boston,MA,75,16,450,"Blind spot monitor, GPS navigation, Lane assist",5.0,1
+345,Hyundai,Tucson,SUV,2025,black,gasoline,manual,503,retired,Union Station Branch,Dallas,TX,75,16,450,Backup camera,3.0,5
+346,Volkswagen,Tiguan,SUV,2025,blue,gasoline,automatic,4827,rented,Westside Branch,San Diego,CA,75,16,450,Child seat anchors,2.5,4
+347,Toyota,RAV4,SUV,2020,white,gasoline,manual,21695,rented,Northgate Branch,Chicago,IL,75,16,450,Android Auto,1.5,2
+348,Honda,CR-V,SUV,2020,gray,diesel,manual,47162,rented,Uptown Branch,Austin,TX,75,16,450,Blind spot monitor,4.4,5
+349,Ford,Fusion,Midsize,2020,black,gasoline,manual,2641,rented,Uptown Branch,Austin,TX,55,12,330,"Backup camera, Heated seats",3.0,1
+350,Honda,Accord,Midsize,2023,white,diesel,manual,14361,rented,Union Station Branch,Dallas,TX,55,12,330,"Blind spot monitor, Cruise control, Roof rack, Sunroof",5.0,1
+351,Kia,Sportage,SUV,2023,black,gasoline,manual,25579,rented,Airport Branch,Chicago,IL,75,16,450,Child seat anchors,3.6666666666666665,3
+352,BMW,3 Series,Luxury,2025,white,gasoline,manual,534,rented,Harbor Branch,Boston,MA,129,26,775,"Android Auto, Backup camera, Child seat anchors, Roof rack",5.0,1
+353,Toyota,Yaris,Economy,2023,gray,electric,manual,25153,rented,Downtown Branch,Phoenix,AZ,39,9,235,Bluetooth,4.5,4
+354,Volkswagen,Passat,Midsize,2025,blue,gasoline,manual,13841,available,Uptown Branch,Austin,TX,55,12,330,,5.0,1
+355,Ford,Focus,Compact,2025,gray,gasoline,automatic,3119,available,Northgate Branch,Chicago,IL,45,10,270,Cruise control,4.0,1
+356,Volkswagen,Passat,Midsize,2024,black,gasoline,manual,23322,rented,Eastside Branch,Charlotte,NC,55,12,330,"Apple CarPlay, Blind spot monitor, Child seat anchors",5.0,1
+357,BMW,3 Series,Luxury,2023,red,gasoline,manual,5526,rented,Downtown Branch,Phoenix,AZ,129,26,775,"Apple CarPlay, Blind spot monitor, Bluetooth, Child seat anchors, Cruise control, Lane assist",5.0,1
+358,Kia,Carnival,Minivan,2018,gray,gasoline,manual,13587,rented,Lakeside Branch,San Francisco,CA,85,18,510,"Backup camera, Child seat anchors, GPS navigation, Roof rack",3.6666666666666665,3
+359,Kia,Rio,Economy,2020,silver,gasoline,manual,29399,available,Uptown Branch,Austin,TX,39,9,235,,4.5,2
+360,Toyota,Corolla,Compact,2024,gray,gasoline,manual,505,rented,Convention Center Branch,San Diego,CA,45,10,270,Roof rack,4.5,2
+361,Chevrolet,Equinox,SUV,2021,white,electric,manual,2257,rented,Downtown Branch,Phoenix,AZ,75,16,450,"Blind spot monitor, Child seat anchors, Roof rack",,0
+362,Honda,Odyssey,Minivan,2023,blue,hybrid,manual,6034,maintenance,Westside Branch,San Diego,CA,85,18,510,"Apple CarPlay, Blind spot monitor, Cruise control, Lane assist",3.0,2
+363,Chevrolet,Spark,Economy,2023,blue,gasoline,manual,58820,retired,University Branch,New York,NY,39,9,235,"GPS navigation, Roof rack, Sunroof",,0
+364,Chevrolet,Spark,Economy,2025,black,gasoline,manual,44115,rented,Downtown Branch,Phoenix,AZ,39,9,235,"Android Auto, Apple CarPlay",,0
+365,Toyota,Yaris,Economy,2020,silver,gasoline,manual,1732,rented,Eastside Branch,Charlotte,NC,39,9,235,"Backup camera, Blind spot monitor",,0
+366,Hyundai,Sonata,Midsize,2024,white,gasoline,manual,22699,retired,Union Station Branch,Dallas,TX,55,12,330,"Apple CarPlay, Cruise control, Heated seats",3.0,1
+367,Honda,Civic,Compact,2023,silver,gasoline,automatic,5606,retired,Union Station Branch,Dallas,TX,45,10,270,Cruise control,3.3333333333333335,3
+368,Honda,Accord,Midsize,2024,black,gasoline,manual,609,retired,Airport Branch,Chicago,IL,55,12,330,"Android Auto, Bluetooth, Child seat anchors, GPS navigation, Sunroof",4.0,1
+369,Honda,CR-V,SUV,2025,black,gasoline,manual,2037,rented,Westside Branch,San Diego,CA,75,16,450,"Android Auto, GPS navigation",4.4,5
+370,Hyundai,Elantra,Compact,2022,black,gasoline,manual,10499,rented,Eastside Branch,Charlotte,NC,45,10,270,"Android Auto, Blind spot monitor, Bluetooth, GPS navigation",,0
+371,Toyota,Yaris,Economy,2018,blue,gasoline,manual,7074,retired,Harbor Branch,Boston,MA,39,9,235,"Android Auto, Backup camera",5.0,1
+372,Kia,Forte,Compact,2025,black,gasoline,manual,1586,rented,Harbor Branch,Boston,MA,45,10,270,"Backup camera, Heated seats, Lane assist, Roof rack",,0
+373,Kia,Sportage,SUV,2024,silver,gasoline,manual,2640,rented,Eastside Branch,Charlotte,NC,75,16,450,"Backup camera, Heated seats, Lane assist, Roof rack",,0
+374,Toyota,Sienna,Minivan,2021,blue,gasoline,manual,53260,rented,Eastside Branch,Charlotte,NC,85,18,510,"Backup camera, Cruise control, Sunroof",4.0,1
+375,Nissan,Rogue,SUV,2024,silver,diesel,manual,36261,rented,Westside Branch,San Diego,CA,75,16,450,"Apple CarPlay, Backup camera, Bluetooth, Child seat anchors",,0
+376,Honda,Fit,Economy,2019,white,gasoline,manual,9060,rented,Harbor Branch,Boston,MA,39,9,235,"Apple CarPlay, Heated seats",2.6666666666666665,3
+377,Toyota,Camry,Midsize,2020,red,gasoline,manual,47153,rented,University Branch,New York,NY,55,12,330,"Blind spot monitor, Bluetooth, Cruise control, Lane assist, Sunroof",3.5,2
+378,Chevrolet,Tahoe,SUV,2020,black,gasoline,manual,20553,rented,Westside Branch,San Diego,CA,75,16,450,"Android Auto, Apple CarPlay, Blind spot monitor, Cruise control, GPS navigation",3.3333333333333335,3
+379,Hyundai,Tucson,SUV,2025,black,gasoline,manual,49020,retired,Southpoint Branch,Atlanta,GA,75,16,450,"Backup camera, Child seat anchors, Heated seats, Sunroof",4.5,2
+380,Honda,Fit,Economy,2024,red,hybrid,manual,8221,rented,Southpoint Branch,Atlanta,GA,39,9,235,"GPS navigation, Heated seats, Sunroof",5.0,1
+381,Honda,Accord,Midsize,2020,white,diesel,manual,4010,rented,Westside Branch,San Diego,CA,55,12,330,Sunroof,,0
+382,Tesla,Model Y,Luxury,2025,black,gasoline,manual,54130,rented,Union Station Branch,Dallas,TX,129,26,775,,4.25,4
+383,Toyota,Yaris,Economy,2022,black,diesel,automatic,2466,rented,Airport Branch,Chicago,IL,39,9,235,"Backup camera, Blind spot monitor, Child seat anchors",3.75,4
+384,Tesla,Model 3,Luxury,2020,white,gasoline,manual,30333,rented,Downtown Branch,Phoenix,AZ,129,26,775,"Apple CarPlay, Backup camera, Child seat anchors, Cruise control",5.0,1
+385,Toyota,Yaris,Economy,2018,white,gasoline,manual,58388,rented,Uptown Branch,Austin,TX,39,9,235,"Android Auto, Child seat anchors",5.0,3
+386,Honda,CR-V,SUV,2024,blue,gasoline,manual,28249,rented,Westside Branch,San Diego,CA,75,16,450,"Apple CarPlay, Bluetooth",1.0,1
+387,Honda,Accord,Midsize,2024,white,gasoline,manual,51053,rented,Westside Branch,San Diego,CA,55,12,330,"Cruise control, GPS navigation, Lane assist",1.0,1
+388,Toyota,Yaris,Economy,2017,white,diesel,manual,43329,rented,Eastside Branch,Charlotte,NC,39,9,235,"Apple CarPlay, Cruise control, GPS navigation",,0
+389,Tesla,Model Y,Luxury,2025,silver,diesel,manual,53179,rented,Northgate Branch,Chicago,IL,129,26,775,"Apple CarPlay, Backup camera",,0
+390,Kia,K5,Midsize,2025,silver,gasoline,manual,43751,rented,Southpoint Branch,Atlanta,GA,55,12,330,"Blind spot monitor, Heated seats",3.5,4
+391,Kia,Rio,Economy,2019,silver,gasoline,manual,4597,rented,University Branch,New York,NY,39,9,235,"Blind spot monitor, Bluetooth, Lane assist",,0
+392,BMW,5 Series,Luxury,2021,silver,gasoline,manual,883,rented,Uptown Branch,Austin,TX,129,26,775,Blind spot monitor,4.25,4
+393,Toyota,Yaris,Economy,2025,silver,gasoline,manual,5282,retired,Eastside Branch,Charlotte,NC,39,9,235,"Roof rack, Sunroof",4.0,3
+394,Honda,CR-V,SUV,2025,silver,gasoline,manual,29820,rented,Convention Center Branch,San Diego,CA,75,16,450,"Backup camera, Bluetooth, GPS navigation",3.5,2
+395,Ford,Explorer,SUV,2024,black,electric,manual,2632,rented,University Branch,New York,NY,75,16,450,"Backup camera, Blind spot monitor, Cruise control, Lane assist, Roof rack",4.0,2
+396,Toyota,Corolla,Compact,2024,white,gasoline,manual,37422,rented,Southpoint Branch,Atlanta,GA,45,10,270,"Apple CarPlay, Backup camera, Roof rack",4.5,2
+397,Honda,Civic,Compact,2024,red,gasoline,manual,18307,rented,Westside Branch,San Diego,CA,45,10,270,"Backup camera, Cruise control",5.0,1
+398,Toyota,Camry,Midsize,2022,black,gasoline,manual,3203,available,Westside Branch,San Diego,CA,55,12,330,Cruise control,4.5,2
+399,Toyota,RAV4,SUV,2023,gray,gasoline,manual,35310,rented,Eastside Branch,Charlotte,NC,75,16,450,"Backup camera, Heated seats",5.0,1
+400,Hyundai,Elantra,Compact,2024,black,hybrid,manual,7497,retired,Downtown Branch,Phoenix,AZ,45,10,270,"Blind spot monitor, Bluetooth, Roof rack",3.7142857142857144,7
+401,Toyota,Yaris,Economy,2024,white,gasoline,manual,539,rented,Uptown Branch,Austin,TX,39,9,235,"Android Auto, Backup camera",,0
+402,Ford,Escape,SUV,2025,silver,diesel,manual,1892,rented,Downtown Branch,Phoenix,AZ,75,16,450,"Apple CarPlay, Child seat anchors",3.0,2
+403,Kia,Sportage,SUV,2021,black,gasoline,manual,19449,rented,Downtown Branch,Phoenix,AZ,75,16,450,"Apple CarPlay, Backup camera, Cruise control, GPS navigation, Heated seats, Sunroof",,0
+404,Nissan,Rogue,SUV,2021,black,electric,manual,2526,rented,University Branch,New York,NY,75,16,450,"Child seat anchors, GPS navigation, Lane assist",3.3333333333333335,3
+405,Ford,Fusion,Midsize,2021,white,gasoline,manual,11725,rented,Convention Center Branch,San Diego,CA,55,12,330,"Cruise control, Sunroof",5.0,1
+406,Chevrolet,Malibu,Midsize,2022,white,gasoline,manual,13518,rented,Harbor Branch,Boston,MA,55,12,330,,3.0,3
+407,Volkswagen,Tiguan,SUV,2019,blue,gasoline,manual,55352,rented,Convention Center Branch,San Diego,CA,75,16,450,"Backup camera, Cruise control, GPS navigation, Roof rack",4.5,2
+408,Tesla,Model Y,Luxury,2022,white,gasoline,manual,28559,rented,Harbor Branch,Boston,MA,129,26,775,"Android Auto, GPS navigation",1.5,2
+409,Ford,Explorer,SUV,2024,silver,gasoline,manual,11347,rented,Union Station Branch,Dallas,TX,75,16,450,"Bluetooth, Cruise control, Lane assist, Sunroof",,0
+410,Kia,K5,Midsize,2025,black,gasoline,manual,16397,rented,Harbor Branch,Boston,MA,55,12,330,"Apple CarPlay, Bluetooth, Child seat anchors, Cruise control, GPS navigation, Sunroof",3.0,1
+411,Honda,CR-V,SUV,2021,black,hybrid,manual,53637,rented,Northgate Branch,Chicago,IL,75,16,450,Roof rack,4.0,1
+412,Chevrolet,Malibu,Midsize,2025,white,gasoline,manual,3458,rented,Westside Branch,San Diego,CA,55,12,330,Bluetooth,3.3333333333333335,3
+413,Chevrolet,Spark,Economy,2022,silver,gasoline,manual,41549,rented,Uptown Branch,Austin,TX,39,9,235,"Backup camera, Child seat anchors, GPS navigation, Heated seats, Lane assist, Sunroof",3.0,1
+414,Toyota,Sienna,Minivan,2025,silver,hybrid,manual,28623,rented,Westside Branch,San Diego,CA,85,18,510,"Android Auto, Backup camera, Child seat anchors, Sunroof",1.0,1
+415,Hyundai,Tucson,SUV,2018,silver,diesel,manual,2678,rented,Uptown Branch,Austin,TX,75,16,450,"Cruise control, GPS navigation",2.0,1
+416,Toyota,Camry,Midsize,2021,silver,gasoline,manual,27055,rented,Lakeside Branch,San Francisco,CA,55,12,330,"Blind spot monitor, Bluetooth, Cruise control, Heated seats, Sunroof",4.0,2
+417,Ford,Fusion,Midsize,2017,silver,gasoline,manual,18806,rented,Northgate Branch,Chicago,IL,55,12,330,Heated seats,3.5,2
+418,Hyundai,Elantra,Compact,2025,red,gasoline,manual,16530,rented,Downtown Branch,Phoenix,AZ,45,10,270,"Bluetooth, GPS navigation, Lane assist",3.5,2
+419,BMW,3 Series,Luxury,2025,white,gasoline,manual,31350,rented,University Branch,New York,NY,129,26,775,"Cruise control, Heated seats",3.0,1
+420,Chevrolet,Equinox,SUV,2022,blue,gasoline,automatic,27125,rented,Downtown Branch,Phoenix,AZ,75,16,450,"Apple CarPlay, Roof rack",4.0,1
+421,Toyota,Sienna,Minivan,2025,white,gasoline,automatic,35106,retired,Union Station Branch,Dallas,TX,85,18,510,"Android Auto, Bluetooth, Sunroof",3.5,2
+422,Toyota,Yaris,Economy,2025,gray,diesel,manual,1236,rented,Westside Branch,San Diego,CA,39,9,235,"Child seat anchors, Roof rack, Sunroof",5.0,2
+423,Honda,Civic,Compact,2021,black,gasoline,manual,37587,rented,Uptown Branch,Austin,TX,45,10,270,"Blind spot monitor, Bluetooth, Sunroof",4.0,4
+424,Honda,Odyssey,Minivan,2025,white,electric,automatic,33601,rented,Convention Center Branch,San Diego,CA,85,18,510,"Backup camera, Blind spot monitor, Bluetooth, Heated seats",,0
+425,Ford,Escape,SUV,2025,silver,gasoline,manual,50387,rented,Westside Branch,San Diego,CA,75,16,450,"Backup camera, Bluetooth, Lane assist",4.666666666666667,3
+426,Ford,Fusion,Midsize,2025,gray,hybrid,manual,13165,retired,Union Station Branch,Dallas,TX,55,12,330,"Android Auto, Apple CarPlay, Sunroof",3.0,1
+427,Ford,Focus,Compact,2022,white,hybrid,manual,1456,rented,Uptown Branch,Austin,TX,45,10,270,"Android Auto, Cruise control, GPS navigation",2.5,2
+428,Volkswagen,Tiguan,SUV,2021,silver,electric,manual,18148,retired,University Branch,New York,NY,75,16,450,"Cruise control, Roof rack",2.0,1
+429,BMW,5 Series,Luxury,2023,silver,gasoline,manual,19884,rented,Northgate Branch,Chicago,IL,129,26,775,"Apple CarPlay, Heated seats",5.0,1
+430,Honda,CR-V,SUV,2019,black,gasoline,manual,6533,rented,Uptown Branch,Austin,TX,75,16,450,"Android Auto, Child seat anchors",3.0,1
+431,Honda,Fit,Economy,2020,silver,gasoline,manual,10534,maintenance,Northgate Branch,Chicago,IL,39,9,235,"Android Auto, Child seat anchors, Heated seats, Sunroof",2.0,1
+432,Hyundai,Sonata,Midsize,2025,blue,hybrid,manual,12814,retired,Union Station Branch,Dallas,TX,55,12,330,"Apple CarPlay, Child seat anchors, Lane assist, Sunroof",4.0,1
+433,Kia,Carnival,Minivan,2025,black,gasoline,manual,11137,rented,Harbor Branch,Boston,MA,85,18,510,Roof rack,4.5,2
+434,Kia,Rio,Economy,2024,gray,gasoline,manual,7320,rented,Northgate Branch,Chicago,IL,39,9,235,"Bluetooth, GPS navigation, Roof rack",5.0,1
+435,Nissan,Versa,Economy,2024,white,gasoline,manual,4010,rented,Downtown Branch,Phoenix,AZ,39,9,235,"Android Auto, GPS navigation, Sunroof",5.0,1
+436,Kia,Forte,Compact,2024,white,gasoline,manual,7105,rented,Downtown Branch,Phoenix,AZ,45,10,270,Roof rack,3.0,4
+437,Kia,Rio,Economy,2019,silver,gasoline,manual,26990,rented,University Branch,New York,NY,39,9,235,"Bluetooth, Lane assist",4.0,1
+438,Toyota,Camry,Midsize,2018,black,diesel,manual,45425,rented,Lakeside Branch,San Francisco,CA,55,12,330,"Android Auto, Backup camera, Child seat anchors, Sunroof",4.0,1
+439,Toyota,Corolla,Compact,2022,blue,gasoline,manual,40008,retired,Southpoint Branch,Atlanta,GA,45,10,270,"Android Auto, Cruise control",,0
+440,Ford,Focus,Compact,2025,black,gasoline,manual,15875,rented,University Branch,New York,NY,45,10,270,"Child seat anchors, Lane assist, Sunroof",5.0,1
+441,Toyota,Yaris,Economy,2021,black,hybrid,manual,823,retired,Westside Branch,San Diego,CA,39,9,235,Child seat anchors,4.0,1
+442,Ford,Focus,Compact,2021,silver,gasoline,manual,1887,retired,Harbor Branch,Boston,MA,45,10,270,"Bluetooth, Child seat anchors",,0
+443,Chevrolet,Malibu,Midsize,2018,white,gasoline,manual,11611,rented,Southpoint Branch,Atlanta,GA,55,12,330,"Backup camera, Bluetooth, GPS navigation, Sunroof",2.0,1
+444,Toyota,Yaris,Economy,2022,black,gasoline,automatic,3186,rented,Downtown Branch,Phoenix,AZ,39,9,235,"Apple CarPlay, Blind spot monitor",2.0,1
+445,Hyundai,Elantra,Compact,2025,gray,gasoline,manual,11245,rented,Union Station Branch,Dallas,TX,45,10,270,"Backup camera, Child seat anchors",5.0,1
+446,Toyota,Yaris,Economy,2021,black,gasoline,manual,59247,rented,Westside Branch,San Diego,CA,39,9,235,"Android Auto, Apple CarPlay, Bluetooth",3.0,1
+447,Toyota,Yaris,Economy,2024,black,hybrid,automatic,16492,rented,University Branch,New York,NY,39,9,235,"Apple CarPlay, Heated seats, Sunroof",5.0,1
+448,Chevrolet,Tahoe,SUV,2024,silver,hybrid,manual,30319,rented,Westside Branch,San Diego,CA,75,16,450,"GPS navigation, Lane assist, Roof rack",2.0,1
+449,Chevrolet,Malibu,Midsize,2019,white,gasoline,manual,627,retired,University Branch,New York,NY,55,12,330,"Apple CarPlay, GPS navigation",,0
+450,Toyota,Yaris,Economy,2022,white,gasoline,manual,838,rented,Harbor Branch,Boston,MA,39,9,235,"Android Auto, Apple CarPlay",4.666666666666667,3
+451,Toyota,Corolla,Compact,2023,gray,gasoline,manual,10729,rented,Lakeside Branch,San Francisco,CA,45,10,270,"Blind spot monitor, Cruise control",2.5,2
+452,Toyota,Yaris,Economy,2020,silver,electric,manual,18461,rented,Downtown Branch,Phoenix,AZ,39,9,235,Sunroof,3.25,4
+453,Toyota,Corolla,Compact,2025,white,gasoline,manual,5506,available,Airport Branch,Chicago,IL,45,10,270,"Backup camera, Bluetooth, Lane assist, Roof rack",,0
+454,Toyota,RAV4,SUV,2022,gray,gasoline,manual,57574,rented,Airport Branch,Chicago,IL,75,16,450,"Apple CarPlay, Cruise control, Lane assist",,0
+455,Volkswagen,Jetta,Compact,2021,blue,gasoline,manual,40164,rented,Eastside Branch,Charlotte,NC,45,10,270,"GPS navigation, Roof rack",,0
+456,Toyota,Corolla,Compact,2024,white,gasoline,manual,3484,rented,Downtown Branch,Phoenix,AZ,45,10,270,"Heated seats, Lane assist",5.0,1
+457,Ford,Escape,SUV,2025,white,gasoline,manual,518,retired,Harbor Branch,Boston,MA,75,16,450,"Child seat anchors, Lane assist",4.666666666666667,3
+458,Toyota,Corolla,Compact,2025,silver,gasoline,manual,10911,rented,Airport Branch,Chicago,IL,45,10,270,"Apple CarPlay, Backup camera, Blind spot monitor, Cruise control",4.0,2
+459,Toyota,Yaris,Economy,2024,white,diesel,manual,36231,rented,Downtown Branch,Phoenix,AZ,39,9,235,"Apple CarPlay, Cruise control, Heated seats, Sunroof",4.0,2
+460,Ford,Fusion,Midsize,2024,black,gasoline,manual,14359,rented,Southpoint Branch,Atlanta,GA,55,12,330,"Apple CarPlay, Backup camera, Heated seats",3.3333333333333335,3
+461,Ford,Pacifica,Minivan,2019,silver,hybrid,manual,7636,rented,University Branch,New York,NY,85,18,510,"Backup camera, Bluetooth, Roof rack",3.0,1
+462,Toyota,Camry,Midsize,2022,gray,gasoline,automatic,7593,rented,Westside Branch,San Diego,CA,55,12,330,Blind spot monitor,,0
+463,Toyota,Corolla,Compact,2025,silver,gasoline,automatic,570,rented,Union Station Branch,Dallas,TX,45,10,270,Apple CarPlay,5.0,1
+464,Toyota,Yaris,Economy,2023,red,hybrid,manual,7715,rented,Westside Branch,San Diego,CA,39,9,235,"Apple CarPlay, Lane assist",,0
+465,Honda,Civic,Compact,2022,white,gasoline,manual,42930,rented,Uptown Branch,Austin,TX,45,10,270,"Lane assist, Roof rack",3.3333333333333335,3
+466,Toyota,Camry,Midsize,2025,silver,gasoline,manual,6464,rented,University Branch,New York,NY,55,12,330,Heated seats,3.6666666666666665,3
+467,Toyota,RAV4,SUV,2018,gray,diesel,manual,5641,retired,Harbor Branch,Boston,MA,75,16,450,"Cruise control, Sunroof",4.4,5
+468,Honda,Fit,Economy,2023,gray,gasoline,manual,5256,rented,Northgate Branch,Chicago,IL,39,9,235,"Apple CarPlay, Cruise control",4.0,1
+469,Toyota,Yaris,Economy,2022,black,gasoline,manual,54855,rented,Westside Branch,San Diego,CA,39,9,235,"Lane assist, Sunroof",5.0,1
+470,Toyota,Sienna,Minivan,2023,silver,gasoline,automatic,2950,rented,University Branch,New York,NY,85,18,510,"Backup camera, Cruise control, GPS navigation",5.0,1
+471,Honda,Civic,Compact,2020,black,gasoline,manual,1652,rented,Westside Branch,San Diego,CA,45,10,270,"Backup camera, Blind spot monitor, Bluetooth",4.0,1
+472,Toyota,Camry,Midsize,2024,red,electric,manual,20038,rented,Downtown Branch,Phoenix,AZ,55,12,330,"Backup camera, Child seat anchors, Cruise control, Roof rack, Sunroof",4.5,2
+473,Kia,Rio,Economy,2023,black,gasoline,manual,48678,rented,Harbor Branch,Boston,MA,39,9,235,"Android Auto, Apple CarPlay, Cruise control, GPS navigation, Heated seats",2.0,1
+474,Toyota,Camry,Midsize,2024,black,gasoline,manual,12462,rented,Northgate Branch,Chicago,IL,55,12,330,"Apple CarPlay, Cruise control",2.0,1
+475,Toyota,Yaris,Economy,2019,white,gasoline,manual,566,rented,Southpoint Branch,Atlanta,GA,39,9,235,"Backup camera, Heated seats, Roof rack",3.5,4
+476,Ford,Pacifica,Minivan,2025,gray,gasoline,manual,21456,rented,Northgate Branch,Chicago,IL,85,18,510,Android Auto,,0
+477,Ford,Escape,SUV,2025,gray,gasoline,automatic,57212,rented,Westside Branch,San Diego,CA,75,16,450,"Child seat anchors, Heated seats, Lane assist, Sunroof",3.0,1
+478,Toyota,Yaris,Economy,2023,silver,electric,manual,39845,retired,Airport Branch,Chicago,IL,39,9,235,,3.5,4
+479,Hyundai,Tucson,SUV,2025,blue,gasoline,manual,48173,rented,University Branch,New York,NY,75,16,450,"Bluetooth, Cruise control, Heated seats",,0
+480,Honda,CR-V,SUV,2018,white,gasoline,manual,9931,rented,Southpoint Branch,Atlanta,GA,75,16,450,"Cruise control, GPS navigation, Heated seats, Sunroof",,0
+481,Volkswagen,Tiguan,SUV,2021,red,gasoline,manual,58970,rented,Lakeside Branch,San Francisco,CA,75,16,450,"Android Auto, Apple CarPlay, Backup camera, Cruise control, GPS navigation, Sunroof",1.0,1
+482,Toyota,Yaris,Economy,2021,gray,gasoline,automatic,567,rented,Union Station Branch,Dallas,TX,39,9,235,"Backup camera, Roof rack",,0
+483,Hyundai,Elantra,Compact,2017,silver,gasoline,manual,38295,rented,University Branch,New York,NY,45,10,270,"Apple CarPlay, GPS navigation, Lane assist",1.0,1
+484,Toyota,RAV4,SUV,2025,silver,hybrid,manual,542,retired,Eastside Branch,Charlotte,NC,75,16,450,"GPS navigation, Heated seats, Sunroof",3.5,2
+485,Ford,Focus,Compact,2025,black,hybrid,manual,5914,rented,Northgate Branch,Chicago,IL,45,10,270,"Android Auto, Backup camera, Sunroof",5.0,1
+486,Toyota,Yaris,Economy,2025,red,electric,automatic,46956,rented,Convention Center Branch,San Diego,CA,39,9,235,"Roof rack, Sunroof",4.0,1
+487,Toyota,Corolla,Compact,2024,black,electric,manual,23908,rented,Airport Branch,Chicago,IL,45,10,270,"Bluetooth, Child seat anchors, Lane assist",3.25,4
+488,Toyota,Yaris,Economy,2022,gray,gasoline,manual,52442,rented,Harbor Branch,Boston,MA,39,9,235,"Heated seats, Roof rack",3.3333333333333335,3
+489,Kia,Carnival,Minivan,2024,red,gasoline,manual,5940,rented,Uptown Branch,Austin,TX,85,18,510,"Backup camera, Bluetooth, Cruise control, Roof rack",3.5,2
+490,Toyota,Yaris,Economy,2024,silver,hybrid,manual,52695,rented,Uptown Branch,Austin,TX,39,9,235,"Android Auto, Cruise control, Sunroof",3.25,4
+491,Honda,Odyssey,Minivan,2025,black,gasoline,manual,56087,retired,Eastside Branch,Charlotte,NC,85,18,510,Backup camera,2.6666666666666665,3
+492,Toyota,RAV4,SUV,2018,silver,hybrid,manual,8403,rented,Convention Center Branch,San Diego,CA,75,16,450,"Apple CarPlay, Cruise control, GPS navigation, Heated seats",,0
+493,Kia,Sportage,SUV,2021,white,gasoline,automatic,50634,retired,Eastside Branch,Charlotte,NC,75,16,450,"Backup camera, Child seat anchors, Cruise control, Lane assist",3.3333333333333335,3
+494,Ford,Escape,SUV,2024,blue,diesel,manual,556,rented,Union Station Branch,Dallas,TX,75,16,450,Android Auto,3.5,2
+495,Toyota,Sienna,Minivan,2022,white,gasoline,manual,41839,retired,Union Station Branch,Dallas,TX,85,18,510,,2.0,1
+496,Toyota,Yaris,Economy,2024,silver,gasoline,manual,28728,rented,Downtown Branch,Phoenix,AZ,39,9,235,"Apple CarPlay, Cruise control, Heated seats",5.0,2
+497,Chevrolet,Malibu,Midsize,2024,white,diesel,manual,43395,rented,Harbor Branch,Boston,MA,55,12,330,,3.6666666666666665,3
+498,Nissan,Altima,Midsize,2024,gray,gasoline,manual,32981,retired,Northgate Branch,Chicago,IL,55,12,330,Roof rack,5.0,1
+499,BMW,3 Series,Luxury,2025,gray,hybrid,manual,39623,rented,Union Station Branch,Dallas,TX,129,26,775,"Child seat anchors, GPS navigation",4.0,2
+500,Toyota,Yaris,Economy,2025,black,gasoline,manual,47728,retired,Eastside Branch,Charlotte,NC,39,9,235,Apple CarPlay,4.5,2
+501,Honda,Fit,Economy,2025,silver,gasoline,manual,5009,rented,Eastside Branch,Charlotte,NC,39,9,235,"Apple CarPlay, Blind spot monitor, Cruise control, Lane assist",4.0,2
+502,Honda,Accord,Midsize,2022,red,gasoline,manual,30811,available,University Branch,New York,NY,55,12,330,"Apple CarPlay, Child seat anchors, Sunroof",,0
+503,Hyundai,Accent,Economy,2022,black,gasoline,manual,779,rented,Convention Center Branch,San Diego,CA,39,9,235,Lane assist,4.0,1
+504,Toyota,Corolla,Compact,2024,blue,electric,manual,26388,rented,Airport Branch,Chicago,IL,45,10,270,Backup camera,4.0,1
+505,Ford,Fusion,Midsize,2018,black,gasoline,manual,30718,retired,Airport Branch,Chicago,IL,55,12,330,"Blind spot monitor, Cruise control",5.0,1
+506,Toyota,Yaris,Economy,2025,black,gasoline,manual,41753,rented,Lakeside Branch,San Francisco,CA,39,9,235,"Android Auto, GPS navigation",3.0,1
+507,Toyota,Yaris,Economy,2018,silver,gasoline,manual,637,rented,Downtown Branch,Phoenix,AZ,39,9,235,"Android Auto, Blind spot monitor, Lane assist, Roof rack",4.0,3
+508,Honda,Odyssey,Minivan,2025,white,gasoline,manual,30117,rented,Downtown Branch,Phoenix,AZ,85,18,510,"Android Auto, Apple CarPlay",,0
+509,Honda,Fit,Economy,2025,gray,hybrid,manual,8695,rented,Downtown Branch,Phoenix,AZ,39,9,235,"Apple CarPlay, Backup camera, Lane assist",5.0,2
+510,Honda,Civic,Compact,2019,gray,gasoline,manual,9898,rented,University Branch,New York,NY,45,10,270,"Bluetooth, Cruise control, Lane assist",3.5,2
+511,Hyundai,Tucson,SUV,2018,white,gasoline,manual,16704,available,Eastside Branch,Charlotte,NC,75,16,450,"Apple CarPlay, Roof rack",4.5,2
+512,Ford,Focus,Compact,2024,blue,gasoline,manual,1396,rented,Southpoint Branch,Atlanta,GA,45,10,270,GPS navigation,,0
+513,Hyundai,Elantra,Compact,2020,gray,gasoline,manual,13204,rented,Northgate Branch,Chicago,IL,45,10,270,Android Auto,5.0,1
+514,Toyota,Corolla,Compact,2022,red,hybrid,manual,10940,rented,Westside Branch,San Diego,CA,45,10,270,"Backup camera, Blind spot monitor, Bluetooth, Child seat anchors",,0
+515,Tesla,Model Y,Luxury,2024,gray,gasoline,manual,611,rented,Lakeside Branch,San Francisco,CA,129,26,775,Roof rack,4.5,2
+516,Toyota,Corolla,Compact,2025,blue,gasoline,automatic,7874,rented,Southpoint Branch,Atlanta,GA,45,10,270,"Android Auto, Blind spot monitor, GPS navigation",,0
+517,Toyota,Yaris,Economy,2024,white,gasoline,manual,45136,rented,Eastside Branch,Charlotte,NC,39,9,235,"Backup camera, Bluetooth, GPS navigation",3.0,1
+518,Kia,Rio,Economy,2025,black,gasoline,manual,15157,rented,Airport Branch,Chicago,IL,39,9,235,Android Auto,4.0,2
+519,Hyundai,Sonata,Midsize,2024,white,gasoline,manual,1849,maintenance,Uptown Branch,Austin,TX,55,12,330,,3.5,2
+520,Honda,Civic,Compact,2021,silver,electric,manual,5299,rented,Northgate Branch,Chicago,IL,45,10,270,"Child seat anchors, Sunroof",4.333333333333333,3
+521,Kia,Rio,Economy,2024,black,gasoline,manual,1508,rented,Lakeside Branch,San Francisco,CA,39,9,235,"Bluetooth, Cruise control, Sunroof",3.5,2
+522,Ford,Focus,Compact,2022,black,gasoline,manual,50837,retired,Uptown Branch,Austin,TX,45,10,270,Heated seats,4.666666666666667,3
+523,Toyota,RAV4,SUV,2023,silver,gasoline,manual,2577,retired,Downtown Branch,Phoenix,AZ,75,16,450,"Bluetooth, Cruise control, GPS navigation",,0
+524,Kia,Carnival,Minivan,2022,blue,gasoline,manual,542,rented,Downtown Branch,Phoenix,AZ,85,18,510,"Backup camera, Blind spot monitor, Lane assist, Sunroof",2.25,4
+525,Honda,Civic,Compact,2019,blue,gasoline,manual,53825,rented,Airport Branch,Chicago,IL,45,10,270,,,0
+526,Hyundai,Accent,Economy,2025,gray,gasoline,manual,1483,retired,Downtown Branch,Phoenix,AZ,39,9,235,Blind spot monitor,5.0,1
+527,Nissan,Sentra,Compact,2024,black,gasoline,manual,845,rented,Eastside Branch,Charlotte,NC,45,10,270,"GPS navigation, Roof rack, Sunroof",3.0,2
+528,Toyota,Corolla,Compact,2025,silver,hybrid,manual,47013,rented,Airport Branch,Chicago,IL,45,10,270,"Cruise control, Heated seats",5.0,1
+529,Toyota,Yaris,Economy,2024,white,electric,manual,13080,rented,Westside Branch,San Diego,CA,39,9,235,"GPS navigation, Heated seats",4.666666666666667,3
+530,Nissan,Sentra,Compact,2025,gray,gasoline,manual,522,rented,Harbor Branch,Boston,MA,45,10,270,"Backup camera, Bluetooth, Roof rack",5.0,1
+531,Toyota,Sienna,Minivan,2022,blue,gasoline,automatic,23440,retired,University Branch,New York,NY,85,18,510,Backup camera,,0
+532,Chevrolet,Tahoe,SUV,2019,black,electric,manual,4684,retired,Downtown Branch,Phoenix,AZ,75,16,450,"Apple CarPlay, Blind spot monitor, Bluetooth, Child seat anchors",,0
+533,Toyota,Camry,Midsize,2024,gray,gasoline,manual,36562,rented,Convention Center Branch,San Diego,CA,55,12,330,"Heated seats, Roof rack, Sunroof",4.0,1
+534,Ford,Focus,Compact,2017,white,gasoline,manual,8457,rented,Convention Center Branch,San Diego,CA,45,10,270,"Cruise control, Sunroof",5.0,1
+535,BMW,5 Series,Luxury,2021,black,gasoline,manual,519,retired,Airport Branch,Chicago,IL,129,26,775,"Cruise control, Heated seats, Lane assist, Sunroof",,0
+536,Ford,Focus,Compact,2025,white,hybrid,manual,5557,rented,Westside Branch,San Diego,CA,45,10,270,"Android Auto, Backup camera, Blind spot monitor, Heated seats",,0
+537,Toyota,Yaris,Economy,2017,white,gasoline,manual,19685,retired,Eastside Branch,Charlotte,NC,39,9,235,"Backup camera, Child seat anchors, Heated seats",4.0,1
+538,BMW,5 Series,Luxury,2021,black,gasoline,manual,8081,rented,Harbor Branch,Boston,MA,129,26,775,"Android Auto, Backup camera, Bluetooth, Cruise control, Lane assist, Sunroof",,0
+539,Hyundai,Elantra,Compact,2021,silver,gasoline,manual,26800,retired,Airport Branch,Chicago,IL,45,10,270,"Android Auto, GPS navigation",4.5,2
+540,Nissan,Sentra,Compact,2024,white,gasoline,manual,713,rented,Lakeside Branch,San Francisco,CA,45,10,270,Sunroof,4.666666666666667,3
+541,Toyota,Corolla,Compact,2018,blue,gasoline,manual,502,rented,Downtown Branch,Phoenix,AZ,45,10,270,"Child seat anchors, Heated seats, Roof rack",,0
+542,Toyota,Yaris,Economy,2023,white,diesel,manual,4586,rented,Eastside Branch,Charlotte,NC,39,9,235,"Apple CarPlay, Blind spot monitor, GPS navigation",,0
+543,Nissan,Versa,Economy,2024,gray,gasoline,manual,3345,available,Union Station Branch,Dallas,TX,39,9,235,Cruise control,1.0,1
+544,Toyota,Yaris,Economy,2020,black,gasoline,manual,24296,rented,Southpoint Branch,Atlanta,GA,39,9,235,Blind spot monitor,1.5,2
+545,Toyota,Yaris,Economy,2024,blue,electric,manual,5560,rented,Northgate Branch,Chicago,IL,39,9,235,"Blind spot monitor, Bluetooth",,0
+546,Toyota,Yaris,Economy,2025,white,diesel,manual,33402,maintenance,Lakeside Branch,San Francisco,CA,39,9,235,"Backup camera, Blind spot monitor, Bluetooth, Cruise control, Roof rack",,0
+547,Kia,Forte,Compact,2024,white,gasoline,manual,33252,rented,Harbor Branch,Boston,MA,45,10,270,"Apple CarPlay, Backup camera, Blind spot monitor",,0
+548,BMW,X5,Luxury,2025,blue,gasoline,automatic,26608,rented,Northgate Branch,Chicago,IL,129,26,775,"Backup camera, GPS navigation",4.0,2
+549,Hyundai,Tucson,SUV,2022,red,gasoline,manual,57309,rented,Southpoint Branch,Atlanta,GA,75,16,450,"Cruise control, Lane assist",4.0,2
+550,Toyota,Yaris,Economy,2024,black,gasoline,manual,36095,rented,Airport Branch,Chicago,IL,39,9,235,"Child seat anchors, GPS navigation",4.0,2
+551,Hyundai,Elantra,Compact,2023,white,gasoline,manual,15886,retired,Southpoint Branch,Atlanta,GA,45,10,270,GPS navigation,5.0,1
+552,Toyota,Corolla,Compact,2020,white,gasoline,manual,1021,rented,Harbor Branch,Boston,MA,45,10,270,Apple CarPlay,4.5,2
+553,Honda,Accord,Midsize,2019,blue,gasoline,automatic,13192,rented,Airport Branch,Chicago,IL,55,12,330,"Apple CarPlay, Backup camera, Bluetooth, Roof rack, Sunroof",4.0,1
+554,Hyundai,Tucson,SUV,2025,black,gasoline,manual,1480,rented,Airport Branch,Chicago,IL,75,16,450,"Apple CarPlay, Backup camera, Bluetooth, GPS navigation, Heated seats, Lane assist, Roof rack",3.6666666666666665,3
+555,Ford,Fusion,Midsize,2018,white,gasoline,manual,27375,rented,Lakeside Branch,San Francisco,CA,55,12,330,,4.0,1
+556,Toyota,Corolla,Compact,2017,black,gasoline,manual,5965,rented,University Branch,New York,NY,45,10,270,"Android Auto, Backup camera, Bluetooth, Heated seats",4.0,1
+557,Toyota,Yaris,Economy,2022,gray,hybrid,manual,22389,rented,Uptown Branch,Austin,TX,39,9,235,"Blind spot monitor, Cruise control, GPS navigation, Lane assist",4.0,3
+558,Honda,CR-V,SUV,2022,white,gasoline,manual,51060,rented,Harbor Branch,Boston,MA,75,16,450,"Android Auto, Lane assist",3.5,2
+559,Toyota,Yaris,Economy,2022,gray,gasoline,manual,7663,rented,Harbor Branch,Boston,MA,39,9,235,"Apple CarPlay, Backup camera, Roof rack",3.0,4
+560,Honda,Civic,Compact,2023,white,gasoline,manual,3377,retired,Harbor Branch,Boston,MA,45,10,270,"Backup camera, Bluetooth, Cruise control, GPS navigation, Roof rack",5.0,2
+561,Honda,Civic,Compact,2024,white,gasoline,manual,12828,rented,University Branch,New York,NY,45,10,270,"Bluetooth, Lane assist",5.0,1
+562,Toyota,Yaris,Economy,2025,black,electric,manual,14587,rented,Downtown Branch,Phoenix,AZ,39,9,235,"Android Auto, Backup camera, GPS navigation",4.0,1
+563,BMW,3 Series,Luxury,2025,silver,gasoline,manual,11007,rented,Lakeside Branch,San Francisco,CA,129,26,775,Lane assist,4.666666666666667,3
+564,Toyota,Sienna,Minivan,2023,blue,gasoline,manual,38816,rented,University Branch,New York,NY,85,18,510,"Bluetooth, GPS navigation, Heated seats",,0
+565,Honda,Fit,Economy,2020,black,hybrid,manual,2157,rented,University Branch,New York,NY,39,9,235,"Blind spot monitor, Bluetooth, Heated seats, Lane assist, Sunroof",4.0,1
+566,Toyota,Camry,Midsize,2025,red,gasoline,manual,57547,rented,Convention Center Branch,San Diego,CA,55,12,330,"Child seat anchors, GPS navigation",4.5,2
+567,Honda,Fit,Economy,2019,blue,diesel,manual,40313,rented,Eastside Branch,Charlotte,NC,39,9,235,"Bluetooth, Sunroof",5.0,2
+568,Nissan,Altima,Midsize,2018,white,gasoline,manual,2883,rented,Uptown Branch,Austin,TX,55,12,330,"Blind spot monitor, Sunroof",5.0,2
+569,Kia,Sportage,SUV,2023,silver,diesel,manual,59267,maintenance,Airport Branch,Chicago,IL,75,16,450,Child seat anchors,3.0,3
+570,BMW,3 Series,Luxury,2021,red,gasoline,manual,25472,rented,Uptown Branch,Austin,TX,129,26,775,Cruise control,4.5,2
+571,Toyota,Yaris,Economy,2025,silver,diesel,manual,1262,rented,University Branch,New York,NY,39,9,235,Child seat anchors,1.0,1
+572,Toyota,Yaris,Economy,2025,blue,electric,manual,37851,rented,University Branch,New York,NY,39,9,235,Android Auto,3.5,2
+573,Ford,Focus,Compact,2021,red,gasoline,manual,38014,rented,Harbor Branch,Boston,MA,45,10,270,"Child seat anchors, Lane assist, Roof rack",2.0,1
+574,Toyota,Sienna,Minivan,2019,white,gasoline,manual,14364,rented,Eastside Branch,Charlotte,NC,85,18,510,"Cruise control, GPS navigation, Heated seats",4.25,4
+575,Honda,Fit,Economy,2025,gray,gasoline,manual,527,rented,Downtown Branch,Phoenix,AZ,39,9,235,"Apple CarPlay, Backup camera, Lane assist",5.0,1
+576,BMW,5 Series,Luxury,2025,white,diesel,manual,3435,retired,Eastside Branch,Charlotte,NC,129,26,775,"Backup camera, Heated seats, Sunroof",,0
+577,Volkswagen,Jetta,Compact,2023,black,gasoline,manual,7611,retired,Harbor Branch,Boston,MA,45,10,270,"Backup camera, Bluetooth, Cruise control",4.0,1
+578,Nissan,Versa,Economy,2018,gray,gasoline,manual,1550,rented,Westside Branch,San Diego,CA,39,9,235,"Apple CarPlay, Blind spot monitor, GPS navigation, Heated seats, Roof rack, Sunroof",3.8,5
+579,Honda,Odyssey,Minivan,2023,white,gasoline,manual,15424,rented,Southpoint Branch,Atlanta,GA,85,18,510,"Android Auto, Bluetooth, Child seat anchors, Cruise control, Roof rack",2.0,1
+580,Toyota,Corolla,Compact,2022,white,gasoline,manual,19505,rented,Westside Branch,San Diego,CA,45,10,270,"Blind spot monitor, Bluetooth, Heated seats, Roof rack",3.6666666666666665,3
+581,Honda,CR-V,SUV,2025,black,gasoline,manual,1543,retired,Downtown Branch,Phoenix,AZ,75,16,450,"GPS navigation, Roof rack",,0
+582,Chevrolet,Spark,Economy,2021,white,gasoline,manual,9630,rented,Northgate Branch,Chicago,IL,39,9,235,"Apple CarPlay, Backup camera, Child seat anchors, Heated seats",2.6666666666666665,3
+583,Volkswagen,Passat,Midsize,2025,red,gasoline,manual,32060,retired,Downtown Branch,Phoenix,AZ,55,12,330,"Blind spot monitor, Lane assist, Roof rack, Sunroof",4.5,2
+584,Chevrolet,Malibu,Midsize,2025,white,gasoline,manual,53576,retired,Lakeside Branch,San Francisco,CA,55,12,330,"Backup camera, Roof rack",4.5,4
+585,Toyota,Sienna,Minivan,2019,silver,electric,manual,30319,available,Westside Branch,San Diego,CA,85,18,510,Lane assist,4.5,2
+586,BMW,X5,Luxury,2024,blue,diesel,manual,28680,retired,Union Station Branch,Dallas,TX,129,26,775,"Child seat anchors, Cruise control",3.5,2
+587,Toyota,Yaris,Economy,2024,silver,gasoline,manual,32144,maintenance,Downtown Branch,Phoenix,AZ,39,9,235,,5.0,1
+588,Toyota,RAV4,SUV,2020,white,electric,manual,26122,maintenance,Lakeside Branch,San Francisco,CA,75,16,450,"Backup camera, Roof rack",3.5,2
+589,Honda,CR-V,SUV,2023,black,gasoline,manual,26883,maintenance,Southpoint Branch,Atlanta,GA,75,16,450,"Heated seats, Sunroof",3.6666666666666665,3
+590,Hyundai,Elantra,Compact,2024,white,gasoline,manual,49423,retired,University Branch,New York,NY,45,10,270,"Android Auto, Backup camera, Cruise control, Heated seats, Roof rack",3.5,2
+591,Ford,Focus,Compact,2025,gray,gasoline,manual,39329,rented,Airport Branch,Chicago,IL,45,10,270,GPS navigation,3.6666666666666665,3
+592,Toyota,Yaris,Economy,2017,black,gasoline,manual,9057,rented,Convention Center Branch,San Diego,CA,39,9,235,"Backup camera, GPS navigation, Roof rack",4.0,2
+593,BMW,3 Series,Luxury,2021,gray,gasoline,manual,980,rented,Eastside Branch,Charlotte,NC,129,26,775,"Apple CarPlay, Bluetooth, GPS navigation, Roof rack",5.0,1
+594,Toyota,Yaris,Economy,2023,blue,gasoline,manual,714,available,Eastside Branch,Charlotte,NC,39,9,235,"Child seat anchors, GPS navigation, Sunroof",5.0,1
+595,BMW,X5,Luxury,2021,white,gasoline,manual,14377,rented,Northgate Branch,Chicago,IL,129,26,775,"Cruise control, GPS navigation, Roof rack",3.0,2
+596,Kia,K5,Midsize,2024,silver,gasoline,automatic,25500,available,Uptown Branch,Austin,TX,55,12,330,"Bluetooth, Child seat anchors, Cruise control, Lane assist",3.8333333333333335,6
+597,Hyundai,Sonata,Midsize,2022,silver,gasoline,manual,34453,rented,University Branch,New York,NY,55,12,330,"GPS navigation, Sunroof",4.0,2
+598,Toyota,Sienna,Minivan,2018,black,gasoline,manual,26436,rented,Uptown Branch,Austin,TX,85,18,510,"Backup camera, Bluetooth, GPS navigation, Sunroof",3.0,1
+599,Hyundai,Tucson,SUV,2024,gray,gasoline,manual,24659,rented,Westside Branch,San Diego,CA,75,16,450,Roof rack,2.0,1
+600,Ford,Pacifica,Minivan,2018,gray,gasoline,manual,14284,rented,Downtown Branch,Phoenix,AZ,85,18,510,"Backup camera, GPS navigation, Heated seats",,0
+601,Nissan,Sentra,Compact,2025,black,hybrid,manual,18640,retired,Westside Branch,San Diego,CA,45,10,270,"Backup camera, GPS navigation",4.0,3
+602,Toyota,Yaris,Economy,2021,blue,diesel,manual,2204,rented,University Branch,New York,NY,39,9,235,"Blind spot monitor, Cruise control, Heated seats, Sunroof",3.0,4
+603,Toyota,Yaris,Economy,2024,blue,gasoline,manual,51804,rented,Northgate Branch,Chicago,IL,39,9,235,"Cruise control, GPS navigation, Sunroof",4.5,2
+604,Honda,Civic,Compact,2021,silver,gasoline,manual,59218,retired,Convention Center Branch,San Diego,CA,45,10,270,"Bluetooth, Roof rack",4.0,2
+605,Honda,Accord,Midsize,2018,gray,gasoline,manual,20418,rented,Uptown Branch,Austin,TX,55,12,330,,,0
+606,Ford,Fusion,Midsize,2024,silver,gasoline,manual,967,retired,University Branch,New York,NY,55,12,330,"Blind spot monitor, Child seat anchors, Heated seats, Roof rack",5.0,1
+607,Toyota,Yaris,Economy,2023,gray,gasoline,manual,7174,retired,Harbor Branch,Boston,MA,39,9,235,"GPS navigation, Sunroof",2.0,1
+608,Hyundai,Elantra,Compact,2022,blue,gasoline,manual,593,rented,Airport Branch,Chicago,IL,45,10,270,,5.0,1
+609,Toyota,Camry,Midsize,2024,gray,gasoline,manual,54923,rented,Convention Center Branch,San Diego,CA,55,12,330,"Backup camera, Bluetooth, GPS navigation, Sunroof",2.75,4
+610,Toyota,Camry,Midsize,2019,white,gasoline,automatic,36876,rented,Northgate Branch,Chicago,IL,55,12,330,"Child seat anchors, Roof rack",4.0,1
+611,Honda,CR-V,SUV,2019,black,gasoline,manual,18285,rented,Westside Branch,San Diego,CA,75,16,450,"Heated seats, Sunroof",4.0,1
+612,Toyota,Corolla,Compact,2024,blue,gasoline,manual,589,retired,University Branch,New York,NY,45,10,270,"Backup camera, Cruise control, Sunroof",1.0,1
+613,Toyota,Yaris,Economy,2020,white,gasoline,manual,56317,rented,Union Station Branch,Dallas,TX,39,9,235,"Android Auto, Apple CarPlay, Backup camera",4.0,4
+614,Toyota,RAV4,SUV,2017,white,gasoline,manual,24344,available,Downtown Branch,Phoenix,AZ,75,16,450,"Apple CarPlay, Cruise control",2.0,2
+615,BMW,3 Series,Luxury,2023,silver,gasoline,manual,26271,maintenance,Airport Branch,Chicago,IL,129,26,775,"Android Auto, Backup camera, Heated seats, Lane assist",5.0,1
+616,Kia,K5,Midsize,2021,silver,hybrid,manual,16075,rented,Union Station Branch,Dallas,TX,55,12,330,Sunroof,5.0,1
+617,Ford,Focus,Compact,2021,gray,gasoline,manual,11637,rented,Southpoint Branch,Atlanta,GA,45,10,270,"Cruise control, GPS navigation, Sunroof",,0
+618,Honda,CR-V,SUV,2024,blue,gasoline,manual,16161,available,Union Station Branch,Dallas,TX,75,16,450,"Bluetooth, Cruise control, Lane assist",3.3333333333333335,6
+619,Ford,Escape,SUV,2018,black,gasoline,manual,17254,rented,Northgate Branch,Chicago,IL,75,16,450,Bluetooth,2.6666666666666665,3
+620,Toyota,Corolla,Compact,2025,white,gasoline,manual,47081,retired,Union Station Branch,Dallas,TX,45,10,270,"Bluetooth, Cruise control, Roof rack",4.0,2
+621,Honda,Civic,Compact,2025,white,gasoline,manual,48410,rented,Harbor Branch,Boston,MA,45,10,270,"Heated seats, Lane assist, Roof rack, Sunroof",4.333333333333333,3
+622,Honda,Civic,Compact,2025,silver,gasoline,manual,18910,rented,Convention Center Branch,San Diego,CA,45,10,270,Android Auto,,0
+623,Toyota,Sienna,Minivan,2025,white,gasoline,manual,1129,rented,Northgate Branch,Chicago,IL,85,18,510,"Backup camera, Sunroof",2.0,1
+624,Toyota,RAV4,SUV,2021,silver,gasoline,manual,1759,available,Convention Center Branch,San Diego,CA,75,16,450,"Apple CarPlay, GPS navigation, Roof rack, Sunroof",2.5,2
+625,Toyota,Yaris,Economy,2024,silver,electric,manual,16369,rented,Lakeside Branch,San Francisco,CA,39,9,235,Bluetooth,5.0,1
+626,Toyota,RAV4,SUV,2024,black,hybrid,manual,5094,rented,Lakeside Branch,San Francisco,CA,75,16,450,"Android Auto, Cruise control",5.0,1
+627,Hyundai,Elantra,Compact,2025,silver,gasoline,manual,25431,rented,Uptown Branch,Austin,TX,45,10,270,"Backup camera, Heated seats",3.6666666666666665,3
+628,Toyota,Corolla,Compact,2024,black,gasoline,manual,1537,rented,Union Station Branch,Dallas,TX,45,10,270,GPS navigation,5.0,2
+629,Toyota,Yaris,Economy,2022,white,gasoline,manual,12236,rented,Westside Branch,San Diego,CA,39,9,235,"Blind spot monitor, Sunroof",4.0,3
+630,Ford,Fusion,Midsize,2025,black,gasoline,manual,27097,rented,Downtown Branch,Phoenix,AZ,55,12,330,,4.0,2
+631,Volkswagen,Tiguan,SUV,2023,silver,gasoline,manual,32596,retired,Union Station Branch,Dallas,TX,75,16,450,"Android Auto, Cruise control, Heated seats, Lane assist",5.0,2
+632,Honda,Fit,Economy,2025,black,hybrid,manual,18879,retired,Harbor Branch,Boston,MA,39,9,235,"Backup camera, Bluetooth",4.0,1
+633,Honda,CR-V,SUV,2025,white,hybrid,manual,11742,rented,Airport Branch,Chicago,IL,75,16,450,"Android Auto, Blind spot monitor, Cruise control, GPS navigation",,0
+634,BMW,5 Series,Luxury,2018,black,diesel,manual,10929,rented,Southpoint Branch,Atlanta,GA,129,26,775,"Apple CarPlay, Lane assist, Roof rack",2.6666666666666665,3
+635,Honda,Odyssey,Minivan,2023,black,hybrid,manual,18613,available,Westside Branch,San Diego,CA,85,18,510,"Blind spot monitor, Child seat anchors, Heated seats",3.0,1
+636,Toyota,Yaris,Economy,2018,white,diesel,manual,8600,retired,Uptown Branch,Austin,TX,39,9,235,"Backup camera, Child seat anchors, GPS navigation, Lane assist",2.6666666666666665,3
+637,Honda,Civic,Compact,2023,white,hybrid,manual,20157,retired,Airport Branch,Chicago,IL,45,10,270,"Android Auto, Roof rack",4.0,1
+638,Ford,Escape,SUV,2025,white,hybrid,manual,5076,rented,Uptown Branch,Austin,TX,75,16,450,"Backup camera, Blind spot monitor, Heated seats",,0
+639,Honda,Fit,Economy,2025,blue,diesel,manual,51012,rented,Westside Branch,San Diego,CA,39,9,235,"Backup camera, Bluetooth, Sunroof",3.3333333333333335,3
+640,Honda,Odyssey,Minivan,2024,black,hybrid,manual,6530,rented,Convention Center Branch,San Diego,CA,85,18,510,Backup camera,4.0,3
+641,Toyota,Corolla,Compact,2025,gray,hybrid,manual,1478,retired,Downtown Branch,Phoenix,AZ,45,10,270,"Cruise control, GPS navigation",3.0,2
+642,Toyota,Yaris,Economy,2022,blue,hybrid,manual,16900,rented,Lakeside Branch,San Francisco,CA,39,9,235,"Backup camera, Bluetooth",3.25,4
+643,Volkswagen,Tiguan,SUV,2018,black,gasoline,manual,17450,maintenance,Convention Center Branch,San Diego,CA,75,16,450,"Android Auto, Blind spot monitor",4.0,1
+644,Ford,Fusion,Midsize,2025,silver,gasoline,manual,21139,rented,Eastside Branch,Charlotte,NC,55,12,330,"Blind spot monitor, GPS navigation, Lane assist",1.0,1
+645,Toyota,Yaris,Economy,2025,white,gasoline,manual,26881,rented,University Branch,New York,NY,39,9,235,Sunroof,1.5,2
+646,Kia,Rio,Economy,2023,black,gasoline,manual,10651,rented,Lakeside Branch,San Francisco,CA,39,9,235,"Apple CarPlay, GPS navigation",3.5,2
+647,Chevrolet,Spark,Economy,2025,white,gasoline,manual,57735,rented,University Branch,New York,NY,39,9,235,"Android Auto, Blind spot monitor, Heated seats, Lane assist",5.0,1
+648,Toyota,Yaris,Economy,2020,white,hybrid,manual,1721,maintenance,Westside Branch,San Diego,CA,39,9,235,GPS navigation,3.0,1
+649,Kia,Carnival,Minivan,2018,gray,gasoline,manual,11307,rented,Union Station Branch,Dallas,TX,85,18,510,Bluetooth,4.0,2
+650,Toyota,Camry,Midsize,2021,white,gasoline,manual,37362,rented,Downtown Branch,Phoenix,AZ,55,12,330,"Apple CarPlay, Sunroof",4.5,2
+651,Toyota,Yaris,Economy,2021,red,diesel,manual,55117,rented,University Branch,New York,NY,39,9,235,"Apple CarPlay, Blind spot monitor",4.0,2
+652,Toyota,Yaris,Economy,2018,gray,gasoline,manual,6052,rented,Downtown Branch,Phoenix,AZ,39,9,235,"Apple CarPlay, Roof rack, Sunroof",5.0,1
+653,Toyota,RAV4,SUV,2025,silver,gasoline,manual,5880,rented,Northgate Branch,Chicago,IL,75,16,450,"Bluetooth, Heated seats, Sunroof",4.0,1
+654,Toyota,Yaris,Economy,2025,silver,gasoline,manual,6964,rented,Harbor Branch,Boston,MA,39,9,235,Sunroof,5.0,1
+655,Toyota,Yaris,Economy,2018,silver,hybrid,manual,48938,rented,Airport Branch,Chicago,IL,39,9,235,Apple CarPlay,3.0,1
+656,Chevrolet,Spark,Economy,2021,blue,gasoline,manual,26284,rented,Southpoint Branch,Atlanta,GA,39,9,235,"Android Auto, Backup camera, Bluetooth, Cruise control",4.0,2
+657,Nissan,Sentra,Compact,2018,blue,gasoline,manual,22466,maintenance,Harbor Branch,Boston,MA,45,10,270,"Apple CarPlay, Cruise control, GPS navigation, Roof rack",3.0,1
+658,Honda,Civic,Compact,2019,white,hybrid,manual,56235,rented,Airport Branch,Chicago,IL,45,10,270,"Android Auto, Blind spot monitor, Roof rack, Sunroof",,0
+659,Toyota,Yaris,Economy,2021,gray,gasoline,manual,48586,rented,Southpoint Branch,Atlanta,GA,39,9,235,"Android Auto, GPS navigation",3.0,1
+660,Toyota,Camry,Midsize,2018,silver,gasoline,manual,8562,rented,Union Station Branch,Dallas,TX,55,12,330,"Heated seats, Sunroof",,0
+661,Toyota,Yaris,Economy,2018,white,gasoline,manual,1703,rented,Harbor Branch,Boston,MA,39,9,235,Backup camera,,0
+662,Nissan,Altima,Midsize,2025,gray,electric,manual,14005,rented,Harbor Branch,Boston,MA,55,12,330,"Backup camera, GPS navigation, Roof rack",4.5,2
+663,Toyota,Yaris,Economy,2025,black,gasoline,manual,997,rented,Uptown Branch,Austin,TX,39,9,235,"Child seat anchors, Heated seats",5.0,2
+664,Hyundai,Sonata,Midsize,2023,silver,gasoline,manual,518,available,University Branch,New York,NY,55,12,330,"Android Auto, Backup camera, Blind spot monitor, Cruise control, Roof rack",,0
+665,Toyota,Corolla,Compact,2025,black,gasoline,manual,42661,available,Convention Center Branch,San Diego,CA,45,10,270,"Android Auto, Apple CarPlay, Bluetooth, Heated seats",3.5,2
+666,Toyota,Corolla,Compact,2020,gray,gasoline,manual,4712,rented,Airport Branch,Chicago,IL,45,10,270,Lane assist,3.0,3
+667,Honda,Accord,Midsize,2023,black,gasoline,manual,37297,retired,Union Station Branch,Dallas,TX,55,12,330,"Android Auto, Child seat anchors",3.0,1
+668,Toyota,Corolla,Compact,2024,gray,gasoline,manual,29895,rented,University Branch,New York,NY,45,10,270,Roof rack,5.0,2
+669,Ford,Fusion,Midsize,2024,white,gasoline,manual,9183,rented,Harbor Branch,Boston,MA,55,12,330,"GPS navigation, Roof rack, Sunroof",3.3333333333333335,3
+670,Honda,Civic,Compact,2019,white,hybrid,manual,5317,retired,Southpoint Branch,Atlanta,GA,45,10,270,"Bluetooth, Child seat anchors, Lane assist, Roof rack",4.5,2
+671,Kia,K5,Midsize,2025,blue,gasoline,manual,931,rented,Harbor Branch,Boston,MA,55,12,330,"Apple CarPlay, Heated seats",3.6666666666666665,3
+672,Toyota,Corolla,Compact,2024,gray,diesel,manual,3347,rented,Harbor Branch,Boston,MA,45,10,270,"Backup camera, Lane assist",3.3333333333333335,3
+673,Ford,Explorer,SUV,2024,white,gasoline,manual,25080,rented,Southpoint Branch,Atlanta,GA,75,16,450,"Bluetooth, Heated seats, Lane assist",4.0,2
+674,Toyota,Yaris,Economy,2023,black,hybrid,manual,769,retired,Uptown Branch,Austin,TX,39,9,235,"Apple CarPlay, Blind spot monitor, GPS navigation, Heated seats",5.0,1
+675,Toyota,Yaris,Economy,2025,white,hybrid,manual,19508,available,Lakeside Branch,San Francisco,CA,39,9,235,"Android Auto, Backup camera, Child seat anchors, Heated seats",3.0,2
+676,Kia,Carnival,Minivan,2025,blue,gasoline,automatic,58992,rented,Westside Branch,San Diego,CA,85,18,510,Heated seats,3.0,1
+677,Hyundai,Elantra,Compact,2022,silver,gasoline,manual,51870,rented,Eastside Branch,Charlotte,NC,45,10,270,"Apple CarPlay, Backup camera",3.0,1
+678,Toyota,Yaris,Economy,2024,gray,diesel,manual,4750,rented,Harbor Branch,Boston,MA,39,9,235,"Blind spot monitor, Bluetooth, Lane assist, Roof rack",3.3333333333333335,3
+679,Chevrolet,Equinox,SUV,2023,white,gasoline,manual,10408,rented,Airport Branch,Chicago,IL,75,16,450,"Blind spot monitor, Sunroof",,0
+680,Ford,Fusion,Midsize,2024,white,hybrid,manual,8453,rented,Harbor Branch,Boston,MA,55,12,330,"Backup camera, Cruise control, GPS navigation, Sunroof",,0
+681,Tesla,Model 3,Luxury,2024,blue,gasoline,manual,45219,rented,Northgate Branch,Chicago,IL,129,26,775,"Apple CarPlay, Blind spot monitor, Cruise control",5.0,1
+682,Toyota,Corolla,Compact,2022,blue,hybrid,manual,520,retired,Southpoint Branch,Atlanta,GA,45,10,270,,5.0,1
+683,Toyota,Yaris,Economy,2025,red,hybrid,manual,14216,rented,University Branch,New York,NY,39,9,235,"Android Auto, Bluetooth",4.75,4
+684,Toyota,Corolla,Compact,2022,red,hybrid,manual,959,rented,Union Station Branch,Dallas,TX,45,10,270,"Cruise control, Lane assist",4.0,4
+685,Hyundai,Tucson,SUV,2023,black,gasoline,manual,41188,rented,University Branch,New York,NY,75,16,450,,3.4,5
+686,BMW,X5,Luxury,2024,gray,hybrid,manual,11433,rented,Northgate Branch,Chicago,IL,129,26,775,,3.6666666666666665,3
+687,Ford,Focus,Compact,2025,silver,gasoline,manual,33045,rented,University Branch,New York,NY,45,10,270,Blind spot monitor,3.5,2
+688,BMW,X5,Luxury,2022,white,hybrid,manual,43278,rented,Airport Branch,Chicago,IL,129,26,775,"Apple CarPlay, Blind spot monitor, GPS navigation, Lane assist",4.0,1
+689,Toyota,Yaris,Economy,2024,gray,gasoline,manual,50029,rented,Southpoint Branch,Atlanta,GA,39,9,235,"Android Auto, Bluetooth, Lane assist, Sunroof",5.0,1
+690,Toyota,RAV4,SUV,2022,white,gasoline,manual,4169,rented,Convention Center Branch,San Diego,CA,75,16,450,"Cruise control, Heated seats, Lane assist",2.0,1
+691,Toyota,Corolla,Compact,2024,silver,gasoline,manual,1542,rented,Downtown Branch,Phoenix,AZ,45,10,270,"Roof rack, Sunroof",4.5,2
+692,Toyota,Yaris,Economy,2019,red,gasoline,manual,41898,rented,Airport Branch,Chicago,IL,39,9,235,"Apple CarPlay, Lane assist, Sunroof",4.0,1
+693,Toyota,Yaris,Economy,2022,silver,gasoline,manual,2460,rented,Westside Branch,San Diego,CA,39,9,235,"Android Auto, Child seat anchors",4.0,2
+694,Honda,Odyssey,Minivan,2018,white,electric,manual,57042,retired,Convention Center Branch,San Diego,CA,85,18,510,Heated seats,4.25,4
+695,Toyota,Corolla,Compact,2019,gray,gasoline,manual,27581,rented,Union Station Branch,Dallas,TX,45,10,270,,5.0,1
+696,Hyundai,Accent,Economy,2020,white,gasoline,manual,30619,rented,Uptown Branch,Austin,TX,39,9,235,Roof rack,4.0,2
+697,Hyundai,Accent,Economy,2024,black,diesel,manual,8374,retired,Eastside Branch,Charlotte,NC,39,9,235,Roof rack,5.0,1
+698,Toyota,Yaris,Economy,2023,gray,gasoline,manual,38695,available,Westside Branch,San Diego,CA,39,9,235,"Android Auto, Backup camera, GPS navigation",2.5,2
+699,Honda,Civic,Compact,2022,white,electric,manual,36729,retired,Lakeside Branch,San Francisco,CA,45,10,270,"Apple CarPlay, Child seat anchors, Cruise control, Heated seats, Lane assist",5.0,2
+700,Honda,Odyssey,Minivan,2018,white,gasoline,manual,660,rented,Southpoint Branch,Atlanta,GA,85,18,510,"Bluetooth, Cruise control, GPS navigation",2.0,2
+701,Honda,Accord,Midsize,2024,red,hybrid,manual,26647,available,Harbor Branch,Boston,MA,55,12,330,Lane assist,2.5,2
+702,Hyundai,Sonata,Midsize,2025,blue,hybrid,manual,3538,rented,Southpoint Branch,Atlanta,GA,55,12,330,"Heated seats, Sunroof",,0
+703,Honda,CR-V,SUV,2019,white,gasoline,manual,906,rented,Southpoint Branch,Atlanta,GA,75,16,450,"Cruise control, GPS navigation, Heated seats, Sunroof",5.0,1
+704,Toyota,RAV4,SUV,2025,white,gasoline,manual,7668,rented,University Branch,New York,NY,75,16,450,"Blind spot monitor, Bluetooth, Cruise control",,0
+705,Toyota,Corolla,Compact,2024,white,hybrid,manual,51497,available,Lakeside Branch,San Francisco,CA,45,10,270,Bluetooth,,0
+706,Toyota,RAV4,SUV,2022,gray,hybrid,automatic,38476,rented,Southpoint Branch,Atlanta,GA,75,16,450,"Heated seats, Lane assist",,0
+707,Toyota,Yaris,Economy,2025,white,gasoline,manual,4080,maintenance,Southpoint Branch,Atlanta,GA,39,9,235,"Blind spot monitor, Child seat anchors, GPS navigation",3.0,3
+708,Ford,Focus,Compact,2021,black,hybrid,manual,19037,rented,Airport Branch,Chicago,IL,45,10,270,Blind spot monitor,3.0,1
+709,Hyundai,Tucson,SUV,2019,silver,electric,manual,14242,available,University Branch,New York,NY,75,16,450,"Lane assist, Sunroof",,0
+710,Hyundai,Tucson,SUV,2022,gray,electric,manual,24839,rented,Northgate Branch,Chicago,IL,75,16,450,Lane assist,3.6666666666666665,3
+711,Chevrolet,Spark,Economy,2025,black,gasoline,automatic,14161,available,Northgate Branch,Chicago,IL,39,9,235,"Apple CarPlay, Backup camera, Lane assist",4.0,1
+712,Ford,Escape,SUV,2018,silver,gasoline,manual,1536,rented,Northgate Branch,Chicago,IL,75,16,450,"Android Auto, Cruise control, Lane assist",3.0,2
+713,Kia,Sportage,SUV,2018,white,gasoline,manual,15053,rented,Eastside Branch,Charlotte,NC,75,16,450,"Bluetooth, GPS navigation",3.6666666666666665,3
+714,Honda,CR-V,SUV,2018,gray,gasoline,manual,3190,rented,Northgate Branch,Chicago,IL,75,16,450,Bluetooth,5.0,1
+715,Nissan,Altima,Midsize,2025,blue,gasoline,automatic,17872,rented,Westside Branch,San Diego,CA,55,12,330,"Backup camera, Bluetooth",5.0,2
+716,Nissan,Sentra,Compact,2022,blue,electric,manual,33602,rented,Uptown Branch,Austin,TX,45,10,270,Bluetooth,2.0,2
+717,Toyota,Yaris,Economy,2022,red,hybrid,manual,1359,rented,Northgate Branch,Chicago,IL,39,9,235,,4.333333333333333,3
+718,Honda,CR-V,SUV,2019,white,electric,manual,54545,retired,Downtown Branch,Phoenix,AZ,75,16,450,"Blind spot monitor, Sunroof",4.5,2
+719,Toyota,Corolla,Compact,2023,black,gasoline,manual,1665,rented,Northgate Branch,Chicago,IL,45,10,270,"Apple CarPlay, Cruise control, Roof rack, Sunroof",4.0,1
+720,Toyota,Camry,Midsize,2022,silver,gasoline,manual,54013,rented,Downtown Branch,Phoenix,AZ,55,12,330,Apple CarPlay,5.0,1
+721,Honda,Fit,Economy,2024,red,gasoline,manual,1209,rented,Southpoint Branch,Atlanta,GA,39,9,235,Lane assist,5.0,2
+722,BMW,5 Series,Luxury,2023,silver,gasoline,manual,32252,rented,Downtown Branch,Phoenix,AZ,129,26,775,GPS navigation,,0
+723,Ford,Fusion,Midsize,2024,white,gasoline,manual,4107,rented,Northgate Branch,Chicago,IL,55,12,330,"Backup camera, Cruise control, Heated seats",,0
+724,Toyota,Camry,Midsize,2025,red,gasoline,manual,48164,rented,Westside Branch,San Diego,CA,55,12,330,Roof rack,5.0,2
+725,Honda,Civic,Compact,2022,blue,diesel,manual,1106,rented,Northgate Branch,Chicago,IL,45,10,270,"Apple CarPlay, Lane assist",4.0,2
+726,Chevrolet,Spark,Economy,2023,black,gasoline,manual,3259,maintenance,University Branch,New York,NY,39,9,235,"Android Auto, Apple CarPlay, Bluetooth, Cruise control, Heated seats",3.0,1
+727,Volkswagen,Tiguan,SUV,2020,gray,gasoline,manual,36818,rented,Lakeside Branch,San Francisco,CA,75,16,450,"Apple CarPlay, Backup camera, Heated seats",4.0,4
+728,Nissan,Altima,Midsize,2018,black,gasoline,manual,20296,rented,Lakeside Branch,San Francisco,CA,55,12,330,Roof rack,3.6666666666666665,3
+729,Toyota,RAV4,SUV,2024,silver,gasoline,manual,513,rented,Southpoint Branch,Atlanta,GA,75,16,450,"Android Auto, Blind spot monitor, Cruise control, Sunroof",2.0,4
+730,Ford,Fusion,Midsize,2022,silver,gasoline,manual,14096,retired,Harbor Branch,Boston,MA,55,12,330,GPS navigation,,0
+731,Toyota,Yaris,Economy,2022,gray,hybrid,manual,43744,rented,Harbor Branch,Boston,MA,39,9,235,"Android Auto, Blind spot monitor",3.75,4
+732,Nissan,Versa,Economy,2020,silver,electric,manual,6677,rented,Uptown Branch,Austin,TX,39,9,235,Backup camera,2.0,1
+733,Toyota,Yaris,Economy,2025,black,hybrid,manual,3301,maintenance,Harbor Branch,Boston,MA,39,9,235,"Apple CarPlay, Bluetooth, Child seat anchors",2.6666666666666665,3
+734,Chevrolet,Equinox,SUV,2019,blue,diesel,manual,12991,maintenance,Southpoint Branch,Atlanta,GA,75,16,450,"Child seat anchors, Sunroof",2.0,1
+735,Kia,K5,Midsize,2024,blue,gasoline,manual,532,rented,Airport Branch,Chicago,IL,55,12,330,"Blind spot monitor, Heated seats",3.0,1
+736,Tesla,Model 3,Luxury,2017,blue,gasoline,manual,14481,rented,Lakeside Branch,San Francisco,CA,129,26,775,"Backup camera, GPS navigation",3.8,5
+737,Kia,Forte,Compact,2022,black,gasoline,manual,54962,rented,Westside Branch,San Diego,CA,45,10,270,,2.0,1
+738,Volkswagen,Passat,Midsize,2025,black,gasoline,manual,54612,retired,Uptown Branch,Austin,TX,55,12,330,"Android Auto, Apple CarPlay, Cruise control, GPS navigation",3.5,2
+739,Toyota,Camry,Midsize,2021,red,gasoline,manual,33057,rented,Airport Branch,Chicago,IL,55,12,330,"Apple CarPlay, Cruise control, GPS navigation",3.0,1
+740,BMW,5 Series,Luxury,2023,black,gasoline,manual,32894,maintenance,Eastside Branch,Charlotte,NC,129,26,775,"Heated seats, Lane assist, Roof rack",4.0,1
+741,Hyundai,Tucson,SUV,2025,silver,hybrid,manual,25437,rented,Convention Center Branch,San Diego,CA,75,16,450,"Child seat anchors, Heated seats, Lane assist, Sunroof",,0
+742,Toyota,Sienna,Minivan,2024,white,gasoline,manual,38080,rented,Uptown Branch,Austin,TX,85,18,510,"Backup camera, GPS navigation, Lane assist",4.666666666666667,3
+743,Toyota,Yaris,Economy,2023,red,gasoline,automatic,1025,retired,Convention Center Branch,San Diego,CA,39,9,235,"Android Auto, Blind spot monitor, Cruise control, Lane assist, Sunroof",4.0,2
+744,Toyota,Yaris,Economy,2023,blue,gasoline,manual,31614,rented,Downtown Branch,Phoenix,AZ,39,9,235,"Android Auto, Child seat anchors, Roof rack",,0
+745,Ford,Escape,SUV,2025,blue,gasoline,manual,42844,rented,Uptown Branch,Austin,TX,75,16,450,"Android Auto, Backup camera",5.0,4
+746,Chevrolet,Spark,Economy,2025,blue,hybrid,automatic,11164,rented,Uptown Branch,Austin,TX,39,9,235,Lane assist,2.6666666666666665,3
+747,Ford,Explorer,SUV,2019,white,gasoline,manual,19323,rented,Westside Branch,San Diego,CA,75,16,450,"Backup camera, Bluetooth, Cruise control, Lane assist",4.0,1
+748,Chevrolet,Spark,Economy,2022,white,electric,manual,8056,rented,Northgate Branch,Chicago,IL,39,9,235,"Apple CarPlay, Bluetooth, Child seat anchors, Cruise control, GPS navigation, Sunroof",4.0,1
+749,Honda,Fit,Economy,2023,silver,gasoline,manual,2549,rented,Lakeside Branch,San Francisco,CA,39,9,235,"Backup camera, Heated seats, Lane assist, Roof rack",2.75,4
+750,Toyota,RAV4,SUV,2021,gray,diesel,manual,13053,rented,Convention Center Branch,San Diego,CA,75,16,450,"Backup camera, Blind spot monitor, Heated seats",3.25,4
+751,Kia,Rio,Economy,2024,silver,gasoline,manual,54987,retired,Southpoint Branch,Atlanta,GA,39,9,235,"Bluetooth, Cruise control, GPS navigation, Sunroof",4.5,2
+752,Chevrolet,Malibu,Midsize,2021,red,gasoline,manual,20607,rented,Airport Branch,Chicago,IL,55,12,330,"Cruise control, Roof rack",5.0,1
+753,Toyota,Yaris,Economy,2024,white,gasoline,manual,7632,retired,Eastside Branch,Charlotte,NC,39,9,235,Cruise control,5.0,1
+754,Kia,Rio,Economy,2024,white,gasoline,manual,11985,rented,Harbor Branch,Boston,MA,39,9,235,"Android Auto, Blind spot monitor, Cruise control",3.5,2
+755,Ford,Pacifica,Minivan,2019,white,gasoline,manual,3913,rented,Uptown Branch,Austin,TX,85,18,510,"Child seat anchors, Cruise control, Sunroof",1.0,1
+756,Hyundai,Sonata,Midsize,2025,white,gasoline,automatic,34838,rented,Union Station Branch,Dallas,TX,55,12,330,"Cruise control, Lane assist",3.4,5
+757,Chevrolet,Equinox,SUV,2024,silver,gasoline,automatic,16161,retired,Southpoint Branch,Atlanta,GA,75,16,450,Bluetooth,3.0,1
+758,Honda,Fit,Economy,2024,gray,gasoline,manual,57345,rented,Uptown Branch,Austin,TX,39,9,235,Sunroof,2.75,4
+759,Toyota,Yaris,Economy,2023,red,gasoline,manual,33210,rented,Southpoint Branch,Atlanta,GA,39,9,235,Roof rack,3.5,2
+760,Honda,CR-V,SUV,2020,white,gasoline,manual,54620,rented,Eastside Branch,Charlotte,NC,75,16,450,"Cruise control, GPS navigation",3.0,1
+761,Kia,Forte,Compact,2022,blue,gasoline,manual,2148,rented,Westside Branch,San Diego,CA,45,10,270,"Bluetooth, Cruise control, GPS navigation, Heated seats",4.0,2
+762,Hyundai,Tucson,SUV,2019,silver,gasoline,manual,15004,rented,Westside Branch,San Diego,CA,75,16,450,"Apple CarPlay, Blind spot monitor, Cruise control, Heated seats",4.0,2
+763,Tesla,Model Y,Luxury,2025,black,hybrid,manual,501,rented,Convention Center Branch,San Diego,CA,129,26,775,"Lane assist, Roof rack",3.0,2
+764,Toyota,Corolla,Compact,2021,black,diesel,manual,841,rented,Union Station Branch,Dallas,TX,45,10,270,"Backup camera, Blind spot monitor, Cruise control, Heated seats, Roof rack, Sunroof",5.0,1
+765,Toyota,Yaris,Economy,2018,silver,gasoline,manual,28313,retired,Lakeside Branch,San Francisco,CA,39,9,235,,5.0,1
+766,BMW,X5,Luxury,2022,black,gasoline,manual,47100,available,Airport Branch,Chicago,IL,129,26,775,"Android Auto, Sunroof",3.6666666666666665,3
+767,Toyota,Sienna,Minivan,2020,gray,gasoline,manual,59049,rented,Lakeside Branch,San Francisco,CA,85,18,510,"Android Auto, Backup camera, Roof rack",3.0,1
+768,Kia,Forte,Compact,2025,blue,hybrid,manual,38941,rented,Lakeside Branch,San Francisco,CA,45,10,270,"Android Auto, Blind spot monitor, Roof rack",3.0,2
+769,Honda,Fit,Economy,2025,blue,gasoline,manual,524,retired,Airport Branch,Chicago,IL,39,9,235,"Apple CarPlay, GPS navigation, Lane assist",4.0,2
+770,Toyota,Corolla,Compact,2025,silver,electric,manual,12734,rented,Westside Branch,San Diego,CA,45,10,270,"Blind spot monitor, Child seat anchors, Lane assist",2.0,1
+771,Tesla,Model 3,Luxury,2024,black,hybrid,manual,7563,rented,Southpoint Branch,Atlanta,GA,129,26,775,"GPS navigation, Lane assist, Roof rack",4.0,2
+772,Tesla,Model 3,Luxury,2018,blue,gasoline,manual,7628,rented,Harbor Branch,Boston,MA,129,26,775,"Apple CarPlay, Cruise control",4.75,4
+773,Honda,Accord,Midsize,2023,black,hybrid,manual,21507,retired,Harbor Branch,Boston,MA,55,12,330,"GPS navigation, Lane assist, Roof rack, Sunroof",4.5,2
+774,Toyota,Camry,Midsize,2024,silver,gasoline,manual,27732,rented,Eastside Branch,Charlotte,NC,55,12,330,"Bluetooth, Lane assist",4.5,2
+775,Toyota,Corolla,Compact,2021,gray,gasoline,manual,7449,rented,Union Station Branch,Dallas,TX,45,10,270,"Backup camera, Bluetooth, GPS navigation, Heated seats",3.0,3
+776,Ford,Fusion,Midsize,2024,white,gasoline,manual,24310,rented,Downtown Branch,Phoenix,AZ,55,12,330,"Apple CarPlay, Sunroof",4.0,3
+777,Toyota,Yaris,Economy,2023,white,diesel,manual,22015,rented,Lakeside Branch,San Francisco,CA,39,9,235,"Backup camera, Bluetooth, Cruise control, GPS navigation, Heated seats, Roof rack",2.0,2
+778,Toyota,Corolla,Compact,2023,white,gasoline,automatic,47627,rented,Harbor Branch,Boston,MA,45,10,270,"Backup camera, Child seat anchors, Roof rack",3.6666666666666665,3
+779,Toyota,Corolla,Compact,2025,gray,hybrid,manual,23721,rented,Uptown Branch,Austin,TX,45,10,270,"Backup camera, Bluetooth, GPS navigation, Sunroof",4.0,1
+780,Honda,Accord,Midsize,2019,gray,gasoline,manual,20729,retired,Convention Center Branch,San Diego,CA,55,12,330,"Backup camera, Cruise control, GPS navigation",,0
+781,Toyota,Yaris,Economy,2025,black,gasoline,manual,31029,rented,Lakeside Branch,San Francisco,CA,39,9,235,"Apple CarPlay, Cruise control, Sunroof",3.0,2
+782,Toyota,Yaris,Economy,2017,white,gasoline,manual,44816,rented,Southpoint Branch,Atlanta,GA,39,9,235,Roof rack,5.0,1
+783,Hyundai,Sonata,Midsize,2025,gray,hybrid,manual,51834,rented,University Branch,New York,NY,55,12,330,"Android Auto, Cruise control",3.5,2
+784,Toyota,Camry,Midsize,2024,blue,gasoline,manual,6778,rented,Uptown Branch,Austin,TX,55,12,330,Heated seats,4.0,4
+785,Toyota,Yaris,Economy,2023,white,diesel,manual,39593,rented,Lakeside Branch,San Francisco,CA,39,9,235,"Apple CarPlay, Child seat anchors, Heated seats, Roof rack, Sunroof",2.0,1
+786,Toyota,Yaris,Economy,2024,gray,gasoline,manual,5683,rented,Uptown Branch,Austin,TX,39,9,235,"Android Auto, Apple CarPlay, Backup camera, Child seat anchors, Sunroof",5.0,2
+787,Toyota,Yaris,Economy,2023,black,gasoline,manual,20173,retired,Convention Center Branch,San Diego,CA,39,9,235,"Android Auto, Backup camera, Roof rack",3.0,1
+788,Ford,Pacifica,Minivan,2025,black,gasoline,manual,28386,rented,Westside Branch,San Diego,CA,85,18,510,"GPS navigation, Sunroof",5.0,1
+789,Nissan,Altima,Midsize,2025,white,hybrid,manual,6577,rented,Airport Branch,Chicago,IL,55,12,330,"Android Auto, Cruise control, Lane assist, Sunroof",3.5,2
+790,Volkswagen,Passat,Midsize,2023,blue,electric,manual,2960,rented,Union Station Branch,Dallas,TX,55,12,330,,,0
+791,Hyundai,Elantra,Compact,2025,gray,hybrid,manual,44690,rented,Westside Branch,San Diego,CA,45,10,270,"Backup camera, Child seat anchors, Sunroof",4.0,1
+792,Nissan,Sentra,Compact,2022,silver,electric,manual,57352,rented,Airport Branch,Chicago,IL,45,10,270,"Bluetooth, Child seat anchors, Sunroof",3.0,2
+793,Volkswagen,Passat,Midsize,2020,red,hybrid,manual,704,retired,Lakeside Branch,San Francisco,CA,55,12,330,Roof rack,5.0,1
+794,Kia,Rio,Economy,2020,silver,gasoline,manual,2596,rented,Airport Branch,Chicago,IL,39,9,235,Backup camera,3.25,4
+795,Honda,Accord,Midsize,2022,red,gasoline,automatic,13185,rented,Convention Center Branch,San Diego,CA,55,12,330,"Android Auto, Heated seats, Sunroof",,0
+796,Toyota,Yaris,Economy,2023,blue,gasoline,manual,9690,rented,Lakeside Branch,San Francisco,CA,39,9,235,"Apple CarPlay, GPS navigation, Sunroof",3.0,1
+797,Volkswagen,Passat,Midsize,2023,black,electric,manual,55248,rented,Lakeside Branch,San Francisco,CA,55,12,330,"Cruise control, Heated seats",2.0,1
+798,Honda,Odyssey,Minivan,2022,gray,gasoline,manual,2232,rented,Westside Branch,San Diego,CA,85,18,510,"Backup camera, Bluetooth, Cruise control, Sunroof",4.0,2
+799,Toyota,Yaris,Economy,2025,blue,hybrid,manual,3992,rented,University Branch,New York,NY,39,9,235,GPS navigation,2.5,2
+800,Toyota,Corolla,Compact,2018,gray,gasoline,manual,23976,maintenance,Convention Center Branch,San Diego,CA,45,10,270,"Bluetooth, Sunroof",5.0,1
+801,Toyota,Yaris,Economy,2022,blue,hybrid,manual,700,rented,Southpoint Branch,Atlanta,GA,39,9,235,,3.0,1
+802,Toyota,Yaris,Economy,2025,blue,gasoline,manual,5254,rented,Uptown Branch,Austin,TX,39,9,235,"Backup camera, Lane assist, Roof rack",4.0,1
+803,Toyota,Yaris,Economy,2025,black,hybrid,manual,26669,retired,Westside Branch,San Diego,CA,39,9,235,Android Auto,3.6666666666666665,3
+804,Ford,Escape,SUV,2023,silver,gasoline,manual,3405,retired,Westside Branch,San Diego,CA,75,16,450,"Android Auto, Blind spot monitor, GPS navigation, Roof rack",2.0,1
+805,Toyota,Yaris,Economy,2017,black,gasoline,manual,18036,rented,Lakeside Branch,San Francisco,CA,39,9,235,"Backup camera, Blind spot monitor, Child seat anchors",,0
+806,Chevrolet,Tahoe,SUV,2020,blue,gasoline,manual,2927,rented,Southpoint Branch,Atlanta,GA,75,16,450,Roof rack,4.333333333333333,3
+807,Toyota,Yaris,Economy,2024,gray,diesel,manual,10941,retired,Uptown Branch,Austin,TX,39,9,235,"Android Auto, Bluetooth, Lane assist",,0
+808,Toyota,RAV4,SUV,2020,white,gasoline,manual,3331,rented,Airport Branch,Chicago,IL,75,16,450,"Child seat anchors, Roof rack",,0
+809,Hyundai,Sonata,Midsize,2021,white,gasoline,manual,22852,retired,Airport Branch,Chicago,IL,55,12,330,"Backup camera, Blind spot monitor, Heated seats",2.0,1
+810,Toyota,Camry,Midsize,2021,silver,gasoline,manual,603,retired,Lakeside Branch,San Francisco,CA,55,12,330,"Apple CarPlay, Heated seats",3.0,1
+811,Honda,Odyssey,Minivan,2022,white,gasoline,automatic,32844,available,Eastside Branch,Charlotte,NC,85,18,510,"Cruise control, Roof rack",3.3333333333333335,3
+812,Toyota,Sienna,Minivan,2023,gray,diesel,manual,30399,rented,Northgate Branch,Chicago,IL,85,18,510,"Backup camera, Cruise control, Heated seats",5.0,1
+813,Chevrolet,Equinox,SUV,2020,gray,gasoline,manual,5428,rented,Southpoint Branch,Atlanta,GA,75,16,450,"Backup camera, GPS navigation, Roof rack",5.0,1
+814,Toyota,Sienna,Minivan,2021,black,gasoline,manual,53658,rented,Eastside Branch,Charlotte,NC,85,18,510,"Apple CarPlay, Backup camera, GPS navigation, Sunroof",4.0,1
+815,Ford,Escape,SUV,2017,gray,gasoline,manual,1174,rented,Northgate Branch,Chicago,IL,75,16,450,"Apple CarPlay, GPS navigation",5.0,1
+816,Hyundai,Tucson,SUV,2023,gray,gasoline,manual,12530,rented,University Branch,New York,NY,75,16,450,"Blind spot monitor, Bluetooth, Cruise control, Lane assist",3.5,2
+817,Toyota,Yaris,Economy,2024,silver,gasoline,manual,44535,rented,Downtown Branch,Phoenix,AZ,39,9,235,Cruise control,4.0,1
+818,Ford,Fusion,Midsize,2017,silver,hybrid,manual,25688,available,Lakeside Branch,San Francisco,CA,55,12,330,"Backup camera, Bluetooth, Child seat anchors, Heated seats",3.5,4
+819,Hyundai,Tucson,SUV,2022,black,hybrid,automatic,655,retired,Union Station Branch,Dallas,TX,75,16,450,"Backup camera, Child seat anchors, Cruise control, Sunroof",3.0,1
+820,Hyundai,Accent,Economy,2023,silver,hybrid,automatic,11154,rented,Uptown Branch,Austin,TX,39,9,235,Roof rack,,0
+821,Kia,K5,Midsize,2020,silver,gasoline,manual,56758,rented,Convention Center Branch,San Diego,CA,55,12,330,"Bluetooth, GPS navigation, Lane assist",,0
+822,Toyota,Corolla,Compact,2025,gray,diesel,manual,1577,retired,University Branch,New York,NY,45,10,270,Cruise control,,0
+823,Ford,Escape,SUV,2018,white,hybrid,manual,657,rented,Downtown Branch,Phoenix,AZ,75,16,450,"Apple CarPlay, Blind spot monitor, GPS navigation",3.8333333333333335,6
+824,Toyota,Yaris,Economy,2025,white,diesel,manual,8813,rented,Westside Branch,San Diego,CA,39,9,235,Backup camera,4.0,2
+825,Ford,Fusion,Midsize,2021,gray,gasoline,manual,18421,rented,Southpoint Branch,Atlanta,GA,55,12,330,"Android Auto, Sunroof",,0
+826,Nissan,Rogue,SUV,2020,silver,gasoline,manual,50417,rented,Downtown Branch,Phoenix,AZ,75,16,450,Sunroof,3.0,1
+827,Toyota,Yaris,Economy,2018,gray,gasoline,manual,10782,rented,Eastside Branch,Charlotte,NC,39,9,235,Blind spot monitor,5.0,1
+828,Toyota,Yaris,Economy,2024,black,gasoline,manual,32939,rented,Northgate Branch,Chicago,IL,39,9,235,"Android Auto, Backup camera, Blind spot monitor, Cruise control, Lane assist, Roof rack",,0
+829,Toyota,Camry,Midsize,2024,gray,gasoline,manual,38750,retired,Harbor Branch,Boston,MA,55,12,330,"Backup camera, Heated seats",,0
+830,Chevrolet,Tahoe,SUV,2024,white,hybrid,manual,5720,rented,Convention Center Branch,San Diego,CA,75,16,450,Sunroof,2.0,1
+831,Ford,Focus,Compact,2023,white,hybrid,manual,7109,retired,University Branch,New York,NY,45,10,270,"Bluetooth, Cruise control",3.0,1
+832,Toyota,Yaris,Economy,2025,red,hybrid,manual,2458,rented,Convention Center Branch,San Diego,CA,39,9,235,"Android Auto, Backup camera, Bluetooth",4.0,1
+833,Tesla,Model Y,Luxury,2022,white,gasoline,manual,57404,rented,Southpoint Branch,Atlanta,GA,129,26,775,"Android Auto, Roof rack",,0
+834,Toyota,Yaris,Economy,2024,black,gasoline,manual,754,rented,Union Station Branch,Dallas,TX,39,9,235,"Android Auto, Apple CarPlay, Bluetooth, Cruise control, Roof rack, Sunroof",3.0,2
+835,Ford,Escape,SUV,2025,red,hybrid,manual,38690,retired,Eastside Branch,Charlotte,NC,75,16,450,"Android Auto, Blind spot monitor",3.0,3
+836,Honda,Civic,Compact,2022,blue,hybrid,manual,54841,available,Westside Branch,San Diego,CA,45,10,270,"GPS navigation, Roof rack, Sunroof",2.0,1
+837,Toyota,Corolla,Compact,2025,white,electric,manual,5234,rented,Southpoint Branch,Atlanta,GA,45,10,270,"Apple CarPlay, Cruise control, GPS navigation",4.0,5
+838,Volkswagen,Jetta,Compact,2022,black,gasoline,manual,3449,rented,Uptown Branch,Austin,TX,45,10,270,"Apple CarPlay, Cruise control",5.0,1
+839,Chevrolet,Spark,Economy,2023,white,gasoline,manual,7787,rented,Northgate Branch,Chicago,IL,39,9,235,,3.5,2
+840,Hyundai,Elantra,Compact,2025,gray,gasoline,manual,501,rented,Southpoint Branch,Atlanta,GA,45,10,270,Bluetooth,3.5,2
+841,BMW,5 Series,Luxury,2019,black,hybrid,manual,20472,rented,Westside Branch,San Diego,CA,129,26,775,"Cruise control, GPS navigation",5.0,1
+842,Honda,Odyssey,Minivan,2024,silver,gasoline,manual,2127,rented,Westside Branch,San Diego,CA,85,18,510,"Android Auto, Apple CarPlay, GPS navigation, Heated seats, Roof rack, Sunroof",3.0,2
+843,Nissan,Sentra,Compact,2019,gray,gasoline,manual,2037,retired,Southpoint Branch,Atlanta,GA,45,10,270,Apple CarPlay,5.0,1
+844,Honda,CR-V,SUV,2018,white,electric,manual,3891,rented,Lakeside Branch,San Francisco,CA,75,16,450,,4.5,2
+845,Chevrolet,Equinox,SUV,2018,gray,gasoline,automatic,984,rented,Uptown Branch,Austin,TX,75,16,450,"Backup camera, Lane assist, Roof rack",5.0,1
+846,Tesla,Model 3,Luxury,2020,black,gasoline,manual,24015,rented,Eastside Branch,Charlotte,NC,129,26,775,"Apple CarPlay, Backup camera, Blind spot monitor, Bluetooth, Child seat anchors, Roof rack, Sunroof",4.666666666666667,3
+847,Toyota,Yaris,Economy,2025,black,gasoline,manual,8161,retired,Downtown Branch,Phoenix,AZ,39,9,235,Lane assist,5.0,1
+848,Hyundai,Accent,Economy,2025,white,gasoline,manual,6493,rented,Airport Branch,Chicago,IL,39,9,235,,4.0,3
+849,Toyota,Camry,Midsize,2019,black,gasoline,manual,16667,rented,Eastside Branch,Charlotte,NC,55,12,330,"Child seat anchors, Heated seats",3.3333333333333335,3
+850,Chevrolet,Spark,Economy,2025,white,gasoline,manual,6137,available,Downtown Branch,Phoenix,AZ,39,9,235,"Apple CarPlay, Heated seats",,0
+851,Toyota,Corolla,Compact,2023,white,gasoline,automatic,6933,rented,Eastside Branch,Charlotte,NC,45,10,270,Android Auto,3.0,2
+852,Honda,Fit,Economy,2018,black,gasoline,manual,551,rented,Eastside Branch,Charlotte,NC,39,9,235,"Apple CarPlay, Backup camera, Blind spot monitor, GPS navigation, Roof rack",3.0,2
+853,Toyota,Yaris,Economy,2025,white,hybrid,manual,50354,rented,Convention Center Branch,San Diego,CA,39,9,235,"Blind spot monitor, Bluetooth, Cruise control",5.0,1
+854,Honda,Fit,Economy,2024,red,gasoline,manual,2945,retired,Westside Branch,San Diego,CA,39,9,235,"Backup camera, Bluetooth, Heated seats, Sunroof",4.5,2
+855,Ford,Pacifica,Minivan,2024,gray,gasoline,manual,6693,rented,Northgate Branch,Chicago,IL,85,18,510,"Blind spot monitor, Sunroof",5.0,1
+856,Toyota,Yaris,Economy,2024,blue,gasoline,manual,989,rented,Harbor Branch,Boston,MA,39,9,235,Android Auto,2.0,1
+857,Kia,K5,Midsize,2019,silver,gasoline,manual,6174,rented,Uptown Branch,Austin,TX,55,12,330,"Backup camera, Heated seats, Sunroof",5.0,1
+858,Ford,Explorer,SUV,2022,blue,electric,manual,6024,rented,Lakeside Branch,San Francisco,CA,75,16,450,,3.0,2
+859,Toyota,Camry,Midsize,2022,black,gasoline,manual,5528,retired,Southpoint Branch,Atlanta,GA,55,12,330,"Apple CarPlay, Child seat anchors, Lane assist",5.0,1
+860,Ford,Focus,Compact,2024,white,gasoline,manual,4501,rented,Northgate Branch,Chicago,IL,45,10,270,Heated seats,4.0,1
+861,Chevrolet,Tahoe,SUV,2025,blue,hybrid,manual,54075,retired,Uptown Branch,Austin,TX,75,16,450,"Android Auto, Apple CarPlay, Sunroof",,0
+862,Toyota,RAV4,SUV,2024,red,gasoline,manual,17706,retired,Southpoint Branch,Atlanta,GA,75,16,450,Cruise control,2.0,1
+863,Hyundai,Elantra,Compact,2025,black,hybrid,manual,633,retired,Northgate Branch,Chicago,IL,45,10,270,"Backup camera, Child seat anchors",3.0,4
+864,Kia,Forte,Compact,2025,white,gasoline,automatic,26918,rented,Airport Branch,Chicago,IL,45,10,270,Blind spot monitor,,0
+865,Toyota,Yaris,Economy,2025,silver,gasoline,manual,25816,rented,Westside Branch,San Diego,CA,39,9,235,"Apple CarPlay, Backup camera, Blind spot monitor, Child seat anchors, Roof rack",4.0,2
+866,BMW,X5,Luxury,2023,white,gasoline,manual,1375,available,Convention Center Branch,San Diego,CA,129,26,775,"Blind spot monitor, Bluetooth",5.0,1
+867,Chevrolet,Tahoe,SUV,2018,red,hybrid,manual,45777,rented,Eastside Branch,Charlotte,NC,75,16,450,"Backup camera, Child seat anchors, GPS navigation, Lane assist, Sunroof",5.0,1
+868,Hyundai,Sonata,Midsize,2020,blue,gasoline,manual,14988,rented,University Branch,New York,NY,55,12,330,"Android Auto, Child seat anchors",3.0,2
+869,Toyota,Camry,Midsize,2025,black,gasoline,manual,45208,available,Lakeside Branch,San Francisco,CA,55,12,330,"Lane assist, Roof rack, Sunroof",5.0,1
+870,Volkswagen,Tiguan,SUV,2024,blue,hybrid,manual,567,rented,Westside Branch,San Diego,CA,75,16,450,"Cruise control, GPS navigation, Heated seats, Roof rack",4.0,1
+871,Honda,Accord,Midsize,2024,silver,gasoline,automatic,1370,rented,University Branch,New York,NY,55,12,330,"Backup camera, GPS navigation, Lane assist",4.0,2
+872,Ford,Explorer,SUV,2023,black,electric,manual,26306,rented,Convention Center Branch,San Diego,CA,75,16,450,"Heated seats, Sunroof",1.0,1
+873,Honda,CR-V,SUV,2021,red,gasoline,manual,5313,rented,Harbor Branch,Boston,MA,75,16,450,"Backup camera, Bluetooth, GPS navigation, Heated seats",3.3333333333333335,3
+874,Toyota,Camry,Midsize,2022,silver,gasoline,manual,3448,available,Lakeside Branch,San Francisco,CA,55,12,330,"Heated seats, Lane assist",3.0,1
+875,Toyota,Corolla,Compact,2022,white,gasoline,manual,509,retired,Southpoint Branch,Atlanta,GA,45,10,270,Apple CarPlay,,0
+876,Toyota,Corolla,Compact,2024,black,diesel,manual,20093,retired,Downtown Branch,Phoenix,AZ,45,10,270,"Apple CarPlay, Roof rack",4.0,1
+877,Ford,Escape,SUV,2024,black,hybrid,manual,42518,rented,Uptown Branch,Austin,TX,75,16,450,"Blind spot monitor, Roof rack",4.0,2
+878,Toyota,Yaris,Economy,2025,silver,hybrid,manual,3527,rented,Uptown Branch,Austin,TX,39,9,235,"Backup camera, GPS navigation, Roof rack",3.0,1
+879,Toyota,Yaris,Economy,2025,white,gasoline,manual,2089,rented,Convention Center Branch,San Diego,CA,39,9,235,"Apple CarPlay, Backup camera, Blind spot monitor",5.0,1
+880,Hyundai,Tucson,SUV,2021,black,gasoline,manual,34103,rented,Downtown Branch,Phoenix,AZ,75,16,450,Backup camera,3.6666666666666665,3
+881,Chevrolet,Malibu,Midsize,2021,black,gasoline,manual,17351,rented,Westside Branch,San Diego,CA,55,12,330,"Android Auto, Apple CarPlay",5.0,1
+882,Honda,Fit,Economy,2023,red,gasoline,manual,18211,rented,Union Station Branch,Dallas,TX,39,9,235,Bluetooth,,0
+883,Toyota,Yaris,Economy,2024,white,gasoline,manual,2187,rented,Eastside Branch,Charlotte,NC,39,9,235,"Backup camera, Blind spot monitor",4.0,2
+884,Honda,Civic,Compact,2020,white,gasoline,manual,663,rented,Eastside Branch,Charlotte,NC,45,10,270,"Blind spot monitor, Child seat anchors, GPS navigation",3.5,2
+885,Toyota,Camry,Midsize,2018,white,hybrid,manual,1335,rented,Airport Branch,Chicago,IL,55,12,330,"Blind spot monitor, Heated seats",3.0,1
+886,Volkswagen,Jetta,Compact,2023,blue,hybrid,manual,7282,retired,Northgate Branch,Chicago,IL,45,10,270,,1.0,1
+887,Ford,Focus,Compact,2025,black,electric,manual,27824,maintenance,Eastside Branch,Charlotte,NC,45,10,270,"Backup camera, Blind spot monitor, Sunroof",3.0,1
+888,Hyundai,Accent,Economy,2025,black,gasoline,manual,35175,rented,Southpoint Branch,Atlanta,GA,39,9,235,"Blind spot monitor, Bluetooth, Cruise control",4.0,3
+889,Honda,Fit,Economy,2021,red,gasoline,manual,9539,rented,Westside Branch,San Diego,CA,39,9,235,Apple CarPlay,3.0,1
+890,Toyota,Yaris,Economy,2021,gray,hybrid,manual,51684,rented,Uptown Branch,Austin,TX,39,9,235,"Bluetooth, GPS navigation, Heated seats",3.5,2
+891,Toyota,Yaris,Economy,2021,red,gasoline,manual,501,rented,Convention Center Branch,San Diego,CA,39,9,235,"GPS navigation, Lane assist",4.5,2
+892,Toyota,Corolla,Compact,2023,black,gasoline,manual,5205,retired,Harbor Branch,Boston,MA,45,10,270,"GPS navigation, Heated seats",2.0,2
+893,Kia,Forte,Compact,2025,silver,gasoline,manual,39250,rented,Downtown Branch,Phoenix,AZ,45,10,270,"Apple CarPlay, Bluetooth, Sunroof",4.5,2
+894,Nissan,Versa,Economy,2019,silver,hybrid,manual,13618,rented,Harbor Branch,Boston,MA,39,9,235,"Apple CarPlay, Cruise control, Sunroof",3.6,5
+895,Toyota,Yaris,Economy,2024,red,gasoline,manual,1470,rented,Eastside Branch,Charlotte,NC,39,9,235,"Cruise control, Heated seats, Sunroof",1.0,1
+896,Toyota,Yaris,Economy,2023,blue,gasoline,manual,8483,rented,University Branch,New York,NY,39,9,235,Sunroof,3.5,4
+897,Hyundai,Accent,Economy,2025,red,gasoline,manual,3060,available,Convention Center Branch,San Diego,CA,39,9,235,"Android Auto, Apple CarPlay, Lane assist",3.6666666666666665,3
+898,Honda,Odyssey,Minivan,2025,silver,gasoline,manual,48300,rented,Eastside Branch,Charlotte,NC,85,18,510,"Android Auto, Backup camera, Bluetooth",5.0,1
+899,Hyundai,Tucson,SUV,2018,white,electric,manual,6508,rented,Lakeside Branch,San Francisco,CA,75,16,450,"Apple CarPlay, Blind spot monitor, Bluetooth, Roof rack, Sunroof",3.75,4
+900,Tesla,Model Y,Luxury,2018,white,gasoline,manual,4422,retired,Uptown Branch,Austin,TX,129,26,775,"Android Auto, Bluetooth, Cruise control",2.3333333333333335,3
+901,Honda,Odyssey,Minivan,2025,black,gasoline,manual,11209,rented,Union Station Branch,Dallas,TX,85,18,510,Bluetooth,3.6666666666666665,3
+902,Toyota,Yaris,Economy,2025,gray,hybrid,manual,3049,rented,Northgate Branch,Chicago,IL,39,9,235,"Android Auto, Backup camera, Child seat anchors, Roof rack",5.0,1
+903,Hyundai,Tucson,SUV,2018,black,diesel,manual,932,rented,Westside Branch,San Diego,CA,75,16,450,"Child seat anchors, Sunroof",2.5,2
+904,Ford,Focus,Compact,2023,blue,gasoline,manual,1465,available,Harbor Branch,Boston,MA,45,10,270,Apple CarPlay,3.5,2
+905,Honda,CR-V,SUV,2024,blue,gasoline,manual,20505,rented,Harbor Branch,Boston,MA,75,16,450,"Android Auto, Apple CarPlay",3.0,2
+906,Ford,Explorer,SUV,2019,white,electric,manual,41754,retired,Lakeside Branch,San Francisco,CA,75,16,450,"Apple CarPlay, Bluetooth, Child seat anchors, Sunroof",5.0,1
+907,Toyota,Corolla,Compact,2020,gray,gasoline,manual,40530,rented,Northgate Branch,Chicago,IL,45,10,270,"Bluetooth, Cruise control, GPS navigation, Sunroof",4.0,1
+908,Tesla,Model Y,Luxury,2025,black,gasoline,manual,13158,rented,Lakeside Branch,San Francisco,CA,129,26,775,"Backup camera, GPS navigation",,0
+909,Honda,Civic,Compact,2025,gray,gasoline,manual,3587,rented,Eastside Branch,Charlotte,NC,45,10,270,Android Auto,5.0,2
+910,Toyota,Sienna,Minivan,2019,silver,gasoline,manual,14391,rented,Northgate Branch,Chicago,IL,85,18,510,"Android Auto, Child seat anchors, Lane assist, Roof rack",4.0,1
+911,Kia,K5,Midsize,2024,silver,hybrid,manual,18177,rented,Convention Center Branch,San Diego,CA,55,12,330,"Apple CarPlay, Child seat anchors, GPS navigation, Heated seats",3.5,2
+912,Nissan,Rogue,SUV,2024,gray,gasoline,automatic,800,rented,Eastside Branch,Charlotte,NC,75,16,450,"Backup camera, GPS navigation",3.5,2
+913,Toyota,Camry,Midsize,2018,blue,diesel,manual,4153,rented,University Branch,New York,NY,55,12,330,"Bluetooth, Child seat anchors, Roof rack",4.0,1
+914,Tesla,Model 3,Luxury,2021,red,gasoline,manual,24315,rented,Southpoint Branch,Atlanta,GA,129,26,775,"Android Auto, Blind spot monitor, Lane assist, Sunroof",5.0,1
+915,Toyota,Corolla,Compact,2024,gray,diesel,manual,54884,rented,University Branch,New York,NY,45,10,270,"GPS navigation, Heated seats, Lane assist",3.5,2
+916,Honda,CR-V,SUV,2023,gray,gasoline,manual,37750,rented,Lakeside Branch,San Francisco,CA,75,16,450,"Backup camera, Bluetooth, Cruise control",3.5,2
+917,Toyota,Yaris,Economy,2023,silver,gasoline,automatic,2075,rented,Convention Center Branch,San Diego,CA,39,9,235,"Child seat anchors, GPS navigation",4.0,1
+918,Toyota,Yaris,Economy,2025,blue,gasoline,manual,43912,available,Uptown Branch,Austin,TX,39,9,235,"Cruise control, Heated seats, Sunroof",4.5,2
+919,Toyota,RAV4,SUV,2025,white,gasoline,manual,3637,rented,Westside Branch,San Diego,CA,75,16,450,"Blind spot monitor, Bluetooth, Child seat anchors, Lane assist, Sunroof",5.0,1
+920,Toyota,Yaris,Economy,2021,black,gasoline,manual,628,rented,Eastside Branch,Charlotte,NC,39,9,235,"GPS navigation, Heated seats, Roof rack",,0
+921,Ford,Explorer,SUV,2018,black,gasoline,manual,21966,available,Westside Branch,San Diego,CA,75,16,450,"Bluetooth, Sunroof",4.5,4
+922,Chevrolet,Equinox,SUV,2023,gray,gasoline,manual,2418,rented,Lakeside Branch,San Francisco,CA,75,16,450,,3.6666666666666665,3
+923,BMW,X5,Luxury,2024,gray,gasoline,manual,11240,rented,Eastside Branch,Charlotte,NC,129,26,775,"Apple CarPlay, Backup camera, Blind spot monitor",2.5,2
+924,Chevrolet,Tahoe,SUV,2025,black,hybrid,manual,20473,rented,Eastside Branch,Charlotte,NC,75,16,450,"Android Auto, Backup camera, Lane assist, Roof rack",,0
+925,Hyundai,Sonata,Midsize,2024,white,gasoline,manual,7024,rented,Harbor Branch,Boston,MA,55,12,330,"Bluetooth, Cruise control, Roof rack",3.75,4
+926,Toyota,Yaris,Economy,2025,white,gasoline,manual,18460,rented,Downtown Branch,Phoenix,AZ,39,9,235,Backup camera,3.0,1
+927,Toyota,Camry,Midsize,2022,black,gasoline,manual,58371,rented,Lakeside Branch,San Francisco,CA,55,12,330,"Backup camera, Blind spot monitor, Bluetooth, Roof rack",4.75,4
+928,Toyota,Yaris,Economy,2025,black,gasoline,manual,25983,retired,Convention Center Branch,San Diego,CA,39,9,235,"Backup camera, Lane assist, Sunroof",3.0,2
+929,Toyota,Sienna,Minivan,2025,silver,gasoline,automatic,30746,rented,University Branch,New York,NY,85,18,510,"Android Auto, Blind spot monitor, Cruise control",,0
+930,Toyota,RAV4,SUV,2022,silver,gasoline,manual,55846,rented,Union Station Branch,Dallas,TX,75,16,450,"Bluetooth, Heated seats",3.0,1
+931,Ford,Focus,Compact,2022,black,gasoline,manual,29477,rented,Southpoint Branch,Atlanta,GA,45,10,270,,2.5,2
+932,Nissan,Sentra,Compact,2025,gray,electric,manual,4826,retired,Northgate Branch,Chicago,IL,45,10,270,Cruise control,,0
+933,Honda,Odyssey,Minivan,2020,white,gasoline,manual,14151,retired,Downtown Branch,Phoenix,AZ,85,18,510,"Backup camera, Lane assist",2.0,1
+934,Toyota,Yaris,Economy,2025,blue,gasoline,manual,41316,rented,Uptown Branch,Austin,TX,39,9,235,"Backup camera, Roof rack",4.5,2
+935,Honda,Fit,Economy,2025,white,gasoline,manual,23081,rented,Southpoint Branch,Atlanta,GA,39,9,235,Apple CarPlay,4.0,2
+936,Toyota,Yaris,Economy,2021,blue,gasoline,manual,23516,rented,Northgate Branch,Chicago,IL,39,9,235,"Bluetooth, Sunroof",3.5,2
+937,Nissan,Rogue,SUV,2024,blue,gasoline,automatic,637,rented,Union Station Branch,Dallas,TX,75,16,450,Bluetooth,1.5,2
+938,Chevrolet,Equinox,SUV,2022,black,hybrid,manual,4644,retired,University Branch,New York,NY,75,16,450,,3.5,4
+939,Ford,Explorer,SUV,2025,blue,gasoline,manual,7311,retired,Eastside Branch,Charlotte,NC,75,16,450,,3.5,2
+940,Volkswagen,Jetta,Compact,2021,gray,hybrid,manual,11780,retired,Eastside Branch,Charlotte,NC,45,10,270,"Android Auto, Bluetooth, GPS navigation, Heated seats",,0
+941,Toyota,Yaris,Economy,2022,gray,gasoline,manual,34932,retired,Harbor Branch,Boston,MA,39,9,235,"Backup camera, Child seat anchors, Sunroof",4.0,1
+942,Ford,Fusion,Midsize,2017,gray,gasoline,manual,9154,rented,Union Station Branch,Dallas,TX,55,12,330,"Child seat anchors, Sunroof",5.0,2
+943,Toyota,Camry,Midsize,2021,white,hybrid,manual,3603,rented,Harbor Branch,Boston,MA,55,12,330,"Bluetooth, GPS navigation",3.5,2
+944,Toyota,Corolla,Compact,2018,silver,gasoline,manual,58027,retired,Convention Center Branch,San Diego,CA,45,10,270,Apple CarPlay,4.0,2
+945,Honda,Odyssey,Minivan,2024,red,gasoline,manual,17918,rented,Lakeside Branch,San Francisco,CA,85,18,510,"Blind spot monitor, Bluetooth, Roof rack",4.0,1
+946,Hyundai,Elantra,Compact,2024,blue,gasoline,manual,16060,rented,Convention Center Branch,San Diego,CA,45,10,270,GPS navigation,2.0,1
+947,Honda,Civic,Compact,2022,white,gasoline,manual,2834,rented,Uptown Branch,Austin,TX,45,10,270,Lane assist,5.0,1
+948,Toyota,Sienna,Minivan,2018,white,gasoline,automatic,10909,rented,Airport Branch,Chicago,IL,85,18,510,"Blind spot monitor, GPS navigation",,0
+949,Honda,Accord,Midsize,2018,silver,gasoline,manual,55276,rented,Southpoint Branch,Atlanta,GA,55,12,330,"Blind spot monitor, Heated seats",3.4,5
+950,Toyota,Yaris,Economy,2023,white,gasoline,manual,6263,rented,University Branch,New York,NY,39,9,235,"Cruise control, Lane assist, Roof rack",5.0,1
+951,Toyota,Corolla,Compact,2025,white,gasoline,manual,29951,rented,Airport Branch,Chicago,IL,45,10,270,"Android Auto, Blind spot monitor, Cruise control, GPS navigation, Sunroof",5.0,1
+952,Kia,K5,Midsize,2023,white,gasoline,manual,36494,rented,Downtown Branch,Phoenix,AZ,55,12,330,"Android Auto, Backup camera, Lane assist",4.0,1
+953,Toyota,Camry,Midsize,2017,silver,electric,manual,50180,rented,Eastside Branch,Charlotte,NC,55,12,330,Cruise control,4.0,3
+954,Nissan,Sentra,Compact,2024,gray,gasoline,manual,7284,rented,Westside Branch,San Diego,CA,45,10,270,"Blind spot monitor, Roof rack",3.6666666666666665,3
+955,Ford,Explorer,SUV,2021,gray,electric,manual,2874,retired,Eastside Branch,Charlotte,NC,75,16,450,"Blind spot monitor, Sunroof",4.0,4
+956,Honda,Civic,Compact,2018,gray,gasoline,manual,55895,maintenance,Airport Branch,Chicago,IL,45,10,270,"Bluetooth, Child seat anchors",,0
+957,Toyota,Corolla,Compact,2024,silver,gasoline,manual,35844,rented,Southpoint Branch,Atlanta,GA,45,10,270,"Apple CarPlay, Backup camera, Heated seats, Sunroof",3.0,1
+958,Hyundai,Tucson,SUV,2022,blue,gasoline,manual,6597,rented,Eastside Branch,Charlotte,NC,75,16,450,"Blind spot monitor, Bluetooth",3.0,3
+959,Honda,Fit,Economy,2024,white,hybrid,manual,50829,retired,Convention Center Branch,San Diego,CA,39,9,235,"Android Auto, GPS navigation",2.0,2
+960,Nissan,Sentra,Compact,2020,white,electric,manual,16394,rented,Uptown Branch,Austin,TX,45,10,270,Child seat anchors,2.0,1
+961,Nissan,Sentra,Compact,2025,white,gasoline,manual,823,retired,Harbor Branch,Boston,MA,45,10,270,,3.0,3
+962,Ford,Fusion,Midsize,2023,gray,electric,manual,30784,rented,Union Station Branch,Dallas,TX,55,12,330,Android Auto,4.666666666666667,3
+963,Ford,Escape,SUV,2023,black,gasoline,manual,3364,rented,Eastside Branch,Charlotte,NC,75,16,450,"Android Auto, Heated seats, Sunroof",3.75,4
+964,Toyota,Yaris,Economy,2023,white,gasoline,manual,15596,rented,Airport Branch,Chicago,IL,39,9,235,"Blind spot monitor, GPS navigation, Roof rack",2.0,1
+965,Ford,Pacifica,Minivan,2024,white,gasoline,manual,835,rented,Harbor Branch,Boston,MA,85,18,510,"Roof rack, Sunroof",4.0,2
+966,Nissan,Altima,Midsize,2025,blue,hybrid,manual,21900,rented,University Branch,New York,NY,55,12,330,Android Auto,3.6666666666666665,3
+967,Ford,Escape,SUV,2024,blue,gasoline,manual,47912,rented,Northgate Branch,Chicago,IL,75,16,450,"Apple CarPlay, Heated seats, Sunroof",2.5,2
+968,Tesla,Model 3,Luxury,2025,gray,gasoline,manual,8714,maintenance,Harbor Branch,Boston,MA,129,26,775,"Child seat anchors, Heated seats",5.0,1
+969,Toyota,RAV4,SUV,2024,silver,gasoline,manual,7451,rented,Westside Branch,San Diego,CA,75,16,450,"Apple CarPlay, Blind spot monitor, Roof rack",3.3333333333333335,3
+970,Honda,Civic,Compact,2025,gray,diesel,manual,5586,rented,University Branch,New York,NY,45,10,270,"Android Auto, Child seat anchors, Lane assist",5.0,1
+971,Honda,CR-V,SUV,2021,black,gasoline,manual,13758,rented,Lakeside Branch,San Francisco,CA,75,16,450,"Bluetooth, GPS navigation",5.0,1
+972,Tesla,Model 3,Luxury,2018,red,electric,manual,34454,rented,Convention Center Branch,San Diego,CA,129,26,775,"Apple CarPlay, Cruise control, Heated seats",4.0,1
+973,Chevrolet,Equinox,SUV,2025,black,hybrid,manual,3066,rented,Convention Center Branch,San Diego,CA,75,16,450,"Bluetooth, Child seat anchors, Roof rack",2.5,2
+974,Toyota,Yaris,Economy,2025,red,electric,manual,18840,retired,Westside Branch,San Diego,CA,39,9,235,"Blind spot monitor, Bluetooth",4.0,2
+975,Hyundai,Sonata,Midsize,2025,white,gasoline,manual,36547,rented,University Branch,New York,NY,55,12,330,"GPS navigation, Lane assist, Roof rack",,0
+976,Honda,Fit,Economy,2017,gray,gasoline,manual,505,rented,Uptown Branch,Austin,TX,39,9,235,,2.5,2
+977,Toyota,Sienna,Minivan,2024,gray,gasoline,manual,3990,rented,Southpoint Branch,Atlanta,GA,85,18,510,,2.0,1
+978,Toyota,RAV4,SUV,2019,red,gasoline,automatic,31224,rented,Uptown Branch,Austin,TX,75,16,450,"Blind spot monitor, Child seat anchors, Cruise control",4.0,4
+979,Hyundai,Accent,Economy,2024,white,gasoline,manual,46351,rented,Airport Branch,Chicago,IL,39,9,235,"Android Auto, Blind spot monitor, GPS navigation, Roof rack",3.0,1
+980,Toyota,RAV4,SUV,2024,white,hybrid,manual,2008,available,Southpoint Branch,Atlanta,GA,75,16,450,Heated seats,5.0,2
+981,BMW,5 Series,Luxury,2025,white,gasoline,manual,19396,retired,Airport Branch,Chicago,IL,129,26,775,Sunroof,,0
+982,Toyota,Camry,Midsize,2024,silver,gasoline,manual,46711,retired,Southpoint Branch,Atlanta,GA,55,12,330,Android Auto,5.0,1
+983,Honda,Accord,Midsize,2023,blue,diesel,manual,13214,rented,Westside Branch,San Diego,CA,55,12,330,"Android Auto, Backup camera, Bluetooth, Lane assist",3.3333333333333335,3
+984,Hyundai,Elantra,Compact,2022,silver,gasoline,manual,36254,available,Southpoint Branch,Atlanta,GA,45,10,270,Android Auto,3.0,1
+985,Toyota,RAV4,SUV,2019,white,gasoline,manual,41828,rented,Convention Center Branch,San Diego,CA,75,16,450,"Backup camera, Roof rack",1.0,1
+986,Toyota,Corolla,Compact,2021,white,gasoline,manual,5024,retired,Downtown Branch,Phoenix,AZ,45,10,270,"Backup camera, Bluetooth, Cruise control, Heated seats",3.0,2
+987,Ford,Fusion,Midsize,2022,white,hybrid,manual,42434,rented,Downtown Branch,Phoenix,AZ,55,12,330,Roof rack,3.0,2
+988,Chevrolet,Tahoe,SUV,2025,white,gasoline,manual,35352,rented,Southpoint Branch,Atlanta,GA,75,16,450,"Apple CarPlay, Cruise control, GPS navigation, Heated seats",3.6666666666666665,3
+989,Ford,Pacifica,Minivan,2024,black,gasoline,manual,1912,retired,Lakeside Branch,San Francisco,CA,85,18,510,"GPS navigation, Lane assist",,0
+990,Chevrolet,Equinox,SUV,2019,black,gasoline,manual,25746,rented,Northgate Branch,Chicago,IL,75,16,450,"Android Auto, Bluetooth",5.0,1
+991,Honda,CR-V,SUV,2021,white,hybrid,manual,53354,maintenance,Downtown Branch,Phoenix,AZ,75,16,450,"GPS navigation, Roof rack",3.3333333333333335,3
+992,Chevrolet,Equinox,SUV,2022,white,gasoline,automatic,49148,rented,University Branch,New York,NY,75,16,450,,,0
+993,Honda,Civic,Compact,2023,silver,gasoline,manual,45556,rented,University Branch,New York,NY,45,10,270,"Android Auto, Cruise control, Lane assist",5.0,1
+994,Toyota,Corolla,Compact,2025,silver,gasoline,manual,34878,rented,Harbor Branch,Boston,MA,45,10,270,"Android Auto, Child seat anchors, Cruise control, GPS navigation, Lane assist, Roof rack",4.333333333333333,3
+995,Ford,Escape,SUV,2018,gray,gasoline,manual,13862,rented,Airport Branch,Chicago,IL,75,16,450,"Android Auto, Apple CarPlay, Backup camera, Heated seats, Lane assist, Sunroof",5.0,3
+996,Toyota,Yaris,Economy,2023,gray,hybrid,manual,1452,rented,Westside Branch,San Diego,CA,39,9,235,Sunroof,4.5,2
+997,Toyota,Yaris,Economy,2025,white,gasoline,manual,5635,rented,Northgate Branch,Chicago,IL,39,9,235,"Child seat anchors, Cruise control",3.75,4
+998,Toyota,RAV4,SUV,2025,gray,gasoline,manual,47750,rented,Convention Center Branch,San Diego,CA,75,16,450,"Android Auto, Child seat anchors, GPS navigation, Roof rack",5.0,2
+999,Nissan,Altima,Midsize,2022,gray,gasoline,manual,12147,retired,University Branch,New York,NY,55,12,330,"Child seat anchors, Heated seats",3.5,2
+1000,Honda,CR-V,SUV,2018,black,gasoline,manual,47204,rented,Westside Branch,San Diego,CA,75,16,450,"Backup camera, Child seat anchors, GPS navigation, Roof rack",3.0,3
+1001,Tesla,Model 3,Luxury,2025,gray,gasoline,manual,4487,rented,Westside Branch,San Diego,CA,129,26,775,"Apple CarPlay, Backup camera, Blind spot monitor, Cruise control, GPS navigation",,0
+1002,Ford,Focus,Compact,2018,white,hybrid,manual,9863,rented,Eastside Branch,Charlotte,NC,45,10,270,"Child seat anchors, Cruise control, Heated seats",4.0,2
+1003,Toyota,Camry,Midsize,2023,black,gasoline,manual,3627,rented,University Branch,New York,NY,55,12,330,"Apple CarPlay, Backup camera, Child seat anchors, Roof rack, Sunroof",2.5,2
+1004,Kia,Rio,Economy,2024,blue,diesel,manual,22935,available,Union Station Branch,Dallas,TX,39,9,235,Backup camera,,0
+1005,Ford,Fusion,Midsize,2020,silver,gasoline,manual,5747,rented,Northgate Branch,Chicago,IL,55,12,330,"Blind spot monitor, Cruise control, Heated seats, Sunroof",1.0,1
+1006,Toyota,Corolla,Compact,2025,black,gasoline,manual,24586,rented,Uptown Branch,Austin,TX,45,10,270,"Backup camera, Blind spot monitor, Cruise control, Roof rack",4.0,1
+1007,BMW,X5,Luxury,2024,silver,diesel,automatic,2228,rented,Eastside Branch,Charlotte,NC,129,26,775,"Apple CarPlay, Cruise control",3.0,1
+1008,Ford,Fusion,Midsize,2025,red,gasoline,manual,32136,rented,Downtown Branch,Phoenix,AZ,55,12,330,"Android Auto, Child seat anchors, Heated seats",3.0,2
+1009,Kia,Carnival,Minivan,2025,white,gasoline,manual,49122,rented,Union Station Branch,Dallas,TX,85,18,510,"Backup camera, GPS navigation, Lane assist",4.5,2
+1010,Hyundai,Tucson,SUV,2020,white,hybrid,manual,1246,rented,University Branch,New York,NY,75,16,450,"Android Auto, Apple CarPlay, Backup camera, GPS navigation, Sunroof",,0
+1011,Hyundai,Tucson,SUV,2023,gray,gasoline,manual,47258,maintenance,Airport Branch,Chicago,IL,75,16,450,Android Auto,5.0,1
+1012,Kia,K5,Midsize,2020,white,gasoline,manual,9194,rented,Downtown Branch,Phoenix,AZ,55,12,330,"Apple CarPlay, Child seat anchors, Heated seats, Sunroof",3.5,2
+1013,Toyota,Corolla,Compact,2021,gray,hybrid,manual,847,retired,University Branch,New York,NY,45,10,270,,3.0,1
+1014,Volkswagen,Jetta,Compact,2021,white,gasoline,manual,505,available,Eastside Branch,Charlotte,NC,45,10,270,"GPS navigation, Roof rack, Sunroof",3.8,5
+1015,Ford,Focus,Compact,2020,blue,gasoline,manual,20216,available,Lakeside Branch,San Francisco,CA,45,10,270,Cruise control,2.0,1
+1016,Honda,Fit,Economy,2021,white,diesel,manual,25607,rented,Harbor Branch,Boston,MA,39,9,235,"GPS navigation, Roof rack, Sunroof",1.0,1
+1017,Honda,CR-V,SUV,2024,white,gasoline,automatic,4320,rented,University Branch,New York,NY,75,16,450,"Apple CarPlay, Backup camera, GPS navigation, Lane assist",2.0,1
+1018,Honda,Civic,Compact,2020,silver,diesel,manual,7747,available,Eastside Branch,Charlotte,NC,45,10,270,Bluetooth,5.0,2
+1019,Toyota,Sienna,Minivan,2025,blue,gasoline,manual,5785,rented,Uptown Branch,Austin,TX,85,18,510,,5.0,1
+1020,Toyota,Yaris,Economy,2018,gray,gasoline,manual,33113,retired,Eastside Branch,Charlotte,NC,39,9,235,Child seat anchors,3.0,2
+1021,Toyota,Corolla,Compact,2024,white,hybrid,automatic,10786,rented,Northgate Branch,Chicago,IL,45,10,270,,,0
+1022,Nissan,Rogue,SUV,2023,black,gasoline,manual,2930,retired,Airport Branch,Chicago,IL,75,16,450,"Apple CarPlay, Backup camera, Child seat anchors, Cruise control",,0
+1023,Toyota,Yaris,Economy,2025,white,gasoline,automatic,4918,rented,Airport Branch,Chicago,IL,39,9,235,Heated seats,4.0,3
+1024,Ford,Escape,SUV,2018,gray,gasoline,manual,5369,rented,Downtown Branch,Phoenix,AZ,75,16,450,"Blind spot monitor, Child seat anchors, Lane assist",2.0,1
+1025,Kia,Forte,Compact,2025,gray,gasoline,manual,9307,rented,Southpoint Branch,Atlanta,GA,45,10,270,"Backup camera, Blind spot monitor, Cruise control, GPS navigation, Roof rack",1.0,1
+1026,Volkswagen,Passat,Midsize,2025,white,gasoline,manual,3505,rented,Eastside Branch,Charlotte,NC,55,12,330,Android Auto,4.0,1
+1027,Toyota,Yaris,Economy,2024,white,hybrid,manual,2314,rented,Southpoint Branch,Atlanta,GA,39,9,235,"Android Auto, Lane assist, Roof rack, Sunroof",5.0,1
+1028,Honda,Odyssey,Minivan,2023,white,hybrid,manual,38816,rented,Downtown Branch,Phoenix,AZ,85,18,510,Child seat anchors,4.0,3
+1029,Chevrolet,Malibu,Midsize,2022,red,gasoline,manual,56015,rented,Eastside Branch,Charlotte,NC,55,12,330,,5.0,1
+1030,Hyundai,Elantra,Compact,2024,white,gasoline,manual,14687,retired,Airport Branch,Chicago,IL,45,10,270,"Apple CarPlay, Backup camera, Child seat anchors, Roof rack, Sunroof",5.0,2
+1031,Hyundai,Tucson,SUV,2024,white,gasoline,automatic,48342,rented,Lakeside Branch,San Francisco,CA,75,16,450,"Apple CarPlay, Bluetooth, Cruise control, GPS navigation",2.0,1
+1032,Toyota,Yaris,Economy,2025,blue,electric,manual,2050,rented,Airport Branch,Chicago,IL,39,9,235,"GPS navigation, Lane assist, Sunroof",3.6666666666666665,3
+1033,Honda,Fit,Economy,2023,white,gasoline,manual,3675,rented,Harbor Branch,Boston,MA,39,9,235,"Backup camera, Child seat anchors, Heated seats, Sunroof",3.5,2
+1034,Toyota,Corolla,Compact,2018,gray,gasoline,manual,22377,rented,Westside Branch,San Diego,CA,45,10,270,,2.0,2
+1035,Honda,Fit,Economy,2023,blue,gasoline,manual,22688,rented,Lakeside Branch,San Francisco,CA,39,9,235,"Backup camera, Cruise control, Heated seats",,0
+1036,Toyota,Camry,Midsize,2018,silver,diesel,manual,17977,rented,Downtown Branch,Phoenix,AZ,55,12,330,"Apple CarPlay, Blind spot monitor, Bluetooth, GPS navigation",4.0,1
+1037,Hyundai,Accent,Economy,2025,black,gasoline,manual,1295,rented,University Branch,New York,NY,39,9,235,"Cruise control, Sunroof",5.0,2
+1038,Honda,Civic,Compact,2024,black,gasoline,automatic,37529,rented,Downtown Branch,Phoenix,AZ,45,10,270,Sunroof,3.6,5
+1039,Toyota,Yaris,Economy,2021,blue,electric,manual,2343,rented,Downtown Branch,Phoenix,AZ,39,9,235,"Child seat anchors, Sunroof",4.4,5
+1040,Chevrolet,Equinox,SUV,2024,red,electric,manual,24371,available,Uptown Branch,Austin,TX,75,16,450,"GPS navigation, Roof rack, Sunroof",4.0,2
+1041,Toyota,Yaris,Economy,2024,blue,gasoline,manual,22609,retired,Westside Branch,San Diego,CA,39,9,235,"Cruise control, GPS navigation, Sunroof",5.0,1
+1042,Chevrolet,Spark,Economy,2020,gray,gasoline,manual,17183,retired,Union Station Branch,Dallas,TX,39,9,235,"Android Auto, Apple CarPlay, GPS navigation, Heated seats, Roof rack",3.0,1
+1043,Toyota,Yaris,Economy,2025,red,gasoline,manual,788,retired,University Branch,New York,NY,39,9,235,"Apple CarPlay, Child seat anchors, GPS navigation",4.0,2
+1044,Honda,Accord,Midsize,2024,blue,gasoline,manual,5252,rented,Union Station Branch,Dallas,TX,55,12,330,Lane assist,3.3333333333333335,3
+1045,Honda,Civic,Compact,2019,black,hybrid,manual,57463,rented,Westside Branch,San Diego,CA,45,10,270,"Blind spot monitor, Child seat anchors, Heated seats",4.5,2
+1046,Ford,Escape,SUV,2019,black,hybrid,manual,4559,rented,Northgate Branch,Chicago,IL,75,16,450,Android Auto,4.0,2
+1047,Ford,Fusion,Midsize,2022,blue,diesel,manual,15441,retired,Downtown Branch,Phoenix,AZ,55,12,330,"Cruise control, GPS navigation",4.0,4
+1048,BMW,3 Series,Luxury,2020,blue,electric,manual,33177,rented,Harbor Branch,Boston,MA,129,26,775,"Backup camera, Bluetooth, Roof rack, Sunroof",4.0,1
+1049,Honda,CR-V,SUV,2025,red,gasoline,manual,18570,available,Harbor Branch,Boston,MA,75,16,450,"Apple CarPlay, Blind spot monitor",5.0,1
+1050,Toyota,RAV4,SUV,2024,blue,gasoline,automatic,1267,rented,University Branch,New York,NY,75,16,450,"Apple CarPlay, Backup camera, Cruise control, Heated seats, Sunroof",4.0,2
+1051,BMW,5 Series,Luxury,2025,gray,gasoline,manual,5253,maintenance,Westside Branch,San Diego,CA,129,26,775,"Android Auto, Cruise control, Lane assist, Roof rack",2.3333333333333335,3
+1052,Honda,Fit,Economy,2025,blue,gasoline,manual,48374,rented,Westside Branch,San Diego,CA,39,9,235,"Blind spot monitor, Roof rack",3.8,5
+1053,Toyota,Yaris,Economy,2024,black,electric,manual,52348,rented,Southpoint Branch,Atlanta,GA,39,9,235,"Backup camera, Blind spot monitor, Sunroof",4.75,4
+1054,BMW,X5,Luxury,2022,black,hybrid,manual,44530,available,Southpoint Branch,Atlanta,GA,129,26,775,"Apple CarPlay, Backup camera, Blind spot monitor",1.0,1
+1055,Ford,Pacifica,Minivan,2025,red,gasoline,manual,8652,rented,Convention Center Branch,San Diego,CA,85,18,510,"Android Auto, Bluetooth, Child seat anchors, Cruise control, Sunroof",,0
+1056,Toyota,Yaris,Economy,2024,silver,gasoline,manual,590,rented,Westside Branch,San Diego,CA,39,9,235,,4.0,1
+1057,Tesla,Model Y,Luxury,2025,black,gasoline,manual,2928,rented,Union Station Branch,Dallas,TX,129,26,775,Blind spot monitor,,0
+1058,Honda,Accord,Midsize,2020,gray,gasoline,manual,2910,rented,Airport Branch,Chicago,IL,55,12,330,"Cruise control, Roof rack",1.0,1
+1059,Toyota,RAV4,SUV,2021,blue,gasoline,manual,48461,rented,Westside Branch,San Diego,CA,75,16,450,"Apple CarPlay, Heated seats, Sunroof",5.0,1
+1060,Hyundai,Sonata,Midsize,2020,gray,gasoline,manual,22868,rented,Airport Branch,Chicago,IL,55,12,330,"Apple CarPlay, Backup camera",4.0,3
+1061,Nissan,Rogue,SUV,2018,red,gasoline,manual,26548,rented,Lakeside Branch,San Francisco,CA,75,16,450,"Backup camera, Lane assist",2.0,1
+1062,Toyota,Yaris,Economy,2024,silver,gasoline,automatic,3362,rented,Downtown Branch,Phoenix,AZ,39,9,235,Heated seats,4.0,1
+1063,Toyota,RAV4,SUV,2021,black,gasoline,manual,1020,rented,Uptown Branch,Austin,TX,75,16,450,Backup camera,4.0,1
+1064,Honda,Odyssey,Minivan,2020,black,electric,manual,34778,rented,Southpoint Branch,Atlanta,GA,85,18,510,"Android Auto, Backup camera, Child seat anchors, Cruise control",,0
+1065,Toyota,RAV4,SUV,2020,white,gasoline,manual,21470,rented,Westside Branch,San Diego,CA,75,16,450,"Android Auto, GPS navigation, Lane assist",,0
+1066,Toyota,RAV4,SUV,2025,red,gasoline,manual,7924,rented,Southpoint Branch,Atlanta,GA,75,16,450,"Android Auto, Apple CarPlay, GPS navigation",,0
+1067,Hyundai,Elantra,Compact,2023,gray,gasoline,manual,1007,rented,Airport Branch,Chicago,IL,45,10,270,Apple CarPlay,4.0,2
+1068,Honda,CR-V,SUV,2019,silver,hybrid,manual,1690,rented,Northgate Branch,Chicago,IL,75,16,450,"Child seat anchors, Lane assist",5.0,1
+1069,Toyota,Yaris,Economy,2023,silver,diesel,manual,5514,rented,Eastside Branch,Charlotte,NC,39,9,235,"Blind spot monitor, Child seat anchors, Heated seats",5.0,1
+1070,Chevrolet,Tahoe,SUV,2021,blue,gasoline,manual,16970,rented,Eastside Branch,Charlotte,NC,75,16,450,"Backup camera, Blind spot monitor, Lane assist",,0
+1071,Toyota,Yaris,Economy,2019,white,gasoline,manual,25143,available,University Branch,New York,NY,39,9,235,"Android Auto, Backup camera, Child seat anchors",4.0,2
+1072,Honda,Fit,Economy,2024,white,gasoline,manual,41580,retired,Harbor Branch,Boston,MA,39,9,235,"Backup camera, Bluetooth, Sunroof",2.3333333333333335,3
+1073,Toyota,Yaris,Economy,2020,white,hybrid,manual,19152,rented,Eastside Branch,Charlotte,NC,39,9,235,"Apple CarPlay, Backup camera, Blind spot monitor, Child seat anchors, Roof rack",2.5,2
+1074,Kia,K5,Midsize,2023,silver,gasoline,automatic,2530,rented,University Branch,New York,NY,55,12,330,,4.2,5
+1075,Toyota,Sienna,Minivan,2024,silver,gasoline,manual,29085,rented,Uptown Branch,Austin,TX,85,18,510,"Cruise control, Heated seats, Roof rack",,0
+1076,Hyundai,Sonata,Midsize,2021,red,gasoline,manual,18138,available,University Branch,New York,NY,55,12,330,Roof rack,4.0,1
+1077,Toyota,Corolla,Compact,2018,silver,gasoline,automatic,39740,rented,Convention Center Branch,San Diego,CA,45,10,270,"Roof rack, Sunroof",2.5,2
+1078,Nissan,Versa,Economy,2018,red,hybrid,manual,10828,rented,University Branch,New York,NY,39,9,235,"Android Auto, Roof rack, Sunroof",5.0,2
+1079,Kia,Forte,Compact,2023,gray,gasoline,manual,16093,rented,Union Station Branch,Dallas,TX,45,10,270,"Apple CarPlay, Backup camera, Heated seats",5.0,3
+1080,Toyota,Yaris,Economy,2025,white,gasoline,manual,2549,rented,Lakeside Branch,San Francisco,CA,39,9,235,"Backup camera, Blind spot monitor, Roof rack",,0
+1081,Volkswagen,Tiguan,SUV,2025,blue,gasoline,automatic,515,rented,Airport Branch,Chicago,IL,75,16,450,"Android Auto, GPS navigation",,0
+1082,Toyota,Camry,Midsize,2022,blue,hybrid,manual,1031,rented,Union Station Branch,Dallas,TX,55,12,330,"Cruise control, GPS navigation, Lane assist",2.0,1
+1083,Ford,Pacifica,Minivan,2024,white,gasoline,manual,569,rented,Airport Branch,Chicago,IL,85,18,510,"Bluetooth, Roof rack",3.5,2
+1084,Toyota,Yaris,Economy,2023,gray,gasoline,manual,24756,rented,Eastside Branch,Charlotte,NC,39,9,235,"Backup camera, Cruise control",5.0,1
+1085,Toyota,Camry,Midsize,2024,gray,gasoline,manual,20989,retired,Lakeside Branch,San Francisco,CA,55,12,330,Sunroof,3.0,1
+1086,Nissan,Versa,Economy,2024,white,gasoline,manual,47881,rented,Union Station Branch,Dallas,TX,39,9,235,Lane assist,5.0,1
+1087,Toyota,Yaris,Economy,2024,black,gasoline,manual,41166,rented,Airport Branch,Chicago,IL,39,9,235,"Child seat anchors, GPS navigation, Roof rack",4.5,2
+1088,Toyota,Yaris,Economy,2024,black,gasoline,manual,2532,rented,University Branch,New York,NY,39,9,235,"Blind spot monitor, Lane assist",3.6666666666666665,3
+1089,Tesla,Model 3,Luxury,2022,white,diesel,manual,17186,rented,University Branch,New York,NY,129,26,775,"Child seat anchors, GPS navigation, Heated seats",4.5,2
+1090,BMW,5 Series,Luxury,2025,white,gasoline,manual,2245,available,Union Station Branch,Dallas,TX,129,26,775,"Backup camera, GPS navigation",4.0,3
+1091,Honda,CR-V,SUV,2025,black,gasoline,manual,10963,rented,Uptown Branch,Austin,TX,75,16,450,"Child seat anchors, Heated seats, Lane assist, Roof rack",3.5,2
+1092,Kia,Forte,Compact,2024,blue,hybrid,manual,24827,available,Airport Branch,Chicago,IL,45,10,270,,4.0,1
+1093,Toyota,Yaris,Economy,2019,red,electric,automatic,17102,rented,Convention Center Branch,San Diego,CA,39,9,235,"Bluetooth, GPS navigation, Lane assist, Roof rack",2.0,1
+1094,Nissan,Altima,Midsize,2023,white,hybrid,manual,535,available,Airport Branch,Chicago,IL,55,12,330,,2.0,2
+1095,Ford,Explorer,SUV,2020,gray,gasoline,manual,54501,rented,Eastside Branch,Charlotte,NC,75,16,450,"Blind spot monitor, Lane assist, Roof rack",2.0,1
+1096,Chevrolet,Tahoe,SUV,2019,black,electric,manual,55516,rented,Airport Branch,Chicago,IL,75,16,450,"Android Auto, Apple CarPlay, GPS navigation",5.0,2
+1097,Ford,Fusion,Midsize,2025,gray,gasoline,manual,1601,rented,Harbor Branch,Boston,MA,55,12,330,Cruise control,4.5,2
+1098,Nissan,Altima,Midsize,2017,gray,gasoline,manual,1154,retired,Eastside Branch,Charlotte,NC,55,12,330,"Backup camera, Heated seats, Lane assist",4.333333333333333,3
+1099,Kia,Forte,Compact,2025,white,gasoline,manual,3779,retired,Uptown Branch,Austin,TX,45,10,270,"Backup camera, Blind spot monitor, Cruise control",4.0,2
+1100,Chevrolet,Malibu,Midsize,2017,red,gasoline,manual,18751,rented,Northgate Branch,Chicago,IL,55,12,330,"Apple CarPlay, Backup camera, Bluetooth, Roof rack",3.0,3
+1101,Toyota,Camry,Midsize,2025,silver,diesel,manual,25073,rented,Lakeside Branch,San Francisco,CA,55,12,330,Roof rack,5.0,3
+1102,Ford,Focus,Compact,2025,white,diesel,manual,2019,rented,Union Station Branch,Dallas,TX,45,10,270,Child seat anchors,5.0,2
+1103,Toyota,Yaris,Economy,2024,black,gasoline,manual,3614,available,Harbor Branch,Boston,MA,39,9,235,"Child seat anchors, Sunroof",4.0,2
+1104,Kia,Forte,Compact,2023,white,gasoline,manual,42056,rented,Convention Center Branch,San Diego,CA,45,10,270,"Bluetooth, GPS navigation, Heated seats",4.0,1
+1105,Toyota,Yaris,Economy,2021,gray,electric,manual,25408,retired,Convention Center Branch,San Diego,CA,39,9,235,"Apple CarPlay, Blind spot monitor, Child seat anchors",2.0,1
+1106,Honda,Fit,Economy,2021,silver,electric,manual,24803,rented,Southpoint Branch,Atlanta,GA,39,9,235,"Blind spot monitor, Bluetooth, Heated seats",1.5,2
+1107,Toyota,Corolla,Compact,2025,white,gasoline,manual,15422,rented,Northgate Branch,Chicago,IL,45,10,270,"Android Auto, Cruise control, GPS navigation, Lane assist, Sunroof",1.5,2
+1108,Toyota,Yaris,Economy,2025,black,gasoline,manual,721,retired,Uptown Branch,Austin,TX,39,9,235,"Apple CarPlay, Heated seats, Sunroof",3.3333333333333335,3
+1109,Honda,Odyssey,Minivan,2024,black,gasoline,manual,9183,available,Downtown Branch,Phoenix,AZ,85,18,510,"Child seat anchors, Cruise control, Lane assist",3.0,1
+1110,BMW,5 Series,Luxury,2020,silver,gasoline,manual,9932,rented,Airport Branch,Chicago,IL,129,26,775,"Bluetooth, Roof rack",,0
+1111,Ford,Focus,Compact,2017,white,gasoline,manual,9187,rented,Downtown Branch,Phoenix,AZ,45,10,270,"Android Auto, Apple CarPlay, GPS navigation, Heated seats",1.6666666666666667,3
+1112,Kia,Forte,Compact,2025,white,gasoline,manual,562,rented,University Branch,New York,NY,45,10,270,"Android Auto, Blind spot monitor, Cruise control, Heated seats, Lane assist, Sunroof",3.5,2
+1113,Toyota,Yaris,Economy,2022,silver,gasoline,manual,54789,retired,Downtown Branch,Phoenix,AZ,39,9,235,"Apple CarPlay, Child seat anchors, Sunroof",3.5,2
+1114,Toyota,RAV4,SUV,2017,black,gasoline,manual,611,rented,Downtown Branch,Phoenix,AZ,75,16,450,"Apple CarPlay, Lane assist",5.0,2
+1115,Volkswagen,Jetta,Compact,2025,white,hybrid,manual,31514,rented,Southpoint Branch,Atlanta,GA,45,10,270,Child seat anchors,5.0,1
+1116,Toyota,Yaris,Economy,2025,black,gasoline,manual,5927,rented,Northgate Branch,Chicago,IL,39,9,235,"Android Auto, Apple CarPlay, Child seat anchors, Cruise control",5.0,3
+1117,Volkswagen,Tiguan,SUV,2022,red,gasoline,manual,1344,rented,Eastside Branch,Charlotte,NC,75,16,450,"Blind spot monitor, GPS navigation, Sunroof",,0
+1118,Toyota,Corolla,Compact,2024,black,hybrid,manual,1990,rented,Eastside Branch,Charlotte,NC,45,10,270,Heated seats,5.0,1
+1119,Toyota,Yaris,Economy,2023,white,gasoline,manual,18656,rented,Downtown Branch,Phoenix,AZ,39,9,235,"Blind spot monitor, Cruise control, GPS navigation, Heated seats, Lane assist, Sunroof",5.0,1
+1120,Honda,Civic,Compact,2021,silver,gasoline,manual,33053,retired,Convention Center Branch,San Diego,CA,45,10,270,"Android Auto, Apple CarPlay, Cruise control, Sunroof",4.333333333333333,3
+1121,Toyota,Yaris,Economy,2024,white,gasoline,manual,44763,rented,University Branch,New York,NY,39,9,235,Blind spot monitor,2.5,2
+1122,Hyundai,Accent,Economy,2017,white,gasoline,manual,14876,retired,University Branch,New York,NY,39,9,235,"Android Auto, GPS navigation, Sunroof",3.0,1
+1123,Chevrolet,Tahoe,SUV,2024,black,gasoline,manual,536,rented,University Branch,New York,NY,75,16,450,"Backup camera, GPS navigation, Heated seats",3.0,1
+1124,Honda,Civic,Compact,2025,white,gasoline,manual,24016,rented,Westside Branch,San Diego,CA,45,10,270,"Heated seats, Lane assist",1.0,1
+1125,Honda,Civic,Compact,2023,white,gasoline,manual,51208,available,Eastside Branch,Charlotte,NC,45,10,270,"Android Auto, GPS navigation",2.0,1
+1126,Nissan,Sentra,Compact,2021,black,diesel,manual,27828,rented,Eastside Branch,Charlotte,NC,45,10,270,"Apple CarPlay, Backup camera, GPS navigation, Lane assist",4.0,1
+1127,Nissan,Rogue,SUV,2025,gray,gasoline,manual,26568,retired,Eastside Branch,Charlotte,NC,75,16,450,"Bluetooth, Child seat anchors, Cruise control",4.666666666666667,3
+1128,Nissan,Rogue,SUV,2023,gray,gasoline,manual,24531,retired,Southpoint Branch,Atlanta,GA,75,16,450,Android Auto,4.0,1
+1129,Toyota,Corolla,Compact,2025,white,gasoline,manual,10326,retired,Airport Branch,Chicago,IL,45,10,270,"Child seat anchors, GPS navigation",4.0,4
+1130,Honda,Civic,Compact,2023,blue,gasoline,automatic,9159,rented,Downtown Branch,Phoenix,AZ,45,10,270,Child seat anchors,4.2,5
+1131,Kia,Sportage,SUV,2021,black,gasoline,manual,2647,retired,Uptown Branch,Austin,TX,75,16,450,GPS navigation,1.0,1
+1132,Toyota,Yaris,Economy,2017,white,gasoline,manual,2494,rented,Harbor Branch,Boston,MA,39,9,235,"Cruise control, Heated seats, Lane assist",,0
+1133,Toyota,Sienna,Minivan,2023,red,gasoline,manual,9406,retired,Convention Center Branch,San Diego,CA,85,18,510,"GPS navigation, Sunroof",,0
+1134,Toyota,Yaris,Economy,2021,silver,gasoline,manual,7843,rented,Uptown Branch,Austin,TX,39,9,235,GPS navigation,,0
+1135,Ford,Fusion,Midsize,2025,white,electric,manual,1856,available,Southpoint Branch,Atlanta,GA,55,12,330,,4.0,1
+1136,Toyota,Yaris,Economy,2025,gray,gasoline,manual,24779,rented,Union Station Branch,Dallas,TX,39,9,235,"Bluetooth, Cruise control, GPS navigation, Heated seats, Lane assist",,0
+1137,Toyota,Yaris,Economy,2019,gray,gasoline,manual,32877,rented,Airport Branch,Chicago,IL,39,9,235,"Blind spot monitor, Bluetooth, Child seat anchors",5.0,1
+1138,Chevrolet,Malibu,Midsize,2025,black,hybrid,manual,18795,rented,Airport Branch,Chicago,IL,55,12,330,,,0
+1139,Chevrolet,Tahoe,SUV,2020,silver,gasoline,manual,12669,rented,University Branch,New York,NY,75,16,450,"Blind spot monitor, GPS navigation, Roof rack",5.0,2
+1140,Ford,Escape,SUV,2019,black,gasoline,manual,2455,rented,Uptown Branch,Austin,TX,75,16,450,,,0
+1141,Honda,Fit,Economy,2017,white,diesel,manual,42704,rented,Westside Branch,San Diego,CA,39,9,235,"Android Auto, Child seat anchors",3.3333333333333335,3
+1142,Honda,Civic,Compact,2024,silver,gasoline,manual,54767,retired,Downtown Branch,Phoenix,AZ,45,10,270,"Android Auto, Bluetooth, Heated seats, Sunroof",2.5,2
+1143,Hyundai,Tucson,SUV,2024,white,gasoline,manual,59466,retired,Downtown Branch,Phoenix,AZ,75,16,450,"Android Auto, Apple CarPlay, Heated seats, Lane assist",5.0,1
+1144,Honda,Civic,Compact,2018,white,hybrid,manual,24287,retired,Airport Branch,Chicago,IL,45,10,270,"Android Auto, Backup camera, Cruise control",2.3333333333333335,3
+1145,Toyota,Camry,Midsize,2025,gray,gasoline,manual,5259,rented,University Branch,New York,NY,55,12,330,"Bluetooth, Roof rack",,0
+1146,Honda,Odyssey,Minivan,2024,black,gasoline,manual,551,retired,Harbor Branch,Boston,MA,85,18,510,"Child seat anchors, Heated seats",3.0,4
+1147,Chevrolet,Spark,Economy,2023,black,gasoline,manual,18464,rented,Northgate Branch,Chicago,IL,39,9,235,"Android Auto, Bluetooth, GPS navigation",3.0,2
+1148,Toyota,Yaris,Economy,2018,white,gasoline,manual,17942,rented,Eastside Branch,Charlotte,NC,39,9,235,"Android Auto, Backup camera, Heated seats, Sunroof",3.5,2
+1149,Toyota,Camry,Midsize,2020,white,gasoline,manual,7117,rented,Downtown Branch,Phoenix,AZ,55,12,330,"Bluetooth, GPS navigation",1.0,1
+1150,BMW,3 Series,Luxury,2023,silver,gasoline,manual,33670,rented,Southpoint Branch,Atlanta,GA,129,26,775,"Backup camera, Bluetooth, Cruise control, GPS navigation, Heated seats",4.333333333333333,3
+1151,Toyota,Corolla,Compact,2024,gray,gasoline,manual,36683,rented,Union Station Branch,Dallas,TX,45,10,270,Backup camera,3.0,1
+1152,Toyota,Sienna,Minivan,2021,red,gasoline,manual,50053,rented,Harbor Branch,Boston,MA,85,18,510,"Android Auto, Backup camera, Cruise control, Lane assist, Sunroof",4.0,2
+1153,Chevrolet,Equinox,SUV,2017,silver,gasoline,manual,5267,rented,Union Station Branch,Dallas,TX,75,16,450,"Bluetooth, Cruise control",,0
+1154,Nissan,Rogue,SUV,2018,gray,gasoline,manual,14999,retired,Uptown Branch,Austin,TX,75,16,450,"Blind spot monitor, Bluetooth",,0
+1155,BMW,X5,Luxury,2020,white,hybrid,manual,39832,rented,Northgate Branch,Chicago,IL,129,26,775,"Android Auto, Bluetooth, Heated seats",,0
+1156,Honda,CR-V,SUV,2018,blue,gasoline,manual,30774,rented,Eastside Branch,Charlotte,NC,75,16,450,"Backup camera, Blind spot monitor, Bluetooth, Heated seats",,0
+1157,Chevrolet,Spark,Economy,2018,white,hybrid,manual,501,rented,Convention Center Branch,San Diego,CA,39,9,235,Child seat anchors,2.0,2
+1158,Ford,Pacifica,Minivan,2024,silver,gasoline,manual,26636,rented,Airport Branch,Chicago,IL,85,18,510,"Apple CarPlay, Backup camera, Blind spot monitor, Bluetooth, Heated seats",5.0,1
+1159,Honda,Civic,Compact,2024,gray,hybrid,manual,15576,retired,Uptown Branch,Austin,TX,45,10,270,"Bluetooth, Child seat anchors",,0
+1160,Honda,Civic,Compact,2019,black,gasoline,manual,7927,maintenance,Union Station Branch,Dallas,TX,45,10,270,"Cruise control, GPS navigation, Heated seats, Lane assist",4.0,3
+1161,Toyota,Sienna,Minivan,2023,white,gasoline,manual,16273,rented,Convention Center Branch,San Diego,CA,85,18,510,"Bluetooth, Cruise control, GPS navigation, Heated seats, Roof rack, Sunroof",4.0,2
+1162,Honda,Civic,Compact,2021,silver,gasoline,manual,49426,rented,Airport Branch,Chicago,IL,45,10,270,"Backup camera, Cruise control, Lane assist",5.0,1
+1163,Honda,Accord,Midsize,2025,silver,gasoline,manual,772,rented,Westside Branch,San Diego,CA,55,12,330,"Blind spot monitor, Child seat anchors, Heated seats",5.0,1
+1164,Toyota,Yaris,Economy,2023,gray,electric,manual,42834,retired,Uptown Branch,Austin,TX,39,9,235,"Backup camera, Child seat anchors, Lane assist, Roof rack",5.0,2
+1165,BMW,X5,Luxury,2018,silver,hybrid,manual,10176,retired,Lakeside Branch,San Francisco,CA,129,26,775,Backup camera,2.5,2
+1166,Ford,Focus,Compact,2025,white,gasoline,manual,7013,rented,Westside Branch,San Diego,CA,45,10,270,"Apple CarPlay, Lane assist",2.3333333333333335,3
+1167,Toyota,Sienna,Minivan,2019,black,hybrid,manual,11599,rented,Harbor Branch,Boston,MA,85,18,510,,,0
+1168,BMW,3 Series,Luxury,2023,red,hybrid,manual,36214,retired,Southpoint Branch,Atlanta,GA,129,26,775,"Blind spot monitor, Heated seats, Sunroof",4.6,5
+1169,Toyota,Yaris,Economy,2022,black,electric,manual,13255,rented,Convention Center Branch,San Diego,CA,39,9,235,"Android Auto, Apple CarPlay, Bluetooth",4.0,4
+1170,Kia,Sportage,SUV,2019,silver,diesel,manual,4720,rented,Downtown Branch,Phoenix,AZ,75,16,450,"Android Auto, Child seat anchors, Heated seats, Roof rack, Sunroof",2.5,2
+1171,Toyota,Yaris,Economy,2024,blue,diesel,manual,4551,rented,Southpoint Branch,Atlanta,GA,39,9,235,"Android Auto, Child seat anchors",4.0,2
+1172,Hyundai,Elantra,Compact,2025,silver,gasoline,manual,545,available,Airport Branch,Chicago,IL,45,10,270,"Android Auto, Backup camera, Bluetooth",4.0,1
+1173,Toyota,RAV4,SUV,2022,white,gasoline,manual,43722,rented,Northgate Branch,Chicago,IL,75,16,450,"GPS navigation, Lane assist",4.0,1
+1174,Honda,Civic,Compact,2024,white,electric,manual,12497,rented,Westside Branch,San Diego,CA,45,10,270,"Android Auto, Bluetooth, GPS navigation, Lane assist",,0
+1175,Hyundai,Elantra,Compact,2021,black,gasoline,manual,56146,rented,Downtown Branch,Phoenix,AZ,45,10,270,Apple CarPlay,3.3333333333333335,3
+1176,Ford,Escape,SUV,2019,black,electric,manual,783,retired,Eastside Branch,Charlotte,NC,75,16,450,"Apple CarPlay, Sunroof",2.6666666666666665,3
+1177,Toyota,Yaris,Economy,2020,white,gasoline,manual,11271,rented,Northgate Branch,Chicago,IL,39,9,235,"Backup camera, Cruise control",2.0,1
+1178,Kia,K5,Midsize,2017,gray,gasoline,manual,36563,rented,Union Station Branch,Dallas,TX,55,12,330,"GPS navigation, Heated seats",4.0,2
+1179,BMW,5 Series,Luxury,2021,black,electric,manual,19755,rented,Downtown Branch,Phoenix,AZ,129,26,775,"Child seat anchors, GPS navigation, Heated seats, Sunroof",3.5,2
+1180,Ford,Explorer,SUV,2024,silver,electric,manual,18673,retired,Uptown Branch,Austin,TX,75,16,450,"Bluetooth, Roof rack, Sunroof",1.0,1
+1181,Toyota,Camry,Midsize,2025,white,gasoline,manual,5625,rented,University Branch,New York,NY,55,12,330,"Android Auto, Lane assist, Sunroof",,0
+1182,Ford,Focus,Compact,2022,white,hybrid,automatic,40911,rented,Lakeside Branch,San Francisco,CA,45,10,270,Heated seats,3.5,2
+1183,Toyota,RAV4,SUV,2022,black,gasoline,manual,37426,rented,Airport Branch,Chicago,IL,75,16,450,"Android Auto, Apple CarPlay, Bluetooth, Child seat anchors",,0
+1184,Toyota,Sienna,Minivan,2020,silver,gasoline,manual,11918,retired,Convention Center Branch,San Diego,CA,85,18,510,"Backup camera, Heated seats",5.0,3
+1185,Toyota,Corolla,Compact,2025,blue,hybrid,manual,532,rented,Downtown Branch,Phoenix,AZ,45,10,270,"Android Auto, Bluetooth, Cruise control, Lane assist",3.0,1
+1186,Toyota,Sienna,Minivan,2025,silver,gasoline,manual,23453,rented,Northgate Branch,Chicago,IL,85,18,510,"Apple CarPlay, Backup camera, Bluetooth",4.0,2
+1187,Toyota,Sienna,Minivan,2025,silver,gasoline,manual,14224,rented,Northgate Branch,Chicago,IL,85,18,510,"Backup camera, Bluetooth, Heated seats",5.0,1
+1188,Toyota,Yaris,Economy,2022,gray,gasoline,manual,28788,rented,Northgate Branch,Chicago,IL,39,9,235,"Apple CarPlay, Child seat anchors, Heated seats, Lane assist",4.5,4
+1189,Nissan,Altima,Midsize,2024,red,gasoline,manual,2123,rented,Union Station Branch,Dallas,TX,55,12,330,"Android Auto, Apple CarPlay, Backup camera, Blind spot monitor",3.5,2
+1190,Chevrolet,Malibu,Midsize,2024,gray,gasoline,automatic,24318,rented,Union Station Branch,Dallas,TX,55,12,330,"Android Auto, Apple CarPlay, Roof rack",4.333333333333333,3
+1191,Chevrolet,Equinox,SUV,2025,black,gasoline,manual,44255,rented,Uptown Branch,Austin,TX,75,16,450,"Cruise control, Lane assist",3.0,2
+1192,Toyota,Yaris,Economy,2025,black,gasoline,manual,8453,rented,University Branch,New York,NY,39,9,235,"Apple CarPlay, Backup camera",4.0,1
+1193,Chevrolet,Malibu,Midsize,2017,black,gasoline,automatic,15111,rented,Downtown Branch,Phoenix,AZ,55,12,330,Sunroof,4.5,2
+1194,Kia,K5,Midsize,2024,white,gasoline,manual,10130,retired,Convention Center Branch,San Diego,CA,55,12,330,"GPS navigation, Lane assist",,0
+1195,Chevrolet,Spark,Economy,2018,blue,hybrid,manual,3653,rented,Uptown Branch,Austin,TX,39,9,235,"Child seat anchors, Cruise control",2.0,1
+1196,Honda,Odyssey,Minivan,2017,gray,gasoline,manual,46014,retired,Eastside Branch,Charlotte,NC,85,18,510,Cruise control,2.0,1
+1197,Chevrolet,Malibu,Midsize,2023,silver,gasoline,automatic,49917,rented,Uptown Branch,Austin,TX,55,12,330,"Child seat anchors, Cruise control, Lane assist",2.0,3
+1198,Ford,Fusion,Midsize,2024,red,gasoline,manual,3656,rented,Downtown Branch,Phoenix,AZ,55,12,330,Apple CarPlay,3.6666666666666665,3
+1199,Volkswagen,Passat,Midsize,2023,blue,hybrid,manual,41547,rented,Downtown Branch,Phoenix,AZ,55,12,330,"GPS navigation, Roof rack",4.0,1
+1200,Kia,K5,Midsize,2021,silver,gasoline,manual,11305,rented,University Branch,New York,NY,55,12,330,GPS navigation,,0

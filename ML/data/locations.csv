@@ -1,0 +1,13 @@
+id,address,city,email,name,phone,state,zip_code
+1,333 Dulce Forest,Phoenix,downtown@rentals.example.com,Downtown Branch,(982) 541-3822,AZ,85009
+2,35553 W Union Street,Chicago,airport@rentals.example.com,Airport Branch,(277) 745-0936,IL,60626
+3,633 Davis Stravenue,Dallas,unionstation@rentals.example.com,Union Station Branch,(391) 732-3382,TX,75291
+4,89875 Cummerata-Langosh Alley,Boston,harbor@rentals.example.com,Harbor Branch,(439) 730-1351,MA,02173
+5,3733 Ritchie Mountains,New York,university@rentals.example.com,University Branch,(978) 359-1052,NY,10409
+6,761 Schamberger Prairie,Austin,uptown@rentals.example.com,Uptown Branch,(594) 286-1797,TX,78762
+7,6337 E Union Street,San Diego,westside@rentals.example.com,Westside Branch,(745) 557-0890,CA,92156
+8,970 Kutch Corner,Charlotte,eastside@rentals.example.com,Eastside Branch,(663) 281-1590,NC,28252
+9,6493 Jakubowski Rapid,Chicago,northgate@rentals.example.com,Northgate Branch,(803) 493-6198,IL,60660
+10,724 Jodie Grove,Atlanta,southpoint@rentals.example.com,Southpoint Branch,(646) 471-8040,GA,30324
+11,146 Nettie Shore,San Diego,conventioncenter@rentals.example.com,Convention Center Branch,(669) 677-4016,CA,92139
+12,88757 Daniel Walks,San Francisco,lakeside@rentals.example.com,Lakeside Branch,(478) 831-3954,CA,94115

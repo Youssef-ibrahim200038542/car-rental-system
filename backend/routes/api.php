@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\BookingController;
 use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\MaintenanceController;
+use App\Http\Controllers\Api\MLRecommendationController;
 
 Route::apiResource('cars', CarController::class);
 
@@ -71,4 +72,6 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::post('/ai/recommendations/parse', [AIRecommendationController::class, 'parse']);
 
 Route::post('/ai/recommendations', [AIRecommendationController::class, 'recommend']);
+
+Route::post('/ml/recommendations', [MLRecommendationController::class, 'recommend']);
 

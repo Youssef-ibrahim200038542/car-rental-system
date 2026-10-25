@@ -1,0 +1,41 @@
+id,category_id,manufacturer_id,name
+1,1,1,Yaris
+2,2,1,Corolla
+3,3,1,Camry
+4,4,1,RAV4
+5,5,1,Sienna
+6,1,2,Fit
+7,2,2,Civic
+8,3,2,Accord
+9,4,2,CR-V
+10,5,2,Odyssey
+11,2,3,Focus
+12,3,3,Fusion
+13,4,3,Escape
+14,4,3,Explorer
+15,1,4,Spark
+16,3,4,Malibu
+17,4,4,Equinox
+18,4,4,Tahoe
+19,1,5,Accent
+20,2,5,Elantra
+21,3,5,Sonata
+22,4,5,Tucson
+23,1,6,Rio
+24,2,6,Forte
+25,3,6,K5
+26,4,6,Sportage
+27,5,6,Carnival
+28,1,7,Versa
+29,2,7,Sentra
+30,3,7,Altima
+31,4,7,Rogue
+32,2,8,Jetta
+33,3,8,Passat
+34,4,8,Tiguan
+35,6,9,3 Series
+36,6,9,5 Series
+37,6,9,X5
+38,6,10,Model 3
+39,6,10,Model Y
+40,5,3,Pacifica

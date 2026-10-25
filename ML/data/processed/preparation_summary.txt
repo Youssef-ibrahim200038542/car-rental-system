@@ -1,0 +1,77 @@
+DRIVEX DATA PREPARATION SUMMARY
+========================================
+Source vehicles: 1200
+Cleaned fleet rows: 1200
+Source bookings: 100000
+Valid booking history rows: 100000
+Excluded booking rows: 0
+
+Fleet missing values:
+vehicle_id              0
+manufacturer            0
+model_name              0
+category                0
+vehicle_year            0
+vehicle_color           0
+fuel_type               0
+transmission            0
+vehicle_mileage         0
+status                  0
+branch_name             0
+city                    0
+state                   0
+source_daily_rate       0
+source_hourly_rate      0
+source_weekly_rate      0
+features                0
+average_rating        204
+review_count            0
+
+Booking history missing values:
+id                                 0
+customer_id                        0
+vehicle_id                         0
+booking_date                       0
+pickup_date                        0
+dropoff_date                       0
+duration_days                      0
+booking_lead_hours                 0
+pickup_location_id                 0
+dropoff_location_id                0
+pickup_city                        0
+dropoff_city                       0
+manufacturer                       0
+model_name                         0
+category                           0
+vehicle_year                       0
+fuel_type                          0
+transmission                       0
+vehicle_mileage                    0
+source_daily_rate                  0
+average_rating                 16191
+membership_tier                    0
+membership_discount_percent        0
+booking_discount_percent           0
+
+Fleet status counts:
+status
+rented         875
+retired        210
+available       76
+maintenance     39
+
+Categories:
+category
+Economy    325
+SUV        250
+Compact    249
+Midsize    200
+Minivan     99
+Luxury      77
+
+Fuel types:
+fuel_type
+gasoline    847
+hybrid      182
+electric     90
+diesel       81

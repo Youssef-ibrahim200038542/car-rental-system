@@ -1,0 +1,201 @@
+id,description,estimated_repair_cost,inspection_id
+1,Cracked windshield,84.50,398
+2,Torn seat,2618.25,143
+3,Broken mirror,326.24,746
+4,Broken mirror,440.21,382
+5,Cracked windshield,544.65,466
+6,Dent,1573.87,915
+7,Broken mirror,3961.65,832
+8,Scratch,2913.57,324
+9,Dent,997.85,381
+10,Dent,273.21,952
+11,Scratch,297.09,584
+12,Torn seat,533.40,886
+13,Cracked windshield,927.35,105
+14,Cracked windshield,124.02,415
+15,Scratch,669.70,2
+16,Broken mirror,628.70,179
+17,Dent,91.10,465
+18,Broken mirror,80.08,371
+19,Cracked windshield,3950.72,755
+20,Broken mirror,1574.12,270
+21,Cracked windshield,1000.11,207
+22,Broken mirror,3103.37,985
+23,Torn seat,1553.45,346
+24,Cracked windshield,1052.93,954
+25,Cracked windshield,1359.29,735
+26,Dent,3363.63,517
+27,Torn seat,1738.68,244
+28,Broken mirror,3435.60,205
+29,Torn seat,3811.76,860
+30,Scratch,170.11,14
+31,Scratch,475.78,139
+32,Torn seat,460.55,426
+33,Dent,3595.06,7
+34,Scratch,3413.05,973
+35,Torn seat,2280.73,533
+36,Dent,124.85,717
+37,Scratch,327.39,191
+38,Cracked windshield,3382.75,754
+39,Dent,388.29,180
+40,Scratch,156.97,620
+41,Cracked windshield,80.04,38
+42,Torn seat,1358.09,591
+43,Torn seat,91.89,243
+44,Broken mirror,2635.11,500
+45,Torn seat,100.40,916
+46,Dent,2944.38,96
+47,Scratch,177.38,756
+48,Cracked windshield,754.77,284
+49,Scratch,2083.78,627
+50,Torn seat,2466.81,103
+51,Torn seat,188.98,448
+52,Torn seat,480.84,818
+53,Torn seat,528.62,998
+54,Broken mirror,210.41,166
+55,Cracked windshield,225.52,685
+56,Broken mirror,613.56,471
+57,Cracked windshield,215.01,947
+58,Scratch,2477.38,221
+59,Dent,2014.77,765
+60,Scratch,540.64,880
+61,Cracked windshield,132.07,302
+62,Torn seat,2638.84,246
+63,Dent,1040.56,70
+64,Dent,482.39,683
+65,Broken mirror,3122.86,99
+66,Broken mirror,1568.02,49
+67,Scratch,93.03,165
+68,Dent,236.91,594
+69,Torn seat,200.74,411
+70,Cracked windshield,2044.38,730
+71,Scratch,940.02,795
+72,Broken mirror,2131.37,282
+73,Cracked windshield,1057.99,533
+74,Dent,970.08,533
+75,Broken mirror,115.86,347
+76,Scratch,2061.11,646
+77,Torn seat,99.47,546
+78,Scratch,3606.24,146
+79,Broken mirror,446.94,771
+80,Scratch,185.37,278
+81,Torn seat,145.97,388
+82,Scratch,1619.44,171
+83,Torn seat,269.14,836
+84,Broken mirror,1467.90,285
+85,Cracked windshield,335.42,115
+86,Scratch,1165.59,717
+87,Scratch,1677.67,363
+88,Torn seat,2888.53,1000
+89,Torn seat,381.53,778
+90,Dent,109.93,720
+91,Dent,3366.02,716
+92,Scratch,2600.23,376
+93,Dent,2202.56,561
+94,Dent,970.73,80
+95,Scratch,2194.31,311
+96,Cracked windshield,2191.67,389
+97,Torn seat,1390.50,824
+98,Dent,3468.70,959
+99,Torn seat,3409.30,666
+100,Dent,1919.27,941
+101,Torn seat,1464.63,116
+102,Torn seat,132.64,761
+103,Scratch,2858.15,312
+104,Dent,249.73,196
+105,Dent,890.02,406
+106,Broken mirror,3787.30,875
+107,Broken mirror,3750.40,905
+108,Scratch,2866.47,542
+109,Cracked windshield,3271.96,677
+110,Torn seat,1423.47,157
+111,Torn seat,186.01,373
+112,Broken mirror,562.84,102
+113,Torn seat,674.98,914
+114,Broken mirror,1781.50,45
+115,Dent,694.31,253
+116,Broken mirror,2590.65,65
+117,Broken mirror,1994.93,557
+118,Torn seat,115.84,267
+119,Torn seat,929.99,736
+120,Broken mirror,667.08,385
+121,Torn seat,2053.62,221
+122,Cracked windshield,2320.05,719
+123,Cracked windshield,1438.48,861
+124,Torn seat,3751.00,920
+125,Broken mirror,247.92,875
+126,Broken mirror,135.06,72
+127,Broken mirror,618.38,678
+128,Cracked windshield,595.94,871
+129,Dent,139.72,479
+130,Dent,3054.11,634
+131,Dent,2876.92,216
+132,Dent,3518.86,418
+133,Broken mirror,1558.17,910
+134,Dent,126.71,295
+135,Torn seat,1115.22,133
+136,Dent,80.02,665
+137,Broken mirror,3812.97,136
+138,Broken mirror,2211.34,922
+139,Cracked windshield,130.39,679
+140,Dent,88.32,244
+141,Scratch,1264.78,457
+142,Scratch,766.27,981
+143,Scratch,115.79,336
+144,Torn seat,544.39,314
+145,Scratch,2696.04,109
+146,Broken mirror,1885.27,660
+147,Dent,1348.41,520
+148,Broken mirror,1753.13,795
+149,Dent,2378.52,220
+150,Broken mirror,3730.29,522
+151,Cracked windshield,806.49,662
+152,Torn seat,2685.27,896
+153,Broken mirror,419.28,907
+154,Broken mirror,3284.27,539
+155,Scratch,325.85,147
+156,Cracked windshield,123.88,237
+157,Scratch,992.60,416
+158,Dent,2857.31,248
+159,Broken mirror,3391.06,244
+160,Broken mirror,929.70,665
+161,Cracked windshield,405.69,362
+162,Cracked windshield,2575.52,471
+163,Cracked windshield,206.42,168
+164,Torn seat,1286.01,418
+165,Scratch,633.48,802
+166,Broken mirror,1385.30,977
+167,Cracked windshield,867.70,298
+168,Torn seat,2839.18,663
+169,Scratch,160.52,291
+170,Dent,2500.68,895
+171,Dent,2666.01,786
+172,Dent,2484.22,919
+173,Dent,283.03,84
+174,Dent,1068.16,92
+175,Torn seat,103.63,691
+176,Torn seat,2567.51,637
+177,Cracked windshield,1636.17,606
+178,Dent,2131.51,788
+179,Cracked windshield,1307.49,5
+180,Torn seat,3383.03,479
+181,Cracked windshield,1321.36,859
+182,Scratch,1918.96,796
+183,Dent,771.81,165
+184,Dent,3678.09,737
+185,Broken mirror,2839.38,662
+186,Broken mirror,2574.22,124
+187,Cracked windshield,93.69,951
+188,Torn seat,95.05,447
+189,Scratch,2342.36,39
+190,Broken mirror,2983.55,470
+191,Dent,1439.66,798
+192,Broken mirror,3978.91,778
+193,Scratch,119.59,598
+194,Broken mirror,592.73,290
+195,Broken mirror,1267.67,757
+196,Cracked windshield,3652.46,466
+197,Dent,81.99,728
+198,Torn seat,80.43,476
+199,Cracked windshield,83.40,383
+200,Cracked windshield,679.86,348

@@ -1,6 +1,7 @@
 
 "use client";
 
+import { getCarImageUrl, getLocalCarImage } from "@/lib/car-images";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -77,6 +78,7 @@ export default function CarsPage() {
     }
   }, [searchParams, cars]);
 
+  // Fetch cars from Laravel.
   useEffect(() => {
     const fetchCars = async () => {
       try {
@@ -101,34 +103,6 @@ export default function CarsPage() {
 
     fetchCars();
   }, []);
-
-  // Keep the original Laravel image URL.
-const getImageUrl = (image?: string) => {
-  if (!image?.trim()) return null;
-
-  const value = image.trim();
-
-  if (/^https?:\/\//i.test(value)) {
-    return value;
-  }
-
-  const apiUrl =
-    process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
-
-  const baseUrl = apiUrl.replace(/\/api\/?$/, "");
-
-  const imagePath = value
-    .replace(/^\/+/, "")
-    .replace(/^public\//, "");
-
-  if (imagePath.startsWith("images/")) {
-    return `${baseUrl}/${imagePath}`;
-  }
-
-  const storagePath = imagePath.replace(/^storage\//, "");
-
-  return `${baseUrl}/storage/${storagePath}`;
-};
 
   const categories = useMemo(
     () => [
@@ -428,7 +402,13 @@ const getImageUrl = (image?: string) => {
           {!loading && filteredCars.length > 0 && (
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {filteredCars.map((car) => {
-                const imageUrl = getImageUrl(car.image);
+                const imageUrl = getCarImageUrl(
+                  car.image,
+                  car.brand,
+                  car.model,
+                  car.name
+                );
+
                 const isAvailable =
                   car.status?.toLowerCase() === "available";
 
@@ -441,31 +421,20 @@ const getImageUrl = (image?: string) => {
                       href={`/cars/${car.id}`}
                       className="relative block aspect-[16/10] overflow-hidden bg-[#efeee9]"
                     >
-                      {imageUrl ? (
-                        <img
-                          src={imageUrl}
-                          alt={`${car.brand ?? ""} ${car.name}`}
-                          className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
-                          loading="lazy"
-                        />
-                      ) : (
-                        <div className="flex h-full w-full items-center justify-center bg-[#efeee9] text-[#aaa69c]">
-                          <svg
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            className="h-14 w-14"
-                            stroke="currentColor"
-                            strokeWidth="1.2"
-                          >
-                            <path
-                              d="M3 14 5 8.5a2 2 0 0 1 1.9-1.4h10.2A2 2 0 0 1 19 8.5l2 5.5v5h-2v-2H5v2H3v-5Z"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                            <path d="M5 14h14" />
-                          </svg>
-                        </div>
-                      )}
+                      <img
+                        src={imageUrl}
+                        alt={`${car.brand ?? ""} ${car.name}`}
+                        className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
+                        loading="lazy"
+                        onError={(event) => {
+                          event.currentTarget.onerror = null;
+                          event.currentTarget.src = getLocalCarImage(
+                            car.brand,
+                            car.model,
+                            car.name
+                          );
+                        }}
+                      />
 
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10" />
 

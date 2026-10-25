@@ -4,6 +4,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { getCarImageUrl, getLocalCarImage } from "@/lib/car-images";
 
 type Branch = {
   id: number;
@@ -29,27 +30,6 @@ type Car = {
 
 const API_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
-
-function getBackendUrl() {
-  return API_URL.replace(/\/api\/?$/, "");
-}
-
-function getCarImage(image?: string | null) {
-  if (!image) return null;
-
-  if (image.startsWith("http://") || image.startsWith("https://")) {
-    return image;
-  }
-
-  let imagePath = image.replace(/^\/+/, "");
-  imagePath = imagePath.replace(/^public\//, "");
-
-  if (!imagePath.startsWith("images/")) {
-    imagePath = `images/cars/${imagePath}`;
-  }
-
-  return `${getBackendUrl()}/${imagePath}`;
-}
 
 function getLocalToday() {
   const now = new Date();
@@ -100,7 +80,15 @@ export default function CreateBookingPage() {
 
   const days = calculateDays(startDate, endDate);
   const total = days > 0 && car ? days * Number(car.daily_rate) : 0;
-  const carImage = getCarImage(car?.image);
+
+  const carImage = car
+    ? getCarImageUrl(
+        car.image,
+        car.brand,
+        car.model,
+        car.name
+      )
+    : null;
 
   useEffect(() => {
     let cancelled = false;
@@ -292,7 +280,9 @@ export default function CreateBookingPage() {
             .join(" ");
 
           throw new Error(
-            validationMessage || data.message || "Please check your booking details."
+            validationMessage ||
+              data.message ||
+              "Please check your booking details."
           );
         }
 
@@ -574,21 +564,36 @@ export default function CreateBookingPage() {
 
             <div className="p-6">
               <div className="aspect-[16/10] overflow-hidden rounded-2xl bg-[#eeece6]">
-                {carImage ? (
-                  <img
-                    src={carImage}
-                    alt={
-                      car.name ||
-                      `${car.brand || ""} ${car.model || ""}`.trim() ||
-                      "Rental Car"
+                <img
+                  src={
+                    carImage ||
+                    getLocalCarImage(car.brand, car.model, car.name)
+                  }
+                  alt={
+                    car.name ||
+                    `${car.brand || ""} ${car.model || ""}`.trim() ||
+                    "Rental Car"
+                  }
+                  className="h-full w-full object-cover"
+                  loading="lazy"
+                  onError={(event) => {
+                    const fallbackImage = getLocalCarImage(
+                      car.brand,
+                      car.model,
+                      car.name
+                    );
+
+                    if (
+                      event.currentTarget.getAttribute("src") ===
+                      fallbackImage
+                    ) {
+                      return;
                     }
-                    className="h-full w-full object-cover"
-                  />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center text-6xl">
-                    🚘
-                  </div>
-                )}
+
+                    event.currentTarget.onerror = null;
+                    event.currentTarget.src = fallbackImage;
+                  }}
+                />
               </div>
 
               <div className="mt-5">
