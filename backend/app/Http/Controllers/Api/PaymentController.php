@@ -22,8 +22,8 @@ class PaymentController extends Controller
     {
         $validated = $request->validate([
             'booking_id' => 'required|exists:bookings,id',
-            'amount' => 'required|numeric|min:0',
-            'payment_method' => 'required|string|max:50',
+            'amount' => 'required|numeric|min:0|max:1000000',
+            'payment_method' => 'required|in:cash,card,online',
             'payment_status' => 'required|in:pending,paid,failed,refunded',
             'transaction_reference' => 'nullable|string|max:255',
             'paid_at' => 'nullable|date',
@@ -52,8 +52,8 @@ class PaymentController extends Controller
     {
         $validated = $request->validate([
             'booking_id' => 'sometimes|required|exists:bookings,id',
-            'amount' => 'sometimes|required|numeric|min:0',
-            'payment_method' => 'sometimes|required|string|max:50',
+            'amount' => 'sometimes|required|numeric|min:0|max:1000000',
+            'payment_method' => 'sometimes|required|in:cash,card,online',
             'payment_status' => 'sometimes|required|in:pending,paid,failed,refunded',
             'transaction_reference' => 'nullable|string|max:255',
             'paid_at' => 'nullable|date',

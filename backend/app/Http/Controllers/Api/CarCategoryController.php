@@ -79,6 +79,13 @@ class CarCategoryController extends Controller
      */
     public function destroy(CarCategory $carCategory)
     {
+        if ($carCategory->cars()->exists()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Cannot delete this category because it has cars.',
+            ], 422);
+        }
+
         $carCategory->delete();
 
         return response()->json([

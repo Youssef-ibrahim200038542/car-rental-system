@@ -224,7 +224,7 @@ class DatabaseSeeder extends Seeder
             'transmission' => 'automatic',
             'seats' => 5,
             'daily_rate' => 1900,
-            'status' => 'available',
+            'status' => 'maintenance',
             'image' => 'images/cars/kia-sportage.jpg',
             'description' => 'Modern Kia Sportage SUV.',
         ]);
