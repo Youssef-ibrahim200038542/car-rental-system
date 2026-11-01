@@ -3,91 +3,41 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Services\RecommendationScorer;
 use Illuminate\Http\Request;
-use Symfony\Component\Process\Process;
-use Throwable;
+use Illuminate\Validation\Rule;
 
 class MLRecommendationController extends Controller
 {
-    public function recommend(Request $request)
+    public function recommend(Request $request, RecommendationScorer $scorer)
     {
-        $validated = $request->validate([
-            'budget' => ['required', 'numeric', 'min:0'],
-            'category' => ['nullable', 'string', 'max:50'],
-            'fuel_type' => ['nullable', 'string', 'max:50'],
-            'transmission' => ['nullable', 'string', 'max:50'],
-            'city' => ['nullable', 'string', 'max:100'],
-            'min_year' => ['nullable', 'integer', 'min:1900', 'max:2100'],
-            'features' => ['nullable'],
-            'limit' => ['nullable', 'integer', 'min:1', 'max:100'],
+        $request->merge([
+            'fuel_type' => RecommendationScorer::normaliseFuelType($request->input('fuel_type')),
         ]);
 
-        $projectRoot = dirname(base_path());
+        $validated = $request->validate([
+            // bail + finite check first: JSON like 1e400 decodes to INF, which crashes the min/max rules.
+            'budget' => ['bail', 'nullable', 'numeric', function ($attribute, $value, $fail) {
+                if (! is_finite((float) $value)) {
+                    $fail('The budget must be a finite number.');
+                }
+            }, 'min:0', 'max:1000000'],
+            'category' => ['nullable', 'string', 'max:50'],
+            'fuel_type' => ['nullable', Rule::in(RecommendationScorer::FUEL_TYPES)],
+            'transmission' => ['nullable', Rule::in(RecommendationScorer::TRANSMISSIONS)],
+            'seats' => ['nullable', 'integer', 'min:1', 'max:20'],
+            'branch_id' => ['nullable', 'integer', 'exists:branches,id'],
+            'pickup_date' => ['nullable', 'date_format:Y-m-d', 'required_with:return_date'],
+            'return_date' => ['nullable', 'date_format:Y-m-d', 'after_or_equal:pickup_date', 'required_with:pickup_date'],
+            'limit' => ['nullable', 'integer', 'min:1', 'max:'.RecommendationScorer::MAX_LIMIT],
+        ]);
 
-        $scriptPath = $projectRoot
-            . DIRECTORY_SEPARATOR . 'ML'
-            . DIRECTORY_SEPARATOR . 'recommendation_system'
-            . DIRECTORY_SEPARATOR . 'recommend.py';
-
-        if (!is_file($scriptPath)) {
-            return response()->json([
-                'success' => false,
-                'message' => 'The Python recommendation script was not found.',
-            ], 500);
-        }
-
-        try {
-            $pythonBinary = env('PYTHON_BINARY', 'python');
-
-            $process = new Process([
-                $pythonBinary,
-                $scriptPath,
-                '--json',
-            ]);
-
-            $process->setInput(json_encode(
-                $validated,
-                JSON_THROW_ON_ERROR
-            ));
-
-            $process->setTimeout(30);
-            $process->run();
-
-            $output = trim($process->getOutput());
-
-            if (!$process->isSuccessful()) {
-                report(new \RuntimeException(
-                    'Python recommender failed: ' . $process->getErrorOutput()
-                ));
-
-                return response()->json([
-                    'success' => false,
-                    'message' => 'The recommendation service could not process your request.',
-                ], 500);
-            }
-
-            $result = json_decode($output, true);
-
-            if (!is_array($result)) {
-                report(new \RuntimeException(
-                    'Python recommender returned invalid JSON.'
-                ));
-
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Invalid response from the recommendation service.',
-                ], 500);
-            }
-
-            return response()->json($result);
-
-        } catch (Throwable $e) {
-            report($e);
-
-            return response()->json([
-                'success' => false,
-                'message' => 'Unable to generate recommendations right now.',
-            ], 500);
-        }
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'method' => 'rule-based-scoring',
+                'recommendations' => $scorer->recommend($validated),
+            ],
+        ]);
     }
 }
