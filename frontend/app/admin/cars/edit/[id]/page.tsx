@@ -4,35 +4,10 @@
 import { type ChangeEvent, type FormEvent, type ReactNode, useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-
-type Category = {
-  id: number;
-  name: string;
-};
-
-type Branch = {
-  id: number;
-  name: string;
-};
-
-type Car = {
-  id: number;
-  category_id: number;
-  branch_id: number;
-  brand: string;
-  model: string;
-  year: number;
-  color: string | null;
-  license_plate: string;
-  vin: string;
-  mileage: number;
-  fuel_type: string;
-  transmission: string;
-  seats: number;
-  daily_rate: number;
-  status: string;
-  description: string | null;
-};
+import { apiFetch, errorMessage } from "@/lib/api";
+import { redirectIfUnauthorized } from "@/lib/auth";
+import { EDITABLE_CAR_STATUSES } from "@/lib/types";
+import type { Branch, Car, CarCategory, CarStatus } from "@/lib/types";
 
 type CarForm = {
   category_id: string;
@@ -51,9 +26,6 @@ type CarForm = {
   status: string;
   description: string;
 };
-
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
 
 const initialForm: CarForm = {
   category_id: "",
@@ -171,98 +143,36 @@ function FormSection({
   );
 }
 
-function getErrorMessage(data: Record<string, unknown>, fallback: string) {
-  const errors = data.errors;
-
-  if (errors && typeof errors === "object") {
-    const firstError = Object.values(errors as Record<string, unknown>)
-      .flatMap((value) => (Array.isArray(value) ? value : [value]))
-      .find((message) => typeof message === "string");
-
-    if (typeof firstError === "string") return firstError;
-  }
-
-  return typeof data.message === "string" ? data.message : fallback;
-}
-
 export default function EditCarPage() {
   const router = useRouter();
   const params = useParams<{ id: string }>();
   const carId = params.id;
 
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<CarCategory[]>([]);
   const [branches, setBranches] = useState<Branch[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [form, setForm] = useState<CarForm>(initialForm);
+  // Legacy reserved/rented rows keep their value visible but cannot be re-selected.
+  const [loadedStatus, setLoadedStatus] = useState<CarStatus | null>(null);
 
   useEffect(() => {
     let cancelled = false;
 
     async function loadData() {
-      const token = localStorage.getItem("token");
-      const storedUser = localStorage.getItem("user");
-
-      if (!token || !storedUser) {
-        router.replace("/login");
-        return;
-      }
-
       try {
-        const user = JSON.parse(storedUser);
-
-        if (user.role !== "admin") {
-          router.replace("/");
-          return;
-        }
-      } catch {
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
-        router.replace("/login");
-        return;
-      }
-
-      try {
-        const headers = {
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        };
-
-        const [carResponse, categoriesResponse, branchesResponse] =
-          await Promise.all([
-            fetch(`${API_URL}/cars/${carId}`, { headers }),
-            fetch(`${API_URL}/car-categories`, { headers }),
-            fetch(`${API_URL}/branches`, { headers }),
-          ]);
-
-        if (
-          carResponse.status === 401 ||
-          categoriesResponse.status === 401 ||
-          branchesResponse.status === 401
-        ) {
-          localStorage.removeItem("token");
-          localStorage.removeItem("user");
-          router.replace("/login");
-          return;
-        }
-
-        if (!carResponse.ok || !categoriesResponse.ok || !branchesResponse.ok) {
-          throw new Error("Failed to load car information. Please try again.");
-        }
-
-        const [carData, categoriesData, branchesData] = await Promise.all([
-          carResponse.json(),
-          categoriesResponse.json(),
-          branchesResponse.json(),
+        const [car, categoriesData, branchesData] = await Promise.all([
+          apiFetch<Car>(`/cars/${carId}`),
+          apiFetch<CarCategory[]>("/car-categories"),
+          apiFetch<Branch[]>("/branches"),
         ]);
 
         if (cancelled) return;
 
-        const car: Car = carData.data;
-
-        setCategories(categoriesData.data || []);
-        setBranches(branchesData.data || []);
+        setCategories(categoriesData || []);
+        setBranches(branchesData || []);
+        setLoadedStatus(car.status);
         setForm({
           category_id: String(car.category_id),
           branch_id: String(car.branch_id),
@@ -281,13 +191,8 @@ export default function EditCarPage() {
           description: car.description || "",
         });
       } catch (err) {
-        if (!cancelled) {
-          setError(
-            err instanceof Error
-              ? err.message
-              : "Failed to load car information."
-          );
-        }
+        if (cancelled || redirectIfUnauthorized(err, router)) return;
+        setError(errorMessage(err, "Failed to load car information."));
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -312,22 +217,10 @@ export default function EditCarPage() {
     setSaving(true);
     setError("");
 
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      router.replace("/login");
-      return;
-    }
-
     try {
-      const response = await fetch(`${API_URL}/cars/${carId}`, {
+      await apiFetch(`/cars/${carId}`, {
         method: "PUT",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
+        body: {
           category_id: Number(form.category_id),
           branch_id: Number(form.branch_id),
           brand: form.brand.trim(),
@@ -343,29 +236,13 @@ export default function EditCarPage() {
           daily_rate: Number(form.daily_rate),
           status: form.status,
           description: form.description.trim() || null,
-        }),
+        },
       });
-
-      const data = await response.json().catch(() => ({}));
-
-      if (response.status === 401) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        router.replace("/login");
-        return;
-      }
-
-      if (!response.ok) {
-        throw new Error(
-          getErrorMessage(data, "Failed to update car. Please try again.")
-        );
-      }
 
       router.push("/admin/cars");
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Something went wrong."
-      );
+      if (redirectIfUnauthorized(err, router)) return;
+      setError(errorMessage(err, "Failed to update car. Please try again."));
       setSaving(false);
     }
   };
@@ -642,11 +519,17 @@ export default function EditCarPage() {
                   required
                   className={selectClass}
                 >
-                  <option value="available">Available</option>
-                  <option value="reserved">Reserved</option>
-                  <option value="rented">Rented</option>
-                  <option value="maintenance">Maintenance</option>
-                  <option value="inactive">Inactive</option>
+                  {loadedStatus &&
+                    !(EDITABLE_CAR_STATUSES as readonly string[]).includes(loadedStatus) && (
+                      <option value={loadedStatus} disabled>
+                        {loadedStatus.charAt(0).toUpperCase() + loadedStatus.slice(1)} (legacy)
+                      </option>
+                    )}
+                  {EDITABLE_CAR_STATUSES.map((status) => (
+                    <option key={status} value={status}>
+                      {status.charAt(0).toUpperCase() + status.slice(1)}
+                    </option>
+                  ))}
                 </select>
                 <p className="mt-2 text-xs text-[#85867c]">
                   Controls the current availability shown in the fleet.

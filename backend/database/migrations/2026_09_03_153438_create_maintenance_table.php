@@ -28,7 +28,7 @@ return new class extends Migration
                 'scheduled',
                 'in_progress',
                 'completed',
-                'cancelled'
+                'cancelled',
             ])->default('scheduled');
 
             $table->timestamps();

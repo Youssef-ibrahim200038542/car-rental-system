@@ -1,24 +1,36 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useRequireRole } from "@/lib/auth";
+import type { Role } from "@/lib/types";
 
-type AdminUser = {
-  name?: string;
-  role?: string;
-};
-
-const navigation = [
-  { href: "/admin", label: "Overview", icon: "grid" },
-  { href: "/admin/cars", label: "Fleet Management", icon: "car" },
-  { href: "/admin/bookings", label: "Bookings", icon: "calendar" },
-  { href: "/admin/payments", label: "Payments", icon: "wallet" },
-  { href: "/admin/branches", label: "Branches", icon: "branch" },
-  { href: "/admin/users", label: "Customers & Users", icon: "users" },
-  { href: "/admin/reviews", label: "Reviews", icon: "star" },
+const navigation: { href: string; label: string; icon: string; roles: Role[] }[] = [
+  { href: "/admin", label: "Overview", icon: "grid", roles: ["admin"] },
+  { href: "/admin/cars", label: "Fleet Management", icon: "car", roles: ["admin"] },
+  { href: "/admin/bookings", label: "Bookings", icon: "calendar", roles: ["admin", "staff"] },
+  { href: "/admin/payments", label: "Payments", icon: "wallet", roles: ["admin", "staff"] },
+  { href: "/admin/branches", label: "Branches", icon: "branch", roles: ["admin"] },
+  { href: "/admin/users", label: "Customers & Users", icon: "users", roles: ["admin"] },
+  { href: "/admin/reviews", label: "Reviews", icon: "star", roles: ["admin"] },
 ];
+
+const ADMIN_AREA_ROLES: Role[] = ["admin", "staff"];
+
+/** Staff may only use the sections the API grants them (bookings, payments). */
+const STAFF_PATHS = ["/admin/bookings", "/admin/payments"];
+
+function canAccessPath(role: Role | undefined, pathname: string) {
+  if (role === "admin") return true;
+  if (role === "staff") {
+    return STAFF_PATHS.some(
+      (path) => pathname === path || pathname.startsWith(`${path}/`)
+    );
+  }
+  return false;
+}
 
 function Icon({
   name,
@@ -97,30 +109,23 @@ export default function AdminLayout({
 }>) {
   const pathname = usePathname();
   const router = useRouter();
-  const [user, setUser] = useState<AdminUser | null>(null);
+  const auth = useRequireRole(ADMIN_AREA_ROLES);
+  const user = auth.user;
+  const pathAllowed = auth.status === "allowed" && canAccessPath(user?.role, pathname);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const savedUser = localStorage.getItem("user");
-
-    if (!token) {
-      router.replace("/login");
-      return;
+    if (auth.status === "allowed" && !pathAllowed) {
+      router.replace(user?.role === "staff" ? "/staff" : "/");
     }
+  }, [auth.status, pathAllowed, router, user?.role]);
 
-    if (savedUser) {
-      try {
-        const parsedUser = JSON.parse(savedUser) as AdminUser;
-        setUser(parsedUser);
-
-        if (parsedUser.role && parsedUser.role !== "admin") {
-          router.replace("/");
-        }
-      } catch {
-        setUser(null);
-      }
-    }
-  }, [router]);
+  if (!pathAllowed) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-[#f8f8f7]">
+        <div className="h-10 w-10 animate-spin rounded-full border-2 border-[#e8e5dc] border-t-[#c6a15b]" />
+      </div>
+    );
+  }
 
   const isActive = (href: string) => {
     if (href === "/admin") {
@@ -154,7 +159,9 @@ export default function AdminLayout({
           </p>
 
           <nav className="space-y-1">
-            {navigation.map((item) => {
+            {navigation
+              .filter((item) => user?.role && item.roles.includes(user.role))
+              .map((item) => {
               const active = isActive(item.href);
 
               return (
@@ -183,6 +190,7 @@ export default function AdminLayout({
           </nav>
 
           {/* Fleet Performance Card */}
+          {user?.role === "admin" && (
           <div className="mt-6 rounded-2xl border border-[#dce5da] bg-[#e8eee7] p-4 text-[#17251e]">
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white text-[#9a783c] shadow-sm">
               <Icon name="chart" />
@@ -204,6 +212,7 @@ export default function AdminLayout({
               <Icon name="arrow" className="h-4 w-4" />
             </Link>
           </div>
+          )}
 
           <div className="mt-5 flex items-center gap-3 border-t border-[#eeeee8] px-2 pt-5">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#eee8da] font-bold text-[#765b2d]">

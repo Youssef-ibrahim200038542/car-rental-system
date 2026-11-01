@@ -60,7 +60,7 @@ class CarCategoryController extends Controller
     public function update(Request $request, CarCategory $carCategory)
     {
         $validated = $request->validate([
-            'name' => 'sometimes|required|string|max:255|unique:car_categories,name,' . $carCategory->id,
+            'name' => 'sometimes|required|string|max:255|unique:car_categories,name,'.$carCategory->id,
             'description' => 'nullable|string',
             'daily_rate' => 'sometimes|required|numeric|min:0',
         ]);
@@ -79,6 +79,13 @@ class CarCategoryController extends Controller
      */
     public function destroy(CarCategory $carCategory)
     {
+        if ($carCategory->cars()->exists()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Cannot delete this category because it has cars.',
+            ], 422);
+        }
+
         $carCategory->delete();
 
         return response()->json([

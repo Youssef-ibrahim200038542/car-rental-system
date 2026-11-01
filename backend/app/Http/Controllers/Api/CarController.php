@@ -32,7 +32,7 @@ class CarController extends Controller
             'branch_id' => 'required|exists:branches,id',
             'brand' => 'required|string|max:255',
             'model' => 'required|string|max:255',
-            'year' => 'required|integer|min:1900|max:' . date('Y'),
+            'year' => 'required|integer|min:1901|max:'.(date('Y') + 1),
             'color' => 'nullable|string|max:100',
             'license_plate' => 'required|string|max:50|unique:cars,license_plate',
             'vin' => 'required|string|max:100|unique:cars,vin',
@@ -41,7 +41,7 @@ class CarController extends Controller
             'transmission' => 'required|in:manual,automatic',
             'seats' => 'required|integer|min:1|max:20',
             'daily_rate' => 'required|numeric|min:0',
-            'status' => 'nullable|in:available,reserved,rented,maintenance,inactive',
+            'status' => 'nullable|in:available,maintenance,inactive',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
             'description' => 'nullable|string',
         ]);
@@ -61,16 +61,38 @@ class CarController extends Controller
     }
 
     /**
+     * Whether the car can be booked for the given dates.
+     */
+    public function availability(Request $request, Car $car)
+    {
+        $validated = $request->validate([
+            'pickup_date' => 'required|date_format:Y-m-d',
+            'return_date' => 'required|date_format:Y-m-d|after_or_equal:pickup_date',
+        ]);
+
+        $reason = $car->unavailabilityReason($validated['pickup_date'], $validated['return_date']);
+
+        return response()->json([
+            'success' => true,
+            'data' => array_filter([
+                'available' => $reason === null,
+                'reason' => $reason,
+            ], fn ($value) => $value !== null),
+        ]);
+    }
+
+    /**
      * Display the specified car.
      */
     public function show(Car $car)
     {
-        $car->load([
-            'category',
-            'branch',
-            'reviews.user',
-            'maintenanceRecords',
-        ]);
+        $viewer = auth('sanctum')->user();
+        $isStaff = $viewer && in_array($viewer->role, ['admin', 'staff'], true);
+
+        // Public route: reviewer contact details and maintenance costs are staff-only.
+        $car->load($isStaff
+            ? ['category', 'branch', 'reviews.user', 'maintenanceRecords']
+            : ['category', 'branch', 'reviews.user:id,name,avatar']);
 
         return response()->json([
             'success' => true,
@@ -88,16 +110,16 @@ class CarController extends Controller
             'branch_id' => 'sometimes|required|exists:branches,id',
             'brand' => 'sometimes|required|string|max:255',
             'model' => 'sometimes|required|string|max:255',
-            'year' => 'sometimes|required|integer|min:1900|max:' . date('Y'),
+            'year' => 'sometimes|required|integer|min:1901|max:'.(date('Y') + 1),
             'color' => 'nullable|string|max:100',
-            'license_plate' => 'sometimes|required|string|max:50|unique:cars,license_plate,' . $car->id,
-            'vin' => 'sometimes|required|string|max:100|unique:cars,vin,' . $car->id,
+            'license_plate' => 'sometimes|required|string|max:50|unique:cars,license_plate,'.$car->id,
+            'vin' => 'sometimes|required|string|max:100|unique:cars,vin,'.$car->id,
             'mileage' => 'nullable|integer|min:0',
             'fuel_type' => 'sometimes|required|in:petrol,diesel,hybrid,electric',
             'transmission' => 'sometimes|required|in:manual,automatic',
             'seats' => 'sometimes|required|integer|min:1|max:20',
             'daily_rate' => 'sometimes|required|numeric|min:0',
-            'status' => 'sometimes|in:available,reserved,rented,maintenance,inactive',
+            'status' => 'sometimes|in:available,maintenance,inactive',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
             'description' => 'nullable|string',
         ]);
@@ -125,6 +147,13 @@ class CarController extends Controller
      */
     public function destroy(Car $car)
     {
+        if ($car->bookings()->exists() || $car->maintenanceRecords()->exists() || $car->reviews()->exists()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Cannot delete this car because it has bookings, maintenance records or reviews. Set it to inactive instead.',
+            ], 422);
+        }
+
         if ($car->image) {
             Storage::disk('public')->delete($car->image);
         }

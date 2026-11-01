@@ -2,12 +2,11 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Branch;
 use App\Models\Car;
 use App\Models\CarCategory;
-use App\Models\Branch;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use RuntimeException;
 use Throwable;
 
 class ImportFleetCars extends Command
@@ -20,8 +19,9 @@ class ImportFleetCars extends Command
     {
         $csvPath = base_path('../ML/data/processed/fleet_clean.csv');
 
-        if (!is_file($csvPath)) {
+        if (! is_file($csvPath)) {
             $this->error("Dataset not found: {$csvPath}");
+
             return self::FAILURE;
         }
 
@@ -33,6 +33,7 @@ class ImportFleetCars extends Command
 
         if ($categories->isEmpty() || $branches->isEmpty()) {
             $this->error('Create at least one car category and one branch first.');
+
             return self::FAILURE;
         }
 
@@ -46,9 +47,9 @@ class ImportFleetCars extends Command
         ];
 
         foreach (array_unique(array_values($categoryMap)) as $requiredCategory) {
-            if (!$categories->has($requiredCategory)) {
+            if (! $categories->has($requiredCategory)) {
                 $this->error(
-                    "Required category '{$requiredCategory}' was not found. " .
+                    "Required category '{$requiredCategory}' was not found. ".
                     'Check the existing categories before importing.'
                 );
 
@@ -60,14 +61,16 @@ class ImportFleetCars extends Command
 
         if ($handle === false) {
             $this->error('Unable to open the dataset.');
+
             return self::FAILURE;
         }
 
         $headers = fgetcsv($handle, 0, ',', '"', '\\');
 
-        if (!$headers) {
+        if (! $headers) {
             fclose($handle);
             $this->error('The CSV file is empty or invalid.');
+
             return self::FAILURE;
         }
 
@@ -96,9 +99,10 @@ class ImportFleetCars extends Command
         ];
 
         foreach ($requiredColumns as $column) {
-            if (!in_array($column, $headers, true)) {
+            if (! in_array($column, $headers, true)) {
                 fclose($handle);
                 $this->error("Missing CSV column: {$column}");
+
                 return self::FAILURE;
             }
         }
@@ -121,13 +125,15 @@ class ImportFleetCars extends Command
                 while (($values = fgetcsv($handle, 0, ',', '"', '\\')) !== false) {
                     if (count($values) !== count($headers)) {
                         $skipped++;
+
                         continue;
                     }
 
                     $row = array_combine($headers, $values);
 
-                    if (!$row) {
+                    if (! $row) {
                         $skipped++;
+
                         continue;
                     }
 
@@ -135,18 +141,19 @@ class ImportFleetCars extends Command
 
                     if ($sourceId <= 0) {
                         $skipped++;
+
                         continue;
                     }
 
                     // Stable identifiers prevent duplicate imports.
-                    $vin = 'KGL' . str_pad(
+                    $vin = 'KGL'.str_pad(
                         (string) $sourceId,
                         14,
                         '0',
                         STR_PAD_LEFT
                     );
 
-                    $licensePlate = 'KGL-' . str_pad(
+                    $licensePlate = 'KGL-'.str_pad(
                         (string) $sourceId,
                         6,
                         '0',
@@ -159,6 +166,7 @@ class ImportFleetCars extends Command
                         Car::query()->where('license_plate', $licensePlate)->exists()
                     ) {
                         $skipped++;
+
                         continue;
                     }
 
@@ -205,6 +213,7 @@ class ImportFleetCars extends Command
 
                     if ($year < 1900 || $year > 2100) {
                         $skipped++;
+
                         continue;
                     }
 
@@ -217,7 +226,7 @@ class ImportFleetCars extends Command
                     $descriptionParts = [
                         'Imported sample vehicle from the Kaggle fleet dataset.',
                         "Original dataset ID: {$sourceId}",
-                        'Original category: ' . ($row['category'] ?? 'Unknown'),
+                        'Original category: '.($row['category'] ?? 'Unknown'),
                         "Original status: {$sourceStatus}",
                         "Original branch: {$sourceBranch}",
                         "Original location: {$sourceCity}, {$sourceState}",
@@ -225,7 +234,7 @@ class ImportFleetCars extends Command
                     ];
 
                     if ($features !== '') {
-                        $descriptionParts[] = 'Features: ' . mb_substr($features, 0, 800);
+                        $descriptionParts[] = 'Features: '.mb_substr($features, 0, 800);
                     }
 
                     // Use DriveX's existing category price, not an

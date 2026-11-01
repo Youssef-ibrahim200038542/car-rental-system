@@ -1,0 +1,15 @@
+# ML / research artefacts (regenerate locally; see ML/README.md)
+ML/data/*.csv
+ML/data/processed/*
+!ML/data/processed/preparation_summary.txt
+ML/*.zip
+ML/**/*.joblib
+ML/recommendation_system/reports/*.csv
+ML_old_backup/models/
+ML_old_backup/**/*.csv
+ML_old_backup/data/
+
+# Python
+__pycache__/
+*.pyc
+.venv/

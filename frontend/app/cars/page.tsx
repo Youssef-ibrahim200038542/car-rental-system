@@ -1,26 +1,17 @@
 
 "use client";
 
+import CarImage from "@/app/components/CarImage";
 import { getCarImageUrl, getLocalCarImage } from "@/lib/car-images";
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { apiFetch } from "@/lib/api";
+import { isCarBookable } from "@/lib/cars";
+import type { Car as ApiCar } from "@/lib/types";
 
-type Car = {
-  id: number;
-  name: string;
-  brand?: string;
-  model?: string;
-  year?: number;
-  daily_rate: number;
-  status: string;
-  mileage?: number;
-  transmission?: string;
-  fuel_type?: string;
-  seats?: number;
-  image?: string;
-  category?: { id: number; name: string };
-};
+/** The API has no `name` column; kept optional so the brand/model fallbacks still read. */
+type Car = ApiCar & { name?: string };
 
 const categoryAliases: Record<string, string[]> = {
   luxury: ["luxury"],
@@ -30,79 +21,78 @@ const categoryAliases: Record<string, string[]> = {
 };
 
 export default function CarsPage() {
+  return (
+    <Suspense fallback={<main className="min-h-screen bg-[#f8f8f7]" />}>
+      <CarsCatalog />
+    </Suspense>
+  );
+}
+
+/** Category matching a home-page `type` shortcut, or null to fall back to text search. */
+function categoryForType(cars: Car[], type: string): string | null {
+  const aliases = categoryAliases[type];
+  if (!aliases) return null;
+
+  return (
+    cars.find((car) =>
+      aliases.some(
+        (alias) =>
+          car.category?.name.toLowerCase() === alias ||
+          car.brand?.toLowerCase() === alias ||
+          car.model?.toLowerCase() === alias
+      )
+    )?.category?.name ?? null
+  );
+}
+
+function CarsCatalog() {
+  // Search values passed from the Home page seed the initial filters.
   const searchParams = useSearchParams();
+  const typeParam = searchParams.get("type")?.toLowerCase() ?? "";
 
   const [cars, setCars] = useState<Car[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
   const [fuel, setFuel] = useState("All");
-  const [seats, setSeats] = useState("any");
-  const [pickup, setPickup] = useState("");
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
+  const [seats, setSeats] = useState(() => searchParams.get("seats") ?? "any");
+  const [pickup, setPickup] = useState(() => searchParams.get("pickup") ?? "");
+  const [from, setFrom] = useState(() => searchParams.get("from") ?? "");
+  const [to, setTo] = useState(() => searchParams.get("to") ?? "");
 
-  // Read search values passed from the Home page.
+  // Fetch cars from Laravel, then apply the `type` shortcut against real categories.
   useEffect(() => {
-    const typeParam = searchParams.get("type")?.toLowerCase() ?? "";
-    const seatsParam = searchParams.get("seats") ?? "any";
+    let cancelled = false;
 
-    setPickup(searchParams.get("pickup") ?? "");
-    setFrom(searchParams.get("from") ?? "");
-    setTo(searchParams.get("to") ?? "");
-    setSeats(seatsParam);
-
-    if (typeParam) {
-      const aliases = categoryAliases[typeParam];
-
-      if (aliases) {
-        const matchingCategory = cars.find((car) =>
-          aliases.some(
-            (alias) =>
-              car.category?.name.toLowerCase() === alias ||
-              car.brand?.toLowerCase() === alias ||
-              car.model?.toLowerCase() === alias
-          )
-        )?.category?.name;
-
-        if (matchingCategory) {
-          setCategory(matchingCategory);
-        } else {
-          setSearch(typeParam);
-        }
-      } else {
-        setSearch(typeParam);
-      }
-    } else {
-      setCategory("All");
-    }
-  }, [searchParams, cars]);
-
-  // Fetch cars from Laravel.
-  useEffect(() => {
-    const fetchCars = async () => {
+    (async () => {
       try {
-        const apiUrl =
-          process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+        const data = await apiFetch<Car[]>("/cars", { auth: false });
+        if (cancelled) return;
 
-        const response = await fetch(`${apiUrl}/cars`);
+        const list = Array.isArray(data) ? data : [];
+        setCars(list);
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch cars");
+        if (typeParam) {
+          const matchingCategory = categoryForType(list, typeParam);
+          if (matchingCategory) {
+            setCategory(matchingCategory);
+          } else {
+            setSearch(typeParam);
+          }
         }
-
-        const data = await response.json();
-        setCars(Array.isArray(data.data) ? data.data : []);
       } catch (error) {
+        if (cancelled) return;
         console.error("Error fetching cars:", error);
         setCars([]);
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
-    };
+    })();
 
-    fetchCars();
-  }, []);
+    return () => {
+      cancelled = true;
+    };
+  }, [typeParam]);
 
   const categories = useMemo(
     () => [
@@ -122,7 +112,7 @@ export default function CarsPage() {
       ...new Set(
         cars
           .map((car) => car.fuel_type)
-          .filter((type): type is string => Boolean(type))
+          .filter(Boolean)
       ),
     ],
     [cars]
@@ -170,9 +160,7 @@ export default function CarsPage() {
     });
   }, [cars, search, category, fuel, seats, pickup]);
 
-  const availableCars = cars.filter(
-    (car) => car.status?.toLowerCase() === "available"
-  ).length;
+  const availableCars = cars.filter(isCarBookable).length;
 
   const clearFilters = () => {
     setSearch("");
@@ -184,10 +172,10 @@ export default function CarsPage() {
     setTo("");
   };
 
-  const formatPrice = (price: number) =>
+  const formatPrice = (price: number | string) =>
     new Intl.NumberFormat("en-US", {
       maximumFractionDigits: 0,
-    }).format(price);
+    }).format(Number(price));
 
   return (
     <main className="min-h-screen bg-[#f8f8f7] pb-20 text-[#202020]">
@@ -409,8 +397,7 @@ export default function CarsPage() {
                   car.name
                 );
 
-                const isAvailable =
-                  car.status?.toLowerCase() === "available";
+                const isAvailable = isCarBookable(car);
 
                 return (
                   <article
@@ -421,19 +408,12 @@ export default function CarsPage() {
                       href={`/cars/${car.id}`}
                       className="relative block aspect-[16/10] overflow-hidden bg-[#efeee9]"
                     >
-                      <img
+                      <CarImage
                         src={imageUrl}
-                        alt={`${car.brand ?? ""} ${car.name}`}
-                        className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
-                        loading="lazy"
-                        onError={(event) => {
-                          event.currentTarget.onerror = null;
-                          event.currentTarget.src = getLocalCarImage(
-                            car.brand,
-                            car.model,
-                            car.name
-                          );
-                        }}
+                        fallbackSrc={getLocalCarImage(car.brand, car.model, car.name)}
+                        alt={`${car.brand ?? ""} ${car.name ?? car.model}`}
+                        sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                        className="object-cover transition duration-500 group-hover:scale-[1.04]"
                       />
 
                       <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10" />

@@ -10,7 +10,7 @@ A full-stack car rental platform designed to simplify vehicle discovery, rental 
 - Create and manage rental bookings.
 - Follow the booking payment flow.
 - Rate completed rentals and submit customer reviews.
-- Explore car recommendations.
+- Get smart car recommendations: rule-based scoring over the live fleet, with a reason for every score (see [`ML/README.md`](ML/README.md)).
 
 ### Administration
 - Admin dashboard for managing the rental system.
@@ -22,7 +22,9 @@ A full-stack car rental platform designed to simplify vehicle discovery, rental 
 ### Technical Highlights
 - Frontend and backend communicate through a REST API.
 - Laravel backend with MySQL database integration.
-- Authentication for protected operations.
+- Token authentication (Laravel Sanctum) with role-based access: `admin`, `staff`, `customer`.
+- Prices, availability and payment status are always computed on the server.
+- Feature tests for authorization, booking, payment and recommendations.
 - Reusable UI components and responsive page layouts.
 
 ## 🛠️ Tech Stack
@@ -38,7 +40,7 @@ A full-stack car rental platform designed to simplify vehicle discovery, rental 
 ## 📸 Screenshots
 
 ### Home Page
-![DriveX Home Page](screenshots/home-page.png)
+![DriveX Home Page](screenshots/Home-page.png)
 
 ### Cars Listing
 ![DriveX Cars Page](screenshots/car-page.png)
@@ -49,10 +51,14 @@ A full-stack car rental platform designed to simplify vehicle discovery, rental 
 ### Booking
 ![DriveX Booking Page](screenshots/booking-details-page.png)
 
+### Smart Recommendations
+![DriveX Recommendations](screenshots/Ai-assistant-page.png)
+
 ### Admin Dashboard
 ![DriveX Admin Dashboard](screenshots/admin-dashboard.png)
-
-> Make sure the screenshot filenames above match the actual files in the `screenshots/` directory.
+![DriveX Admin Dashboard — fleet](screenshots/admin-dashboard-1.png)
+![DriveX Admin Dashboard — bookings](screenshots/admin-dashboard-2.png)
+![DriveX Admin Dashboard — payments](screenshots/admin-dashboard-3.png)
 
 ## 📁 Project Structure
 
@@ -73,6 +79,7 @@ car-rental-system/
 │   │   ├── recommendations/
 │   │   └── reviews/
 │   └── ...
+├── ML/                 # dataset prep, recommender research and metrics (see ML/README.md)
 ├── screenshots/
 └── README.md
 ```
@@ -114,13 +121,16 @@ On Windows PowerShell, you can use:
 Copy-Item .env.example .env
 ```
 
-Configure your database connection in `backend/.env`, then run:
+Configure your database connection in `backend/.env` (MySQL by default; for a quick local run set `DB_CONNECTION=sqlite` and create `database/database.sqlite`), then run:
 
 ```bash
 php artisan key:generate
-php artisan migrate
+php artisan migrate --seed
+php artisan storage:link
 php artisan serve
 ```
+
+`GEMINI_API_KEY` is optional. Without it, the natural-language recommendation endpoint falls back to a keyword parser.
 
 The Laravel development server normally runs at:
 
@@ -128,7 +138,21 @@ The Laravel development server normally runs at:
 http://127.0.0.1:8000
 ```
 
-If the project requires existing seed data, storage setup, or additional migrations, follow the project's actual database setup requirements before running it.
+#### Demo accounts (from the seeder)
+
+| Role | Email | Password | Can do |
+|---|---|---|---|
+| Admin | `admin@carrental.com` | `password` | Everything, including cars, branches, categories and user roles |
+| Staff | `staff@carrental.com` | `password` | Bookings, payments, maintenance; read users |
+| Customer | `ahmed@example.com` | `password` | Own bookings, payments and reviews |
+
+These are development credentials only. Never run the seeder on a public server.
+
+#### Run the tests
+
+```bash
+php artisan test
+```
 
 ### 3. Configure the Frontend
 
@@ -151,6 +175,13 @@ Start the frontend:
 npm run dev
 ```
 
+Before pushing, check that it builds and lints cleanly:
+
+```bash
+npm run lint
+npm run build
+```
+
 Open the local frontend URL shown in the terminal, usually:
 
 ```text
@@ -163,6 +194,8 @@ http://localhost:3000
 - Keep local frontend environment settings in `frontend/.env.local`.
 - Never commit real passwords, API keys, tokens, or other secrets.
 - Use example environment files to document required variable names without exposing secret values.
+- Set `APP_DEBUG=false` anywhere other than your own machine, so errors never show stack traces.
+- API tokens expire after 7 days (`SANCTUM_TOKEN_EXPIRATION`, in minutes).
 
 ## 👨‍💻 Developer
 

@@ -3,49 +3,16 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import CarImage from "@/app/components/CarImage";
 import {
   getCarImageUrl,
   getLocalCarImage,
 } from "@/lib/car-images";
+import { apiFetch } from "@/lib/api";
+import { isCarBookable } from "@/lib/cars";
+import type { Car, Money, Review } from "@/lib/types";
 
-type Car = {
-  id: number;
-  brand: string;
-  model: string;
-  year: number;
-  color?: string;
-  transmission?: string;
-  fuel_type?: string;
-  seats?: number;
-  daily_rate: number;
-  status: string;
-  image?: string | null;
-  description?: string | null;
-  category?: {
-    id: number;
-    name: string;
-  } | null;
-  branch?: {
-    id: number;
-    name: string;
-    location?: string;
-  } | null;
-};
-
-type Review = {
-  id: number;
-  car_id: number;
-  rating: number;
-  comment?: string | null;
-  user?: {
-    name: string;
-  };
-};
-
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
-
-function formatPrice(price: number) {
+function formatPrice(price: Money) {
   return new Intl.NumberFormat("en-US", {
     maximumFractionDigits: 0,
   }).format(Number(price) || 0);
@@ -102,66 +69,62 @@ export default function CarDetailsPage() {
   useEffect(() => {
     if (!id) return;
 
-    const fetchCar = async () => {
+    let cancelled = false;
+
+    (async () => {
       try {
-        setLoading(true);
-        setError("");
-
-        const response = await fetch(`${API_URL}/cars/${id}`);
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch car");
-        }
-
-        const data = await response.json();
-        const carData = data.data || data;
+        const carData = await apiFetch<Car>(`/cars/${id}`, { auth: false });
 
         if (!carData || !carData.id) {
           throw new Error("Car not found");
         }
 
-        setCar(carData);
+        if (!cancelled) setCar(carData);
       } catch (err) {
+        if (cancelled) return;
         console.error("Failed to load car details:", err);
         setError("Failed to load car details. Please try again.");
         setCar(null);
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
-    };
+    })();
 
-    fetchCar();
+    return () => {
+      cancelled = true;
+    };
   }, [id]);
 
   useEffect(() => {
-    const fetchReviews = async () => {
+    if (!id) return;
+
+    let cancelled = false;
+
+    (async () => {
       try {
-        const response = await fetch(`${API_URL}/reviews`);
+        const reviewsData = await apiFetch<Review[]>("/reviews", { auth: false });
 
-        if (!response.ok) return;
-
-        const data = await response.json();
-        const reviewsData = data.data || data;
-
-        if (Array.isArray(reviewsData)) {
+        if (!cancelled && Array.isArray(reviewsData)) {
           const currentCarId = Number(id);
 
           setReviews(
             reviewsData.filter(
-              (review: Review) => Number(review.car_id) === currentCarId
+              (review) => Number(review.car_id) === currentCarId
             )
           );
         }
       } catch (err) {
         console.error("Failed to load reviews:", err);
       }
-    };
+    })();
 
-    if (id) fetchReviews();
+    return () => {
+      cancelled = true;
+    };
   }, [id]);
 
   const handleBooking = () => {
-    if (!car || car.status?.toLowerCase() !== "available") return;
+    if (!car || !isCarBookable(car)) return;
 
     router.push(`/bookings/create?car_id=${car.id}`);
   };
@@ -212,7 +175,7 @@ export default function CarDetailsPage() {
     `${car.brand} ${car.model}`
   );
 
-  const statusAvailable = car.status?.toLowerCase() === "available";
+  const statusAvailable = isCarBookable(car);
 
   const averageRating =
     reviews.length > 0
@@ -265,24 +228,17 @@ export default function CarDetailsPage() {
           {/* Image */}
           <div className="overflow-hidden rounded-3xl border border-[#e8e4db] bg-white shadow-[0_8px_30px_rgba(10,20,17,0.04)]">
             <div className="relative aspect-[4/3] min-h-[280px] overflow-hidden bg-[#eeece6] sm:min-h-[400px]">
-              <img
+              <CarImage
                 src={imageUrl}
+                fallbackSrc={getLocalCarImage(
+                  car.brand,
+                  car.model,
+                  `${car.brand} ${car.model}`
+                )}
                 alt={`${car.brand} ${car.model}`}
-                className="h-full w-full object-cover"
-                onError={(event) => {
-                  const fallbackImage = getLocalCarImage(
-                    car.brand,
-                    car.model,
-                    `${car.brand} ${car.model}`
-                  );
-
-                  if (event.currentTarget.src.endsWith(fallbackImage)) {
-                    return;
-                  }
-
-                  event.currentTarget.onerror = null;
-                  event.currentTarget.src = fallbackImage;
-                }}
+                sizes="(min-width: 1024px) 58vw, 100vw"
+                preload
+                className="object-cover"
               />
 
               <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-black/10" />
@@ -381,9 +337,9 @@ export default function CarDetailsPage() {
                   </span>
                 </div>
 
-                {car.branch?.location && (
+                {car.branch?.address && (
                   <p className="mt-2 text-right text-xs text-[#898981]">
-                    {car.branch.location}
+                    {[car.branch.address, car.branch.city].filter(Boolean).join(", ")}
                   </p>
                 )}
               </div>

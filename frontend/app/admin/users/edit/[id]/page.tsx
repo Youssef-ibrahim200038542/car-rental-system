@@ -6,23 +6,16 @@
     import Link from "next/link";
     import { useParams, useRouter } from "next/navigation";
 
-    type User = {
-    id: number;
-    name: string;
-    email: string;
-    phone: string | null;
-    role: "admin" | "customer" | "staff";
-    };
+    import { apiFetch, errorMessage } from "@/lib/api";
+    import { redirectIfUnauthorized, useSessionUser } from "@/lib/auth";
+    import type { Role, User } from "@/lib/types";
 
-    type FormData = {
+    type UserForm = {
     name: string;
     email: string;
     phone: string;
-    role: "admin" | "customer" | "staff";
+    role: Role;
     };
-
-    const API_URL =
-    process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
 
     const inputClass =
     "w-full rounded-xl border border-[#e5dfd2] bg-[#fcfbf8] px-4 py-3 text-sm text-[#17251e] outline-none transition placeholder:text-[#a1a49b] focus:border-[#c6a15b] focus:ring-2 focus:ring-[#c6a15b]/15";
@@ -34,7 +27,7 @@
     const params = useParams<{ id: string }>();
     const id = params.id;
 
-    const [formData, setFormData] = useState<FormData>({
+    const [formData, setFormData] = useState<UserForm>({
         name: "",
         email: "",
         phone: "",
@@ -45,53 +38,16 @@
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState("");
 
+    // The backend rejects a role change on your own account, so hide it there.
+    const sessionUser = useSessionUser();
+    const editingSelf = sessionUser?.id === Number(id);
+
     useEffect(() => {
         let active = true;
 
         const fetchUser = async () => {
-        const token = localStorage.getItem("token");
-        const storedUser = localStorage.getItem("user");
-
-        if (!token || !storedUser) {
-            router.replace("/login");
-            return;
-        }
-
         try {
-            const currentUser = JSON.parse(storedUser);
-
-            if (currentUser.role !== "admin") {
-            router.replace("/");
-            return;
-            }
-        } catch {
-            localStorage.removeItem("user");
-            router.replace("/login");
-            return;
-        }
-
-        try {
-            const response = await fetch(`${API_URL}/users/${id}`, {
-            headers: {
-                Accept: "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-            if (response.status === 401) {
-                localStorage.removeItem("token");
-                localStorage.removeItem("user");
-                router.replace("/login");
-                return;
-            }
-
-            throw new Error(data.message || "Failed to load user.");
-            }
-
-            const user: User = data.data;
+            const user = await apiFetch<User>(`/users/${id}`);
 
             if (active) {
             setFormData({
@@ -102,11 +58,8 @@
             });
             }
         } catch (err) {
-            if (active) {
-            setError(
-                err instanceof Error ? err.message : "Failed to load user."
-            );
-            }
+            if (!active || redirectIfUnauthorized(err, router)) return;
+            setError(errorMessage(err, "Failed to load user."));
         } finally {
             if (active) {
             setLoading(false);
@@ -135,65 +88,26 @@
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-        router.replace("/login");
-        return;
-        }
-
         setSaving(true);
         setError("");
 
         try {
-        const response = await fetch(`${API_URL}/users/${id}`, {
+        const { role, ...profile } = formData;
+
+        await apiFetch(`/users/${id}`, {
             method: "PUT",
-            headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-            ...formData,
+            body: {
+            ...profile,
+            ...(editingSelf ? {} : { role }),
             phone: formData.phone.trim() || null,
-            }),
+            },
         });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            if (response.status === 401) {
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            router.replace("/login");
-            return;
-            }
-
-            if (data.errors) {
-            const firstError = Object.values(
-                data.errors as Record<string, unknown>
-            )
-                .flatMap((messages) =>
-                Array.isArray(messages) ? messages : [messages]
-                )
-                .find((message) => typeof message === "string");
-
-            throw new Error(
-                typeof firstError === "string"
-                ? firstError
-                : data.message || "Failed to update user."
-            );
-            }
-
-            throw new Error(data.message || "Failed to update user.");
-        }
 
         router.push("/admin/users");
         router.refresh();
         } catch (err) {
-        setError(
-            err instanceof Error ? err.message : "Failed to update user."
-        );
+        if (redirectIfUnauthorized(err, router)) return;
+        setError(errorMessage(err, "Failed to update user."));
         } finally {
         setSaving(false);
         }
@@ -355,6 +269,8 @@
                 </div>
                 </section>
 
+                {!editingSelf && (
+                <>
                 <div className="border-t border-[#eee9df]" />
 
                 <section>
@@ -399,6 +315,8 @@
                     </div>
                 </div>
                 </section>
+                </>
+                )}
             </div>
 
             <div className="flex flex-col-reverse gap-3 border-t border-[#eee9df] bg-[#fcfbf8] p-5 sm:flex-row sm:justify-end md:px-7">

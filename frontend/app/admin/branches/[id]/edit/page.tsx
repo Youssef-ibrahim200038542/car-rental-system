@@ -5,9 +5,9 @@
     import type { ChangeEvent, FormEvent } from "react";
     import Link from "next/link";
     import { useParams, useRouter } from "next/navigation";
-
-    const API_URL =
-    process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
+    import { apiFetch, errorMessage } from "@/lib/api";
+    import { redirectIfUnauthorized } from "@/lib/auth";
+    import type { Branch } from "@/lib/types";
 
     type BranchFormData = {
     name: string;
@@ -31,74 +31,19 @@
     const [formData, setFormData] =
         useState<BranchFormData>(initialFormData);
     const [loading, setLoading] = useState(false);
-    const [checkingAuth, setCheckingAuth] = useState(true);
     const [loadingBranch, setLoadingBranch] = useState(true);
     const [error, setError] = useState("");
 
     useEffect(() => {
-        const token = localStorage.getItem("token");
-        const storedUser = localStorage.getItem("user");
-
-        if (!token || !storedUser) {
-        router.replace("/login");
-        return;
-        }
-
-        try {
-        const user = JSON.parse(storedUser);
-
-        if (user.role !== "admin") {
-            router.replace("/");
-            return;
-        }
-
-        setCheckingAuth(false);
-        } catch {
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
-        router.replace("/login");
-        }
-    }, [router]);
-
-    useEffect(() => {
-        if (checkingAuth || !branchId) return;
+        if (!branchId) return;
 
         const controller = new AbortController();
 
         const fetchBranch = async () => {
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-            router.replace("/login");
-            return;
-        }
-
-        setLoadingBranch(true);
-        setError("");
-
         try {
-            const response = await fetch(`${API_URL}/branches/${branchId}`, {
-            headers: {
-                Accept: "application/json",
-                Authorization: `Bearer ${token}`,
-            },
+            const branch = await apiFetch<Branch>(`/branches/${branchId}`, {
             signal: controller.signal,
             });
-
-            const data = await response.json().catch(() => ({}));
-
-            if (response.status === 401) {
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            router.replace("/login");
-            return;
-            }
-
-            if (!response.ok) {
-            throw new Error(data.message || "Failed to load branch details.");
-            }
-
-            const branch = data.data ?? data.branch ?? data;
 
             if (!branch || typeof branch.name !== "string") {
             throw new Error("The branch data could not be found in the API response.");
@@ -111,11 +56,9 @@
             phone: branch.phone ?? "",
             });
         } catch (err) {
-            if (err instanceof Error && err.name === "AbortError") return;
-
-            setError(
-            err instanceof Error ? err.message : "Failed to load branch details."
-            );
+            if (controller.signal.aborted) return;
+            if (redirectIfUnauthorized(err, router)) return;
+            setError(errorMessage(err, "Failed to load branch details."));
         } finally {
             if (!controller.signal.aborted) {
             setLoadingBranch(false);
@@ -126,7 +69,7 @@
         fetchBranch();
 
         return () => controller.abort();
-    }, [branchId, checkingAuth, router]);
+    }, [branchId, router]);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -140,70 +83,29 @@
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-        router.replace("/login");
-        return;
-        }
-
         setLoading(true);
         setError("");
 
         try {
-        const response = await fetch(`${API_URL}/branches/${branchId}`, {
-            method: "PUT",
-            headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(formData),
-        });
-
-        const data = await response.json().catch(() => ({}));
-
-        if (response.status === 401) {
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            router.replace("/login");
-            return;
-        }
-
-        if (!response.ok) {
-            if (data.errors) {
-            const firstError = Object.values(
-                data.errors as Record<string, unknown>
-            )
-                .flat()
-                .find(
-                (message): message is string => typeof message === "string"
-                );
-
-            throw new Error(firstError || "Failed to update branch.");
-            }
-
-            throw new Error(data.message || "Failed to update branch.");
-        }
+        await apiFetch(`/branches/${branchId}`, { method: "PUT", body: formData });
 
         router.push("/admin/branches");
         router.refresh();
         } catch (err) {
-        setError(
-            err instanceof Error ? err.message : "Failed to update branch."
-        );
+        if (redirectIfUnauthorized(err, router)) return;
+        setError(errorMessage(err, "Failed to update branch."));
         } finally {
         setLoading(false);
         }
     };
 
-    if (checkingAuth || loadingBranch) {
+    if (loadingBranch) {
         return (
         <main className="flex min-h-screen items-center justify-center bg-[#f8f8f7] px-5 py-20 text-[#0a1411]">
             <div className="w-full max-w-md rounded-3xl border border-[#e8e5dc] bg-white p-10 text-center shadow-sm">
             <div className="mx-auto mb-5 h-10 w-10 animate-spin rounded-full border-2 border-[#e8e5dc] border-t-[#c6a15b]" />
             <p className="text-sm font-medium text-[#68736c]">
-                {checkingAuth ? "Checking access..." : "Loading branch details..."}
+                Loading branch details...
             </p>
             </div>
         </main>

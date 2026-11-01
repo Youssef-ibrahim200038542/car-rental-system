@@ -4,52 +4,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
-type User = {
-  id: number;
-  name: string;
-  email: string;
-};
-
-type Car = {
-  id: number;
-  brand: string;
-  model: string;
-};
-
-type Payment = {
-  id: number;
-  amount: number;
-  payment_method: string;
-  payment_status: string;
-};
-
-type Booking = {
-  id: number;
-  user_id: number;
-  car_id: number;
-  pickup_date: string;
-  return_date: string;
-  total_days: number;
-  daily_rate: number;
-  subtotal: number;
-  discount: number;
-  total_amount: number;
-  status: string;
-  user?: User;
-  car?: Car;
-  payments?: Payment[];
-};
-
-type AuthUser = {
-  id: number;
-  name: string;
-  email: string;
-  role: "admin" | "customer" | "staff";
-};
-
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
+import { apiFetch, errorMessage } from "@/lib/api";
+import { redirectIfUnauthorized, useSessionUser } from "@/lib/auth";
+import type { Booking } from "@/lib/types";
 
 const formatMoney = (amount: number | string | null | undefined) =>
   `${Number(amount || 0).toLocaleString("en-US", {
@@ -137,7 +94,8 @@ export default function AdminBookingsPage() {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [dashboardPath, setDashboardPath] = useState("/admin");
+  const sessionUser = useSessionUser();
+  const dashboardPath = sessionUser?.role === "staff" ? "/staff" : "/admin";
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [paymentFilter, setPaymentFilter] = useState("all");
@@ -146,113 +104,16 @@ export default function AdminBookingsPage() {
     let cancelled = false;
 
     const loadBookings = async () => {
-      const token = localStorage.getItem("token");
-      const storedUser = localStorage.getItem("user");
-
-      if (!token || !storedUser) {
-        router.replace("/login");
-        return;
-      }
-
       try {
-        const parsedUser = JSON.parse(storedUser) as AuthUser;
-
-        if (!["admin", "staff"].includes(parsedUser.role)) {
-          router.replace("/");
-          return;
-        }
-      } catch {
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
-        router.replace("/login");
-        return;
-      }
-
-      try {
-        const meResponse = await fetch(`${API_URL}/me`, {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          cache: "no-store",
-        });
-
-        if (meResponse.status === 401) {
-          localStorage.removeItem("token");
-          localStorage.removeItem("user");
-          router.replace("/login");
-          return;
-        }
-
-        if (!meResponse.ok) {
-          throw new Error("Failed to verify your account.");
-        }
-
-        const meResult = await meResponse.json();
-
-        const freshUser: AuthUser | undefined =
-          meResult?.data?.user ??
-          meResult?.user ??
-          meResult?.data;
-
-        if (!freshUser || !["admin", "staff"].includes(freshUser.role)) {
-          router.replace("/");
-          return;
-        }
-
-        if (cancelled) return;
-
-        const currentDashboard =
-          freshUser.role === "staff" ? "/staff" : "/admin";
-
-        setDashboardPath(currentDashboard);
-        localStorage.setItem("user", JSON.stringify(freshUser));
-
-        const response = await fetch(`${API_URL}/bookings`, {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          cache: "no-store",
-        });
-
-        if (response.status === 401) {
-          localStorage.removeItem("token");
-          localStorage.removeItem("user");
-          router.replace("/login");
-          return;
-        }
-
-        const result = await response.json().catch(() => null);
-
-        if (!response.ok) {
-          throw new Error(
-            result?.message ||
-              (response.status === 403
-                ? "You don't have permission to view bookings."
-                : "Failed to load bookings.")
-          );
-        }
-
-        const bookingList = Array.isArray(result?.data)
-          ? result.data
-          : Array.isArray(result)
-            ? result
-            : [];
+        const data = await apiFetch<Booking[]>("/bookings");
+        const bookingList = Array.isArray(data) ? data : [];
 
         if (!cancelled) {
           setBookings(bookingList);
         }
       } catch (err) {
-        if (!cancelled) {
-          setError(
-            err instanceof Error
-              ? err.message
-              : "Failed to load bookings."
-          );
-        }
+        if (cancelled || redirectIfUnauthorized(err, router)) return;
+        setError(errorMessage(err, "Failed to load bookings."));
       } finally {
         if (!cancelled) {
           setLoading(false);
@@ -650,7 +511,7 @@ export default function AdminBookingsPage() {
 
                       <td className="px-5 py-5 text-right">
                         <Link
-  href={`${dashboardPath}/bookings/${booking.id}`}
+  href={`/admin/bookings/${booking.id}`}
   className="inline-flex items-center justify-center rounded-xl border border-lime-400/20 bg-lime-400/10 px-4 py-2.5 text-xs font-semibold text-lime-300 transition hover:bg-lime-400/20"
 >
   View Details

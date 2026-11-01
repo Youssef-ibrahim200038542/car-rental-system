@@ -66,6 +66,17 @@ class BranchController extends Controller
 
     public function destroy(Branch $branch)
     {
+        if (
+            $branch->cars()->exists() ||
+            $branch->pickupBookings()->exists() ||
+            $branch->dropoffBookings()->exists()
+        ) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Cannot delete this branch because it has cars or bookings.',
+            ], 422);
+        }
+
         $branch->delete();
 
         return response()->json([

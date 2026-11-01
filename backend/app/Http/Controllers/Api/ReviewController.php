@@ -3,19 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Review;
 use App\Models\Booking;
+use App\Models\Review;
 use Illuminate\Http\Request;
 
 class ReviewController extends Controller
 {
     public function index()
     {
-        $reviews = Review::with([
-            'user',
-            'car',
-            'booking',
-        ])->latest()->get();
+        $reviews = Review::with(self::publicRelations())->latest()->get();
 
         return response()->json([
             'success' => true,
@@ -75,11 +71,7 @@ class ReviewController extends Controller
 
     public function show(Review $review)
     {
-        $review->load([
-            'user',
-            'car',
-            'booking',
-        ]);
+        $review->load(self::publicRelations());
 
         return response()->json([
             'success' => true,
@@ -134,5 +126,20 @@ class ReviewController extends Controller
             'success' => true,
             'message' => 'Review deleted successfully',
         ]);
+    }
+
+    /**
+     * Review listing is public: guests only get the reviewer's name, while
+     * admin/staff (token sent optionally) also see contact details and the booking.
+     */
+    private static function publicRelations(): array
+    {
+        $viewer = auth('sanctum')->user();
+
+        if ($viewer && in_array($viewer->role, ['admin', 'staff'], true)) {
+            return ['user', 'car', 'booking'];
+        }
+
+        return ['user:id,name,avatar', 'car'];
     }
 }

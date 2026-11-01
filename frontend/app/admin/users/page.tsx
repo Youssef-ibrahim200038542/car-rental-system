@@ -1,22 +1,12 @@
 
     "use client";
 
-    import { useCallback, useEffect, useState } from "react";
+    import { useEffect, useState } from "react";
     import Link from "next/link";
     import { useRouter } from "next/navigation";
-
-    type User = {
-    id: number;
-    name: string;
-    email: string;
-    phone?: string | null;
-    role: "admin" | "customer" | "staff";
-    created_at: string;
-    bookings_count?: number;
-    };
-
-    const API_URL =
-    process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
+    import { apiFetch, errorMessage } from "@/lib/api";
+    import { redirectIfUnauthorized } from "@/lib/auth";
+    import type { User } from "@/lib/types";
 
     const cardClass =
     "rounded-2xl border border-[#e8e2d5] bg-white p-5 shadow-sm";
@@ -34,65 +24,35 @@
     const [search, setSearch] = useState("");
     const [roleFilter, setRoleFilter] = useState("all");
 
-    const fetchUsers = useCallback(async () => {
-        const token = localStorage.getItem("token");
-        const storedUser = localStorage.getItem("user");
-
-        if (!token || !storedUser) {
-        router.replace("/login");
-        return;
-        }
-
-        try {
-        const currentUser = JSON.parse(storedUser);
-
-        if (currentUser.role !== "admin") {
-            router.replace("/");
-            return;
-        }
-        } catch {
-        localStorage.removeItem("user");
-        router.replace("/login");
-        return;
-        }
-
-        setLoading(true);
-        setError("");
-
-        try {
-        const response = await fetch(`${API_URL}/users`, {
-            headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-            },
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            if (response.status === 401) {
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            router.replace("/login");
-            return;
-            }
-
-            throw new Error(data.message || "Failed to load users.");
-        }
-
-        setUsers(Array.isArray(data.data) ? data.data : []);
-        } catch (err) {
-        setError(
-            err instanceof Error ? err.message : "Failed to load users."
-        );
-        } finally {
-        setLoading(false);
-        }
-    }, [router]);
+    const [reloadKey, setReloadKey] = useState(0);
 
     useEffect(() => {
-        fetchUsers();
-    }, [fetchUsers]);
+        let cancelled = false;
+
+        (async () => {
+        try {
+            const data = await apiFetch<User[]>("/users");
+            if (cancelled) return;
+            setUsers(Array.isArray(data) ? data : []);
+            setError("");
+        } catch (err) {
+            if (cancelled || redirectIfUnauthorized(err, router)) return;
+            setError(errorMessage(err, "Failed to load users."));
+        } finally {
+            if (!cancelled) setLoading(false);
+        }
+        })();
+
+        return () => {
+        cancelled = true;
+        };
+    }, [router, reloadKey]);
+
+    const fetchUsers = () => {
+        setLoading(true);
+        setError("");
+        setReloadKey((key) => key + 1);
+    };
 
     const handleDelete = async (user: User) => {
         if (deletingId !== null) return;
@@ -114,52 +74,24 @@
 
         if (!confirmed) return;
 
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-        router.replace("/login");
-        return;
-        }
-
         setDeletingId(user.id);
         setError("");
 
         try {
-        const response = await fetch(`${API_URL}/users/${user.id}`, {
-            method: "DELETE",
-            headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-            },
-        });
-
-        const data =
-            response.status === 204 ? {} : await response.json();
-
-        if (!response.ok) {
-            if (response.status === 401) {
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            router.replace("/login");
-            return;
-            }
-
-            throw new Error(data.message || "Failed to delete user.");
-        }
+        await apiFetch(`/users/${user.id}`, { method: "DELETE" });
 
         setUsers((current) =>
             current.filter((item) => item.id !== user.id)
         );
         } catch (err) {
-        setError(
-            err instanceof Error ? err.message : "Failed to delete user."
-        );
+        if (redirectIfUnauthorized(err, router)) return;
+        setError(errorMessage(err, "Failed to delete user."));
         } finally {
         setDeletingId(null);
         }
     };
 
-    const getRoleStyle = (role: string) => {
+    const getRoleStyle = (role?: string) => {
         switch (role) {
         case "admin":
             return "border-[#e5d7b8] bg-[#f5efdf] text-[#896b35]";
@@ -172,7 +104,8 @@
         }
     };
 
-    const formatDate = (date: string) => {
+    const formatDate = (date?: string) => {
+        if (!date) return "—";
         const parsedDate = new Date(date);
 
         if (Number.isNaN(parsedDate.getTime())) return "—";

@@ -1,29 +1,27 @@
 
     "use client";
 
-    import { useEffect, useState } from "react";
+    import { Suspense, useEffect, useState } from "react";
+    import Image from "next/image";
     import { useRouter, useSearchParams } from "next/navigation";
     import Link from "next/link";
+    import { apiFetch, errorMessage, getStoredUser, getToken } from "@/lib/api";
+    import { redirectIfUnauthorized } from "@/lib/auth";
+    import { getCarImageUrl } from "@/lib/car-images";
+    import type { Booking as ApiBooking, Car } from "@/lib/types";
 
-    type Booking = {
-    id: number;
-    user_id: number;
-    car_id: number;
-    pickup_date: string;
-    return_date: string;
-    status: string;
-    car?: {
-        id: number;
-        brand?: string;
-        model?: string;
-        name?: string;
-        year?: number;
-        image?: string | null;
-        image_url?: string | null;
-    };
-    };
+    /** The API has no car `name` column; kept optional so the fallbacks still read. */
+    type Booking = ApiBooking & { car?: (Car & { name?: string }) | null };
 
     export default function CreateReviewPage() {
+    return (
+        <Suspense fallback={<main className="min-h-screen bg-[#f8f8f7]" />}>
+        <CreateReviewForm />
+        </Suspense>
+    );
+    }
+
+    function CreateReviewForm() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const bookingId = searchParams.get("booking_id");
@@ -37,64 +35,24 @@
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState("");
 
-    const apiUrl =
-        process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
-
-    function getImageUrl(image?: string | null) {
-        if (!image?.trim()) return null;
-
-        const value = image.trim();
-
-        if (/^https?:\/\//i.test(value)) {
-        return value;
-        }
-
-        const baseUrl = apiUrl.replace(/\/api\/?$/, "");
-        const imagePath = value
-        .replace(/^\/+/, "")
-        .replace(/^public\//, "");
-
-        if (imagePath.startsWith("images/")) {
-        return `${baseUrl}/${imagePath}`;
-        }
-
-        const storagePath = imagePath.replace(/^storage\//, "");
-
-        return `${baseUrl}/storage/${storagePath}`;
-    }
-
     useEffect(() => {
-        const fetchBooking = async () => {
+        const user = getStoredUser();
+
+        if (!getToken() || !user) {
+        router.push("/login");
+        return;
+        }
+
+        let cancelled = false;
+
+        (async () => {
         try {
-            const token = localStorage.getItem("token");
-            const userString = localStorage.getItem("user");
-
-            if (!token || !userString) {
-            router.push("/login");
-            return;
-            }
-
             if (!bookingId) {
-            setError("Booking ID is missing.");
-            return;
+            throw new Error("Booking ID is missing.");
             }
 
-            const user = JSON.parse(userString);
-
-            const response = await fetch(`${apiUrl}/bookings/${bookingId}`, {
-            headers: {
-                Accept: "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-            throw new Error(data.message || "Failed to load booking.");
-            }
-
-            const fetchedBooking: Booking = data.data;
+            const fetchedBooking = await apiFetch<Booking>(`/bookings/${bookingId}`);
+            if (cancelled) return;
 
             if (Number(fetchedBooking.user_id) !== Number(user.id)) {
             setError("You can only review your own bookings.");
@@ -108,17 +66,18 @@
 
             setBooking(fetchedBooking);
         } catch (err) {
+            if (cancelled || redirectIfUnauthorized(err, router)) return;
             console.error(err);
-            setError(
-            err instanceof Error ? err.message : "Unable to load booking."
-            );
+            setError(errorMessage(err, "Unable to load booking."));
         } finally {
-            setLoading(false);
+            if (!cancelled) setLoading(false);
         }
-        };
+        })();
 
-        fetchBooking();
-    }, [apiUrl, bookingId, router]);
+        return () => {
+        cancelled = true;
+        };
+    }, [bookingId, router]);
 
     const handleSubmit = async () => {
         if (!booking) return;
@@ -132,39 +91,20 @@
         setSubmitting(true);
         setError("");
 
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-            router.push("/login");
-            return;
-        }
-
-        const response = await fetch(`${apiUrl}/reviews`, {
+        await apiFetch("/reviews", {
             method: "POST",
-            headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({
+            body: {
             booking_id: booking.id,
             rating,
             comment: comment.trim() || null,
-            }),
+            },
         });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(data.message || "Failed to submit review.");
-        }
 
         router.push("/bookings");
         } catch (err) {
+        if (redirectIfUnauthorized(err, router)) return;
         console.error(err);
-        setError(
-            err instanceof Error ? err.message : "Unable to submit review."
-        );
+        setError(errorMessage(err, "Unable to submit review."));
         } finally {
         setSubmitting(false);
         }
@@ -182,9 +122,10 @@
         `${booking?.car?.brand || ""} ${booking?.car?.model || ""}`.trim() ||
         "Rental Car";
 
-    const carImage = getImageUrl(
-        booking?.car?.image_url || booking?.car?.image
-    );
+    // Only the car's own uploaded photo; the "No Image" tile covers the rest.
+    const carImage = booking?.car?.image?.trim()
+        ? getCarImageUrl(booking.car.image)
+        : null;
 
     const ratingLabel = [
         "",
@@ -269,9 +210,12 @@
                     <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
                     <div className="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-[#e9e5da] bg-[#f8f8f7]">
                         {carImage && !imageError ? (
-                        <img
+                        <Image
                             src={carImage}
                             alt={carName}
+                            width={96}
+                            height={96}
+                            unoptimized
                             className="h-full w-full object-cover"
                             onError={() => setImageError(true)}
                         />

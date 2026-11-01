@@ -2,15 +2,15 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use App\Models\CarCategory;
+use App\Models\Booking;
+use App\Models\BookingAddon;
 use App\Models\Branch;
 use App\Models\Car;
-use App\Models\Booking;
-use App\Models\Payment;
-use App\Models\BookingAddon;
+use App\Models\CarCategory;
 use App\Models\Maintenance;
+use App\Models\Payment;
 use App\Models\Review;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -68,7 +68,6 @@ class DatabaseSeeder extends Seeder
             'password' => 'password',
         ]);
 
-
         /*
         |--------------------------------------------------------------------------
         | Car Categories
@@ -99,7 +98,6 @@ class DatabaseSeeder extends Seeder
             'daily_rate' => 3000,
         ]);
 
-
         /*
         |--------------------------------------------------------------------------
         | Branches
@@ -126,7 +124,6 @@ class DatabaseSeeder extends Seeder
             'city' => 'Cairo',
             'phone' => '0223456790',
         ]);
-
 
         /*
         |--------------------------------------------------------------------------
@@ -224,7 +221,7 @@ class DatabaseSeeder extends Seeder
             'transmission' => 'automatic',
             'seats' => 5,
             'daily_rate' => 1900,
-            'status' => 'available',
+            'status' => 'maintenance',
             'image' => 'images/cars/kia-sportage.jpg',
             'description' => 'Modern Kia Sportage SUV.',
         ]);
@@ -590,7 +587,6 @@ class DatabaseSeeder extends Seeder
             'description' => 'Powerful Jeep Grand Cherokee SUV with premium comfort and excellent road capability.',
         ]);
 
-
         /*
         |--------------------------------------------------------------------------
         | Bookings
@@ -645,7 +641,6 @@ class DatabaseSeeder extends Seeder
             'notes' => 'Completed successfully.',
         ]);
 
-
         /*
         |--------------------------------------------------------------------------
         | Payments
@@ -679,7 +674,6 @@ class DatabaseSeeder extends Seeder
             'paid_at' => '2026-08-20 10:00:00',
         ]);
 
-
         /*
         |--------------------------------------------------------------------------
         | Booking Addons
@@ -707,7 +701,6 @@ class DatabaseSeeder extends Seeder
             'quantity' => 1,
         ]);
 
-
         /*
         |--------------------------------------------------------------------------
         | Maintenance
@@ -733,7 +726,6 @@ class DatabaseSeeder extends Seeder
             'end_date' => null,
             'status' => 'scheduled',
         ]);
-
 
         /*
         |--------------------------------------------------------------------------

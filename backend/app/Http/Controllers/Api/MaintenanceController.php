@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Car;
 use App\Models\Maintenance;
 use Illuminate\Http\Request;
 
@@ -31,6 +32,8 @@ class MaintenanceController extends Controller
         ]);
 
         $maintenance = Maintenance::create($validated);
+
+        $this->syncCarStatus($maintenance->car_id);
 
         return response()->json([
             'success' => true,
@@ -61,7 +64,15 @@ class MaintenanceController extends Controller
             'status' => 'sometimes|required|in:scheduled,in_progress,completed,cancelled',
         ]);
 
+        $oldCarId = $maintenance->car_id;
+
         $maintenance->update($validated);
+
+        $this->syncCarStatus($maintenance->car_id);
+
+        if ($oldCarId !== $maintenance->car_id) {
+            $this->syncCarStatus($oldCarId);
+        }
 
         return response()->json([
             'success' => true,
@@ -74,9 +85,34 @@ class MaintenanceController extends Controller
     {
         $maintenance->delete();
 
+        $this->syncCarStatus($maintenance->car_id);
+
         return response()->json([
             'success' => true,
             'message' => 'Maintenance record deleted successfully',
         ]);
+    }
+
+    /**
+     * Open maintenance puts the car in the workshop; once none is open it is available again.
+     * Inactive cars are left alone.
+     */
+    private function syncCarStatus(int $carId): void
+    {
+        $car = Car::find($carId);
+
+        if (! $car || $car->status === 'inactive') {
+            return;
+        }
+
+        $hasOpenMaintenance = $car->maintenanceRecords()
+            ->whereIn('status', ['scheduled', 'in_progress'])
+            ->exists();
+
+        if ($hasOpenMaintenance) {
+            $car->update(['status' => 'maintenance']);
+        } elseif ($car->status === 'maintenance') {
+            $car->update(['status' => 'available']);
+        }
     }
 }

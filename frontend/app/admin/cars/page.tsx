@@ -1,29 +1,13 @@
 
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { apiFetch, errorMessage } from "@/lib/api";
+import { redirectIfUnauthorized } from "@/lib/auth";
+import type { Car } from "@/lib/types";
 
-type Car = {
-  id: number;
-  brand: string;
-  model: string;
-  year: number;
-  daily_rate: number;
-  status: string;
-  category?: {
-    id: number;
-    name: string;
-  };
-  branch?: {
-    id: number;
-    name: string;
-  };
-};
-
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
 
 const statusStyles: Record<string, string> = {
   available: "border-emerald-200 bg-emerald-50 text-emerald-800",
@@ -113,76 +97,38 @@ export default function AdminCarsPage() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [refreshing, setRefreshing] = useState(false);
 
-  const fetchCars = useCallback(
-    async (showRefresh = false) => {
-      const token = localStorage.getItem("token");
-      const storedUser = localStorage.getItem("user");
-
-      if (!token || !storedUser) {
-        router.replace("/login");
-        return;
-      }
-
-      try {
-        const user = JSON.parse(storedUser);
-
-        if (user.role !== "admin") {
-          router.replace("/");
-          return;
-        }
-      } catch {
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
-        router.replace("/login");
-        return;
-      }
-
-      if (showRefresh) {
-        setRefreshing(true);
-      } else {
-        setLoading(true);
-      }
-
-      setError("");
-
-      try {
-        const response = await fetch(`${API_URL}/cars`, {
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          cache: "no-store",
-        });
-
-        if (response.status === 401) {
-          localStorage.removeItem("token");
-          localStorage.removeItem("user");
-          router.replace("/login");
-          return;
-        }
-
-        const data = await response.json().catch(() => ({}));
-
-        if (!response.ok) {
-          throw new Error(data.message || "Failed to load cars.");
-        }
-
-        setCars(Array.isArray(data.data) ? data.data : []);
-      } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "Failed to load cars."
-        );
-      } finally {
-        setLoading(false);
-        setRefreshing(false);
-      }
-    },
-    [router]
-  );
+  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
-    void fetchCars();
-  }, [fetchCars]);
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const data = await apiFetch<Car[]>("/cars");
+        if (cancelled) return;
+        setCars(Array.isArray(data) ? data : []);
+        setError("");
+      } catch (err) {
+        if (cancelled || redirectIfUnauthorized(err, router)) return;
+        setError(errorMessage(err, "Failed to load cars."));
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+          setRefreshing(false);
+        }
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [router, reloadKey]);
+
+  const refreshCars = () => {
+    setRefreshing(true);
+    setError("");
+    setReloadKey((key) => key + 1);
+  };
 
   const handleDelete = async (id: number) => {
     const car = cars.find((item) => item.id === id);
@@ -194,45 +140,18 @@ export default function AdminCarsPage() {
 
     if (!confirmed) return;
 
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      router.replace("/login");
-      return;
-    }
-
     setDeletingId(id);
     setError("");
 
     try {
-      const response = await fetch(`${API_URL}/cars/${id}`, {
-        method: "DELETE",
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.status === 401) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        router.replace("/login");
-        return;
-      }
-
-      const data = await response.json().catch(() => ({}));
-
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to delete car.");
-      }
+      await apiFetch(`/cars/${id}`, { method: "DELETE" });
 
       setCars((currentCars) =>
         currentCars.filter((item) => item.id !== id)
       );
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Failed to delete car."
-      );
+      if (redirectIfUnauthorized(err, router)) return;
+      setError(errorMessage(err, "Failed to delete car."));
     } finally {
       setDeletingId(null);
     }
@@ -308,7 +227,7 @@ export default function AdminCarsPage() {
             <div className="flex flex-wrap gap-3">
               <button
                 type="button"
-                onClick={() => void fetchCars(true)}
+                onClick={refreshCars}
                 disabled={refreshing}
                 className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#dedbd2] bg-white px-5 py-3 text-sm font-semibold text-[#34443b] transition hover:bg-[#f3f1eb] disabled:opacity-60"
               >
