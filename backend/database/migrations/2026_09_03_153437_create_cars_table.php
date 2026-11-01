@@ -38,12 +38,12 @@ return new class extends Migration
                 'petrol',
                 'diesel',
                 'hybrid',
-                'electric'
+                'electric',
             ]);
 
             $table->enum('transmission', [
                 'manual',
-                'automatic'
+                'automatic',
             ]);
 
             $table->unsignedTinyInteger('seats');
@@ -56,7 +56,7 @@ return new class extends Migration
                 'reserved',
                 'rented',
                 'maintenance',
-                'inactive'
+                'inactive',
             ])->default('available');
 
             // Media & description
