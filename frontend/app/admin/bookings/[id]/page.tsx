@@ -4,68 +4,9 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-
-type User = {
-  id: number;
-  name: string;
-  email: string;
-  phone?: string | null;
-};
-
-type Car = {
-  id: number;
-  brand: string;
-  model: string;
-  year: number;
-  color?: string | null;
-  daily_rate: number;
-  status: string;
-};
-
-type Branch = {
-  id: number;
-  name: string;
-  address?: string | null;
-};
-
-type Payment = {
-  id: number;
-  amount: number;
-  payment_method: string;
-  payment_status: string;
-  transaction_reference?: string | null;
-  paid_at?: string | null;
-};
-
-type Booking = {
-  id: number;
-  user_id: number;
-  car_id: number;
-  pickup_branch_id: number;
-  dropoff_branch_id: number;
-  pickup_date: string;
-  return_date: string;
-  daily_rate: number;
-  total_days: number;
-  subtotal: number;
-  discount: number;
-  total_amount: number;
-  status: string;
-  notes?: string | null;
-  user?: User;
-  car?: Car;
-  pickup_branch?: Branch;
-  dropoff_branch?: Branch;
-  payments?: Payment[];
-};
-
-type AuthUser = {
-  id: number;
-  role: string;
-};
-
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
+import { apiFetch, errorMessage, isApiError } from "@/lib/api";
+import { redirectIfUnauthorized } from "@/lib/auth";
+import type { Booking, BookingStatus } from "@/lib/types";
 
 const formatMoney = (amount: number | string | null | undefined) =>
   `${Number(amount || 0).toLocaleString("en-US", {
@@ -165,90 +106,14 @@ export default function AdminBookingDetailsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [updating, setUpdating] = useState(false);
-  const [selectedStatus, setSelectedStatus] = useState("");
-  const [dashboardPath, setDashboardPath] = useState("/admin");
+  const [selectedStatus, setSelectedStatus] = useState<BookingStatus | "">("");
 
   useEffect(() => {
     let cancelled = false;
 
     const loadBooking = async () => {
-      const token = localStorage.getItem("token");
-
-      if (!token) {
-        router.replace("/login");
-        return;
-      }
-
       try {
-        const meResponse = await fetch(`${API_URL}/me`, {
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        if (meResponse.status === 401) {
-          localStorage.removeItem("token");
-          localStorage.removeItem("user");
-          router.replace("/login");
-          return;
-        }
-
-        if (!meResponse.ok) {
-          throw new Error("Could not verify your account permissions.");
-        }
-
-        const meData = await meResponse.json();
-        const user: AuthUser | undefined =
-          meData.data?.user ?? meData.user ?? meData.data;
-
-        if (!user || !["admin", "staff"].includes(user.role)) {
-          router.replace("/");
-          return;
-        }
-
-        if (cancelled) return;
-
-        const roleDashboard =
-          user.role === "staff" ? "/staff" : "/admin";
-
-        setDashboardPath(roleDashboard);
-
-        const bookingResponse = await fetch(
-          `${API_URL}/bookings/${bookingId}`,
-          {
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        const bookingData = await bookingResponse
-          .json()
-          .catch(() => null);
-
-        if (!bookingResponse.ok) {
-          if (bookingResponse.status === 401) {
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            router.replace("/login");
-            return;
-          }
-
-          if (bookingResponse.status === 403) {
-            throw new Error(
-              "Your account does not have permission to view this booking. Check the Laravel booking permissions."
-            );
-          }
-
-          throw new Error(
-            bookingData?.message || "Failed to load booking."
-          );
-        }
-
-        const loadedBooking: Booking =
-          bookingData?.data ?? bookingData;
+        const loadedBooking = await apiFetch<Booking>(`/bookings/${bookingId}`);
 
         if (!loadedBooking?.id) {
           throw new Error(
@@ -261,13 +126,12 @@ export default function AdminBookingDetailsPage() {
           setSelectedStatus(loadedBooking.status);
         }
       } catch (err) {
-        if (!cancelled) {
-          setError(
-            err instanceof Error
-              ? err.message
-              : "Failed to load booking."
-          );
-        }
+        if (cancelled || redirectIfUnauthorized(err, router)) return;
+        setError(
+          isApiError(err, 403)
+            ? "Your account does not have permission to view this booking."
+            : errorMessage(err, "Failed to load booking.")
+        );
       } finally {
         if (!cancelled) {
           setLoading(false);
@@ -285,54 +149,14 @@ export default function AdminBookingDetailsPage() {
   const updateStatus = async () => {
     if (!booking || selectedStatus === booking.status) return;
 
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      router.replace("/login");
-      return;
-    }
-
     setUpdating(true);
     setError("");
 
     try {
-      const response = await fetch(
-        `${API_URL}/bookings/${booking.id}`,
-        {
-          method: "PUT",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            status: selectedStatus,
-          }),
-        }
-      );
-
-      const data = await response.json().catch(() => null);
-
-      if (!response.ok) {
-        if (response.status === 401) {
-          localStorage.removeItem("token");
-          localStorage.removeItem("user");
-          router.replace("/login");
-          return;
-        }
-
-        if (response.status === 403) {
-          throw new Error(
-            "Your account does not have permission to update bookings. Check the Laravel booking permissions."
-          );
-        }
-
-        throw new Error(
-          data?.message || "Failed to update booking status."
-        );
-      }
-
-      const updatedBooking: Booking = data?.data ?? data;
+      const updatedBooking = await apiFetch<Booking>(`/bookings/${booking.id}`, {
+        method: "PUT",
+        body: { status: selectedStatus },
+      });
 
       setBooking((current) =>
         current
@@ -347,10 +171,11 @@ export default function AdminBookingDetailsPage() {
         updatedBooking?.status || selectedStatus
       );
     } catch (err) {
+      if (redirectIfUnauthorized(err, router)) return;
       setError(
-        err instanceof Error
-          ? err.message
-          : "Failed to update booking status."
+        isApiError(err, 403)
+          ? "Your account does not have permission to update bookings."
+          : errorMessage(err, "Failed to update booking status.")
       );
     } finally {
       setUpdating(false);
@@ -390,7 +215,7 @@ export default function AdminBookingDetailsPage() {
             </p>
 
             <Link
-              href={`${dashboardPath}/bookings`}
+              href="/admin/bookings"
               className="mt-7 inline-flex items-center justify-center rounded-xl bg-[#0a1411] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#1a3027]"
             >
               Back to Bookings
@@ -421,7 +246,7 @@ export default function AdminBookingDetailsPage() {
       <div className="mx-auto max-w-7xl">
         <div className="mb-8">
           <Link
-            href={`${dashboardPath}/bookings`}
+            href="/admin/bookings"
             className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-gray-500 transition hover:text-[#9a783c]"
           >
             <span aria-hidden="true">←</span>
@@ -786,7 +611,7 @@ export default function AdminBookingDetailsPage() {
                 id="booking-status"
                 value={selectedStatus}
                 onChange={(event) =>
-                  setSelectedStatus(event.target.value)
+                  setSelectedStatus(event.target.value as BookingStatus)
                 }
                 className="mt-2 w-full rounded-xl border border-[#dedbd3] bg-[#fbfaf7] px-4 py-3 text-sm font-medium text-[#17251e] outline-none transition focus:border-[#c6a15b] focus:ring-2 focus:ring-[#c6a15b]/20"
               >

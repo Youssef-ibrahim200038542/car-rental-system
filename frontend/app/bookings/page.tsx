@@ -3,113 +3,104 @@
 
     import { useEffect, useMemo, useState } from "react";
     import Link from "next/link";
+    import { useRouter } from "next/navigation";
+    import CarImage from "@/app/components/CarImage";
+    import { apiFetch, errorMessage, getToken } from "@/lib/api";
+    import { redirectIfUnauthorized } from "@/lib/auth";
     import { getCarImageUrl, getLocalCarImage } from "@/lib/car-images";
+    import type { Booking as ApiBooking, Car } from "@/lib/types";
 
-    type Booking = {
-    id: number;
-    user_id: number | string;
-    car_id: number;
-    pickup_branch_id: number;
-    dropoff_branch_id: number;
-    pickup_date: string;
-    return_date: string;
-    daily_rate: number;
-    total_days: number;
-    subtotal: number;
-    discount: number;
-    total_amount: number;
-    status: string;
-    notes?: string | null;
-
-    car?: {
-        id: number;
-        brand?: string;
-        model?: string;
-        name?: string;
-        image?: string | null;
-        year?: number;
-    };
-
-    pickup_branch?: {
-        id: number;
-        name: string;
-        city?: string;
-    };
-
-    dropoff_branch?: {
-        id: number;
-        name: string;
-        city?: string;
-    };
-    };
-
-    type User = {
-    id: number | string;
-    name: string;
-    email: string;
-    role?: string;
-    };
+    /** The API has no car `name` column; kept optional so the fallbacks still read. */
+    type Booking = ApiBooking & { car?: (Car & { name?: string }) | null };
 
     type FilterType = "all" | "active" | "completed" | "cancelled";
 
-    const API_URL = (
-    process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api"
-    ).replace(/\/+$/, "");
+    /** Customers may cancel only before the rental starts (backend rule). */
+    const isCancellable = (status: string) =>
+    ["pending", "confirmed"].includes(status.toLowerCase());
+
+    const hasPayment = (booking: Booking) =>
+    (booking.payments ?? []).some((payment) =>
+        ["paid", "pending"].includes(payment.payment_status)
+    );
 
     const isActiveBooking = (status: string) =>
     ["active", "confirmed", "pending"].includes(status.toLowerCase());
 
     export default function BookingsPage() {
+    const router = useRouter();
     const [bookings, setBookings] = useState<Booking[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [actionError, setActionError] = useState("");
+    const [cancellingId, setCancellingId] = useState<number | null>(null);
     const [filter, setFilter] = useState<FilterType>("all");
+    const [reloadKey, setReloadKey] = useState(0);
 
     useEffect(() => {
-        const fetchBookings = async () => {
+        if (!getToken()) {
+        router.replace("/login");
+        return;
+        }
+
+        let cancelled = false;
+
+        (async () => {
         try {
-            const token = localStorage.getItem("token");
-            const userString = localStorage.getItem("user");
-
-            if (!token || !userString) {
-            window.location.href = "/login";
-            return;
-            }
-
-            const user: User = JSON.parse(userString);
-
-            const response = await fetch(`${API_URL}/bookings`, {
-            headers: {
-                Accept: "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-            throw new Error(data.message || "Failed to fetch bookings");
-            }
-
-            const allBookings: Booking[] = Array.isArray(data.data)
-            ? data.data
-            : [];
-
-            const userBookings = allBookings.filter(
-            (booking) => Number(booking.user_id) === Number(user.id)
-            );
-
-            setBookings(userBookings);
+            // The API returns only the signed-in customer's bookings.
+            const data = await apiFetch<Booking[]>("/bookings");
+            if (cancelled) return;
+            setBookings(Array.isArray(data) ? data : []);
+            setError("");
         } catch (err) {
+            if (cancelled || redirectIfUnauthorized(err, router)) return;
             console.error("Error fetching bookings:", err);
             setError("Unable to load your bookings. Please try again.");
         } finally {
-            setLoading(false);
+            if (!cancelled) setLoading(false);
         }
-        };
+        })();
 
-        fetchBookings();
-    }, []);
+        return () => {
+        cancelled = true;
+        };
+    }, [router, reloadKey]);
+
+    const retry = () => {
+        setLoading(true);
+        setError("");
+        setReloadKey((key) => key + 1);
+    };
+
+    const cancelBooking = async (booking: Booking) => {
+        const confirmed = window.confirm(
+        `Cancel booking #${booking.id}? This cannot be undone.`
+        );
+        if (!confirmed) return;
+
+        setCancellingId(booking.id);
+        setActionError("");
+
+        try {
+        const updated = await apiFetch<Booking>(
+            `/bookings/${booking.id}/cancel`,
+            { method: "POST" }
+        );
+
+        setBookings((current) =>
+            current.map((item) =>
+            item.id === booking.id
+                ? { ...item, status: updated?.status ?? "cancelled" }
+                : item
+            )
+        );
+        } catch (err) {
+        if (redirectIfUnauthorized(err, router)) return;
+        setActionError(errorMessage(err, "Failed to cancel booking."));
+        } finally {
+        setCancellingId(null);
+        }
+    };
 
     const getStatusStyle = (status: string) => {
         switch (status.toLowerCase()) {
@@ -414,7 +405,7 @@
 
                 <button
                 type="button"
-                onClick={() => window.location.reload()}
+                onClick={retry}
                 className="mt-6 inline-flex items-center justify-center rounded-xl bg-[#365747] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#c6a15b] hover:text-[#0a1411] focus:outline-none focus:ring-2 focus:ring-[#c6a15b] focus:ring-offset-2"
                 >
                 Try Again
@@ -506,6 +497,15 @@
                 </div>
             )}
 
+            {actionError && (
+            <div
+                role="alert"
+                className="mb-6 rounded-xl border border-[#e8caca] bg-[#fbefef] px-4 py-3 text-sm text-[#a34444]"
+            >
+                {actionError}
+            </div>
+            )}
+
             {/* Bookings */}
             {!loading && !error && filteredBookings.length > 0 && (
             <div className="space-y-6">
@@ -536,15 +536,12 @@
                     <div className="flex flex-col lg:flex-row">
                         {/* Car Image */}
                         <div className="relative h-64 overflow-hidden bg-[#eeede8] lg:min-h-[420px] lg:w-72 lg:shrink-0">
-                        <img
+                        <CarImage
                             src={imageUrl}
+                            fallbackSrc={fallbackImage}
                             alt={carName}
-                            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                            loading="lazy"
-                            onError={(event) => {
-                            event.currentTarget.onerror = null;
-                            event.currentTarget.src = fallbackImage;
-                            }}
+                            sizes="(min-width: 1024px) 288px, 100vw"
+                            className="object-cover transition-transform duration-700 group-hover:scale-105"
                         />
 
                         <div className="absolute inset-0 bg-gradient-to-t from-[#0a1411]/50 via-transparent to-transparent" />
@@ -707,6 +704,28 @@
                             </p>
 
                             <div className="flex flex-col gap-3 sm:flex-row">
+                            {booking.status.toLowerCase() === "pending" &&
+                                !hasPayment(booking) && (
+                                <Link
+                                    href={`/payment?booking_id=${booking.id}`}
+                                    className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#e7d7ac] bg-[#fcf6e5] px-5 py-2.5 text-sm font-semibold text-[#87662f] transition-all duration-200 hover:border-[#c6a15b] hover:bg-[#f6f0e3] focus:outline-none focus:ring-2 focus:ring-[#c6a15b] focus:ring-offset-2"
+                                >
+                                    Complete Payment
+                                    <span aria-hidden="true">→</span>
+                                </Link>
+                                )}
+
+                            {isCancellable(booking.status) && (
+                                <button
+                                type="button"
+                                onClick={() => void cancelBooking(booking)}
+                                disabled={cancellingId === booking.id}
+                                className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#e8caca] bg-[#fbefef] px-5 py-2.5 text-sm font-semibold text-[#a34444] transition-all duration-200 hover:border-[#c45a5a] focus:outline-none focus:ring-2 focus:ring-[#c45a5a] focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+                                >
+                                {cancellingId === booking.id ? "Cancelling..." : "Cancel Booking"}
+                                </button>
+                            )}
+
                             {booking.status.toLowerCase() === "completed" && (
                                 <Link
                                 href={`/reviews/create?booking_id=${booking.id}`}

@@ -1,70 +1,14 @@
     
     "use client";
 
-    import { useCallback, useEffect, useState } from "react";
+    import { useEffect, useState } from "react";
     import Link from "next/link";
     import { useRouter } from "next/navigation";
+    import { apiFetch, errorMessage } from "@/lib/api";
+    import { redirectIfUnauthorized, useSessionUser } from "@/lib/auth";
+    import type { AdminStats, Booking, Money, Payment, Review } from "@/lib/types";
 
-    type Stats = {
-    cars: number;
-    bookings: number;
-    payments: number;
-    branches: number;
-    reviews: number;
-    };
-
-    type Car = {
-    id: number;
-    brand: string;
-    model: string;
-    status: string;
-    daily_rate: number;
-    };
-
-    type Booking = {
-    id: number;
-    status: string;
-    total_amount: number;
-    pickup_date: string;
-    return_date: string;
-    created_at?: string;
-    user?: { name: string };
-    car?: { brand: string; model: string };
-    };
-
-    type Payment = {
-    id: number;
-    amount: number;
-    payment_status: string;
-    payment_method: string;
-    paid_at?: string | null;
-    };
-
-    type Review = {
-    id: number;
-    rating: number;
-    comment?: string | null;
-    created_at: string;
-    user?: { name: string };
-    car?: {
-        brand?: string;
-        model?: string;
-        name?: string;
-    };
-    };
-
-    type User = {
-    id: number;
-    name: string;
-    email: string;
-    role: string;
-    };
-
-    const API_URL = (
-    process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api"
-    ).replace(/\/+$/, "");
-
-    const money = (value: number) =>
+    const money = (value: Money) =>
     Number(value || 0).toLocaleString("en-US", {
         maximumFractionDigits: 2,
     });
@@ -214,172 +158,68 @@
     export default function AdminDashboardPage() {
     const router = useRouter();
 
-    const [user, setUser] = useState<User | null>(null);
-    const [stats, setStats] = useState<Stats>({
-        cars: 0,
-        bookings: 0,
-        payments: 0,
-        branches: 0,
-        reviews: 0,
-    });
-
-    const [cars, setCars] = useState<Car[]>([]);
+    const user = useSessionUser();
+    const [stats, setStats] = useState<AdminStats | null>(null);
     const [bookings, setBookings] = useState<Booking[]>([]);
     const [payments, setPayments] = useState<Payment[]>([]);
     const [reviews, setReviews] = useState<Review[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [search, setSearch] = useState("");
-
-    const fetchDashboard = useCallback(async () => {
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-        router.replace("/login");
-        return;
-        }
-
-        setLoading(true);
-        setError("");
-
-        const headers = {
-        Accept: "application/json",
-        Authorization: `Bearer ${token}`,
-        };
-
-        try {
-        const meResponse = await fetch(`${API_URL}/me`, {
-            headers,
-            cache: "no-store",
-        });
-
-        if (meResponse.status === 401 || meResponse.status === 403) {
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            window.dispatchEvent(new Event("auth-changed"));
-            router.replace("/login");
-            return;
-        }
-
-        if (!meResponse.ok) {
-            throw new Error("Unable to verify your account.");
-        }
-
-        const meData = await meResponse.json();
-        const currentUser = meData?.data?.user as User | undefined;
-
-        if (!currentUser || currentUser.role !== "admin") {
-            router.replace("/");
-            return;
-        }
-
-        setUser(currentUser);
-        localStorage.setItem("user", JSON.stringify(currentUser));
-
-        const [
-            carsResponse,
-            bookingsResponse,
-            paymentsResponse,
-            branchesResponse,
-            reviewsResponse,
-        ] = await Promise.all([
-            fetch(`${API_URL}/cars`, { headers, cache: "no-store" }),
-            fetch(`${API_URL}/bookings`, { headers, cache: "no-store" }),
-            fetch(`${API_URL}/payments`, { headers, cache: "no-store" }),
-            fetch(`${API_URL}/branches`, { headers, cache: "no-store" }),
-            fetch(`${API_URL}/reviews`, { headers, cache: "no-store" }),
-        ]);
-
-        const responses = [
-            carsResponse,
-            bookingsResponse,
-            paymentsResponse,
-            branchesResponse,
-            reviewsResponse,
-        ];
-
-        if (responses.some((response) => !response.ok)) {
-            throw new Error("Failed to load dashboard data.");
-        }
-
-        const [
-            carsData,
-            bookingsData,
-            paymentsData,
-            branchesData,
-            reviewsData,
-        ] = await Promise.all(responses.map((response) => response.json()));
-
-        const carsList: Car[] = Array.isArray(carsData.data)
-            ? carsData.data
-            : [];
-        const bookingsList: Booking[] = Array.isArray(bookingsData.data)
-            ? bookingsData.data
-            : [];
-        const paymentsList: Payment[] = Array.isArray(paymentsData.data)
-            ? paymentsData.data
-            : [];
-        const branchesList = Array.isArray(branchesData.data)
-            ? branchesData.data
-            : [];
-        const reviewsList: Review[] = Array.isArray(reviewsData.data)
-            ? reviewsData.data
-            : [];
-
-        setCars(carsList);
-        setBookings(bookingsList);
-        setPayments(paymentsList);
-        setReviews(reviewsList);
-
-        setStats({
-            cars: carsList.length,
-            bookings: bookingsList.length,
-            payments: paymentsList.length,
-            branches: branchesList.length,
-            reviews: reviewsList.length,
-        });
-        } catch (err) {
-        console.error(err);
-        setError(
-            err instanceof Error ? err.message : "Unable to load dashboard."
-        );
-        } finally {
-        setLoading(false);
-        }
-    }, [router]);
+    const [reloadKey, setReloadKey] = useState(0);
 
     useEffect(() => {
-        void fetchDashboard();
-    }, [fetchDashboard]);
+        let cancelled = false;
 
-    const pendingBookings = bookings.filter(
-        (item) => item.status === "pending"
-    ).length;
-    const confirmedBookings = bookings.filter(
-        (item) => item.status === "confirmed"
-    ).length;
-    const activeBookings = bookings.filter(
-        (item) => item.status === "active"
-    ).length;
-    const completedBookings = bookings.filter(
-        (item) => item.status === "completed"
-    ).length;
-    const cancelledBookings = bookings.filter(
-        (item) => item.status === "cancelled"
-    ).length;
+        (async () => {
+        try {
+            // Counts come from /admin/stats; the lists feed the recent-activity panels.
+            const [statsData, bookingsList, paymentsList, reviewsList] =
+            await Promise.all([
+                apiFetch<AdminStats>("/admin/stats"),
+                apiFetch<Booking[]>("/bookings"),
+                apiFetch<Payment[]>("/payments"),
+                apiFetch<Review[]>("/reviews"),
+            ]);
 
-    const availableCars = cars.filter(
-        (item) => item.status === "available"
-    ).length;
-    const reservedCars = cars.filter(
-        (item) => item.status === "reserved"
-    ).length;
-    const rentedCars = cars.filter(
-        (item) => item.status === "rented"
-    ).length;
-    const maintenanceCars = cars.filter(
-        (item) => item.status === "maintenance"
-    ).length;
+            if (cancelled) return;
+
+            setStats(statsData);
+            setBookings(Array.isArray(bookingsList) ? bookingsList : []);
+            setPayments(Array.isArray(paymentsList) ? paymentsList : []);
+            setReviews(Array.isArray(reviewsList) ? reviewsList : []);
+            setError("");
+        } catch (err) {
+            if (cancelled || redirectIfUnauthorized(err, router)) return;
+            console.error(err);
+            setError(errorMessage(err, "Unable to load dashboard."));
+        } finally {
+            if (!cancelled) setLoading(false);
+        }
+        })();
+
+        return () => {
+        cancelled = true;
+        };
+    }, [router, reloadKey]);
+
+    const fetchDashboard = () => {
+        setLoading(true);
+        setError("");
+        setReloadKey((key) => key + 1);
+    };
+
+    const pendingBookings = stats?.bookings.pending ?? 0;
+    const confirmedBookings = stats?.bookings.confirmed ?? 0;
+    const activeBookings = stats?.bookings.active ?? 0;
+    const completedBookings = stats?.bookings.completed ?? 0;
+    const cancelledBookings = stats?.bookings.cancelled ?? 0;
+
+    const totalCars = stats?.cars.total ?? 0;
+    const availableCars = stats?.cars.available ?? 0;
+    const reservedCars = stats?.cars.reserved ?? 0;
+    const rentedCars = stats?.cars.rented ?? 0;
+    const maintenanceCars = stats?.cars.maintenance ?? 0;
 
     const paidPayments = payments.filter(
         (item) => item.payment_status === "paid"
@@ -387,19 +227,14 @@
     const pendingPayments = payments.filter(
         (item) => item.payment_status === "pending"
     ).length;
-    const totalRevenue = paidPayments.reduce(
-        (sum, item) => sum + Number(item.amount || 0),
-        0
-    );
+    const totalRevenue = stats?.revenue.paid_total ?? 0;
     const totalBookingValue = bookings.reduce(
         (sum, item) => sum + Number(item.total_amount || 0),
         0
     );
 
-    const averageRating = reviews.length
-        ? reviews.reduce((sum, item) => sum + Number(item.rating || 0), 0) /
-        reviews.length
-        : 0;
+    const reviewCount = stats?.reviews.total ?? 0;
+    const averageRating = stats?.reviews.average_rating ?? 0;
 
     const recentBookings = [...bookings]
         .sort(
@@ -412,8 +247,8 @@
     const recentReviews = [...reviews]
         .sort(
         (a, b) =>
-            new Date(b.created_at).getTime() -
-            new Date(a.created_at).getTime()
+            new Date(b.created_at ?? 0).getTime() -
+            new Date(a.created_at ?? 0).getTime()
         )
         .slice(0, 3);
 
@@ -604,7 +439,7 @@
             {[
                 {
                 label: "Total vehicles",
-                value: stats.cars,
+                value: totalCars,
                 detail: `${availableCars} available now`,
                 icon: "car",
                 color: "bg-[#e8eee7] text-[#315b3c]",
@@ -612,7 +447,7 @@
                 },
                 {
                 label: "Total bookings",
-                value: stats.bookings,
+                value: stats?.bookings.total ?? 0,
                 detail: `${pendingBookings} awaiting review`,
                 icon: "calendar",
                 color: "bg-[#eee8da] text-[#8b6a31]",
@@ -628,8 +463,8 @@
                 },
                 {
                 label: "Customer rating",
-                value: reviews.length ? `${averageRating.toFixed(1)} / 5` : "—",
-                detail: `${stats.reviews} customer reviews`,
+                value: reviewCount ? `${averageRating.toFixed(1)} / 5` : "—",
+                detail: `${reviewCount} customer reviews`,
                 icon: "star",
                 color: "bg-[#f5eee0] text-[#9a783c]",
                 accent: "border-l-[#c6a15b]",
@@ -765,8 +600,8 @@
                     Available rate
                     </p>
                     <p className="mt-2 text-2xl font-extrabold text-[#315b3c]">
-                    {stats.cars
-                        ? Math.round((availableCars / stats.cars) * 100)
+                    {totalCars
+                        ? Math.round((availableCars / totalCars) * 100)
                         : 0}
                     %
                     </p>
@@ -776,9 +611,9 @@
                     In use / reserved
                     </p>
                     <p className="mt-2 text-2xl font-extrabold text-[#765b2d]">
-                    {stats.cars
+                    {totalCars
                         ? Math.round(
-                            ((rentedCars + reservedCars) / stats.cars) * 100
+                            ((rentedCars + reservedCars) / totalCars) * 100
                         )
                         : 0}
                     %
@@ -924,7 +759,7 @@
                     All payment records
                     </p>
                     <p className="mt-2 text-2xl font-extrabold text-[#17251e]">
-                    {stats.payments}
+                    {payments.length}
                     </p>
                 </div>
                 </div>
@@ -954,13 +789,13 @@
                 </div>
                 <div>
                     <p className="text-2xl font-extrabold text-[#17251e]">
-                    {reviews.length ? averageRating.toFixed(1) : "—"}
+                    {reviewCount ? averageRating.toFixed(1) : "—"}
                     <span className="ml-1 text-sm font-medium text-[#929990]">
                         / 5
                     </span>
                     </p>
                     <p className="text-xs text-[#788078]">
-                    Average rating from {reviews.length} reviews
+                    Average rating from {reviewCount} reviews
                     </p>
                 </div>
                 </div>

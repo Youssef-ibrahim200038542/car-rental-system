@@ -4,21 +4,8 @@
     import { FormEvent, useState } from "react";
     import Link from "next/link";
     import { useRouter } from "next/navigation";
-
-    type RegisterResponse = {
-    success: boolean;
-    message: string;
-    data?: {
-        user: {
-        id: number;
-        name: string;
-        email: string;
-        phone?: string;
-        role?: string;
-        };
-        token: string;
-    };
-    };
+    import { apiFetch, errorMessage, setSession } from "@/lib/api";
+    import type { AuthPayload } from "@/lib/types";
 
     export default function RegisterPage() {
     const router = useRouter();
@@ -34,9 +21,6 @@
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmation, setShowConfirmation] = useState(false);
 
-    const apiUrl =
-        process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
-
     async function handleSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         setError("");
@@ -49,38 +33,23 @@
         setLoading(true);
 
         try {
-        const response = await fetch(`${apiUrl}/register`, {
+        const { user, token } = await apiFetch<AuthPayload>("/register", {
             method: "POST",
-            headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            },
-            body: JSON.stringify({
+            auth: false,
+            body: {
             name: name.trim(),
             email: email.trim(),
             phone: phone.trim(),
             password,
             password_confirmation: passwordConfirmation,
-            }),
+            },
         });
 
-        const data: RegisterResponse = await response.json();
-
-        if (!response.ok || !data.success || !data.data) {
-            throw new Error(data.message || "Registration failed.");
-        }
-
-        localStorage.setItem("token", data.data.token);
-        localStorage.setItem("user", JSON.stringify(data.data.user));
-        window.dispatchEvent(new Event("auth-changed"));
+        setSession(token, user);
 
         router.push("/cars");
         } catch (err) {
-        setError(
-            err instanceof Error
-            ? err.message
-            : "Something went wrong. Please try again."
-        );
+        setError(errorMessage(err, "Something went wrong. Please try again."));
         } finally {
         setLoading(false);
         }

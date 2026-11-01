@@ -1,40 +1,13 @@
 
     "use client";
 
-    import { useCallback, useEffect, useState } from "react";
+    import { useEffect, useState } from "react";
     import Link from "next/link";
     import { useParams, useRouter } from "next/navigation";
+    import { apiFetch, errorMessage } from "@/lib/api";
+    import { redirectIfUnauthorized } from "@/lib/auth";
+    import type { Car } from "@/lib/types";
 
-    type Car = {
-    id: number;
-    brand: string;
-    model: string;
-    year: number;
-    daily_rate: number;
-    status: string;
-    category?: {
-        id: number;
-        name: string;
-    } | null;
-    branch?: {
-        id: number;
-        name: string;
-    } | null;
-    description?: string | null;
-    transmission?: string | null;
-    fuel_type?: string | null;
-    seats?: number | null;
-    color?: string | null;
-    mileage?: number | null;
-    image?: string | null;
-    images?: string[] | null;
-    plate_number?: string | null;
-    created_at?: string | null;
-    updated_at?: string | null;
-    };
-
-    const API_URL =
-    process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
 
     const statusStyles: Record<string, string> = {
     available: "border-emerald-200 bg-emerald-50 text-emerald-800",
@@ -82,75 +55,40 @@
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
-    const fetchCar = useCallback(async () => {
-        const token = localStorage.getItem("token");
-        const storedUser = localStorage.getItem("user");
-
-        if (!token || !storedUser) {
-        router.replace("/login");
-        return;
-        }
-
-        try {
-        const user = JSON.parse(storedUser);
-
-        if (user.role !== "admin") {
-            router.replace("/");
-            return;
-        }
-        } catch {
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
-        router.replace("/login");
-        return;
-        }
-
-        setLoading(true);
-        setError("");
-
-        try {
-        const response = await fetch(`${API_URL}/cars/${carId}`, {
-            headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-            },
-            cache: "no-store",
-        });
-
-        if (response.status === 401) {
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            router.replace("/login");
-            return;
-        }
-
-        const data = await response.json().catch(() => ({}));
-
-        if (!response.ok) {
-            throw new Error(data.message || "Failed to load car details.");
-        }
-
-        const carData = data.data ?? data;
-
-        if (!carData || typeof carData !== "object" || !carData.id) {
-            throw new Error("Car details could not be found.");
-        }
-
-        setCar(carData as Car);
-        } catch (err) {
-        setError(
-            err instanceof Error
-            ? err.message
-            : "An unexpected error occurred."
-        );
-        } finally {
-        setLoading(false);
-        }
-    }, [carId, router]);
+    const [reloadKey, setReloadKey] = useState(0);
 
     useEffect(() => {
-        void fetchCar();
-    }, [fetchCar]);
+        let cancelled = false;
+
+        (async () => {
+        try {
+            const carData = await apiFetch<Car>(`/cars/${carId}`);
+            if (cancelled) return;
+
+            if (!carData || typeof carData !== "object" || !carData.id) {
+            throw new Error("Car details could not be found.");
+            }
+
+            setCar(carData);
+            setError("");
+        } catch (err) {
+            if (cancelled || redirectIfUnauthorized(err, router)) return;
+            setError(errorMessage(err, "An unexpected error occurred."));
+        } finally {
+            if (!cancelled) setLoading(false);
+        }
+        })();
+
+        return () => {
+        cancelled = true;
+        };
+    }, [carId, router, reloadKey]);
+
+    const fetchCar = () => {
+        setLoading(true);
+        setError("");
+        setReloadKey((key) => key + 1);
+    };
 
     const formatDate = (date?: string | null) => {
         if (!date) return "Not specified";
@@ -213,7 +151,7 @@
 
                 <button
                 type="button"
-                onClick={() => void fetchCar()}
+                onClick={fetchCar}
                 className="mt-6 rounded-xl bg-[#0a1411] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#1a3027]"
                 >
                 Try Again
@@ -342,7 +280,7 @@
                     />
                     <DetailItem
                     label="Plate Number"
-                    value={car.plate_number}
+                    value={car.license_plate}
                     />
                 </div>
                 </div>

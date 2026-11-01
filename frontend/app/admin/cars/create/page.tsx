@@ -1,20 +1,14 @@
 
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { ChangeEvent, FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
-type Category = {
-  id: number;
-  name: string;
-};
-
-type Branch = {
-  id: number;
-  name: string;
-};
+import { apiFetch, errorMessage } from "@/lib/api";
+import { redirectIfUnauthorized } from "@/lib/auth";
+import { EDITABLE_CAR_STATUSES } from "@/lib/types";
+import type { Branch, CarCategory } from "@/lib/types";
 
 type CarForm = {
   category_id: string;
@@ -33,9 +27,6 @@ type CarForm = {
   status: string;
   description: string;
 };
-
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
 
 const inputClass =
   "w-full rounded-xl border border-[#e3e1d9] bg-[#fcfcfa] px-4 py-3.5 text-sm text-[#0a1411] outline-none transition placeholder:text-[#a3aaa4] focus:border-[#c6a15b] focus:bg-white focus:ring-4 focus:ring-[#c6a15b]/10";
@@ -130,14 +121,17 @@ export default function CreateCarPage() {
   const router = useRouter();
   const imageInputRef = useRef<HTMLInputElement>(null);
 
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<CarCategory[]>([]);
   const [branches, setBranches] = useState<Branch[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState("");
+  const imagePreview = useMemo(
+    () => (imageFile ? URL.createObjectURL(imageFile) : ""),
+    [imageFile]
+  );
 
   const [form, setForm] = useState<CarForm>({
     category_id: "",
@@ -161,83 +155,19 @@ export default function CreateCarPage() {
     let cancelled = false;
 
     const initializePage = async () => {
-      const token = localStorage.getItem("token");
-      const storedUser = localStorage.getItem("user");
-
-      if (!token || !storedUser) {
-        router.replace("/login");
-        return;
-      }
-
       try {
-        const user = JSON.parse(storedUser);
-
-        if (user.role !== "admin") {
-          router.replace("/");
-          return;
-        }
-      } catch {
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
-        router.replace("/login");
-        return;
-      }
-
-      try {
-        const [categoriesResponse, branchesResponse] = await Promise.all([
-          fetch(`${API_URL}/car-categories`, {
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }),
-          fetch(`${API_URL}/branches`, {
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }),
-        ]);
-
         const [categoriesData, branchesData] = await Promise.all([
-          categoriesResponse.json().catch(() => ({})),
-          branchesResponse.json().catch(() => ({})),
+          apiFetch<CarCategory[]>("/car-categories"),
+          apiFetch<Branch[]>("/branches"),
         ]);
-
-        if (
-          categoriesResponse.status === 401 ||
-          branchesResponse.status === 401
-        ) {
-          localStorage.removeItem("token");
-          localStorage.removeItem("user");
-          router.replace("/login");
-          return;
-        }
-
-        if (!categoriesResponse.ok || !branchesResponse.ok) {
-          throw new Error(
-            categoriesData.message ||
-              branchesData.message ||
-              "Failed to load categories or branches."
-          );
-        }
 
         if (!cancelled) {
-          setCategories(
-            Array.isArray(categoriesData.data) ? categoriesData.data : []
-          );
-          setBranches(
-            Array.isArray(branchesData.data) ? branchesData.data : []
-          );
+          setCategories(Array.isArray(categoriesData) ? categoriesData : []);
+          setBranches(Array.isArray(branchesData) ? branchesData : []);
         }
       } catch (err) {
-        if (!cancelled) {
-          setError(
-            err instanceof Error
-              ? err.message
-              : "Failed to load categories or branches."
-          );
-        }
+        if (cancelled || redirectIfUnauthorized(err, router)) return;
+        setError(errorMessage(err, "Failed to load categories or branches."));
       } finally {
         if (!cancelled) {
           setLoading(false);
@@ -253,18 +183,9 @@ export default function CreateCarPage() {
   }, [router]);
 
   useEffect(() => {
-    if (!imageFile) {
-      setImagePreview("");
-      return;
-    }
-
-    const previewUrl = URL.createObjectURL(imageFile);
-    setImagePreview(previewUrl);
-
-    return () => {
-      URL.revokeObjectURL(previewUrl);
-    };
-  }, [imageFile]);
+    if (!imagePreview) return;
+    return () => URL.revokeObjectURL(imagePreview);
+  }, [imagePreview]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -315,13 +236,6 @@ export default function CreateCarPage() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      router.replace("/login");
-      return;
-    }
-
     setSaving(true);
     setError("");
 
@@ -348,45 +262,12 @@ export default function CreateCarPage() {
         payload.append("image", imageFile);
       }
 
-      const response = await fetch(`${API_URL}/cars`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: payload,
-      });
-
-      const data = await response.json().catch(() => ({}));
-
-      if (response.status === 401) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        router.replace("/login");
-        return;
-      }
-
-      if (!response.ok) {
-        if (data.errors) {
-          const firstError = Object.values(
-            data.errors as Record<string, unknown>
-          )
-            .flat()
-            .find((message): message is string => typeof message === "string");
-
-          throw new Error(
-            firstError || data.message || "Failed to create car."
-          );
-        }
-
-        throw new Error(data.message || "Failed to create car.");
-      }
+      await apiFetch("/cars", { method: "POST", body: payload });
 
       router.push("/admin/cars");
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Something went wrong."
-      );
+      if (redirectIfUnauthorized(err, router)) return;
+      setError(errorMessage(err, "Failed to create car."));
       setSaving(false);
     }
   };
@@ -745,11 +626,11 @@ export default function CreateCarPage() {
                   required
                   className={selectClass}
                 >
-                  <option value="available">Available</option>
-                  <option value="reserved">Reserved</option>
-                  <option value="rented">Rented</option>
-                  <option value="maintenance">Maintenance</option>
-                  <option value="inactive">Inactive</option>
+                  {EDITABLE_CAR_STATUSES.map((status) => (
+                    <option key={status} value={status} className="capitalize">
+                      {status.charAt(0).toUpperCase() + status.slice(1)}
+                    </option>
+                  ))}
                 </select>
               </div>
             </FormSection>
@@ -780,6 +661,7 @@ export default function CreateCarPage() {
                 className="flex min-h-48 w-full flex-col items-center justify-center overflow-hidden rounded-2xl border-2 border-dashed border-[#d9d8ce] bg-[#fcfcfa] p-5 text-center transition hover:border-[#c6a15b] hover:bg-[#f8f8f5]"
               >
                 {imagePreview ? (
+                  // eslint-disable-next-line @next/next/no-img-element -- local blob: preview of the picked file; next/image cannot optimize object URLs
                   <img
                     src={imagePreview}
                     alt="Selected vehicle preview"
