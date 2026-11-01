@@ -1,7 +1,7 @@
 {
     "model": "RandomForestRegressor",
     "target": "average_rating",
-    "dataset": "C:\\Users\\DELL - G15\\Desktop\\car-rental-system\\ML\\data\\processed\\fleet_clean.csv",
+    "dataset": "ML/data/processed/fleet_clean.csv",
     "rated_vehicle_count": 996,
     "train_size": 796,
     "test_size": 200,
