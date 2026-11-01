@@ -5,33 +5,9 @@
     import Link from "next/link";
     import { useRouter } from "next/navigation";
 
-    type Review = {
-    id: number;
-    user_id: number;
-    car_id: number;
-    booking_id: number;
-    rating: number;
-    comment?: string | null;
-    created_at: string;
-    user?: {
-        id: number;
-        name: string;
-        email?: string;
-    };
-    car?: {
-        id: number;
-        brand?: string;
-        model?: string;
-        name?: string;
-    };
-    booking?: {
-        id: number;
-        status?: string;
-    };
-    };
-
-    const API_URL =
-    process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
+    import { apiFetch, errorMessage } from "@/lib/api";
+    import { redirectIfUnauthorized } from "@/lib/auth";
+    import type { Review } from "@/lib/types";
 
     const cardClass =
     "rounded-2xl border border-[#e8e2d5] bg-white p-5 shadow-sm";
@@ -53,57 +29,15 @@
         let active = true;
 
         const fetchReviews = async () => {
-        const token = localStorage.getItem("token");
-        const storedUser = localStorage.getItem("user");
-
-        if (!token || !storedUser) {
-            router.replace("/login");
-            return;
-        }
-
         try {
-            const user = JSON.parse(storedUser);
-
-            if (user.role !== "admin") {
-            router.replace("/");
-            return;
-            }
-        } catch {
-            localStorage.removeItem("user");
-            router.replace("/login");
-            return;
-        }
-
-        try {
-            const response = await fetch(`${API_URL}/reviews`, {
-            headers: {
-                Accept: "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-            });
-
-            const data = await response.json();
-
-            if (!response.ok) {
-            if (response.status === 401) {
-                localStorage.removeItem("token");
-                localStorage.removeItem("user");
-                router.replace("/login");
-                return;
-            }
-
-            throw new Error(data.message || "Failed to load reviews.");
-            }
+            const data = await apiFetch<Review[]>("/reviews");
 
             if (active) {
-            setReviews(Array.isArray(data.data) ? data.data : []);
+            setReviews(Array.isArray(data) ? data : []);
             }
         } catch (err) {
-            if (active) {
-            setError(
-                err instanceof Error ? err.message : "Failed to load reviews."
-            );
-            }
+            if (!active || redirectIfUnauthorized(err, router)) return;
+            setError(errorMessage(err, "Failed to load reviews."));
         } finally {
             if (active) {
             setLoading(false);
@@ -125,51 +59,25 @@
 
         if (!confirmed) return;
 
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-        router.push("/login");
-        return;
-        }
-
         setDeletingId(reviewId);
         setError("");
 
         try {
-        const response = await fetch(`${API_URL}/reviews/${reviewId}`, {
-            method: "DELETE",
-            headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-            },
-        });
-
-        const data = response.status === 204 ? {} : await response.json();
-
-        if (!response.ok) {
-            if (response.status === 401) {
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            router.replace("/login");
-            return;
-            }
-
-            throw new Error(data.message || "Failed to delete review.");
-        }
+        await apiFetch(`/reviews/${reviewId}`, { method: "DELETE" });
 
         setReviews((current) =>
             current.filter((review) => review.id !== reviewId)
         );
         } catch (err) {
-        setError(
-            err instanceof Error ? err.message : "Failed to delete review."
-        );
+        if (redirectIfUnauthorized(err, router)) return;
+        setError(errorMessage(err, "Failed to delete review."));
         } finally {
         setDeletingId(null);
         }
     };
 
-    const formatDate = (date: string) => {
+    const formatDate = (date?: string) => {
+        if (!date) return "—";
         const parsedDate = new Date(date);
 
         if (Number.isNaN(parsedDate.getTime())) return "—";
@@ -182,7 +90,6 @@
     };
 
     const getCarName = (review: Review) =>
-        review.car?.name ||
         `${review.car?.brand || ""} ${review.car?.model || ""}`.trim() ||
         "Unknown Car";
 

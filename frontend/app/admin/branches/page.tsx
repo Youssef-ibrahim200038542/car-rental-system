@@ -1,20 +1,12 @@
 
     "use client";
 
-    import { useCallback, useEffect, useState } from "react";
+    import { useEffect, useState } from "react";
     import Link from "next/link";
     import { useRouter } from "next/navigation";
-
-    type Branch = {
-    id: number;
-    name: string;
-    address?: string | null;
-    city?: string | null;
-    phone?: string | null;
-    };
-
-    const API_URL =
-    process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
+    import { apiFetch, errorMessage } from "@/lib/api";
+    import { redirectIfUnauthorized } from "@/lib/auth";
+    import type { Branch } from "@/lib/types";
 
     export default function AdminBranchesPage() {
     const router = useRouter();
@@ -25,70 +17,27 @@
     const [deletingId, setDeletingId] = useState<number | null>(null);
     const [search, setSearch] = useState("");
 
-    const fetchBranches = useCallback(async () => {
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-        router.replace("/login");
-        return;
-        }
-
-        try {
-        const response = await fetch(`${API_URL}/branches`, {
-            headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-            },
-        });
-
-        const data = await response.json().catch(() => ({}));
-
-        if (response.status === 401) {
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            router.replace("/login");
-            return;
-        }
-
-        if (!response.ok) {
-            throw new Error(data.message || "Failed to load branches.");
-        }
-
-        setBranches(Array.isArray(data.data) ? data.data : []);
-        setError("");
-        } catch (err) {
-        setError(
-            err instanceof Error ? err.message : "Failed to load branches."
-        );
-        } finally {
-        setLoading(false);
-        }
-    }, [router]);
-
     useEffect(() => {
-        const token = localStorage.getItem("token");
-        const storedUser = localStorage.getItem("user");
+        let cancelled = false;
 
-        if (!token || !storedUser) {
-        router.replace("/login");
-        return;
-        }
-
+        (async () => {
         try {
-        const user = JSON.parse(storedUser);
-
-        if (user.role !== "admin") {
-            router.replace("/");
-            return;
+            const data = await apiFetch<Branch[]>("/branches");
+            if (cancelled) return;
+            setBranches(Array.isArray(data) ? data : []);
+            setError("");
+        } catch (err) {
+            if (cancelled || redirectIfUnauthorized(err, router)) return;
+            setError(errorMessage(err, "Failed to load branches."));
+        } finally {
+            if (!cancelled) setLoading(false);
         }
+        })();
 
-        fetchBranches();
-        } catch {
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
-        router.replace("/login");
-        }
-    }, [fetchBranches, router]);
+        return () => {
+        cancelled = true;
+        };
+    }, [router]);
 
     const handleDelete = async (id: number) => {
         const confirmed = window.confirm(
@@ -97,48 +46,18 @@
 
         if (!confirmed) return;
 
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-        router.replace("/login");
-        return;
-        }
-
         setDeletingId(id);
         setError("");
 
         try {
-        const response = await fetch(`${API_URL}/branches/${id}`, {
-            method: "DELETE",
-            headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-            },
-        });
-
-        const data = await response.json().catch(() => ({}));
-
-        if (response.status === 401) {
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            router.replace("/login");
-            return;
-        }
-
-        if (!response.ok) {
-            throw new Error(
-            data.message ||
-                "Failed to delete branch. It may be used by cars or bookings."
-            );
-        }
+        await apiFetch(`/branches/${id}`, { method: "DELETE" });
 
         setBranches((current) =>
             current.filter((branch) => branch.id !== id)
         );
         } catch (err) {
-        setError(
-            err instanceof Error ? err.message : "Failed to delete branch."
-        );
+        if (redirectIfUnauthorized(err, router)) return;
+        setError(errorMessage(err, "Failed to delete branch."));
         } finally {
         setDeletingId(null);
         }

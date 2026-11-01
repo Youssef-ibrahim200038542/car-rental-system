@@ -1,28 +1,132 @@
     "use client";
 
+    import { Suspense, useEffect, useState } from "react";
     import Link from "next/link";
-    import { useSearchParams } from "next/navigation";
+    import { useRouter, useSearchParams } from "next/navigation";
+    import { apiFetch, errorMessage, getToken, isApiError } from "@/lib/api";
+    import { redirectIfUnauthorized } from "@/lib/auth";
+    import type { Booking, Payment } from "@/lib/types";
 
-    type PaymentMethod = "card" | "online" | "cash";
+    const loadingScreen = (
+    <main className="flex min-h-screen items-center justify-center bg-[#f8f8f7] px-6 pt-28 text-[#0a1411]">
+        <div className="text-center">
+        <div className="mx-auto mb-5 h-12 w-12 animate-spin rounded-full border-4 border-[#e8e4db] border-t-[#c6a15b]" />
+        <p className="text-sm text-[#77776f]">Loading your booking...</p>
+        </div>
+    </main>
+    );
 
     export default function PaymentSuccessPage() {
+    return (
+        <Suspense fallback={loadingScreen}>
+        <PaymentResult />
+        </Suspense>
+    );
+    }
+
+    /** The most relevant payment: a paid one, else the newest. */
+    function latestPayment(booking: Booking): Payment | null {
+    const payments = booking.payments ?? [];
+    return (
+        payments.find((payment) => payment.payment_status === "paid") ??
+        payments[payments.length - 1] ??
+        null
+    );
+    }
+
+    function PaymentResult() {
+    const router = useRouter();
     const searchParams = useSearchParams();
-
     const bookingId = searchParams.get("booking_id");
-    const paymentMethod = searchParams.get(
-        "payment_method",
-    ) as PaymentMethod | null;
 
-    const isCashPayment = paymentMethod === "cash";
-    const isDemoPayment = paymentMethod === "card" || paymentMethod === "online";
+    const [booking, setBooking] = useState<Booking | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
 
-    const title = isCashPayment ? "Booking Received!" : "Booking Confirmed!";
+    // The page reflects the server's record, never the query string.
+    useEffect(() => {
+        if (!getToken()) {
+        router.replace("/login");
+        return;
+        }
 
-    const statusLabel = isCashPayment ? "Awaiting Cash Payment" : "Confirmed";
+        let cancelled = false;
 
-    const description = isCashPayment
-        ? "Your reservation has been recorded. Please pay at the branch when you collect your car. Your booking will remain pending until the payment is collected and confirmed."
-        : "Your booking has been recorded successfully. You can review your reservation details from your bookings page.";
+        (async () => {
+        try {
+            if (!bookingId) throw new Error("No booking was specified.");
+            const data = await apiFetch<Booking>(`/bookings/${bookingId}`);
+            if (!cancelled) setBooking(data);
+        } catch (err) {
+            if (cancelled || redirectIfUnauthorized(err, router)) return;
+            setError(
+            isApiError(err, 403)
+                ? "This booking belongs to another account."
+                : errorMessage(err, "Unable to load your booking.")
+            );
+        } finally {
+            if (!cancelled) setLoading(false);
+        }
+        })();
+
+        return () => {
+        cancelled = true;
+        };
+    }, [bookingId, router]);
+
+    if (loading) return loadingScreen;
+
+    if (!booking) {
+        return (
+        <main className="flex min-h-screen items-center justify-center bg-[#f8f8f7] px-5 py-28 text-[#0a1411]">
+            <div className="w-full max-w-lg rounded-3xl border border-[#e8e4db] bg-white p-8 text-center shadow-[0_18px_55px_rgba(10,20,17,0.07)] sm:p-10">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-red-50 text-3xl">
+                !
+            </div>
+            <h1 className="mt-6 text-2xl font-bold">Booking Unavailable</h1>
+            <p className="mt-3 text-sm leading-6 text-[#77776f]">
+                {error || "Booking not found."}
+            </p>
+            <Link
+                href="/bookings"
+                className="mt-7 inline-flex items-center justify-center rounded-xl bg-[#0a1411] px-6 py-3 font-semibold text-white transition hover:bg-[#1a3027]"
+            >
+                Back to My Bookings
+            </Link>
+            </div>
+        </main>
+        );
+    }
+
+    const payment = latestPayment(booking);
+    const paymentMethod = payment?.payment_method ?? null;
+    const isPaid = payment?.payment_status === "paid";
+    const isCashPayment = paymentMethod === "cash" && !isPaid;
+    const isDemoPayment =
+        isPaid && (paymentMethod === "card" || paymentMethod === "online");
+    const isConfirmed = booking.status === "confirmed" || booking.status === "active";
+
+    const title = !payment
+        ? "Payment Not Recorded"
+        : isPaid && isConfirmed
+        ? "Booking Confirmed!"
+        : isCashPayment
+            ? "Booking Received!"
+            : "Booking Updated";
+
+    const statusLabel = isPaid
+        ? `Paid · ${booking.status}`
+        : payment
+        ? `Payment ${payment.payment_status} · ${booking.status}`
+        : `No payment · ${booking.status}`;
+
+    const description = !payment
+        ? "We could not find a payment for this booking. You can complete payment from your bookings page."
+        : isCashPayment
+        ? "Your reservation has been recorded. Please pay at the branch when you collect your car."
+        : isPaid
+            ? "Your payment was recorded and your booking is confirmed. You can review your reservation details from your bookings page."
+            : "Your booking has been updated. You can review its current status from your bookings page.";
 
     return (
         <main className="min-h-screen bg-[#f8f8f7] px-4 pb-16 pt-28 text-[#0a1411] sm:px-6 sm:pb-20 sm:pt-32">
@@ -80,30 +184,35 @@
                 {description}
             </p>
 
-            {bookingId && (
+            {booking && (
                 <div className="mx-auto mt-8 max-w-sm rounded-2xl border border-[#e8e4db] bg-[#f8f8f7] p-5">
                 <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#898981]">
                     Booking ID
                 </p>
 
                 <p className="mt-2 font-mono text-2xl font-bold text-[#0a1411]">
-                    #{bookingId}
+                    #{booking.id}
                 </p>
 
                 <div
                     className={`mt-4 inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold ${
-                    isCashPayment
+                    !isPaid
                         ? "bg-[#f6f0e3] text-[#87662f]"
                         : "bg-[#eaf3eb] text-[#356847]"
                     }`}
                 >
                     <span
                     className={`h-2 w-2 rounded-full ${
-                        isCashPayment ? "bg-[#c6a15b]" : "bg-[#4d8b5e]"
+                        !isPaid ? "bg-[#c6a15b]" : "bg-[#4d8b5e]"
                     }`}
                     />
-                    {statusLabel}
+                    <span className="capitalize">{statusLabel}</span>
                 </div>
+                {payment?.transaction_reference && (
+                    <p className="mt-3 font-mono text-xs text-[#898981]">
+                    Ref {payment.transaction_reference}
+                    </p>
+                )}
                 </div>
             )}
 

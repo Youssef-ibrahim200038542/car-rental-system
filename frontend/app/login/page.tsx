@@ -1,26 +1,22 @@
 
     "use client";
 
-    import { FormEvent, useState } from "react";
+    import { FormEvent, Suspense, useState } from "react";
     import Link from "next/link";
     import { useRouter, useSearchParams } from "next/navigation";
-
-    type LoginResponse = {
-    success: boolean;
-    message: string;
-    data?: {
-        user: {
-        id: number;
-        name: string;
-        email: string;
-        phone?: string;
-        role?: string;
-        };
-        token: string;
-    };
-    };
+    import { apiFetch, errorMessage, setSession } from "@/lib/api";
+    import { homeForRole, safeRedirect } from "@/lib/auth";
+    import type { AuthPayload } from "@/lib/types";
 
     export default function LoginPage() {
+    return (
+        <Suspense fallback={<main className="min-h-screen bg-[#f8f8f7]" />}>
+        <LoginForm />
+        </Suspense>
+    );
+    }
+
+    function LoginForm() {
     const router = useRouter();
     const searchParams = useSearchParams();
 
@@ -38,62 +34,22 @@
         setLoading(true);
 
         try {
-        const apiUrl =
-            process.env.NEXT_PUBLIC_API_URL ||
-            "http://127.0.0.1:8000/api";
-
-        const response = await fetch(`${apiUrl}/login`, {
+        const { user, token } = await apiFetch<AuthPayload>("/login", {
             method: "POST",
-            headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            },
-            body: JSON.stringify({
-            email: email.trim(),
-            password,
-            }),
+            auth: false,
+            body: { email: email.trim(), password },
         });
 
-        const data: LoginResponse = await response.json();
-
-        if (
-            !response.ok ||
-            !data.success ||
-            !data.data?.token ||
-            !data.data?.user
-        ) {
-            throw new Error(data.message || "Invalid email or password.");
+        if (!token || !user) {
+            throw new Error("Invalid email or password.");
         }
 
-        const { user, token } = data.data;
+        setSession(token, user);
 
-        localStorage.setItem("token", token);
-        localStorage.setItem("user", JSON.stringify(user));
-
-        window.dispatchEvent(new Event("auth-changed"));
-
-        const role = user.role?.trim().toLowerCase();
-
-        const validRedirect =
-            redirectParam &&
-            redirectParam.startsWith("/") &&
-            !redirectParam.startsWith("//") &&
-            !redirectParam.includes("\\");
-
-        const destination = validRedirect
-            ? redirectParam
-            : role === "admin"
-            ? "/admin"
-            : "/cars";
-
-        router.replace(destination);
+        router.replace(safeRedirect(redirectParam) ?? homeForRole(user.role));
         router.refresh();
         } catch (err) {
-        setError(
-            err instanceof Error
-            ? err.message
-            : "Something went wrong. Please try again."
-        );
+        setError(errorMessage(err, "Something went wrong. Please try again."));
         } finally {
         setLoading(false);
         }

@@ -1,3 +1,4 @@
+import { BACKEND_URL } from "./api";
 
     const AVAILABLE_CAR_IMAGES = new Set([
     "bmw-3-series",
@@ -126,10 +127,7 @@
         return value;
         }
 
-        const apiUrl =
-        process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
-
-        const baseUrl = apiUrl.replace(/\/api\/?$/, "");
+        const baseUrl = BACKEND_URL;
         const imagePath = value
         .replace(/^\/+/, "")
         .replace(/^public\//, "");

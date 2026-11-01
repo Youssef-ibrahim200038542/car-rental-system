@@ -1,35 +1,24 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import CarImage from "@/app/components/CarImage";
+import { apiFetch, errorMessage, getToken, isApiError } from "@/lib/api";
 import { getCarImageUrl, getLocalCarImage } from "@/lib/car-images";
+import type {
+  Booking,
+  Branch,
+  Car as ApiCar,
+  CarAvailability,
+} from "@/lib/types";
 
-type Branch = {
-  id: number;
-  name: string;
-  city?: string;
-  location?: string;
-};
+/** The API has no `name` column; kept optional so the brand/model fallbacks still read. */
+type Car = ApiCar & { name?: string };
 
-type Car = {
-  id: number;
-  name?: string;
-  brand?: string;
-  model?: string;
-  daily_rate: number;
-  status: string;
-  image?: string | null;
-  category?: {
-    id: number;
-    name: string;
-  } | null;
-  branch?: Branch | null;
-};
-
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
+/** An availability answer for one exact date range. */
+type AvailabilityResult = CarAvailability & { key: string };
 
 function getLocalToday() {
   const now = new Date();
@@ -57,6 +46,15 @@ function calculateDays(startDate: string, endDate: string) {
   return Math.round((end - start) / 86_400_000);
 }
 
+/**
+ * Billable days, matching the server: same-day return counts as 1 day.
+ * Returns 0 when the range is incomplete or reversed.
+ */
+function rentalDays(startDate: string, endDate: string) {
+  if (!startDate || !endDate || endDate < startDate) return 0;
+  return Math.max(1, calculateDays(startDate, endDate));
+}
+
 function formatPrice(value: number) {
   return new Intl.NumberFormat("en-US", {
     maximumFractionDigits: 0,
@@ -64,6 +62,20 @@ function formatPrice(value: number) {
 }
 
 export default function CreateBookingPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="flex min-h-screen items-center justify-center bg-[#f8f8f7] px-6 pt-24">
+          <div className="mx-auto h-11 w-11 animate-spin rounded-full border-4 border-[#e8e4db] border-t-[#c6a15b]" />
+        </main>
+      }
+    >
+      <CreateBookingForm />
+    </Suspense>
+  );
+}
+
+function CreateBookingForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const carId = searchParams.get("car_id");
@@ -74,12 +86,49 @@ export default function CreateBookingPage() {
   const [dropoffBranchId, setDropoffBranchId] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(true);
   const [bookingLoading, setBookingLoading] = useState(false);
   const [error, setError] = useState("");
+  const [availability, setAvailability] = useState<AvailabilityResult | null>(null);
 
-  const days = calculateDays(startDate, endDate);
+  // Client-side estimate only; the server computes the authoritative total.
+  const days = rentalDays(startDate, endDate);
   const total = days > 0 && car ? days * Number(car.daily_rate) : 0;
+
+  const rangeKey = days > 0 ? `${startDate}|${endDate}` : "";
+  const currentAvailability =
+    availability && availability.key === rangeKey ? availability : null;
+  const checkingAvailability = Boolean(rangeKey) && !currentAvailability;
+
+  useEffect(() => {
+    if (!car?.id || !rangeKey) return;
+
+    let cancelled = false;
+    const [pickup, dropoff] = rangeKey.split("|");
+    const query = new URLSearchParams({ pickup_date: pickup, return_date: dropoff });
+
+    (async () => {
+      try {
+        const result = await apiFetch<CarAvailability>(
+          `/cars/${car.id}/availability?${query}`,
+          { auth: false }
+        );
+        if (!cancelled) setAvailability({ ...result, key: rangeKey });
+      } catch (err) {
+        if (cancelled) return;
+        setAvailability({
+          key: rangeKey,
+          available: false,
+          reason: errorMessage(err, "Could not check availability for these dates."),
+        });
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [car?.id, rangeKey]);
 
   const carImage = car
     ? getCarImageUrl(
@@ -94,40 +143,15 @@ export default function CreateBookingPage() {
     let cancelled = false;
 
     const fetchData = async () => {
-      if (!carId || !/^\d+$/.test(carId)) {
-        setError("Invalid car selection. Please choose a car first.");
-        setLoading(false);
-        return;
-      }
-
       try {
-        setLoading(true);
-        setError("");
+        if (!carId || !/^\d+$/.test(carId)) {
+          throw new Error("Invalid car selection. Please choose a car first.");
+        }
 
-        const [carResponse, branchesResponse] = await Promise.all([
-          fetch(`${API_URL}/cars/${carId}`, {
-            headers: { Accept: "application/json" },
-          }),
-          fetch(`${API_URL}/branches`, {
-            headers: { Accept: "application/json" },
-          }),
+        const [selectedCar, branchList] = await Promise.all([
+          apiFetch<Car>(`/cars/${carId}`, { auth: false }),
+          apiFetch<Branch[]>("/branches", { auth: false }),
         ]);
-
-        const carData = await carResponse.json();
-        const branchesData = await branchesResponse.json();
-
-        if (!carResponse.ok) {
-          throw new Error(carData.message || "Failed to load car.");
-        }
-
-        if (!branchesResponse.ok) {
-          throw new Error(
-            branchesData.message || "Failed to load branches."
-          );
-        }
-
-        const selectedCar = carData.data || carData;
-        const branchList = branchesData.data || branchesData;
 
         if (!selectedCar?.id) {
           throw new Error("Car information could not be found.");
@@ -155,11 +179,7 @@ export default function CreateBookingPage() {
         if (cancelled) return;
 
         console.error("Failed to load booking information:", err);
-        setError(
-          err instanceof Error
-            ? err.message
-            : "Unable to load booking information."
-        );
+        setError(errorMessage(err, "Unable to load booking information."));
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -175,10 +195,7 @@ export default function CreateBookingPage() {
   const handleBooking = async () => {
     setError("");
 
-    const token = localStorage.getItem("token");
-    const userString = localStorage.getItem("user");
-
-    if (!token || !userString) {
+    if (!getToken()) {
       const returnTo = `/bookings/create?car_id=${encodeURIComponent(
         carId || ""
       )}`;
@@ -187,31 +204,8 @@ export default function CreateBookingPage() {
       return;
     }
 
-    let user: { id?: number | string };
-
-    try {
-      user = JSON.parse(userString);
-    } catch {
-      setError(
-        "Your saved login information is invalid. Please log in again."
-      );
-      return;
-    }
-
-    if (!user?.id) {
-      setError(
-        "Your saved user information is incomplete. Please log in again."
-      );
-      return;
-    }
-
     if (!car) {
       setError("Car information is missing.");
-      return;
-    }
-
-    if (car.status?.toLowerCase() !== "available") {
-      setError("This car is currently unavailable.");
       return;
     }
 
@@ -230,66 +224,26 @@ export default function CreateBookingPage() {
       return;
     }
 
-    if (days <= 0) {
-      setError("Return date must be after pickup date.");
+    if (endDate < startDate) {
+      setError("Return date cannot be before the pickup date.");
       return;
     }
 
     try {
       setBookingLoading(true);
 
-      const response = await fetch(`${API_URL}/bookings`, {
+      // The server sets user, status, rate, days and totals itself.
+      const booking = await apiFetch<Booking>("/bookings", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          user_id: user.id,
+        body: {
           car_id: car.id,
           pickup_branch_id: Number(pickupBranchId),
           dropoff_branch_id: Number(dropoffBranchId),
           pickup_date: startDate,
           return_date: endDate,
-          daily_rate: Number(car.daily_rate),
-          total_days: days,
-          subtotal: total,
-          discount: 0,
-          total_amount: total,
-          status: "pending",
-          notes: null,
-        }),
+          notes: notes.trim() || null,
+        },
       });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        if (response.status === 401) {
-          setError(
-            "Your session has expired. Please log in again before booking."
-          );
-          return;
-        }
-
-        if (response.status === 422 && data.errors) {
-          const validationMessage = Object.values(
-            data.errors as Record<string, string[]>
-          )
-            .flat()
-            .join(" ");
-
-          throw new Error(
-            validationMessage ||
-              data.message ||
-              "Please check your booking details."
-          );
-        }
-
-        throw new Error(data.message || "Booking failed.");
-      }
-
-      const booking = data.data || data;
 
       if (!booking?.id) {
         throw new Error(
@@ -297,12 +251,17 @@ export default function CreateBookingPage() {
         );
       }
 
+      // The payment page shows the server-computed total for this booking.
       router.push(`/payment?booking_id=${booking.id}`);
     } catch (err) {
       console.error("Booking failed:", err);
 
       setError(
-        err instanceof Error ? err.message : "Something went wrong."
+        isApiError(err, 401)
+          ? "Your session has expired. Please log in again before booking."
+          : isApiError(err, 422)
+            ? err.errors.join(" ") || err.message
+            : errorMessage(err, "Something went wrong.")
       );
     } finally {
       setBookingLoading(false);
@@ -385,11 +344,6 @@ export default function CreateBookingPage() {
               Select your pickup and return information.
             </p>
 
-            {!statusAvailable && (
-              <div className="mt-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
-                This car is currently unavailable for booking.
-              </div>
-            )}
 
             <div className="mt-8 grid gap-5 sm:grid-cols-2">
               <div>
@@ -454,7 +408,7 @@ export default function CreateBookingPage() {
                     const value = e.target.value;
                     setStartDate(value);
 
-                    if (endDate && value && endDate <= value) {
+                    if (endDate && value && endDate < value) {
                       setEndDate("");
                     }
                   }}
@@ -479,6 +433,44 @@ export default function CreateBookingPage() {
                 />
               </div>
             </div>
+
+            <div className="mt-6">
+              <label
+                htmlFor="booking-notes"
+                className="mb-2 block text-sm font-semibold text-[#343830]"
+              >
+                Notes <span className="font-normal text-[#898981]">(optional)</span>
+              </label>
+              <textarea
+                id="booking-notes"
+                rows={3}
+                maxLength={1000}
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                placeholder="Anything we should know about your rental?"
+                className="w-full rounded-xl border border-[#e8e4db] bg-[#fafaf8] px-4 py-3 text-sm text-[#202020] outline-none transition focus:border-[#c6a15b]"
+              />
+            </div>
+
+            {rangeKey && (
+              <div
+                role="status"
+                className={`mt-6 rounded-xl border px-4 py-3 text-sm leading-6 ${
+                  checkingAvailability
+                    ? "border-[#e8e4db] bg-[#fafaf8] text-[#77776f]"
+                    : currentAvailability?.available
+                      ? "border-[#cfe5d6] bg-[#e5f3e9] text-[#216b42]"
+                      : "border-red-200 bg-red-50 text-red-700"
+                }`}
+              >
+                {checkingAvailability
+                  ? "Checking availability for these dates..."
+                  : currentAvailability?.available
+                    ? "This car is available for your selected dates."
+                    : currentAvailability?.reason ||
+                      "This car is not available for your selected dates."}
+              </div>
+            )}
 
             {error && (
               <div
@@ -523,8 +515,9 @@ export default function CreateBookingPage() {
               </div>
 
               <p className="mt-3 text-xs leading-5 text-[#898981]">
-                Final booking acceptance and availability must be confirmed by
-                the server.
+                This is an estimate. The final total and availability are
+                confirmed by the server when you book, and shown on the payment
+                page.
               </p>
             </div>
 
@@ -533,8 +526,9 @@ export default function CreateBookingPage() {
               onClick={handleBooking}
               disabled={
                 bookingLoading ||
-                !statusAvailable ||
-                branches.length === 0
+                branches.length === 0 ||
+                checkingAvailability ||
+                currentAvailability?.available === false
               }
               className="mt-6 flex h-14 w-full items-center justify-center gap-2 rounded-xl bg-[#0a1411] px-5 text-base font-semibold text-white transition hover:bg-[#1a3027] disabled:cursor-not-allowed disabled:opacity-50"
             >
@@ -563,36 +557,20 @@ export default function CreateBookingPage() {
             </div>
 
             <div className="p-6">
-              <div className="aspect-[16/10] overflow-hidden rounded-2xl bg-[#eeece6]">
-                <img
+              <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-[#eeece6]">
+                <CarImage
                   src={
                     carImage ||
                     getLocalCarImage(car.brand, car.model, car.name)
                   }
+                  fallbackSrc={getLocalCarImage(car.brand, car.model, car.name)}
                   alt={
                     car.name ||
                     `${car.brand || ""} ${car.model || ""}`.trim() ||
                     "Rental Car"
                   }
-                  className="h-full w-full object-cover"
-                  loading="lazy"
-                  onError={(event) => {
-                    const fallbackImage = getLocalCarImage(
-                      car.brand,
-                      car.model,
-                      car.name
-                    );
-
-                    if (
-                      event.currentTarget.getAttribute("src") ===
-                      fallbackImage
-                    ) {
-                      return;
-                    }
-
-                    event.currentTarget.onerror = null;
-                    event.currentTarget.src = fallbackImage;
-                  }}
+                  sizes="380px"
+                  className="object-cover"
                 />
               </div>
 

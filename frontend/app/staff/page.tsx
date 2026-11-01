@@ -5,131 +5,47 @@
     import Link from "next/link";
     import { useRouter } from "next/navigation";
 
-    type Booking = {
-    id: number;
-    pickup_date: string;
-    return_date: string;
-    total_amount: number;
-    status: string;
-    user?: {
-        name: string;
-        email?: string;
-    };
-    car?: {
-        brand: string;
-        model: string;
-    };
-    };
+    import { apiFetch, errorMessage, isApiError } from "@/lib/api";
+    import { redirectIfUnauthorized, useRequireRole } from "@/lib/auth";
+    import type { Booking, Role } from "@/lib/types";
 
-    type AuthUser = {
-    id: number;
-    name: string;
-    email: string;
-    role: "admin" | "customer" | "staff";
-    };
+    const STAFF_ROLES: Role[] = ["staff", "admin"];
 
     export default function StaffDashboardPage() {
     const router = useRouter();
 
-    const [user, setUser] = useState<AuthUser | null>(null);
+    const auth = useRequireRole(STAFF_ROLES);
+    const user = auth.user;
     const [bookings, setBookings] = useState<Booking[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
     useEffect(() => {
+        if (auth.status !== "allowed") return;
+
         let cancelled = false;
 
-        const loadDashboard = async () => {
-        const token = localStorage.getItem("token");
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-
-        if (!token || !apiUrl) {
-            router.replace("/login");
-            return;
-        }
-
+        (async () => {
         try {
-            const meResponse = await fetch(`${apiUrl}/me`, {
-            headers: {
-                Accept: "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-            cache: "no-store",
-            });
-
-            if (!meResponse.ok) {
-            if (meResponse.status === 401 || meResponse.status === 403) {
-                localStorage.removeItem("token");
-                localStorage.removeItem("user");
-                router.replace("/login");
-                return;
-            }
-
-            throw new Error("Could not verify your account.");
-            }
-
-            const meResult = await meResponse.json();
-            const currentUser = meResult?.data?.user as AuthUser | undefined;
-
-            if (
-            !currentUser ||
-            !["staff", "admin"].includes(currentUser.role)
-            ) {
-            router.replace("/");
-            return;
-            }
-
+            const data = await apiFetch<Booking[]>("/bookings");
             if (cancelled) return;
-
-            setUser(currentUser);
-            localStorage.setItem("user", JSON.stringify(currentUser));
-
-            const bookingsResponse = await fetch(`${apiUrl}/bookings`, {
-            headers: {
-                Accept: "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-            cache: "no-store",
-            });
-
-            if (!bookingsResponse.ok) {
-            throw new Error(
-                bookingsResponse.status === 403
-                ? "Your account does not have permission to view bookings."
-                : "Could not load bookings."
-            );
-            }
-
-            const bookingsResult = await bookingsResponse.json();
-
-            if (!cancelled) {
-            setBookings(
-                Array.isArray(bookingsResult.data)
-                ? bookingsResult.data
-                : []
-            );
-            }
+            setBookings(Array.isArray(data) ? data : []);
         } catch (err) {
-            if (!cancelled) {
+            if (cancelled || redirectIfUnauthorized(err, router)) return;
             setError(
-                err instanceof Error
-                ? err.message
-                : "Something went wrong while loading the dashboard."
+            isApiError(err, 403)
+                ? "Your account does not have permission to view bookings."
+                : errorMessage(err, "Something went wrong while loading the dashboard.")
             );
-            }
         } finally {
-            if (!cancelled) {
-            setLoading(false);
-            }
+            if (!cancelled) setLoading(false);
         }
-        };
-
-        void loadDashboard();
+        })();
 
         return () => {
         cancelled = true;
         };
-    }, [router]);
+    }, [auth.status, router]);
 
     const pending = bookings.filter(
         (booking) => booking.status === "pending"

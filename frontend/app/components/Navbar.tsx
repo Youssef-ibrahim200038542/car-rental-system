@@ -2,127 +2,55 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
-
-type User = {
-  id: number;
-  name: string;
-  email: string;
-  role: "admin" | "customer" | "staff";
-};
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import {
+  AUTH_CHANGED_EVENT,
+  apiFetch,
+  clearSession,
+  getToken,
+} from "@/lib/api";
+import { fetchCurrentUser, useHydrated, useSessionUser } from "@/lib/auth";
 
 const navLinkClass =
   "whitespace-nowrap text-sm font-medium text-[#f3efe6]/75 transition-colors duration-200 hover:text-[#d4af6a]";
 
+/** Re-validate the cached user against /me; apiFetch clears the session on 401. */
+function refreshSessionUser() {
+  if (!getToken()) return;
+  fetchCurrentUser().catch((error: unknown) => {
+    console.error("Failed to refresh user:", error);
+  });
+}
+
 export default function Navbar() {
-  const [user, setUser] = useState<User | null>(null);
-  const [authChecked, setAuthChecked] = useState(false);
+  const router = useRouter();
+  const user = useSessionUser();
+  const authChecked = useHydrated();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const syncUser = useCallback(async () => {
-    const token = localStorage.getItem("token");
-    const storedUser = localStorage.getItem("user");
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-
-    if (!token || !apiUrl) {
-      setUser(null);
-      setAuthChecked(true);
-      return;
-    }
-
-    if (storedUser) {
-      try {
-        setUser(JSON.parse(storedUser) as User);
-      } catch {
-        localStorage.removeItem("user");
-        setUser(null);
-      }
-    }
-
-    try {
-      const response = await fetch(`${apiUrl}/me`, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        cache: "no-store",
-      });
-
-      if (!response.ok) {
-        if (response.status === 401 || response.status === 403) {
-          localStorage.removeItem("token");
-          localStorage.removeItem("user");
-          setUser(null);
-        }
-
-        setAuthChecked(true);
-        return;
-      }
-
-      const result = await response.json();
-      const freshUser = result?.data?.user as User | undefined;
-
-      if (
-        !freshUser ||
-        typeof freshUser.id !== "number" ||
-        typeof freshUser.name !== "string" ||
-        !["admin", "customer", "staff"].includes(freshUser.role)
-      ) {
-        setAuthChecked(true);
-        return;
-      }
-
-      setUser(freshUser);
-      localStorage.setItem("user", JSON.stringify(freshUser));
-    } catch (error) {
-      console.error("Failed to refresh user:", error);
-    } finally {
-      setAuthChecked(true);
-    }
-  }, []);
-
   useEffect(() => {
-    void syncUser();
+    refreshSessionUser();
 
-    const handleAuthChanged = () => {
-      void syncUser();
-    };
-
-    window.addEventListener("storage", handleAuthChanged);
-    window.addEventListener("auth-changed", handleAuthChanged);
-
+    window.addEventListener(AUTH_CHANGED_EVENT, refreshSessionUser);
     return () => {
-      window.removeEventListener("storage", handleAuthChanged);
-      window.removeEventListener("auth-changed", handleAuthChanged);
+      window.removeEventListener(AUTH_CHANGED_EVENT, refreshSessionUser);
     };
-  }, [syncUser]);
+  }, []);
 
   const closeMobileMenu = () => setMobileMenuOpen(false);
 
   const handleLogout = async () => {
-    const token = localStorage.getItem("token");
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-
     try {
-      if (token && apiUrl) {
-        await fetch(`${apiUrl}/logout`, {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
+      if (getToken()) {
+        await apiFetch("/logout", { method: "POST" });
       }
     } catch (error) {
       console.error("Logout request failed:", error);
     } finally {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      setUser(null);
+      clearSession();
       closeMobileMenu();
-      window.dispatchEvent(new Event("auth-changed"));
-      window.location.href = "/";
+      router.push("/");
     }
   };
 

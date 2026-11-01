@@ -1,10 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { BACKEND_URL } from "@/lib/api";
+import { useHydrated, useSessionUser } from "@/lib/auth";
 
-const API = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+// Served by the backend (higher resolution than the copy in /public). Local
+// backend IPs cannot go through the Next optimizer, hence `unoptimized`.
+const HERO_IMAGE = `${BACKEND_URL}/images/cars/bmw-m4.jpg`;
 
 const categories = [
   { label: "Luxury", note: "BMW, Mercedes, Audi", type: "luxury" },
@@ -50,8 +55,8 @@ const perks = [
 export default function Home() {
   const router = useRouter();
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [authChecked, setAuthChecked] = useState(false);
+  const isLoggedIn = Boolean(useSessionUser());
+  const authChecked = useHydrated();
 
   const [search, setSearch] = useState({
     pickup: "",
@@ -59,28 +64,6 @@ export default function Home() {
     to: "",
     seats: "any",
   });
-
-  const [heroFailed, setHeroFailed] = useState(false);
-
-  useEffect(() => {
-    const checkAuth = () => {
-      const token = localStorage.getItem("token");
-      const user = localStorage.getItem("user");
-
-      setIsLoggedIn(Boolean(token && user));
-      setAuthChecked(true);
-    };
-
-    checkAuth();
-
-    window.addEventListener("storage", checkAuth);
-    window.addEventListener("auth-changed", checkAuth);
-
-    return () => {
-      window.removeEventListener("storage", checkAuth);
-      window.removeEventListener("auth-changed", checkAuth);
-    };
-  }, []);
 
   const getDestination = (path: string) => {
     if (!authChecked) return "/login";
@@ -135,9 +118,13 @@ export default function Home() {
 
 {/* HERO */}
 <section className="relative overflow-hidden bg-[#0a1411] text-[#f3efe6]">
-  <img
-    src="http://127.0.0.1:8000/images/cars/bmw-m4.jpg"
+  <Image
+    src={HERO_IMAGE}
     alt="BMW M4 available for rent"
+    fill
+    unoptimized
+    preload
+    sizes="100vw"
     onLoad={() => console.log("BMW Hero image loaded successfully")}
     onError={(e) => {
       console.error("BMW Hero image failed:", e.currentTarget.src);
@@ -350,9 +337,12 @@ export default function Home() {
         
 
 <article className="relative min-h-[440px] overflow-hidden rounded-3xl bg-[#0a1411] text-white">
-  <img
-    src="http://127.0.0.1:8000/images/cars/bmw-m4.jpg"
+  <Image
+    src={HERO_IMAGE}
     alt="BMW M4"
+    fill
+    unoptimized
+    sizes="(min-width: 1024px) 60vw, 100vw"
     className="absolute inset-0 h-full w-full object-cover"
     onLoad={() => console.log("BMW image loaded successfully")}
     onError={(e) => console.error("BMW image failed:", e.currentTarget.src)}

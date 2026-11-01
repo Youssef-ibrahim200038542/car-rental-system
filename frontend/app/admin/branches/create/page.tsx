@@ -1,13 +1,12 @@
 
     "use client";
 
-    import { useEffect, useState } from "react";
+    import { useState } from "react";
     import type { ChangeEvent, FormEvent } from "react";
     import Link from "next/link";
     import { useRouter } from "next/navigation";
-
-    const API_URL =
-    process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
+    import { apiFetch, errorMessage } from "@/lib/api";
+    import { redirectIfUnauthorized } from "@/lib/auth";
 
     type BranchFormData = {
     name: string;
@@ -27,33 +26,7 @@
     });
 
     const [loading, setLoading] = useState(false);
-    const [checkingAuth, setCheckingAuth] = useState(true);
     const [error, setError] = useState("");
-
-    useEffect(() => {
-        const token = localStorage.getItem("token");
-        const storedUser = localStorage.getItem("user");
-
-        if (!token || !storedUser) {
-        router.replace("/login");
-        return;
-        }
-
-        try {
-        const user = JSON.parse(storedUser);
-
-        if (user.role !== "admin") {
-            router.replace("/");
-            return;
-        }
-
-        setCheckingAuth(false);
-        } catch {
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
-        router.replace("/login");
-        }
-    }, [router]);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -67,72 +40,20 @@
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-        router.replace("/login");
-        return;
-        }
-
         setLoading(true);
         setError("");
 
         try {
-        const response = await fetch(`${API_URL}/branches`, {
-            method: "POST",
-            headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(formData),
-        });
-
-        const data = await response.json().catch(() => ({}));
-
-        if (response.status === 401) {
-            localStorage.removeItem("token");
-            localStorage.removeItem("user");
-            router.replace("/login");
-            return;
-        }
-
-        if (!response.ok) {
-            if (data.errors) {
-            const firstError = Object.values(
-                data.errors as Record<string, unknown>
-            )
-                .flat()
-                .find((message): message is string => typeof message === "string");
-
-            throw new Error(firstError || "Failed to create branch.");
-            }
-
-            throw new Error(data.message || "Failed to create branch.");
-        }
+        await apiFetch("/branches", { method: "POST", body: formData });
 
         router.push("/admin/branches");
         } catch (err) {
-        setError(
-            err instanceof Error ? err.message : "Failed to create branch."
-        );
+        if (redirectIfUnauthorized(err, router)) return;
+        setError(errorMessage(err, "Failed to create branch."));
         } finally {
         setLoading(false);
         }
     };
-
-    if (checkingAuth) {
-        return (
-        <main className="flex min-h-screen items-center justify-center bg-[#f8f8f7] px-5 py-24 text-[#0a1411]">
-            <div className="w-full max-w-md rounded-3xl border border-[#e8e5dc] bg-white p-10 text-center shadow-sm">
-            <div className="mx-auto mb-5 h-10 w-10 animate-spin rounded-full border-2 border-[#e8e5dc] border-t-[#c6a15b]" />
-            <p className="text-sm font-medium text-[#68736c]">
-                Checking access...
-            </p>
-            </div>
-        </main>
-        );
-    }
 
     return (
         <main className="min-h-screen bg-[#f8f8f7] px-5 py-10 text-[#0a1411] sm:px-8 lg:px-12">
@@ -195,7 +116,7 @@
                 <div>
                     <h2 className="font-semibold text-white">Branch Information</h2>
                     <p className="mt-1 text-sm text-white/55">
-                    Provide the location's contact details.
+                    Provide the location&apos;s contact details.
                     </p>
                 </div>
                 </div>

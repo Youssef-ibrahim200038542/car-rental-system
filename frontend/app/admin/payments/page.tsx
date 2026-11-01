@@ -1,42 +1,12 @@
 
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
-type User = {
-  id: number;
-  name: string;
-  email: string;
-};
-
-type Car = {
-  id: number;
-  brand: string;
-  model: string;
-};
-
-type Booking = {
-  id: number;
-  user?: User;
-  car?: Car;
-  total_amount: number;
-};
-
-type Payment = {
-  id: number;
-  booking_id: number;
-  amount: number;
-  payment_method: string;
-  payment_status: string;
-  transaction_reference?: string | null;
-  paid_at?: string | null;
-  booking?: Booking;
-};
-
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000/api";
+import { apiFetch, errorMessage } from "@/lib/api";
+import { redirectIfUnauthorized } from "@/lib/auth";
+import type { Money, Payment, PaymentStatus } from "@/lib/types";
 
 const statusStyles: Record<string, string> = {
   paid: "border-emerald-200 bg-emerald-50 text-emerald-800",
@@ -129,7 +99,7 @@ function formatDate(date?: string | null) {
   });
 }
 
-function formatAmount(amount: number) {
+function formatAmount(amount: Money) {
   return Number(amount).toLocaleString("en-US", {
     maximumFractionDigits: 2,
   });
@@ -153,90 +123,43 @@ export default function AdminPaymentsPage() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [refreshing, setRefreshing] = useState(false);
 
-  const fetchPayments = useCallback(
-    async (showRefresh = false) => {
-      const token = localStorage.getItem("token");
-      const storedUser = localStorage.getItem("user");
-
-      if (!token || !storedUser) {
-        router.replace("/login");
-        return;
-      }
-
-      try {
-        const user = JSON.parse(storedUser);
-
-        if (user.role !== "admin") {
-          router.replace("/");
-          return;
-        }
-      } catch {
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
-        router.replace("/login");
-        return;
-      }
-
-      if (showRefresh) {
-        setRefreshing(true);
-      } else {
-        setLoading(true);
-      }
-
-      setError("");
-
-      try {
-        const response = await fetch(`${API_URL}/payments`, {
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          cache: "no-store",
-        });
-
-        if (response.status === 401) {
-          localStorage.removeItem("token");
-          localStorage.removeItem("user");
-          router.replace("/login");
-          return;
-        }
-
-        const data = await response.json().catch(() => ({}));
-
-        if (!response.ok) {
-          throw new Error(data.message || "Failed to load payments.");
-        }
-
-        setPayments(Array.isArray(data.data) ? data.data : []);
-      } catch (err) {
-        setError(
-          err instanceof Error
-            ? err.message
-            : "Failed to load payments."
-        );
-      } finally {
-        setLoading(false);
-        setRefreshing(false);
-      }
-    },
-    [router]
-  );
+  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
-    void fetchPayments();
-  }, [fetchPayments]);
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const data = await apiFetch<Payment[]>("/payments");
+        if (cancelled) return;
+        setPayments(Array.isArray(data) ? data : []);
+        setError("");
+      } catch (err) {
+        if (cancelled || redirectIfUnauthorized(err, router)) return;
+        setError(errorMessage(err, "Failed to load payments."));
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+          setRefreshing(false);
+        }
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [router, reloadKey]);
+
+  const refreshPayments = () => {
+    setRefreshing(true);
+    setError("");
+    setReloadKey((key) => key + 1);
+  };
 
   const updatePaymentStatus = async (
     payment: Payment,
-    status: string
+    status: PaymentStatus
   ) => {
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      router.replace("/login");
-      return;
-    }
-
     const previousStatus = payment.payment_status;
 
     if (previousStatus === status) return;
@@ -245,52 +168,23 @@ export default function AdminPaymentsPage() {
     setError("");
 
     try {
-      const response = await fetch(`${API_URL}/payments/${payment.id}`, {
+      const paidAt = status === "paid" ? new Date().toISOString() : null;
+
+      const updated = await apiFetch<Payment>(`/payments/${payment.id}`, {
         method: "PUT",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          payment_status: status,
-          paid_at: status === "paid" ? new Date().toISOString() : null,
-        }),
+        body: { payment_status: status, paid_at: paidAt },
       });
-
-      if (response.status === 401) {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        router.replace("/login");
-        return;
-      }
-
-      const data = await response.json().catch(() => ({}));
-
-      if (!response.ok) {
-        throw new Error(data.message || "Failed to update payment.");
-      }
 
       setPayments((currentPayments) =>
         currentPayments.map((item) =>
           item.id === payment.id
-            ? {
-                ...item,
-                payment_status: status,
-                paid_at:
-                  status === "paid"
-                    ? new Date().toISOString()
-                    : null,
-              }
+            ? { ...item, ...updated, booking: updated.booking ?? item.booking }
             : item
         )
       );
     } catch (err) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : "Failed to update payment."
-      );
+      if (redirectIfUnauthorized(err, router)) return;
+      setError(errorMessage(err, "Failed to update payment."));
     } finally {
       setUpdatingId(null);
     }
@@ -382,7 +276,7 @@ export default function AdminPaymentsPage() {
 
             <button
               type="button"
-              onClick={() => void fetchPayments(true)}
+              onClick={refreshPayments}
               disabled={refreshing}
               className="inline-flex items-center justify-center gap-2 rounded-xl border border-[#dedbd2] bg-white px-5 py-3 text-sm font-semibold text-[#34443b] transition hover:bg-[#f3f1eb] disabled:opacity-60"
             >
@@ -674,7 +568,7 @@ export default function AdminPaymentsPage() {
                               onChange={(event) =>
                                 void updatePaymentStatus(
                                   payment,
-                                  event.target.value
+                                  event.target.value as PaymentStatus
                                 )
                               }
                               className="max-w-[130px] rounded-lg border border-[#dedbd2] bg-white px-2 py-2 text-xs text-[#34443b] outline-none focus:border-[#c6a15b] disabled:opacity-50"
@@ -784,7 +678,7 @@ export default function AdminPaymentsPage() {
                         onChange={(event) =>
                           void updatePaymentStatus(
                             payment,
-                            event.target.value
+                            event.target.value as PaymentStatus
                           )
                         }
                         className="min-w-0 rounded-lg border border-[#dedbd2] bg-white px-2 py-2.5 text-xs font-semibold text-[#34443b] outline-none focus:border-[#c6a15b] disabled:opacity-50"

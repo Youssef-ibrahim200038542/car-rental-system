@@ -1,51 +1,79 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import CarImage from "@/app/components/CarImage";
+import { apiFetch, errorMessage, getToken, isApiError } from "@/lib/api";
+import { redirectIfUnauthorized } from "@/lib/auth";
 import { getCarImageUrl, getLocalCarImage } from "@/lib/car-images";
+import type {
+  Booking as ApiBooking,
+  Car,
+  PayBookingResult,
+  Payment,
+  PaymentMethod,
+} from "@/lib/types";
 
-type Booking = {
-  id: number;
-  car_id: number;
-  pickup_branch_id: number;
-  dropoff_branch_id: number;
-  pickup_date: string;
-  return_date: string;
-  daily_rate: number;
-  total_days: number;
-  subtotal: number;
-  discount: number;
-  total_amount: number;
-  status: string;
-  car?: {
-    id: number;
-    brand?: string;
-    model?: string;
-    name?: string;
-    year?: number;
-    image?: string | null;
-  };
-  pickup_branch?: {
-    id: number;
-    name: string;
-  };
-  dropoff_branch?: {
-    id: number;
-    name: string;
-  };
-};
+/** The API has no car `name` column; kept optional so the fallbacks still read. */
+type Booking = ApiBooking & { car?: (Car & { name?: string }) | null };
 
-type PaymentMethod = "card" | "online" | "cash";
+/** Why this booking cannot be paid now, or null when the form should show. */
+function paymentBlocker(booking: Booking): { title: string; message: string } | null {
+  const payments: Payment[] = booking.payments ?? [];
 
-type BookingResponse = {
-  success?: boolean;
-  message?: string;
-  data?: Booking;
-};
+  if (payments.some((payment) => payment.payment_status === "paid")) {
+    return {
+      title: "Already Paid",
+      message: "This booking has already been paid. No further payment is needed.",
+    };
+  }
+
+  if (
+    payments.some(
+      (payment) =>
+        payment.payment_method === "cash" && payment.payment_status === "pending"
+    )
+  ) {
+    return {
+      title: "Cash Payment Pending",
+      message: "You chose to pay cash at the branch. Payment will be collected when you pick up the car.",
+    };
+  }
+
+  if (booking.status === "cancelled") {
+    return {
+      title: "Booking Cancelled",
+      message: "This booking was cancelled and can no longer be paid.",
+    };
+  }
+
+  if (booking.status === "completed") {
+    return {
+      title: "Booking Completed",
+      message: "This rental is already completed.",
+    };
+  }
+
+  return null;
+}
 
 export default function PaymentPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="flex min-h-screen items-center justify-center bg-[#f8f8f7] px-6 pt-28">
+          <div className="mx-auto h-12 w-12 animate-spin rounded-full border-4 border-[#e8e4db] border-t-[#c6a15b]" />
+        </main>
+      }
+    >
+      <PaymentCheckout />
+    </Suspense>
+  );
+}
+
+function PaymentCheckout() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const bookingId = searchParams.get("booking_id");
@@ -58,74 +86,52 @@ export default function PaymentPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const user = localStorage.getItem("user");
-
-    if (!token || !user) {
-      router.push("/login");
+    if (!getToken()) {
+      const returnTo = bookingId ? `/payment?booking_id=${bookingId}` : "/bookings";
+      router.replace(`/login?redirect=${encodeURIComponent(returnTo)}`);
       return;
     }
 
-    if (!bookingId) {
-      setError("Booking not found. Please select a booking first.");
-      setLoading(false);
-      return;
-    }
+    let cancelled = false;
 
-    const fetchBooking = async () => {
+    (async () => {
       try {
-        const apiUrl =
-          process.env.NEXT_PUBLIC_API_URL ||
-          "http://127.0.0.1:8000/api";
-
-        const response = await fetch(
-          `${apiUrl}/bookings/${bookingId}`,
-          {
-            headers: {
-              Accept: "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        const data: BookingResponse = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.message || "Failed to load booking.");
+        if (!bookingId) {
+          throw new Error("Booking not found. Please select a booking first.");
         }
 
-        if (!data.data) {
+        const data = await apiFetch<Booking>(`/bookings/${bookingId}`);
+
+        if (!data) {
           throw new Error("Booking information could not be found.");
         }
 
-        setBooking(data.data);
+        if (!cancelled) setBooking(data);
       } catch (err) {
+        if (cancelled || redirectIfUnauthorized(err, router)) return;
         console.error(err);
 
         setError(
-          err instanceof Error
-            ? err.message
-            : "Unable to load booking."
+          isApiError(err, 403)
+            ? "This booking belongs to another account."
+            : isApiError(err, 404)
+              ? "Booking not found."
+              : errorMessage(err, "Unable to load booking.")
         );
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
-    };
+    })();
 
-    fetchBooking();
+    return () => {
+      cancelled = true;
+    };
   }, [bookingId, router]);
 
   const handlePayment = async () => {
     if (paymentLoading) return;
 
     setError("");
-
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      router.push("/login");
-      return;
-    }
 
     if (!booking) {
       setError("Booking information is missing.");
@@ -135,88 +141,18 @@ export default function PaymentPage() {
     try {
       setPaymentLoading(true);
 
-      const apiUrl =
-        process.env.NEXT_PUBLIC_API_URL ||
-        "http://127.0.0.1:8000/api";
-
-      const isCashPayment = paymentMethod === "cash";
-
-      const transactionReference =
-        "TXN-" +
-        Date.now() +
-        "-" +
-        Math.floor(Math.random() * 10000);
-
-      const paymentPayload = {
-        booking_id: booking.id,
-        amount: Number(booking.total_amount),
-        payment_method: paymentMethod,
-        payment_status: isCashPayment ? "pending" : "paid",
-        transaction_reference: transactionReference,
-        paid_at: isCashPayment
-          ? null
-          : new Date().toISOString(),
-      };
-
-      const paymentResponse = await fetch(`${apiUrl}/payments`, {
+      // One request: the server records the payment and confirms the booking.
+      await apiFetch<PayBookingResult>(`/bookings/${booking.id}/pay`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(paymentPayload),
+        body: { payment_method: paymentMethod },
       });
 
-      const paymentData = await paymentResponse.json();
-
-      if (!paymentResponse.ok) {
-        throw new Error(
-          paymentData.message || "Payment failed."
-        );
-      }
-
-      // Cash bookings remain pending until payment is collected.
-      // Card and online payments confirm the booking in demo mode.
-      if (!isCashPayment) {
-        const bookingResponse = await fetch(
-          `${apiUrl}/bookings/${booking.id}`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify({
-              status: "confirmed",
-            }),
-          }
-        );
-
-        const bookingData = await bookingResponse.json();
-
-        if (!bookingResponse.ok) {
-          throw new Error(
-            bookingData.message ||
-              "Payment was recorded, but booking confirmation failed. Please check your booking before trying again."
-          );
-        }
-      }
-
-      const successUrl =
-        `/payment/success?booking_id=${booking.id}` +
-        `&payment_method=${paymentMethod}`;
-
-      router.push(successUrl);
+      router.push(`/payment/success?booking_id=${booking.id}`);
     } catch (err) {
+      if (redirectIfUnauthorized(err, router)) return;
       console.error(err);
 
-      setError(
-        err instanceof Error
-          ? err.message
-          : "Something went wrong. Please try again."
-      );
+      setError(errorMessage(err, "Something went wrong. Please try again."));
     } finally {
       setPaymentLoading(false);
     }
@@ -256,6 +192,7 @@ export default function PaymentPage() {
     : null;
 
   const isCashPayment = paymentMethod === "cash";
+  const blocker = booking ? paymentBlocker(booking) : null;
 
   if (loading) {
     return (
@@ -382,6 +319,29 @@ export default function PaymentPage() {
 
         <div className="grid items-start gap-7 lg:grid-cols-[minmax(0,1fr)_370px] lg:gap-8">
           <section className="min-w-0 rounded-3xl border border-[#e8e4db] bg-white p-5 shadow-[0_12px_40px_rgba(10,20,17,0.04)] sm:p-7 md:p-8">
+            {blocker ? (
+              <div className="text-center">
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-[#f6f0e3] text-2xl text-[#9a783c]">
+                  {booking.status === "cancelled" ? "!" : "✓"}
+                </div>
+                <h2 className="mt-5 text-xl font-bold sm:text-2xl">
+                  {blocker.title}
+                </h2>
+                <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-[#77776f]">
+                  {blocker.message}
+                </p>
+                <p className="mt-3 text-xs font-semibold uppercase tracking-[0.16em] text-[#9a783c]">
+                  Booking status: {booking.status}
+                </p>
+                <Link
+                  href="/bookings"
+                  className="mt-7 inline-flex items-center justify-center rounded-xl bg-[#0a1411] px-6 py-3 font-semibold text-white transition hover:bg-[#1a3027]"
+                >
+                  Back to My Bookings
+                </Link>
+              </div>
+            ) : (
+            <>
             <div className="flex items-center gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#f6f0e3] text-[#9a783c]">
                 <svg
@@ -650,6 +610,8 @@ export default function PaymentPage() {
             <p className="mt-5 text-center text-xs leading-5 text-[#898981]">
               Demo checkout only. Card and online selections do not process a real payment.
             </p>
+            </>
+            )}
           </section>
 
           <aside className="h-fit min-w-0 rounded-3xl border border-[#e8e4db] bg-white p-5 shadow-[0_12px_40px_rgba(10,20,17,0.04)] sm:p-6 lg:sticky lg:top-28">
@@ -658,8 +620,8 @@ export default function PaymentPage() {
               Reservation Summary
             </p>
 
-            <div className="mt-5 h-48 overflow-hidden rounded-2xl bg-[#f2f1ec] sm:h-44">
-              <img
+            <div className="relative mt-5 h-48 overflow-hidden rounded-2xl bg-[#f2f1ec] sm:h-44">
+              <CarImage
                 src={
                   carImage ||
                   getLocalCarImage(
@@ -668,26 +630,14 @@ export default function PaymentPage() {
                     carName
                   )
                 }
+                fallbackSrc={getLocalCarImage(
+                  booking.car?.brand,
+                  booking.car?.model,
+                  carName
+                )}
                 alt={carName}
-                className="h-full w-full object-cover"
-                loading="lazy"
-                onError={(event) => {
-                  const fallbackImage = getLocalCarImage(
-                    booking.car?.brand,
-                    booking.car?.model,
-                    carName
-                  );
-
-                  if (
-                    event.currentTarget.getAttribute("src") ===
-                    fallbackImage
-                  ) {
-                    return;
-                  }
-
-                  event.currentTarget.onerror = null;
-                  event.currentTarget.src = fallbackImage;
-                }}
+                sizes="370px"
+                className="object-cover"
               />
             </div>
 
