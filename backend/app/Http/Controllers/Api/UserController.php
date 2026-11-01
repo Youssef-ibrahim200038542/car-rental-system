@@ -40,6 +40,23 @@ class UserController extends Controller
             'avatar' => 'nullable|string|max:255',
         ]);
 
+        if (array_key_exists('role', $validated) && $validated['role'] !== $user->role) {
+            if ($request->user()->role !== 'admin') {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Only an admin can change user roles.',
+                ], 403);
+            }
+
+            if ($request->user()->id === $user->id) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'You cannot change your own role.',
+                    'errors' => ['role' => ['You cannot change your own role.']],
+                ], 422);
+            }
+        }
+
         $user->update($validated);
 
         return response()->json([
@@ -49,12 +66,19 @@ class UserController extends Controller
         ]);
     }
 
-    public function destroy(User $user)
+    public function destroy(Request $request, User $user)
     {
-        if ($user->bookings()->exists()) {
+        if ($request->user()->id === $user->id) {
             return response()->json([
                 'success' => false,
-                'message' => 'Cannot delete this user because they have bookings.',
+                'message' => 'You cannot delete your own account.',
+            ], 422);
+        }
+
+        if ($user->bookings()->exists() || $user->reviews()->exists()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Cannot delete this user because they have bookings or reviews.',
             ], 422);
         }
 
