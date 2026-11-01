@@ -1,7 +1,7 @@
 # DriveX recommendations: live system and offline research
 
-This folder (together with `ML_old_backup/`) holds the **offline research**
-behind DriveX recommendations. None of the Python here runs when a user asks
+This folder holds the **offline research** behind DriveX recommendations.
+The evaluation results of the trained models are kept in `ML/research/`. None of the Python here runs when a user asks
 for a recommendation.
 
 ## What the app actually uses
@@ -34,7 +34,7 @@ and is no longer tracked in git. It is synthetic US-style data, so its
 vehicles, categories, fuel names (`gasoline`) and prices (currency
 unconfirmed) do not match the DriveX fleet.
 
-### 1. Booking ranker (`ML_old_backup/train_recommender.py`)
+### 1. Booking ranker (`train_recommender.py`)
 
 This task asks whether a model can rank the vehicle a customer actually
 booked above vehicles they didn't book.
@@ -47,7 +47,7 @@ booked above vehicles they didn't book.
 - Model selection runs on validation recall@5. A random forest reached 0.639
   and logistic regression 0.295, so the random forest was selected.
 
-Test results (`ML_old_backup/reports/training_metrics_v2.json`):
+Test results (`ML/research/training_metrics_v2.json`):
 
 | Ranker | recall@5 | MRR | nDCG@5 |
 |---|---|---|---|
@@ -67,7 +67,7 @@ earlier v1 run (`training_metrics.json`, SGD classifier with 80/20 split and
 ### 2. Rating regressor: a negative result
 
 This was a random forest that predicts a vehicle's average review rating
-from its attributes (`ML_old_backup/reports/car_rating_metrics.json`). The
+from its attributes (`ML/research/car_rating_metrics.json`). The
 test set has 200 vehicles. MAE is 0.92 and RMSE 1.13, and **R² = -0.17**,
 which is worse than predicting the mean rating. Vehicle attributes carry no
 usable signal for ratings in this dataset. The script that trained it is not
@@ -91,16 +91,22 @@ pip install -r requirements.txt
 python inspect_dataset.py      # writes data/dataset_report.txt
 python prepare_dataset.py      # writes data/processed/{fleet_clean,booking_history_clean}.csv
 
-# 2. train_recommender.py reads ML_old_backup/data/processed/, so copy the outputs there
+# 2. The training script was removed from the working tree with the old
+#    ML_old_backup/ folder; restore it from git history to re-run training.
+#    It reads ML_old_backup/data/processed/, so recreate that path for it.
+git show caf051a:ML_old_backup/train_recommender.py > train_recommender.py
 mkdir -p ../ML_old_backup/data/processed
 cp data/processed/*.csv ../ML_old_backup/data/processed/
-python ../ML_old_backup/train_recommender.py   # writes models/*.joblib + reports/training_metrics_v2.json
+python train_recommender.py   # writes models/*.joblib + reports/training_metrics_v2.json
 ```
+
+The original v1/v2 metrics this produced are saved in `ML/research/`
+(`training_metrics.json`, `training_metrics_v2.json`, `car_rating_metrics.json`).
 
 ## What is tracked in git
 
 The scripts, `requirements.txt`, the small text reports
 (`data/dataset_report.txt`, `data/processed/preparation_summary.txt`) and the
-metrics JSON files are tracked. The raw and processed CSVs, the dataset zip,
+metrics JSON files in `ML/research/` are tracked. The raw and processed CSVs, the dataset zip,
 `*.joblib` models and prediction CSVs are ignored (see the root
 `.gitignore`). Regenerate them with the steps above.

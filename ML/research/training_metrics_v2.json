@@ -1,0 +1,51 @@
+{
+  "selected_model": "random_forest",
+  "random_state": 42,
+  "source_fleet_rows": 1200,
+  "valid_booking_rows": 100000,
+  "unique_customers": 4000,
+  "training_booking_rows": 70000,
+  "validation_booking_rows": 15000,
+  "testing_booking_rows": 15000,
+  "training_cutoff_date": "2024-07-18 19:45:53",
+  "validation_cutoff_date": "2025-02-18 04:58:08",
+  "negative_samples": {
+    "training": 3,
+    "validation": 19,
+    "testing": 49
+  },
+  "experiments": {
+    "logistic_regression": {
+      "validation_recall_at_5": 0.2952666666666667,
+      "validation_mrr": 0.20440139816066288,
+      "validation_ndcg_at_5": 0.17802158313303496
+    },
+    "random_forest": {
+      "validation_recall_at_5": 0.6388,
+      "validation_mrr": 0.39564677737438575,
+      "validation_ndcg_at_5": 0.42368477672666255
+    }
+  },
+  "selected_model_test": {
+    "candidate_groups": 15000,
+    "recall_at_5": 0.37453333333333333,
+    "mrr": 0.23990988486994363,
+    "ndcg_at_5": 0.23442452732072053,
+    "roc_auc_on_sampled_pairs": 0.7975607693877551
+  },
+  "popularity_baseline_test": {
+    "candidate_groups": 15000,
+    "recall_at_5": 0.2932,
+    "mrr": 0.1864562951569698,
+    "ndcg_at_5": 0.18017035691951785
+  },
+  "limitations": [
+    "Negative alternatives are sampled and are not confirmed rejections.",
+    "The source dataset has no booking cancellation/status field.",
+    "Fleet prices and attributes are not historical snapshots.",
+    "Historical review statistics are excluded from this experiment.",
+    "The model is evaluated on sampled candidates, not all available vehicles.",
+    "Source price currency is unconfirmed and must not be treated as EGP.",
+    "This is an offline experiment, not yet integrated with the application."
+  ]
+}
