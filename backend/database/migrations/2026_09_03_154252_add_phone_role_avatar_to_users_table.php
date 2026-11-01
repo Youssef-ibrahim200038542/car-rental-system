@@ -13,7 +13,7 @@ return new class extends Migration
             $table->enum('role', [
                 'admin',
                 'customer',
-                'staff'
+                'staff',
             ])->default('customer')->after('phone');
             $table->string('avatar')->nullable()->after('role');
         });
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->dropColumn([
                 'phone',
                 'role',
-                'avatar'
+                'avatar',
             ]);
         });
     }

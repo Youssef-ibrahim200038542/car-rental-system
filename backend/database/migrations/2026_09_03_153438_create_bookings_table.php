@@ -50,7 +50,7 @@ return new class extends Migration
                 'confirmed',
                 'active',
                 'completed',
-                'cancelled'
+                'cancelled',
             ])->default('pending');
 
             $table->text('notes')->nullable();

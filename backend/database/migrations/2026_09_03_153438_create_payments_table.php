@@ -21,14 +21,14 @@ return new class extends Migration
             $table->enum('payment_method', [
                 'cash',
                 'card',
-                'online'
+                'online',
             ]);
 
             $table->enum('payment_status', [
                 'pending',
                 'paid',
                 'failed',
-                'refunded'
+                'refunded',
             ])->default('pending');
 
             $table->string('transaction_reference')->nullable();
