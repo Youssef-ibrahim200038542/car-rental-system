@@ -1,0 +1,26 @@
+{
+  "model": "SGDClassifier with logistic loss",
+  "random_state": 42,
+  "source_fleet_rows": 1200,
+  "valid_booking_rows": 100000,
+  "training_booking_rows": 80000,
+  "testing_booking_rows": 20000,
+  "training_cutoff_date": "2024-11-30 13:30:20",
+  "training_negative_samples_per_booking": 3,
+  "test_negative_samples_per_booking": 9,
+  "test_candidate_rows": 200000,
+  "test_accuracy_on_sampled_pairs": 0.43923,
+  "test_precision_on_sampled_pairs": 0.10681798788292517,
+  "test_recall_on_sampled_pairs": 0.6259,
+  "test_roc_auc_on_sampled_pairs": 0.5290473305555556,
+  "test_average_precision_on_sampled_pairs": 0.10994282239839454,
+  "recall_at_5_sampled_candidates": 0.544,
+  "mean_reciprocal_rank_sampled_candidates": 0.3172739087301587,
+  "limitations": [
+    "Negative examples are randomly sampled alternatives, not confirmed customer rejections.",
+    "Ranking metrics are measured against small sampled candidate sets, not the full real-world fleet availability problem.",
+    "Source prices have unconfirmed currency and must not be presented as production prices in Egypt.",
+    "Current vehicle status is not a historical availability snapshot and is not used as a model feature.",
+    "The model does not establish calibrated probabilities of a customer booking a vehicle."
+  ]
+}

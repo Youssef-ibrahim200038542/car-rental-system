@@ -79,8 +79,7 @@ car-rental-system/
 │   │   ├── recommendations/
 │   │   └── reviews/
 │   └── ...
-├── ML/                 # dataset prep + recommender research (see ML/README.md)
-├── ML_old_backup/      # trained ranker experiments and metrics
+├── ML/                 # dataset prep, recommender research and metrics (see ML/README.md)
 ├── screenshots/
 └── README.md
 ```
