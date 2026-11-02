@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { errorMessage } from "@/lib/api";
+import type { RecommendationResult } from "@/lib/recommendation-types";
 import type { Branch, CarCategory } from "@/lib/types";
 import RecommendationCard from "./RecommendationCard";
 import RecommendationForm, { EMPTY_FORM, type FormValues } from "./RecommendationForm";
@@ -9,7 +10,6 @@ import {
   fetchBranches,
   fetchCategories,
   fetchRecommendations,
-  type Recommendation,
   type RecommendationRequest,
 } from "./recommendations-api";
 
@@ -47,7 +47,7 @@ export default function RecommendationsPage() {
   const [values, setValues] = useState<FormValues>(EMPTY_FORM);
   const [categories, setCategories] = useState<CarCategory[]>([]);
   const [branches, setBranches] = useState<Branch[]>([]);
-  const [results, setResults] = useState<Recommendation[] | null>(null);
+  const [result, setResult] = useState<RecommendationResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -60,8 +60,8 @@ export default function RecommendationsPage() {
       .catch(() => setError("Could not load categories and branches. Filters may be incomplete."));
   }, []);
 
-  function handleChange(field: keyof FormValues, value: string) {
-    setValues((current) => ({ ...current, [field]: value }));
+  function handleChange(patch: Partial<FormValues>) {
+    setValues((current) => ({ ...current, ...patch }));
   }
 
   async function handleSubmit() {
@@ -75,9 +75,17 @@ export default function RecommendationsPage() {
     setError("");
 
     try {
-      setResults(await fetchRecommendations(toRequest(values)));
+      const data = await fetchRecommendations(toRequest(values));
+      // Older servers send no `position`; fall back to the order shown.
+      setResult({
+        ...data,
+        recommendations: data.recommendations.map((item, index) => ({
+          ...item,
+          position: item.position ?? index + 1,
+        })),
+      });
     } catch (err) {
-      setResults(null);
+      setResult(null);
       setError(errorMessage(err, "Unable to load recommendations."));
     } finally {
       setLoading(false);
@@ -86,7 +94,7 @@ export default function RecommendationsPage() {
 
   function resetSearch() {
     setValues(EMPTY_FORM);
-    setResults(null);
+    setResult(null);
     setError("");
   }
 
@@ -129,7 +137,7 @@ export default function RecommendationsPage() {
         </div>
       </section>
 
-      {results && (
+      {result && (
         <section className="border-t border-[#e5e6e1] bg-white py-14 sm:py-20">
           <div className="mx-auto max-w-7xl px-5 sm:px-8">
             <div className="flex flex-col gap-5 border-b border-[#e5e6e1] pb-7 sm:flex-row sm:items-end sm:justify-between">
@@ -139,7 +147,7 @@ export default function RecommendationsPage() {
                 </p>
                 <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Your best matches</h2>
                 <p className="mt-3 max-w-2xl text-sm leading-6 text-[#68736d]">
-                  {results.length} car{results.length === 1 ? "" : "s"} ranked by match score.
+                  {result.recommendations.length} car{result.recommendations.length === 1 ? "" : "s"} ranked by match score.
                 </p>
               </div>
 
@@ -152,7 +160,7 @@ export default function RecommendationsPage() {
               </button>
             </div>
 
-            {results.length === 0 ? (
+            {result.recommendations.length === 0 ? (
               <div className="mt-8 rounded-3xl border border-[#e5e6e1] bg-[#f8f8f7] p-10 text-center">
                 <h3 className="text-xl font-bold">No cars available</h3>
                 <p className="mt-2 text-sm leading-6 text-[#68736d]">
@@ -161,11 +169,11 @@ export default function RecommendationsPage() {
               </div>
             ) : (
               <div className="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-                {results.map((recommendation, index) => (
+                {result.recommendations.map((recommendation) => (
                   <RecommendationCard
                     key={recommendation.car.id}
                     recommendation={recommendation}
-                    rank={index + 1}
+                    requestId={result.request_id}
                   />
                 ))}
               </div>

@@ -1,14 +1,9 @@
 import { apiFetch } from "@/lib/api";
-import type { Branch, Car, CarCategory, FuelType, Transmission } from "@/lib/types";
+import type { RecommendationResult } from "@/lib/recommendation-types";
+import type { Branch, CarCategory, FuelType, Transmission } from "@/lib/types";
 
 export const FUEL_TYPES: readonly FuelType[] = ["petrol", "diesel", "hybrid", "electric"];
 export const TRANSMISSIONS: readonly Transmission[] = ["automatic", "manual"];
-
-export type Recommendation = {
-  car: Car;
-  score: number;
-  reasons: string[];
-};
 
 export type RecommendationRequest = {
   budget?: number;
@@ -30,13 +25,11 @@ export function fetchBranches(): Promise<Branch[]> {
   return apiFetch<Branch[]>("/branches", { auth: false });
 }
 
-export async function fetchRecommendations(
-  body: RecommendationRequest
-): Promise<Recommendation[]> {
-  const data = await apiFetch<{ recommendations: Recommendation[] }>(
-    "/ml/recommendations",
-    { method: "POST", body, auth: false }
-  );
-
-  return data.recommendations;
+/** Ranked cars plus the request id that click/book events refer back to. */
+export function fetchRecommendations(body: RecommendationRequest): Promise<RecommendationResult> {
+  return apiFetch<RecommendationResult>("/ml/recommendations", {
+    method: "POST",
+    body,
+    auth: false,
+  });
 }

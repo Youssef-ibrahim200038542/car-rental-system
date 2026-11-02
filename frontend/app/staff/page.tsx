@@ -1,322 +1,218 @@
+"use client";
 
-    "use client";
+import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import StatTile from "@/app/components/StatTile";
+import { PageLoading, PageState, StateCard } from "@/app/components/StateViews";
+import Icon, { type IconName } from "@/app/components/icons";
+import { apiFetch, errorMessage, isApiError } from "@/lib/api";
+import { redirectIfUnauthorized, useRequireRole } from "@/lib/auth";
+import { getLocalToday } from "@/lib/dates";
+import { formatDate } from "@/lib/format";
+import type { Booking, Role } from "@/lib/types";
+import StaffBookingList from "./StaffBookingList";
+import { staffQueues } from "./staff-bookings";
 
-    import { useEffect, useState } from "react";
-    import Link from "next/link";
-    import { useRouter } from "next/navigation";
+const STAFF_ROLES: Role[] = ["staff", "admin"];
 
-    import { apiFetch, errorMessage, isApiError } from "@/lib/api";
-    import { redirectIfUnauthorized, useRequireRole } from "@/lib/auth";
-    import type { Booking, Role } from "@/lib/types";
+const QUICK_LINKS: { href: string; label: string; note: string; icon: IconName }[] = [
+  { href: "/admin/bookings", label: "All bookings", note: "Search, confirm and update", icon: "calendar" },
+  { href: "/admin/payments", label: "Payments", note: "Record and review payments", icon: "wallet" },
+];
 
-    const STAFF_ROLES: Role[] = ["staff", "admin"];
+export default function StaffDashboardPage() {
+  const router = useRouter();
+  const auth = useRequireRole(STAFF_ROLES);
 
-    export default function StaffDashboardPage() {
-    const router = useRouter();
+  const [bookings, setBookings] = useState<Booking[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [reloadKey, setReloadKey] = useState(0);
 
-    const auth = useRequireRole(STAFF_ROLES);
-    const user = auth.user;
-    const [bookings, setBookings] = useState<Booking[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
+  useEffect(() => {
+    if (auth.status !== "allowed") return;
+    let cancelled = false;
 
-    useEffect(() => {
-        if (auth.status !== "allowed") return;
-
-        let cancelled = false;
-
-        (async () => {
-        try {
-            const data = await apiFetch<Booking[]>("/bookings");
-            if (cancelled) return;
-            setBookings(Array.isArray(data) ? data : []);
-        } catch (err) {
-            if (cancelled || redirectIfUnauthorized(err, router)) return;
-            setError(
-            isApiError(err, 403)
-                ? "Your account does not have permission to view bookings."
-                : errorMessage(err, "Something went wrong while loading the dashboard.")
-            );
-        } finally {
-            if (!cancelled) setLoading(false);
-        }
-        })();
-
-        return () => {
-        cancelled = true;
-        };
-    }, [auth.status, router]);
-
-    const pending = bookings.filter(
-        (booking) => booking.status === "pending"
-    ).length;
-
-    const confirmed = bookings.filter(
-        (booking) => booking.status === "confirmed"
-    ).length;
-
-    const active = bookings.filter(
-        (booking) => booking.status === "active"
-    ).length;
-
-    const completed = bookings.filter(
-        (booking) => booking.status === "completed"
-    ).length;
-
-    const formatDate = (date: string) => {
-        if (!date) return "—";
-
-        const parsed = new Date(date);
-
-        return Number.isNaN(parsed.getTime())
-        ? "—"
-        : parsed.toLocaleDateString("en-US", {
-            month: "short",
-            day: "numeric",
-            year: "numeric",
-            });
-    };
-
-    const statusStyle = (status: string) => {
-        switch (status) {
-        case "pending":
-            return "border-yellow-400/20 bg-yellow-400/10 text-yellow-300";
-        case "confirmed":
-            return "border-blue-400/20 bg-blue-400/10 text-blue-300";
-        case "active":
-            return "border-green-400/20 bg-green-400/10 text-green-300";
-        case "completed":
-            return "border-purple-400/20 bg-purple-400/10 text-purple-300";
-        case "cancelled":
-            return "border-red-400/20 bg-red-400/10 text-red-300";
-        default:
-            return "border-white/10 bg-white/5 text-gray-300";
-        }
-    };
-
-    if (loading) {
-        return (
-        <main className="min-h-screen bg-[#070b16] px-6 pb-16 pt-32 text-white">
-            <div className="mx-auto max-w-7xl rounded-3xl border border-white/10 bg-white/[0.03] p-12 text-center">
-            <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-2 border-blue-400/20 border-t-blue-400" />
-            <p className="text-gray-400">Loading staff dashboard...</p>
-            </div>
-        </main>
+    (async () => {
+      try {
+        // Staff see every booking, not only their own.
+        const data = await apiFetch<Booking[]>("/bookings");
+        if (cancelled) return;
+        setBookings(Array.isArray(data) ? data : []);
+        setError("");
+      } catch (err) {
+        if (cancelled || redirectIfUnauthorized(err, router)) return;
+        setError(
+          isApiError(err, 403)
+            ? "Your account does not have permission to view bookings."
+            : errorMessage(err, "Something went wrong while loading the dashboard.")
         );
-    }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
 
+    return () => {
+      cancelled = true;
+    };
+  }, [auth.status, router, reloadKey]);
+
+  const today = getLocalToday();
+  const queues = useMemo(() => staffQueues(bookings, today), [bookings, today]);
+
+  if (auth.status === "error") {
     return (
-        <main className="min-h-screen bg-[#070b16] px-5 pb-16 pt-32 text-white sm:px-8">
-        <div className="mx-auto max-w-7xl">
-            <section className="relative mb-8 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#111c35] via-[#10172a] to-[#0b1020] p-7 sm:p-10">
-            <div className="pointer-events-none absolute -right-16 -top-24 h-72 w-72 rounded-full bg-blue-500/10 blur-3xl" />
-
-            <div className="relative flex flex-col justify-between gap-6 md:flex-row md:items-center">
-                <div>
-                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-400/20 bg-blue-400/10 px-3 py-1.5 text-xs font-semibold text-blue-300">
-                    <span className="h-2 w-2 rounded-full bg-blue-400" />
-                    STAFF WORKSPACE
-                </div>
-
-                <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
-                    Welcome back{user?.name ? `, ${user.name}` : ""}
-                </h1>
-
-                <p className="mt-3 max-w-xl text-sm leading-6 text-gray-400 sm:text-base">
-                    Track customer bookings and monitor their current status from
-                    one place.
-                </p>
-                </div>
-
-                <Link
-                href="/admin/bookings"
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-500 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-blue-500/20 transition hover:bg-blue-400"
-                >
-                Manage Bookings
-                <span aria-hidden="true">→</span>
-                </Link>
-            </div>
-            </section>
-
-            {error && (
-            <div className="mb-6 rounded-2xl border border-red-500/20 bg-red-500/10 p-5 text-sm text-red-300">
-                <p className="font-semibold">Unable to load dashboard data</p>
-                <p className="mt-1">{error}</p>
-            </div>
-            )}
-
-            <section className="mb-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-            {[
-                {
-                title: "Total Bookings",
-                value: bookings.length,
-                description: "All retrieved bookings",
-                color: "text-white",
-                icon: "▤",
-                },
-                {
-                title: "Pending",
-                value: pending,
-                description: "Awaiting confirmation",
-                color: "text-amber-300",
-                icon: "◷",
-                },
-                {
-                title: "Confirmed",
-                value: confirmed,
-                description: "Approved reservations",
-                color: "text-blue-300",
-                icon: "✓",
-                },
-                {
-                title: "Active Rentals",
-                value: active,
-                description: `${completed} completed`,
-                color: "text-emerald-300",
-                icon: "↗",
-                },
-            ].map((stat) => (
-                <div
-                key={stat.title}
-                className="rounded-2xl border border-white/[0.08] bg-[#101626] p-6 transition hover:border-white/15"
-                >
-                <div className="flex items-start justify-between">
-                    <p className="text-sm font-medium text-gray-400">
-                    {stat.title}
-                    </p>
-                    <span className={`text-xl ${stat.color}`} aria-hidden="true">
-                    {stat.icon}
-                    </span>
-                </div>
-
-                <p className={`mt-5 text-3xl font-bold ${stat.color}`}>
-                    {stat.value}
-                </p>
-
-                <p className="mt-2 text-xs text-gray-500">
-                    {stat.description}
-                </p>
-                </div>
-            ))}
-            </section>
-
-            <section className="overflow-hidden rounded-3xl border border-white/10 bg-[#101626]">
-            <div className="flex flex-col justify-between gap-4 border-b border-white/[0.08] px-6 py-6 sm:flex-row sm:items-center sm:px-8">
-                <div>
-                <h2 className="text-xl font-bold">Recent Bookings</h2>
-                <p className="mt-1 text-sm text-gray-400">
-                    The latest bookings returned by the API.
-                </p>
-                </div>
-
-                <Link
-                href="/admin/bookings"
-                className="text-sm font-semibold text-blue-300 transition hover:text-blue-200"
-                >
-                View all bookings →
-                </Link>
-            </div>
-
-            {bookings.length === 0 ? (
-                <div className="px-6 py-16 text-center">
-                <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/5 text-2xl text-gray-400">
-                    ▤
-                </div>
-                <p className="font-medium text-gray-300">No bookings found</p>
-                <p className="mt-2 text-sm text-gray-500">
-                    New customer bookings will appear here.
-                </p>
-                </div>
-            ) : (
-                <div className="overflow-x-auto">
-                <table className="w-full min-w-[760px] text-left">
-                    <thead className="bg-white/[0.02]">
-                    <tr>
-                        <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500">
-                        Booking
-                        </th>
-                        <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500">
-                        Customer
-                        </th>
-                        <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500">
-                        Vehicle
-                        </th>
-                        <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500">
-                        Pickup
-                        </th>
-                        <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500">
-                        Amount
-                        </th>
-                        <th className="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-gray-500">
-                        Status
-                        </th>
-                    </tr>
-                    </thead>
-
-                    <tbody className="divide-y divide-white/[0.06]">
-                    {[...bookings]
-                        .sort((a, b) => b.id - a.id)
-                        .slice(0, 6)
-                        .map((booking) => (
-                        <tr
-                            key={booking.id}
-                            className="transition hover:bg-white/[0.025]"
-                        >
-                            <td className="px-6 py-5">
-                            <span className="font-semibold text-white">
-                                #{booking.id}
-                            </span>
-                            </td>
-
-                            <td className="px-6 py-5">
-                            <p className="font-medium text-gray-200">
-                                {booking.user?.name || "Unknown Customer"}
-                            </p>
-                            <p className="mt-1 text-xs text-gray-500">
-                                {booking.user?.email || ""}
-                            </p>
-                            </td>
-
-                            <td className="px-6 py-5">
-                            <p className="font-medium text-gray-200">
-                                {booking.car
-                                ? `${booking.car.brand} ${booking.car.model}`
-                                : "Unknown Vehicle"}
-                            </p>
-                            </td>
-
-                            <td className="px-6 py-5 text-sm text-gray-400">
-                            {formatDate(booking.pickup_date)}
-                            </td>
-
-                            <td className="px-6 py-5 text-sm font-semibold text-gray-200">
-                            {Number(booking.total_amount || 0).toLocaleString(
-                                "en-US"
-                            )}{" "}
-                            EGP
-                            </td>
-
-                            <td className="px-6 py-5">
-                            <span
-                                className={`inline-flex rounded-full border px-3 py-1.5 text-xs font-medium capitalize ${statusStyle(
-                                booking.status
-                                )}`}
-                            >
-                                {booking.status}
-                            </span>
-                            </td>
-                        </tr>
-                        ))}
-                    </tbody>
-                </table>
-                </div>
-            )}
-            </section>
-
-            <p className="mt-6 text-center text-xs text-gray-600">
-            DriveX Staff Workspace
-            </p>
-        </div>
-        </main>
+      <PageState
+        tone="error"
+        title="We couldn't open the staff dashboard"
+        message={auth.message}
+        action={{ label: "Try Again", onClick: auth.retry }}
+      />
     );
-    }
+  }
+
+  if (auth.status === "loading") return <PageLoading message="Checking your access..." />;
+
+  const retry = () => {
+    setLoading(true);
+    setReloadKey((key) => key + 1);
+  };
+
+  return (
+    <main className="min-h-screen bg-[#f8f8f7] px-4 pb-20 pt-28 text-[#0a1411] sm:px-6 sm:pt-32">
+      <div className="mx-auto max-w-7xl">
+        <section className="relative mb-8 overflow-hidden rounded-[2rem] border border-[#e8e4db] bg-white px-6 py-9 shadow-[0_12px_40px_rgba(10,20,17,0.04)] sm:px-9 md:py-11">
+          <div className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-[#c6a15b]/10 blur-3xl" />
+
+          <div className="relative z-10 flex flex-col justify-between gap-7 lg:flex-row lg:items-end">
+            <div className="max-w-3xl">
+              <div className="flex items-center gap-3">
+                <span className="h-2 w-2 rounded-full bg-[#c6a15b]" />
+                <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#9a783c] sm:text-sm">
+                  Front desk, {formatDate(today)}
+                </p>
+              </div>
+              <h1 className="mt-4 text-4xl font-bold tracking-tight text-[#0a1411] sm:text-5xl">
+                Welcome back, {auth.user.name}
+              </h1>
+              <p className="mt-4 max-w-2xl text-sm leading-7 text-[#77776f] sm:text-base">
+                Today&apos;s handovers, bookings waiting for confirmation and the cars currently on
+                the road.
+              </p>
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-2 lg:w-[440px]">
+              {QUICK_LINKS.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="flex items-center gap-3 rounded-2xl border border-[#e8e4db] bg-[#f8f8f7] p-4 transition hover:border-[#c6a15b] hover:bg-[#fbf8f0] focus:outline-none focus:ring-2 focus:ring-[#c6a15b] focus:ring-offset-2"
+                >
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#f6f0e3] text-[#9a783c]">
+                    <Icon name={link.icon} />
+                  </span>
+                  <span>
+                    <span className="block text-sm font-semibold text-[#0a1411]">{link.label}</span>
+                    <span className="block text-xs text-[#898981]">{link.note}</span>
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {loading && <DashboardSkeleton />}
+
+        {!loading && error && (
+          <StateCard
+            tone="error"
+            title="Unable to load dashboard data"
+            message={error}
+            action={{ label: "Try Again", onClick: retry }}
+          />
+        )}
+
+        {!loading && !error && (
+          <>
+            <section className="mb-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+              <StatTile label="Pickups today" value={queues.pickupsToday.length} note="Cars leaving a branch" icon={<TileIcon name="key" />} />
+              <StatTile label="Returns today" value={queues.returnsToday.length} note="Cars due back" icon={<TileIcon name="car" />} />
+              <StatTile
+                label="To confirm"
+                value={queues.pending.length}
+                valueClass="text-[#9a783c]"
+                note="Pending bookings"
+                icon={<TileIcon name="clock" />}
+              />
+              <StatTile
+                label="Active rentals"
+                value={queues.active.length}
+                valueClass="text-[#356847]"
+                note="Cars on the road"
+                hoverClass="hover:border-[#b9d8c0]"
+                icon={<TileIcon name="calendar" />}
+              />
+            </section>
+
+            <div className="grid gap-6 lg:grid-cols-2">
+              <StaffBookingList
+                title="Pickups today"
+                description="Hand over the car and set the booking to active."
+                bookings={queues.pickupsToday}
+                emptyMessage="No pickups scheduled for today."
+                dateField="pickup_date"
+              />
+              <StaffBookingList
+                title="Returns today"
+                description="Check the car in and complete the booking."
+                bookings={queues.returnsToday}
+                emptyMessage="No returns due today."
+                dateField="return_date"
+              />
+              <StaffBookingList
+                title="Waiting for confirmation"
+                description="New bookings, soonest pickup first."
+                bookings={queues.pending}
+                emptyMessage="Every booking has been confirmed."
+                dateField="pickup_date"
+              />
+              <StaffBookingList
+                title="Active rentals"
+                description="Cars currently with customers, soonest return first."
+                bookings={queues.active}
+                emptyMessage="No cars are out right now."
+                dateField="return_date"
+              />
+            </div>
+          </>
+        )}
+      </div>
+    </main>
+  );
+}
+
+function TileIcon({ name }: { name: IconName }) {
+  return (
+    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#f6f0e3] text-[#9a783c]">
+      <Icon name={name} />
+    </div>
+  );
+}
+
+function DashboardSkeleton() {
+  return (
+    <div role="status" aria-label="Loading dashboard">
+      <div className="mb-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {[1, 2, 3, 4].map((item) => (
+          <div key={item} className="h-[118px] animate-pulse rounded-2xl border border-[#e8e4db] bg-white" />
+        ))}
+      </div>
+      <div className="grid gap-6 lg:grid-cols-2">
+        {[1, 2].map((item) => (
+          <div key={item} className="h-64 animate-pulse rounded-3xl border border-[#e8e4db] bg-white" />
+        ))}
+      </div>
+    </div>
+  );
+}
