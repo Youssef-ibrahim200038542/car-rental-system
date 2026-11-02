@@ -10,7 +10,7 @@ A full-stack car rental platform designed to simplify vehicle discovery, rental 
 - Create and manage rental bookings.
 - Follow the booking payment flow.
 - Rate completed rentals and submit customer reviews.
-- Get smart car recommendations: rule-based scoring over the live fleet, with a reason for every score (see [`ML/README.md`](ML/README.md)).
+- Get AI car recommendations: KNN finds the cars closest to your request and a demand model trained on real renter behaviour ranks them, with a reason for every pick (see [`ML/README.md`](ML/README.md)).
 
 ### Administration
 - Admin dashboard for managing the rental system.
@@ -33,6 +33,7 @@ A full-stack car rental platform designed to simplify vehicle discovery, rental 
 |---|---|
 | Frontend | Next.js, React, TypeScript, Tailwind CSS |
 | Backend | PHP, Laravel |
+| AI / ML | Python, scikit-learn (KNN + gradient boosting), FastAPI |
 | Database | MySQL |
 | API | REST API |
 | Development Tools | Git, GitHub, Postman, XAMPP |
@@ -79,7 +80,7 @@ car-rental-system/
 │   │   ├── recommendations/
 │   │   └── reviews/
 │   └── ...
-├── ML/                 # dataset prep, recommender research and metrics (see ML/README.md)
+├── ML/                 # AI recommender: notebook, model, FastAPI service (see ML/README.md)
 ├── screenshots/
 └── README.md
 ```
@@ -92,6 +93,7 @@ Install the following before running the project:
 
 - PHP and Composer
 - Node.js and npm
+- Python 3.11+
 - MySQL
 - Git
 
@@ -187,6 +189,23 @@ Open the local frontend URL shown in the terminal, usually:
 ```text
 http://localhost:3000
 ```
+
+### 4. Start the AI Recommendation Service
+
+Open a third terminal at the project root:
+
+```bash
+python -m venv .venv
+.venv\Scripts\activate            # macOS/Linux: source .venv/bin/activate
+pip install -r ML/requirements.txt
+python -m uvicorn app:app --app-dir ML/service --port 8001
+```
+
+Laravel calls it at `AI_RECOMMENDER_URL` (default `http://127.0.0.1:8001`). If it is not running, recommendations still work using rule-based scoring, and the page says so.
+
+### Run everything at once (Windows)
+
+After the one-time setup above, double-click `start-dev.bat` at the project root. It opens three windows: Laravel API (port 8000), AI service (port 8001) and the Next.js site (port 3000).
 
 ## 🔐 Environment Configuration
 

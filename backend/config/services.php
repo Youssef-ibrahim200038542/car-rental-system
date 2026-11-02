@@ -40,6 +40,13 @@ return [
         'explore_rate' => (float) env('RECOMMENDATION_EXPLORE_RATE', env('APP_ENV') === 'testing' ? 0 : 0.1),
     ],
 
+    // Python AI recommender (ML/service/app.py). Empty URL = AI ranking off, rule-based scoring only.
+    // Tests run with it off so they never depend on a running Python process.
+    'ai_recommender' => [
+        'url' => env('AI_RECOMMENDER_URL', env('APP_ENV') === 'testing' ? '' : 'http://127.0.0.1:8001'),
+        'timeout' => (float) env('AI_RECOMMENDER_TIMEOUT', 3),
+    ],
+
     'slack' => [
         'notifications' => [
             'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),

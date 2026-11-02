@@ -6,9 +6,11 @@ type Props = {
   recommendation: Recommendation;
   /** Ties the click/book events to the impressions the server logged; absent on older servers. */
   requestId?: string;
+  /** True when the AI service ranked the list; its scores are relative to the other matches. */
+  aiRanked?: boolean;
 };
 
-export default function RecommendationCard({ recommendation, requestId }: Props) {
+export default function RecommendationCard({ recommendation, requestId, aiRanked = false }: Props) {
   const { car, score, reasons, position } = recommendation;
 
   // Fire-and-forget: navigation never waits for the event.
@@ -23,7 +25,9 @@ export default function RecommendationCard({ recommendation, requestId }: Props)
     <CarCard
       car={car}
       badge={<CarCardPill>{position === 1 ? "Top match" : `Option ${position}`}</CarCardPill>}
-      tag={<span title="Match score out of 100">{score}/100</span>}
+      tag={<span title={aiRanked ? "AI score out of 100, relative to the other matching cars" : "Match score out of 100"}>
+          {aiRanked ? `AI ${score}` : `${score}/100`}
+        </span>}
       action={{ label: "Book this car", href: bookHref }}
       onNavigate={logClick}
     >

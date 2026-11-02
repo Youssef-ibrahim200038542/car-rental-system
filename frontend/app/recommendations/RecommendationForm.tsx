@@ -189,7 +189,7 @@ export default function RecommendationForm({
 
       <div className="mt-7 flex flex-col gap-4 border-t border-[#e5e6e1] pt-6 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-xs leading-5 text-[#929a94]">
-          Scores combine budget, category, fuel, gearbox, seats, branch, reviews and rental history.
+          AI ranking: KNN finds the closest cars to your filters, then a demand model learned from renter behaviour orders them.
         </p>
 
         <button

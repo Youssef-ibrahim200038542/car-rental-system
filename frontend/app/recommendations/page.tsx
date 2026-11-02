@@ -60,6 +60,8 @@ export default function RecommendationsPage() {
       .catch(() => setError("Could not load categories and branches. Filters may be incomplete."));
   }, []);
 
+  const aiRanked = result?.method === "ai-knn-demand-hybrid";
+
   function handleChange(patch: Partial<FormValues>) {
     setValues((current) => ({ ...current, ...patch }));
   }
@@ -120,8 +122,8 @@ export default function RecommendationsPage() {
             </h1>
 
             <p className="mx-auto mt-6 max-w-2xl text-base leading-8 text-[#68736d] sm:text-lg">
-              Rule-based scoring on our live fleet. Tell us what matters and we rank the
-              cars you can book right now, with the reasons behind each score.
+              Our AI finds the cars closest to what you ask for, then ranks them by how likely
+              renters are to love them. Only cars you can book right now, with the reasons behind each pick.
             </p>
           </div>
 
@@ -147,7 +149,20 @@ export default function RecommendationsPage() {
                 </p>
                 <h2 className="mt-3 text-3xl font-bold sm:text-4xl">Your best matches</h2>
                 <p className="mt-3 max-w-2xl text-sm leading-6 text-[#68736d]">
-                  {result.recommendations.length} car{result.recommendations.length === 1 ? "" : "s"} ranked by match score.
+                  {result.recommendations.length} car{result.recommendations.length === 1 ? "" : "s"}{" "}
+                  {aiRanked ? "ranked by our AI model." : "ranked by match score."}
+                </p>
+                <p
+                  className={`mt-3 inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-semibold ${
+                    aiRanked
+                      ? "border-[#c6a15b]/40 bg-[#c6a15b]/10 text-[#80612d]"
+                      : "border-[#e1e3dc] bg-[#f8f8f7] text-[#68736d]"
+                  }`}
+                >
+                  <span aria-hidden="true" className={`h-2 w-2 rounded-full ${aiRanked ? "bg-[#9a783c]" : "bg-[#929a94]"}`} />
+                  {aiRanked
+                    ? "AI ranking: KNN similarity + learned demand model"
+                    : "AI service offline: showing rule-based ranking"}
                 </p>
               </div>
 
@@ -174,6 +189,7 @@ export default function RecommendationsPage() {
                     key={recommendation.car.id}
                     recommendation={recommendation}
                     requestId={result.request_id}
+                    aiRanked={aiRanked}
                   />
                 ))}
               </div>

@@ -78,19 +78,36 @@ class RecommendationScorer
      */
     public function recommend(array $preferences): Collection
     {
+        ['criteria' => $criteria, 'rows' => $rows] = $this->scoreCandidates($preferences);
+
+        return self::sortByScore($rows)->take($criteria['limit'])->values();
+    }
+
+    /**
+     * Every bookable car with its rule-based score, unsorted, plus the normalised criteria.
+     * The AI ranker re-orders these same rows, so both rankers see exactly the same candidates.
+     *
+     * @return array{criteria: array<string, mixed>, rows: Collection<int, array>}
+     */
+    public function scoreCandidates(array $preferences): array
+    {
         $criteria = $this->normalise($preferences);
 
         $cars = $this->candidateCars($criteria);
         $maxCompleted = max(1, (int) $cars->max('completed_bookings_count'));
 
-        return $cars
-            ->map(fn (Car $car) => $this->score($car, $criteria, $maxCompleted))
-            ->sortBy([
-                ['score', 'desc'],
-                [fn ($row) => (float) $row['car']->daily_rate, 'asc'],
-            ])
-            ->take($criteria['limit'])
-            ->values();
+        return [
+            'criteria' => $criteria,
+            'rows' => $cars->map(fn (Car $car) => $this->score($car, $criteria, $maxCompleted))->values(),
+        ];
+    }
+
+    public static function sortByScore(Collection $rows): Collection
+    {
+        return $rows->sortBy([
+            ['score', 'desc'],
+            [fn ($row) => (float) $row['car']->daily_rate, 'asc'],
+        ])->values();
     }
 
     private function normalise(array $preferences): array
@@ -151,12 +168,14 @@ class RecommendationScorer
         $applicable = 0;
         $reasons = [];
         $features = [];
+        $criterionReasons = [];
 
         foreach ($results as $criterion => [$fraction, $reason]) {
             $earned += self::WEIGHTS[$criterion] * $fraction;
             $applicable += self::WEIGHTS[$criterion];
             $reasons[] = $reason;
             $features[$criterion] = round($fraction, 4);
+            $criterionReasons[$criterion] = $reason;
         }
 
         // An unknown category is reported rather than silently dropped; it carries no weight.
@@ -169,6 +188,7 @@ class RecommendationScorer
             'score' => (int) round($earned / $applicable * 100),
             'reasons' => $reasons,
             'features' => $features,
+            'criterion_reasons' => $criterionReasons,
         ];
     }
 

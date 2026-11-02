@@ -9,8 +9,12 @@ export type Recommendation = {
   position: number;
 };
 
+/** "ai-knn-demand-hybrid" when the Python AI service ranked the cars, "rule-based-scoring" when it was offline. */
+export type RecommendationMethod = "ai-knn-demand-hybrid" | "rule-based-scoring";
+
 export type RecommendationResult = {
   recommendations: Recommendation[];
+  method?: RecommendationMethod;
   /** Ties later click/book events to the impressions the server logged. */
   request_id?: string;
   explored?: boolean;
