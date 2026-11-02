@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Services\HybridRecommender;
 use App\Services\RecommendationLogger;
 use App\Services\RecommendationScorer;
 use Illuminate\Http\Request;
@@ -10,7 +11,7 @@ use Illuminate\Validation\Rule;
 
 class MLRecommendationController extends Controller
 {
-    public function recommend(Request $request, RecommendationScorer $scorer, RecommendationLogger $logger)
+    public function recommend(Request $request, HybridRecommender $recommender, RecommendationLogger $logger)
     {
         $request->merge([
             'fuel_type' => RecommendationScorer::normaliseFuelType($request->input('fuel_type')),
@@ -33,12 +34,13 @@ class MLRecommendationController extends Controller
             'limit' => ['nullable', 'integer', 'min:1', 'max:'.RecommendationScorer::MAX_LIMIT],
         ]);
 
-        $served = $logger->serve($scorer->recommend($validated), auth('sanctum')->user());
+        $result = $recommender->recommend($validated);
+        $served = $logger->serve($result['rows'], auth('sanctum')->user());
 
         return response()->json([
             'success' => true,
             'data' => [
-                'method' => 'rule-based-scoring',
+                'method' => $result['method'],
                 'request_id' => $served['request_id'],
                 'explored' => $served['explored'],
                 'recommendations' => $served['recommendations'],

@@ -1,32 +1,83 @@
-# DriveX recommendations: live system and offline research
+# DriveX AI recommendations
 
-This folder holds the **offline research** behind DriveX recommendations.
-The evaluation results of the trained models are kept in `ML/research/`. None of the Python here runs when a user asks
-for a recommendation.
+The recommendation page and both recommendation endpoints are ranked by an **AI
+model**: KNN retrieval + a gradient-boosting demand model. The model is built and
+evaluated in [`notebooks/drivex_ai_recommender.ipynb`](notebooks/drivex_ai_recommender.ipynb).
 
-## What the app actually uses
+## How a request flows
 
-`POST /api/ml/recommendations` and `POST /api/ai/recommendations` are both
-served by **rule-based scoring in PHP** over the live `cars` table
-(`backend/app/Services/RecommendationScorer.php`). Every recommended car is a
-real row and can be booked.
+```text
+Next.js /recommendations ──► Laravel POST /api/ml/recommendations   (or /api/ai/recommendations for free text)
+                               │ 1. RecommendationScorer: only bookable cars (status + no overlapping booking)
+                               │ 2. AIRanker ──HTTP──► Python service  POST :8001/rank
+                               │                         ├─ hard constraints (budget, category, transmission, seats),
+                               │                         │  relaxed step by step with a note when nothing matches
+                               │                         ├─ KNN: nearest cars to the request (weighted features)
+                               │                         └─ demand model: predicted popularity → final score
+                               │ 3. HybridRecommender merges AI order + reasons with live review data
+                               ◄── JSON  { method: "ai-knn-demand-hybrid", recommendations: [...] }
+```
 
-- **Hard filters.** Cars in `maintenance` or `inactive` are never returned.
-  When pickup and return dates are given, cars with an overlapping
-  `pending`, `confirmed` or `active` booking are left out too.
-- **Weighted score from 0 to 100.** The weights are budget fit 25,
-  category 20, transmission 20, fuel 10, seats 10, branch 10, average review
-  rating 10 and popularity (completed rentals) 5. Transmission weighs as much
-  as category because many renters can only drive one kind. An unknown
-  category name is ignored and reported in `reasons[]`. A preference the user leaves
-  empty doesn't count, so the score is the share of the applicable weight the
-  car earned. Each criterion adds a readable entry to `reasons[]`.
-- **Natural-language requests.** `/api/ai/recommendations` first converts the
-  free-text message into the same filters (`PreferenceParser.php`). It uses
-  Gemini when `GEMINI_API_KEY` is set and falls back to a keyword parser
-  otherwise. The ranking is still done by the rule-based scorer.
+`score = α · similarity + (1 − α) · predicted_demand`, with **α = 0.4** chosen on
+the validation set in the notebook (section 8.1).
 
-### Natural-language parsing
+**Fallback:** if the Python service is not running, slow (>3 s) or returns
+something invalid, Laravel serves its rule-based scoring instead
+(`method: "rule-based-scoring"`). The page shows which one was used, so the
+site never breaks because of the ML service.
+
+### Using the model on DriveX cars
+
+The demand model was trained on the Cornell Car Rental Dataset (real US
+listings, USD prices). `drivex_ranker.py` translates DriveX cars into that
+feature space: SUV → `suv`, Minivan/Van → `minivan`, other categories → `car`,
+petrol → `gasoline`, and each EGP price → the same **percentile** of the Cornell
+price distribution, so no exchange rate is assumed. KNN runs on DriveX's own
+columns (category, fuel, transmission, branch, price, seats).
+
+## Files
+
+| Path | What it is |
+|---|---|
+| `notebooks/drivex_ai_recommender.ipynb` | Full experiment: EDA, training, α tuning, test evaluation, explained outputs |
+| `recommendation_system/ai_recommender.py` | Model: KNN retrieval + demand model (`CarRecommender`) |
+| `recommendation_system/train.py` | Trains and saves `models/drivex_recommender.joblib` |
+| `recommendation_system/drivex_ranker.py` | Applies the model to the live DriveX fleet |
+| `service/app.py` | FastAPI service Laravel calls (`/health`, `/rank`) |
+| `service/test_app.py` | Service tests |
+| `data/raw/cornell/CarRentalDataV1_cleaned.csv` | Training data (Kaggle, CC BY 4.0, Kushlesh Kumar) |
+| `eval/parser_golden.jsonl` | Labelled requests for the natural-language parser |
+| `prepare_dataset.py` | Builds `data/processed/fleet_clean.csv` for `php artisan fleet:import` |
+
+## Run it
+
+```bash
+# from the repository root
+pip install -r ML/requirements.txt
+python -m uvicorn app:app --app-dir ML/service --port 8001
+```
+
+The `.joblib` model is git-ignored. If it is missing, the service trains it on
+start (about one second). To retrain by hand: `python ML/recommendation_system/train.py`.
+
+Laravel finds the service through `AI_RECOMMENDER_URL` in `backend/.env`
+(default `http://127.0.0.1:8001`; leave it empty to turn AI ranking off).
+
+Tests:
+
+```bash
+python -m pytest ML/service          # Python service
+cd backend && php artisan test       # includes AIRecommendationRankingTest (service faked)
+```
+
+## Natural-language requests
+
+`/api/ai/recommendations` first converts the free-text message into the same
+filters (`PreferenceParser.php`). It uses Gemini when `GEMINI_API_KEY` is set and
+falls back to a keyword parser otherwise. The filters are then ranked by the AI
+model exactly like the form.
+
+### Parser details
 
 The keyword fallback (`KeywordPreferenceParser.php`, word lists in
 `PreferenceLexicon.php`) reads English, Egyptian Arabic and Franco-Arabic:
@@ -87,89 +138,11 @@ read as automatic), the dual form "لشخصين" and amounts glued to a prefix
 ("باجمالي ٦٠٠٠", "١٢ الف لاسبوع"). Add new real requests to the golden set
 before changing the word lists.
 
-No trained model is used in production. The research below explains why.
+## Limitations
 
-## Offline research
-
-All runs use the Kaggle dataset **"Car Rental Sample Database 100k v2"**. It
-was originally committed as `ML/car-rental-sample-database-100k-v2-csv.zip`
-and is no longer tracked in git. It is synthetic US-style data, so its
-vehicles, categories, fuel names (`gasoline`) and prices (currency
-unconfirmed) do not match the DriveX fleet.
-
-### 1. Booking ranker (`train_recommender.py`)
-
-This task asks whether a model can rank the vehicle a customer actually
-booked above vehicles they didn't book.
-
-- The 100,000 bookings are split chronologically 70 / 15 / 15
-  (train / validation / test), so the model never sees the future.
-- Each booking is a candidate group: the booked vehicle plus sampled
-  non-booked vehicles (3 per booking in training, 19 in validation, 49 in
-  test).
-- Model selection runs on validation recall@5. A random forest reached 0.639
-  and logistic regression 0.295, so the random forest was selected.
-
-Test results (`ML/research/training_metrics_v2.json`):
-
-| Ranker | recall@5 | MRR | nDCG@5 |
-|---|---|---|---|
-| Random forest (selected) | **0.375** | 0.240 | 0.234 |
-| Popularity baseline | 0.293 | 0.186 | 0.180 |
-| Random ordering (expected) | 0.100 | n/a | n/a |
-
-The random row is not stored in the metrics file. It is the expected value
-for 1 positive among 50 candidates (5/50).
-
-The model beats popularity by about 8 points of recall@5. That is a real but
-modest gain, measured on sampled negatives (not confirmed rejections) over a
-fleet that doesn't exist in DriveX. That is why it isn't deployed. The
-earlier v1 run (`training_metrics.json`, SGD classifier with 80/20 split and
-9 negatives) is kept for history.
-
-### 2. Rating regressor: a negative result
-
-This was a random forest that predicts a vehicle's average review rating
-from its attributes (`ML/research/car_rating_metrics.json`). The
-test set has 200 vehicles. MAE is 0.92 and RMSE 1.13, and **R² = -0.17**,
-which is worse than predicting the mean rating. Vehicle attributes carry no
-usable signal for ratings in this dataset. The script that trained it is not
-in the repository; only its metrics remain.
-
-### 3. Rule filter prototype (`ML/recommendation_system/recommend.py`)
-
-This was a pandas filter over `fleet_clean.csv`. The API used to call it via
-`Process`. That stopped because its vehicles are dataset rows, not DriveX
-cars, so users couldn't book them. It is kept for reference only.
-
-## Reproducing the research
-
-```bash
-cd ML
-python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-
-# 1. Download "Car Rental Sample Database 100k v2" from Kaggle and unzip
-#    its CSVs into ML/data/ (bookings.csv, vehicles.csv, reviews.csv, ...)
-python inspect_dataset.py      # writes data/dataset_report.txt
-python prepare_dataset.py      # writes data/processed/{fleet_clean,booking_history_clean}.csv
-
-# 2. The training script was removed from the working tree with the old
-#    ML_old_backup/ folder; restore it from git history to re-run training.
-#    It reads ML_old_backup/data/processed/, so recreate that path for it.
-git show caf051a:ML_old_backup/train_recommender.py > train_recommender.py
-mkdir -p ../ML_old_backup/data/processed
-cp data/processed/*.csv ../ML_old_backup/data/processed/
-python train_recommender.py   # writes models/*.joblib + reports/training_metrics_v2.json
-```
-
-The original v1/v2 metrics this produced are saved in `ML/research/`
-(`training_metrics.json`, `training_metrics_v2.json`, `car_rating_metrics.json`).
-
-## What is tracked in git
-
-The scripts, `requirements.txt`, the small text reports
-(`data/dataset_report.txt`, `data/processed/preparation_summary.txt`) and the
-metrics JSON files in `ML/research/` are tracked. The raw and processed CSVs, the dataset zip,
-`*.joblib` models and prediction CSVs are ignored (see the root
-`.gitignore`). Regenerate them with the steps above.
+- The demand model learned from US data from 2020. Its *patterns* (price level,
+  make and year preferences) are transferred to DriveX, not its exact numbers.
+- Test-set results (notebook section 8.2): NDCG@5 **0.475** vs 0.371 for KNN only,
+  while 95.8% of recommendations still match the requested category and fuel.
+- DriveX already logs impressions, clicks and bookings (`recommendation_events`).
+  Once enough real interactions exist, retrain the demand model on them.
