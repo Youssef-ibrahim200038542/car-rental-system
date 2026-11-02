@@ -30,7 +30,7 @@ export const PAYMENT_METHODS: readonly PaymentMethod[] = ["cash", "card", "onlin
 
 export type PaymentStatus = "pending" | "paid" | "failed" | "refunded";
 
-export type MaintenanceStatus =
+type MaintenanceStatus =
   | "scheduled"
   | "in_progress"
   | "completed"
@@ -105,7 +105,7 @@ export type Payment = Timestamps & {
   booking?: Booking | null;
 };
 
-export type BookingAddon = Timestamps & {
+type BookingAddon = Timestamps & {
   id: number;
   booking_id: number;
   name: string;
@@ -150,7 +150,7 @@ export type Booking = Timestamps & {
   addons?: BookingAddon[];
 };
 
-export type Maintenance = Timestamps & {
+type Maintenance = Timestamps & {
   id: number;
   car_id: number;
   title: string;
