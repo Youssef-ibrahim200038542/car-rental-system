@@ -1,0 +1,291 @@
+{
+    "golden_set": "parser_golden.jsonl",
+    "cases": 105,
+    "categories": [
+        "Economy",
+        "Sedan",
+        "SUV",
+        "Luxury"
+    ],
+    "parsers": {
+        "keyword": {
+            "overall": {
+                "cases": 105,
+                "exact_match": 0.924,
+                "errors": 0,
+                "micro": {
+                    "precision": 0.991,
+                    "recall": 0.965,
+                    "f1": 0.978
+                },
+                "fields": {
+                    "budget": {
+                        "precision": 1,
+                        "recall": 0.889,
+                        "f1": 0.941,
+                        "support": 36
+                    },
+                    "seats": {
+                        "precision": 1,
+                        "recall": 0.971,
+                        "f1": 0.985,
+                        "support": 34
+                    },
+                    "duration": {
+                        "precision": 1,
+                        "recall": 1,
+                        "f1": 1,
+                        "support": 57
+                    },
+                    "fuel_type": {
+                        "precision": 1,
+                        "recall": 1,
+                        "f1": 1,
+                        "support": 26
+                    },
+                    "transmission": {
+                        "precision": 0.917,
+                        "recall": 0.917,
+                        "f1": 0.917,
+                        "support": 24
+                    },
+                    "category": {
+                        "precision": 1,
+                        "recall": 0.981,
+                        "f1": 0.99,
+                        "support": 52
+                    }
+                }
+            },
+            "by_language": {
+                "en": {
+                    "cases": 42,
+                    "exact_match": 0.929,
+                    "errors": 0,
+                    "micro": {
+                        "precision": 1,
+                        "recall": 0.971,
+                        "f1": 0.985
+                    },
+                    "fields": {
+                        "budget": {
+                            "precision": 1,
+                            "recall": 0.889,
+                            "f1": 0.941,
+                            "support": 18
+                        },
+                        "seats": {
+                            "precision": 1,
+                            "recall": 1,
+                            "f1": 1,
+                            "support": 15
+                        },
+                        "duration": {
+                            "precision": 1,
+                            "recall": 1,
+                            "f1": 1,
+                            "support": 26
+                        },
+                        "fuel_type": {
+                            "precision": 1,
+                            "recall": 1,
+                            "f1": 1,
+                            "support": 10
+                        },
+                        "transmission": {
+                            "precision": 1,
+                            "recall": 1,
+                            "f1": 1,
+                            "support": 10
+                        },
+                        "category": {
+                            "precision": 1,
+                            "recall": 0.96,
+                            "f1": 0.98,
+                            "support": 25
+                        }
+                    }
+                },
+                "ar": {
+                    "cases": 37,
+                    "exact_match": 0.892,
+                    "errors": 0,
+                    "micro": {
+                        "precision": 0.986,
+                        "recall": 0.944,
+                        "f1": 0.965
+                    },
+                    "fields": {
+                        "budget": {
+                            "precision": 1,
+                            "recall": 0.818,
+                            "f1": 0.9,
+                            "support": 11
+                        },
+                        "seats": {
+                            "precision": 1,
+                            "recall": 0.909,
+                            "f1": 0.952,
+                            "support": 11
+                        },
+                        "duration": {
+                            "precision": 1,
+                            "recall": 1,
+                            "f1": 1,
+                            "support": 18
+                        },
+                        "fuel_type": {
+                            "precision": 1,
+                            "recall": 1,
+                            "f1": 1,
+                            "support": 9
+                        },
+                        "transmission": {
+                            "precision": 0.857,
+                            "recall": 0.857,
+                            "f1": 0.857,
+                            "support": 7
+                        },
+                        "category": {
+                            "precision": 1,
+                            "recall": 1,
+                            "f1": 1,
+                            "support": 16
+                        }
+                    }
+                },
+                "franco": {
+                    "cases": 26,
+                    "exact_match": 0.962,
+                    "errors": 0,
+                    "micro": {
+                        "precision": 0.981,
+                        "recall": 0.981,
+                        "f1": 0.981
+                    },
+                    "fields": {
+                        "budget": {
+                            "precision": 1,
+                            "recall": 1,
+                            "f1": 1,
+                            "support": 7
+                        },
+                        "seats": {
+                            "precision": 1,
+                            "recall": 1,
+                            "f1": 1,
+                            "support": 8
+                        },
+                        "duration": {
+                            "precision": 1,
+                            "recall": 1,
+                            "f1": 1,
+                            "support": 13
+                        },
+                        "fuel_type": {
+                            "precision": 1,
+                            "recall": 1,
+                            "f1": 1,
+                            "support": 7
+                        },
+                        "transmission": {
+                            "precision": 0.857,
+                            "recall": 0.857,
+                            "f1": 0.857,
+                            "support": 7
+                        },
+                        "category": {
+                            "precision": 1,
+                            "recall": 1,
+                            "f1": 1,
+                            "support": 11
+                        }
+                    }
+                }
+            },
+            "failures": [
+                {
+                    "id": "en-016",
+                    "text": "what can I rent for 5000?",
+                    "mismatches": {
+                        "budget": {
+                            "expected": 5000,
+                            "predicted": null
+                        }
+                    }
+                },
+                {
+                    "id": "en-022",
+                    "text": "luxery car for 2 days",
+                    "mismatches": {
+                        "category": {
+                            "expected": "Luxury",
+                            "predicted": null
+                        }
+                    }
+                },
+                {
+                    "id": "en-030",
+                    "text": "I have 12000 for the whole trip of 4 days",
+                    "mismatches": {
+                        "budget": {
+                            "expected": 12000,
+                            "predicted": null
+                        }
+                    }
+                },
+                {
+                    "id": "ar-052",
+                    "text": "عايز عربية عادي مش اوتوماتيك",
+                    "mismatches": {
+                        "transmission": {
+                            "expected": "manual",
+                            "predicted": "automatic"
+                        }
+                    }
+                },
+                {
+                    "id": "ar-067",
+                    "text": "عندي ١٢ الف لاسبوع كامل",
+                    "mismatches": {
+                        "budget": {
+                            "expected": 12000,
+                            "predicted": null
+                        }
+                    }
+                },
+                {
+                    "id": "ar-076",
+                    "text": "عايز عربية بنزين رخيصة لمدة اسبوع باجمالي ٦٠٠٠",
+                    "mismatches": {
+                        "budget": {
+                            "expected": 6000,
+                            "predicted": null
+                        }
+                    }
+                },
+                {
+                    "id": "ar-077",
+                    "text": "عربية سيدان لشخصين",
+                    "mismatches": {
+                        "seats": {
+                            "expected": 2,
+                            "predicted": null
+                        }
+                    }
+                },
+                {
+                    "id": "franco-088",
+                    "text": "3ayez 3arabeya 3ady msh automatic",
+                    "mismatches": {
+                        "transmission": {
+                            "expected": "manual",
+                            "predicted": "automatic"
+                        }
+                    }
+                }
+            ]
+        }
+    },
+    "notes": []
+}

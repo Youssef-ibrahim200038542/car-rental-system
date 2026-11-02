@@ -11,7 +11,9 @@ use App\Http\Controllers\Api\CarController;
 use App\Http\Controllers\Api\MaintenanceController;
 use App\Http\Controllers\Api\MLRecommendationController;
 use App\Http\Controllers\Api\PaymentController;
+use App\Http\Controllers\Api\RecommendationEventController;
 use App\Http\Controllers\Api\ReviewController;
+use App\Http\Controllers\Api\SimilarCarsController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +26,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::apiResource('cars', CarController::class)->only(['index', 'show']);
 Route::get('/cars/{car}/availability', [CarController::class, 'availability']);
+Route::get('/cars/{car}/similar', SimilarCarsController::class);
 Route::apiResource('car-categories', CarCategoryController::class)->only(['index', 'show']);
 Route::apiResource('branches', BranchController::class)->only(['index', 'show']);
 Route::apiResource('reviews', ReviewController::class)->only(['index', 'show']);
@@ -41,6 +44,9 @@ Route::middleware('throttle:10,1,ai')->group(function () {
 
 Route::post('/ml/recommendations', [MLRecommendationController::class, 'recommend'])
     ->middleware('throttle:30,1,ml');
+
+Route::post('/recommendation-events', [RecommendationEventController::class, 'store'])
+    ->middleware('throttle:120,1,events');
 
 /*
 |--------------------------------------------------------------------------
@@ -73,7 +79,7 @@ Route::middleware('auth:sanctum')->group(function () {
     */
     Route::middleware('role:admin,staff')->group(function () {
         Route::apiResource('bookings', BookingController::class)->only(['update', 'destroy']);
-        Route::apiResource('payments', PaymentController::class);
+        Route::apiResource('payments', PaymentController::class)->only(['index', 'show', 'update']);
         Route::apiResource('maintenance', MaintenanceController::class);
         Route::apiResource('booking-addons', BookingAddonController::class);
         Route::apiResource('users', UserController::class)->only(['index', 'show']);
@@ -88,5 +94,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('car-categories', CarCategoryController::class)->only(['store', 'update', 'destroy']);
         Route::apiResource('branches', BranchController::class)->only(['store', 'update', 'destroy']);
         Route::apiResource('users', UserController::class)->only(['update', 'destroy']);
+        Route::apiResource('payments', PaymentController::class)->only(['store', 'destroy']);
     });
 });

@@ -1,0 +1,105 @@
+{"id": "en-001", "lang": "en", "text": "I need a 4x4 for 6 people for a week", "expected": {"seats": 6, "duration": 7, "category": "SUV"}}
+{"id": "en-002", "lang": "en", "text": "Looking for something affordable for 5 people for a week, up to 15000", "expected": {"budget": 15000, "seats": 5, "duration": 7, "category": "Economy"}}
+{"id": "en-003", "lang": "en", "text": "cheap automatic car for 3 days", "expected": {"duration": 3, "transmission": "automatic", "category": "Economy"}}
+{"id": "en-004", "lang": "en", "text": "Need an SUV for my family this weekend", "expected": {"duration": 2, "category": "SUV"}}
+{"id": "en-005", "lang": "en", "text": "budget 800 per day, sedan, manual please", "expected": {"budget": 800, "transmission": "manual", "category": "Sedan"}}
+{"id": "en-006", "lang": "en", "text": "luxury car for a wedding tomorrow", "expected": {"duration": 1, "category": "Luxury"}}
+{"id": "en-007", "lang": "en", "text": "any electric car available for 2 weeks?", "expected": {"duration": 14, "fuel_type": "electric"}}
+{"id": "en-008", "lang": "en", "text": "hybrid sedan, 4 passengers, max 1200 a day", "expected": {"budget": 1200, "seats": 4, "fuel_type": "hybrid", "category": "Sedan"}}
+{"id": "en-009", "lang": "en", "text": "I want a diesel jeep for 10 days, total budget 30000", "expected": {"budget": 30000, "duration": 10, "fuel_type": "diesel", "category": "SUV"}}
+{"id": "en-010", "lang": "en", "text": "Can I get a car for a month under 20k?", "expected": {"budget": 20000, "duration": 30}}
+{"id": "en-011", "lang": "en", "text": "me and my wife, automatic, around 1000 egp a day", "expected": {"budget": 1000, "seats": 2, "transmission": "automatic"}}
+{"id": "en-012", "lang": "en", "text": "family of 7, need space, 5 days", "expected": {"seats": 7, "duration": 5}}
+{"id": "en-013", "lang": "en", "text": "premium executive sedan for a business trip, 3 days", "expected": {"duration": 3, "category": "Luxury"}}
+{"id": "en-014", "lang": "en", "text": "compact petrol car, stick shift is fine", "expected": {"fuel_type": "petrol", "transmission": "manual", "category": "Economy"}}
+{"id": "en-015", "lang": "en", "text": "something comfortable for a long drive", "expected": {}}
+{"id": "en-016", "lang": "en", "text": "what can I rent for 5000?", "expected": {"budget": 5000}}
+{"id": "en-017", "lang": "en", "text": "crossover for 5 ppl, 4 days, no more than 2500 per day", "expected": {"budget": 2500, "seats": 5, "duration": 4, "category": "SUV"}}
+{"id": "en-018", "lang": "en", "text": "i need a car for two days, automatic, cheapest you have", "expected": {"duration": 2, "transmission": "automatic", "category": "Economy"}}
+{"id": "en-019", "lang": "en", "text": "Need a car for 3 nights, spend 6000 total", "expected": {"budget": 6000, "duration": 3}}
+{"id": "en-020", "lang": "en", "text": "EV for one day", "expected": {"duration": 1, "fuel_type": "electric"}}
+{"id": "en-021", "lang": "en", "text": "suv automtic for 8 seats", "expected": {"seats": 8, "transmission": "automatic", "category": "SUV"}}
+{"id": "en-022", "lang": "en", "text": "luxery car for 2 days", "expected": {"duration": 2, "category": "Luxury"}}
+{"id": "en-023", "lang": "en", "text": "gasoline car under 700 a day", "expected": {"budget": 700, "fuel_type": "petrol"}}
+{"id": "en-024", "lang": "en", "text": "we are 4 friends going to Alex for 3 days, budget 9000", "expected": {"budget": 9000, "seats": 4, "duration": 3}}
+{"id": "en-025", "lang": "en", "text": "a sedan for a week, 1,500 EGP daily", "expected": {"budget": 1500, "duration": 7, "category": "Sedan"}}
+{"id": "en-026", "lang": "en", "text": "Need a big car for my family", "expected": {}}
+{"id": "en-027", "lang": "en", "text": "rent a car for 1 week with budget of 10,000 pounds", "expected": {"budget": 10000, "duration": 7}}
+{"id": "en-028", "lang": "en", "text": "manual economy car", "expected": {"transmission": "manual", "category": "Economy"}}
+{"id": "en-029", "lang": "en", "text": "diesel 4x4 for 6 adults", "expected": {"seats": 6, "fuel_type": "diesel", "category": "SUV"}}
+{"id": "en-030", "lang": "en", "text": "I have 12000 for the whole trip of 4 days", "expected": {"budget": 12000, "duration": 4}}
+{"id": "en-031", "lang": "en", "text": "automatic hybrid for 2", "expected": {"seats": 2, "fuel_type": "hybrid", "transmission": "automatic"}}
+{"id": "en-032", "lang": "en", "text": "show me luxury cars", "expected": {"category": "Luxury"}}
+{"id": "en-033", "lang": "en", "text": "I need a car next week for 5 days, around 2k per day", "expected": {"budget": 2000, "duration": 5}}
+{"id": "en-034", "lang": "en", "text": "car for 3 people", "expected": {"seats": 3}}
+{"id": "en-035", "lang": "en", "text": "Looking for a sedan with automatic transmission for 14 days", "expected": {"duration": 14, "transmission": "automatic", "category": "Sedan"}}
+{"id": "en-036", "lang": "en", "text": "cheap car, 300 a day max", "expected": {"budget": 300, "category": "Economy"}}
+{"id": "en-037", "lang": "en", "text": "Seven seater SUV for a fortnight", "expected": {"seats": 7, "duration": 14, "category": "SUV"}}
+{"id": "en-038", "lang": "en", "text": "electric suv, budget 50000 total", "expected": {"budget": 50000, "fuel_type": "electric", "category": "SUV"}}
+{"id": "en-039", "lang": "en", "text": "just me, small car, 2 days", "expected": {"seats": 1, "duration": 2, "category": "Economy"}}
+{"id": "en-040", "lang": "en", "text": "petrol automatic sedan for 5 people for 6 days within 9000", "expected": {"budget": 9000, "seats": 5, "duration": 6, "fuel_type": "petrol", "transmission": "automatic", "category": "Sedan"}}
+{"id": "en-041", "lang": "en", "text": "need wheels for the weekend, nothing fancy", "expected": {"duration": 2}}
+{"id": "en-042", "lang": "en", "text": "party of 5, minivan or SUV, a week", "expected": {"seats": 5, "duration": 7, "category": "SUV"}}
+{"id": "ar-043", "lang": "ar", "text": "عايز عربية اوتوماتيك لـ ٤ أشخاص ٣ ايام في حدود ١٥ ألف", "expected": {"budget": 15000, "seats": 4, "duration": 3, "transmission": "automatic"}}
+{"id": "ar-044", "lang": "ar", "text": "محتاج جيب لمدة اسبوع", "expected": {"duration": 7, "category": "SUV"}}
+{"id": "ar-045", "lang": "ar", "text": "عربية رخيصة يومين", "expected": {"duration": 2, "category": "Economy"}}
+{"id": "ar-046", "lang": "ar", "text": "عايز عربية فخمة لفرح بكرة", "expected": {"duration": 1, "category": "Luxury"}}
+{"id": "ar-047", "lang": "ar", "text": "عربية سيدان مانيوال بنزين", "expected": {"fuel_type": "petrol", "transmission": "manual", "category": "Sedan"}}
+{"id": "ar-048", "lang": "ar", "text": "ميزانيتي ٨٠٠ جنيه في اليوم", "expected": {"budget": 800}}
+{"id": "ar-049", "lang": "ar", "text": "عايز عربية كهربا لمدة ٥ ايام", "expected": {"duration": 5, "fuel_type": "electric"}}
+{"id": "ar-050", "lang": "ar", "text": "احنا ٦ أفراد ومحتاجين عربية واسعة لمدة اسبوعين", "expected": {"seats": 6, "duration": 14}}
+{"id": "ar-051", "lang": "ar", "text": "عربية ديزل دفع رباعي ٧ كراسي", "expected": {"seats": 7, "fuel_type": "diesel", "category": "SUV"}}
+{"id": "ar-052", "lang": "ar", "text": "عايز عربية عادي مش اوتوماتيك", "expected": {"transmission": "manual"}}
+{"id": "ar-053", "lang": "ar", "text": "عربية اقتصادية بحد اقصى ٥٠٠ جنيه في اليوم", "expected": {"budget": 500, "category": "Economy"}}
+{"id": "ar-054", "lang": "ar", "text": "محتاج عربية لمدة شهر بـ ٢٠ الف", "expected": {"budget": 20000, "duration": 30}}
+{"id": "ar-055", "lang": "ar", "text": "عربية هايبرد لـ ٤ أشخاص", "expected": {"seats": 4, "fuel_type": "hybrid"}}
+{"id": "ar-056", "lang": "ar", "text": "عايز عربية لعيلتي", "expected": {}}
+{"id": "ar-057", "lang": "ar", "text": "عربية سولار لمدة ١٠ ايام", "expected": {"duration": 10, "fuel_type": "diesel"}}
+{"id": "ar-058", "lang": "ar", "text": "عربية لاكشري اوتوماتيك يوم واحد", "expected": {"duration": 1, "transmission": "automatic", "category": "Luxury"}}
+{"id": "ar-059", "lang": "ar", "text": "عايز سيدان لمدة تلات ايام ب ٣٠٠٠ جنيه", "expected": {"budget": 3000, "duration": 3, "category": "Sedan"}}
+{"id": "ar-060", "lang": "ar", "text": "عربيه رخيصه لمدة اسبوع", "expected": {"duration": 7, "category": "Economy"}}
+{"id": "ar-061", "lang": "ar", "text": "انا ومراتي محتاجين عربية اتوماتيك", "expected": {"seats": 2, "transmission": "automatic"}}
+{"id": "ar-062", "lang": "ar", "text": "عايز عربية ٥ ركاب ميزانية ١٠٠٠ في اليوم", "expected": {"budget": 1000, "seats": 5}}
+{"id": "ar-063", "lang": "ar", "text": "محتاج عربية يومين في حدود ٤٠٠٠ جنيه", "expected": {"budget": 4000, "duration": 2}}
+{"id": "ar-064", "lang": "ar", "text": "ممكن عربية جيب بنزين لمدة ٤ ايام", "expected": {"duration": 4, "fuel_type": "petrol", "category": "SUV"}}
+{"id": "ar-065", "lang": "ar", "text": "عايز عربية مريحة للسفر", "expected": {}}
+{"id": "ar-066", "lang": "ar", "text": "عربية ٨ مقاعد", "expected": {"seats": 8}}
+{"id": "ar-067", "lang": "ar", "text": "عندي ١٢ الف لاسبوع كامل", "expected": {"budget": 12000, "duration": 7}}
+{"id": "ar-068", "lang": "ar", "text": "عايز عربية اقتصادي مانيوال", "expected": {"transmission": "manual", "category": "Economy"}}
+{"id": "ar-069", "lang": "ar", "text": "عربية فخمه لحد ٥٠٠٠ في اليوم", "expected": {"budget": 5000, "category": "Luxury"}}
+{"id": "ar-070", "lang": "ar", "text": "محتاج عربيه لمده خمس ايام لـ ٣ اشخاص", "expected": {"seats": 3, "duration": 5}}
+{"id": "ar-071", "lang": "ar", "text": "عربية كهربائية سيدان", "expected": {"fuel_type": "electric", "category": "Sedan"}}
+{"id": "ar-072", "lang": "ar", "text": "عايز عربية اوتوماتيك", "expected": {"transmission": "automatic"}}
+{"id": "ar-073", "lang": "ar", "text": "مش عايز ادفع اكتر من ٧٠٠ في اليوم", "expected": {"budget": 700}}
+{"id": "ar-074", "lang": "ar", "text": "عربية عائلية لـ ٧ افراد لمدة ٣ ايام", "expected": {"seats": 7, "duration": 3}}
+{"id": "ar-075", "lang": "ar", "text": "عربيه جيب ٤×٤ للصحراوي", "expected": {"category": "SUV"}}
+{"id": "ar-076", "lang": "ar", "text": "عايز عربية بنزين رخيصة لمدة اسبوع باجمالي ٦٠٠٠", "expected": {"budget": 6000, "duration": 7, "fuel_type": "petrol", "category": "Economy"}}
+{"id": "ar-077", "lang": "ar", "text": "عربية سيدان لشخصين", "expected": {"seats": 2, "category": "Sedan"}}
+{"id": "ar-078", "lang": "ar", "text": "عايز اجر عربية شهر", "expected": {"duration": 30}}
+{"id": "ar-079", "lang": "ar", "text": "محتاج عربية فيها ٥ كراسي وديزل", "expected": {"seats": 5, "fuel_type": "diesel"}}
+{"id": "franco-080", "lang": "franco", "text": "3ayez 3arabeya automatic l 4 afrad 3 ayam fe 7dod 1500 fel yom", "expected": {"budget": 1500, "seats": 4, "duration": 3, "transmission": "automatic"}}
+{"id": "franco-081", "lang": "franco", "text": "e7na 5 w 3ayzeen jeep solar esbo3", "expected": {"seats": 5, "duration": 7, "fuel_type": "diesel", "category": "SUV"}}
+{"id": "franco-082", "lang": "franco", "text": "3ayez 3arabeya r5esa yomen", "expected": {"duration": 2, "category": "Economy"}}
+{"id": "franco-083", "lang": "franco", "text": "m7tag 3arabeya fa5ma l far7", "expected": {"category": "Luxury"}}
+{"id": "franco-084", "lang": "franco", "text": "sedan manual benzin", "expected": {"fuel_type": "petrol", "transmission": "manual", "category": "Sedan"}}
+{"id": "franco-085", "lang": "franco", "text": "mizanyti 800 geneh fel yom", "expected": {"budget": 800}}
+{"id": "franco-086", "lang": "franco", "text": "3ayez 3arabeya kahraba 5 ayam", "expected": {"duration": 5, "fuel_type": "electric"}}
+{"id": "franco-087", "lang": "franco", "text": "3arabeya hybrid l 4 ashkhas", "expected": {"seats": 4, "fuel_type": "hybrid"}}
+{"id": "franco-088", "lang": "franco", "text": "3ayez 3arabeya 3ady msh automatic", "expected": {"transmission": "manual"}}
+{"id": "franco-089", "lang": "franco", "text": "m7tag 3arabeya shahr b 20 alf", "expected": {"budget": 20000, "duration": 30}}
+{"id": "franco-090", "lang": "franco", "text": "3ayez suv automatic esbo3en", "expected": {"duration": 14, "transmission": "automatic", "category": "SUV"}}
+{"id": "franco-091", "lang": "franco", "text": "3arabeya e2tesady fe 7dod 500 fel yom", "expected": {"budget": 500, "category": "Economy"}}
+{"id": "franco-092", "lang": "franco", "text": "ana w merati 3ayzeen 3arabeya automatic", "expected": {"seats": 2, "transmission": "automatic"}}
+{"id": "franco-093", "lang": "franco", "text": "3ayez 3arabeya l 3eelti", "expected": {}}
+{"id": "franco-094", "lang": "franco", "text": "3arabeya diesel 7 kraasy", "expected": {"seats": 7, "fuel_type": "diesel"}}
+{"id": "franco-095", "lang": "franco", "text": "3ayez sedan talat ayam b 3000", "expected": {"budget": 3000, "duration": 3, "category": "Sedan"}}
+{"id": "franco-096", "lang": "franco", "text": "m7tag 3arabeya automatik l 6 afrad", "expected": {"seats": 6, "transmission": "automatic"}}
+{"id": "franco-097", "lang": "franco", "text": "3ayez luxury car yom wa7ed", "expected": {"duration": 1, "category": "Luxury"}}
+{"id": "franco-098", "lang": "franco", "text": "jeep benzeen 4 ayam", "expected": {"duration": 4, "fuel_type": "petrol", "category": "SUV"}}
+{"id": "franco-099", "lang": "franco", "text": "3ayez 3arabeya 3adeya w r5esa", "expected": {"category": "Economy"}}
+{"id": "franco-100", "lang": "franco", "text": "3ayez 3arabeya lel weekend", "expected": {"duration": 2}}
+{"id": "franco-101", "lang": "franco", "text": "m7tag 3arabeya 5 rokab msh aktar mn 1000 fel yom", "expected": {"budget": 1000, "seats": 5}}
+{"id": "franco-102", "lang": "franco", "text": "3arabeya automatic 10 ayam 15000 egmali", "expected": {"budget": 15000, "duration": 10, "transmission": "automatic"}}
+{"id": "franco-103", "lang": "franco", "text": "3ayez 3arabeya kbera lel 3ela", "expected": {}}
+{"id": "franco-104", "lang": "franco", "text": "haybrid sedan 3 ayam", "expected": {"duration": 3, "fuel_type": "hybrid", "category": "Sedan"}}
+{"id": "franco-105", "lang": "franco", "text": "e7na 3 w 3ayzeen 3arabeya fel sa7el esbo3", "expected": {"seats": 3, "duration": 7}}

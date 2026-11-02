@@ -15,14 +15,77 @@ real row and can be booked.
   When pickup and return dates are given, cars with an overlapping
   `pending`, `confirmed` or `active` booking are left out too.
 - **Weighted score from 0 to 100.** The weights are budget fit 25,
-  category 20, fuel 10, transmission 10, seats 10, branch 10, average review
-  rating 10 and popularity (completed rentals) 5. A preference the user leaves
+  category 20, transmission 20, fuel 10, seats 10, branch 10, average review
+  rating 10 and popularity (completed rentals) 5. Transmission weighs as much
+  as category because many renters can only drive one kind. An unknown
+  category name is ignored and reported in `reasons[]`. A preference the user leaves
   empty doesn't count, so the score is the share of the applicable weight the
   car earned. Each criterion adds a readable entry to `reasons[]`.
 - **Natural-language requests.** `/api/ai/recommendations` first converts the
   free-text message into the same filters (`PreferenceParser.php`). It uses
   Gemini when `GEMINI_API_KEY` is set and falls back to a keyword parser
   otherwise. The ranking is still done by the rule-based scorer.
+
+### Natural-language parsing
+
+The keyword fallback (`KeywordPreferenceParser.php`, word lists in
+`PreferenceLexicon.php`) reads English, Egyptian Arabic and Franco-Arabic:
+Arabic-Indic digits, "ألف"/"alf"/"k" thousands, head counts ("4 أشخاص",
+"4 afrad", "for 4"), durations ("3 ايام", "esbo3", "a week"), fuel,
+transmission and category words. Gemini is asked for the same fields and its
+answer is whitelisted; the call times out after 5 seconds and falls back to
+keywords. The model is `GEMINI_MODEL` (see `backend/.env.example`).
+
+The parsed `budget` is the amount the user stated; `budget_period` is `day`
+when they said "per day" / "في اليوم" / "fel yom", else `total`. The scorer
+compares daily rates, so the API turns it into a daily budget and explains
+the choice in `preferences.notes`:
+
+- per day: used as is;
+- total with a known duration: divided by the number of days;
+- total with no duration: used as a daily budget if it is 10,000 EGP or less,
+  otherwise ignored (it is almost certainly a whole-trip total).
+
+### Parser evaluation
+
+`ML/eval/parser_golden.jsonl` holds 105 labelled requests (42 English, 37
+Egyptian Arabic, 26 Franco-Arabic), including requests with no budget,
+per-day vs total budgets, "for my family" with no number and typos. Run:
+
+```bash
+cd backend
+php artisan recommendations:eval-parser --parser=keyword   # or gemini / both; add --json for the full report
+```
+
+It reports per-field precision/recall/F1 (a wrong value counts as both a
+false positive and a false negative) and the exact-match rate (every field
+right) overall and per language. Gemini is only scored when
+`GEMINI_API_KEY` is set. Keyword parser, against the seeded categories
+(`ML/research/parser_eval_keyword.json`):
+
+| Field | Precision | Recall | F1 | Support |
+|---|---|---|---|---|
+| budget | 1.000 | 0.889 | 0.941 | 36 |
+| seats | 1.000 | 0.971 | 0.985 | 34 |
+| duration | 1.000 | 1.000 | 1.000 | 57 |
+| fuel_type | 1.000 | 1.000 | 1.000 | 26 |
+| transmission | 0.917 | 0.917 | 0.917 | 24 |
+| category | 1.000 | 0.981 | 0.990 | 52 |
+
+| Language | Cases | Exact match | Micro F1 |
+|---|---|---|---|
+| English | 42 | 92.9% | 0.985 |
+| Egyptian Arabic | 37 | 89.2% | 0.965 |
+| Franco-Arabic | 26 | 96.2% | 0.981 |
+| **All** | 105 | **92.4%** | 0.978 |
+
+Read these numbers with care: the golden set was written by the same people
+who wrote the keyword lists, so it is optimistic. The 8 misses are the
+expected kind: a bare amount with no budget word ("what can I rent for
+5000?"), a misspelt category ("luxery"), negation ("عادي مش اوتوماتيك" is
+read as automatic), the dual form "لشخصين" and amounts glued to a prefix
+("باجمالي ٦٠٠٠", "١٢ الف لاسبوع"). Add new real requests to the golden set
+before changing the word lists.
 
 No trained model is used in production. The research below explains why.
 
