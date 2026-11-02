@@ -604,8 +604,8 @@ class DatabaseSeeder extends Seeder
             'total_days' => 3,
             'subtotal' => 3600,
             'discount' => 200,
-            'total_amount' => 3400,
-            'status' => 'confirmed',
+            'total_amount' => 3650, // 3600 - 200 + 250 of add-ons (GPS, child seat)
+            'status' => 'completed',
             'notes' => 'Customer requested clean interior.',
         ]);
 
@@ -636,7 +636,7 @@ class DatabaseSeeder extends Seeder
             'total_days' => 3,
             'subtotal' => 5700,
             'discount' => 300,
-            'total_amount' => 5400,
+            'total_amount' => 5700, // 5700 - 300 + 300 additional driver
             'status' => 'completed',
             'notes' => 'Completed successfully.',
         ]);
@@ -649,7 +649,7 @@ class DatabaseSeeder extends Seeder
 
         Payment::create([
             'booking_id' => $booking1->id,
-            'amount' => 3400,
+            'amount' => 3650,
             'payment_method' => 'card',
             'payment_status' => 'paid',
             'transaction_reference' => 'TXN-100001',
@@ -667,7 +667,7 @@ class DatabaseSeeder extends Seeder
 
         Payment::create([
             'booking_id' => $booking3->id,
-            'amount' => 5400,
+            'amount' => 5700,
             'payment_method' => 'cash',
             'payment_status' => 'paid',
             'transaction_reference' => 'CASH-100003',

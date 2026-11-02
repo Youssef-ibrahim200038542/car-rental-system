@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Concerns\RespondsWithErrors;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    use RespondsWithErrors;
+
     public function index()
     {
         $users = User::withCount('bookings')
@@ -40,21 +43,13 @@ class UserController extends Controller
             'avatar' => 'nullable|string|max:255',
         ]);
 
-        if (array_key_exists('role', $validated) && $validated['role'] !== $user->role) {
-            if ($request->user()->role !== 'admin') {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Only an admin can change user roles.',
-                ], 403);
-            }
+        // The route is admin-only, so the one role rule left is not demoting yourself.
+        $changesRole = array_key_exists('role', $validated) && $validated['role'] !== $user->role;
 
-            if ($request->user()->id === $user->id) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'You cannot change your own role.',
-                    'errors' => ['role' => ['You cannot change your own role.']],
-                ], 422);
-            }
+        if ($changesRole && $request->user()->id === $user->id) {
+            return $this->unprocessable('You cannot change your own role.', [
+                'role' => ['You cannot change your own role.'],
+            ]);
         }
 
         $user->update($validated);
@@ -69,17 +64,11 @@ class UserController extends Controller
     public function destroy(Request $request, User $user)
     {
         if ($request->user()->id === $user->id) {
-            return response()->json([
-                'success' => false,
-                'message' => 'You cannot delete your own account.',
-            ], 422);
+            return $this->unprocessable('You cannot delete your own account.');
         }
 
         if ($user->bookings()->exists() || $user->reviews()->exists()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Cannot delete this user because they have bookings or reviews.',
-            ], 422);
+            return $this->unprocessable('Cannot delete this user because they have bookings or reviews.');
         }
 
         $user->delete();

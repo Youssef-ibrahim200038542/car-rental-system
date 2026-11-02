@@ -111,4 +111,63 @@ class FleetTest extends TestCase
 
         $this->assertSame('available', $car->fresh()->status);
     }
+
+    public function test_maintenance_update_rejects_end_date_before_stored_start_date(): void
+    {
+        $car = Car::factory()->create();
+        Sanctum::actingAs(User::factory()->role('staff')->create());
+
+        $id = $this->postJson('/api/maintenance', [
+            'car_id' => $car->id,
+            'title' => 'Brakes',
+            'cost' => 800,
+            'start_date' => '2026-12-10',
+            'status' => 'scheduled',
+        ])->assertCreated()->json('data.id');
+
+        $this->putJson("/api/maintenance/{$id}", ['end_date' => '2026-12-05'])
+            ->assertStatus(422)
+            ->assertJsonValidationErrors('end_date');
+
+        $this->putJson("/api/maintenance/{$id}", ['start_date' => '2026-12-01', 'end_date' => '2026-12-05'])->assertOk();
+    }
+
+    public function test_closing_maintenance_leaves_a_manually_set_status_alone(): void
+    {
+        $car = Car::factory()->create();
+        Sanctum::actingAs(User::factory()->role('staff')->create());
+
+        $id = $this->postJson('/api/maintenance', [
+            'car_id' => $car->id,
+            'title' => 'Tyres',
+            'cost' => 300,
+            'start_date' => now()->toDateString(),
+            'status' => 'in_progress',
+        ])->assertCreated()->json('data.id');
+
+        $car->update(['status' => 'inactive']);
+        $this->putJson("/api/maintenance/{$id}", ['status' => 'completed'])->assertOk();
+
+        $this->assertSame('inactive', $car->fresh()->status);
+    }
+
+    public function test_moving_maintenance_to_another_car_releases_the_first(): void
+    {
+        $first = Car::factory()->create();
+        $second = Car::factory()->create();
+        Sanctum::actingAs(User::factory()->role('staff')->create());
+
+        $id = $this->postJson('/api/maintenance', [
+            'car_id' => $first->id,
+            'title' => 'Service',
+            'cost' => 300,
+            'start_date' => now()->toDateString(),
+            'status' => 'scheduled',
+        ])->assertCreated()->json('data.id');
+
+        $this->putJson("/api/maintenance/{$id}", ['car_id' => (string) $second->id])->assertOk();
+
+        $this->assertSame('available', $first->fresh()->status);
+        $this->assertSame('maintenance', $second->fresh()->status);
+    }
 }

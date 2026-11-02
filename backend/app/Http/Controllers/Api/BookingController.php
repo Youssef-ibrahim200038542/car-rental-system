@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Concerns\RespondsWithErrors;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Car;
 use App\Models\Payment;
-use Carbon\Carbon;
+use App\Services\BookingLifecycle;
+use App\Services\BookingPricing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class BookingController extends Controller
 {
+    use RespondsWithErrors;
+
     private const RELATIONS = [
         'user',
         'car',
@@ -22,6 +26,11 @@ class BookingController extends Controller
         'review',
         'addons',
     ];
+
+    public function __construct(
+        private readonly BookingPricing $pricing,
+        private readonly BookingLifecycle $lifecycle,
+    ) {}
 
     public function index(Request $request)
     {
@@ -60,7 +69,7 @@ class BookingController extends Controller
 
             return Booking::create([
                 ...$validated,
-                ...$this->pricing($car, $validated['pickup_date'], $validated['return_date'], 0),
+                ...$this->pricing->quote($car, $validated['pickup_date'], $validated['return_date'], 0),
                 'user_id' => $request->user()->id,
                 'status' => 'pending',
             ]);
@@ -92,6 +101,8 @@ class BookingController extends Controller
     /**
      * Admin/staff update. Prices are recomputed server-side only when the car,
      * dates or discount change, so a notes/status edit keeps the agreed price.
+     * Status follows BookingLifecycle; cancelling here settles payments exactly
+     * like cancel() does.
      */
     public function update(Request $request, Booking $booking)
     {
@@ -118,18 +129,24 @@ class BookingController extends Controller
             ]);
         }
 
+        if (! $this->lifecycle->canMove($booking->status, $status)) {
+            return $this->unprocessable("A {$booking->status} booking cannot be changed to {$status}.", [
+                'status' => ["A {$booking->status} booking cannot be changed to {$status}."],
+            ]);
+        }
+
         $scheduleChanged = array_intersect_key($validated, array_flip(['car_id', 'pickup_date', 'return_date'])) !== [];
         $priceChanged = $scheduleChanged || array_key_exists('discount', $validated);
-        $reactivating = in_array($status, Booking::BLOCKING_STATUSES, true)
-            && ! in_array($booking->status, Booking::BLOCKING_STATUSES, true);
 
-        $result = DB::transaction(function () use ($booking, $validated, $carId, $pickupDate, $returnDate, $status, $discount, $scheduleChanged, $priceChanged, $reactivating) {
+        if ($priceChanged && $this->lifecycle->hasPaidPayment($booking)) {
+            return $this->unprocessable('This booking is already paid. Refund or adjust the payment first.');
+        }
+
+        $result = DB::transaction(function () use ($booking, $validated, $carId, $pickupDate, $returnDate, $status, $discount, $scheduleChanged, $priceChanged) {
             $car = Car::whereKey($carId)->lockForUpdate()->firstOrFail();
 
-            $needsAvailabilityCheck = in_array($status, Booking::BLOCKING_STATUSES, true)
-                && ($scheduleChanged || $reactivating);
-
-            if ($needsAvailabilityCheck) {
+            // Status can no longer leave cancelled/completed, so only a schedule change needs a re-check.
+            if ($scheduleChanged && in_array($status, Booking::BLOCKING_STATUSES, true)) {
                 $reason = $car->unavailabilityReason($pickupDate, $returnDate, $booking->id);
 
                 if ($reason) {
@@ -140,14 +157,25 @@ class BookingController extends Controller
             $pricing = [];
 
             if ($priceChanged) {
-                $pricing = $this->pricing($car, $pickupDate, $returnDate, $discount);
+                $pricing = $this->pricing->quote($car, $pickupDate, $returnDate, $discount, $this->pricing->addonsTotal($booking));
 
                 if ($pricing['total_amount'] < 0) {
                     return 'The discount cannot exceed the booking subtotal.';
                 }
             }
 
-            $booking->update([...$validated, ...$pricing]);
+            $cancelling = $status === 'cancelled' && $booking->status !== 'cancelled';
+            $fields = [...$validated, ...$pricing];
+
+            if ($cancelling) {
+                unset($fields['status']);
+            }
+
+            $booking->update($fields);
+
+            if ($cancelling) {
+                $this->lifecycle->cancel($booking);
+            }
 
             return $booking;
         });
@@ -179,13 +207,12 @@ class BookingController extends Controller
             return $this->unprocessable("A {$booking->status} booking cannot be cancelled.");
         }
 
-        DB::transaction(function () use ($booking) {
-            $booking->update(['status' => 'cancelled']);
+        // Once the pickup day has passed only staff can cancel (and decide on the refund).
+        if (! $isStaff && $booking->pickup_date->lt(today())) {
+            return $this->unprocessable('This rental has already started, so it can no longer be cancelled online.');
+        }
 
-            // Keep revenue honest: a cancelled booking's money is refunded / never collected.
-            $booking->payments()->where('payment_status', 'paid')->update(['payment_status' => 'refunded']);
-            $booking->payments()->where('payment_status', 'pending')->update(['payment_status' => 'failed']);
-        });
+        DB::transaction(fn () => $this->lifecycle->cancel($booking));
 
         return response()->json([
             'success' => true,
@@ -214,7 +241,11 @@ class BookingController extends Controller
                 return "A {$booking->status} booking cannot be paid.";
             }
 
-            if ($booking->payments()->where('payment_status', 'paid')->exists()) {
+            if ($booking->return_date->lt(today())) {
+                return 'This booking has already ended and cannot be paid online.';
+            }
+
+            if ($this->lifecycle->hasPaidPayment($booking)) {
                 return 'This booking has already been paid.';
             }
 
@@ -269,24 +300,6 @@ class BookingController extends Controller
         ]);
     }
 
-    /**
-     * Server-side price snapshot. Same-day rentals count as one day.
-     */
-    private function pricing(Car $car, string $pickupDate, string $returnDate, float $discount): array
-    {
-        $days = max(1, (int) Carbon::parse($pickupDate)->diffInDays(Carbon::parse($returnDate)));
-        $rate = (float) $car->daily_rate;
-        $subtotal = round($rate * $days, 2);
-
-        return [
-            'daily_rate' => $rate,
-            'total_days' => $days,
-            'subtotal' => $subtotal,
-            'discount' => $discount,
-            'total_amount' => round($subtotal - $discount, 2),
-        ];
-    }
-
     private function isStaff(Request $request): bool
     {
         return in_array($request->user()->role, ['admin', 'staff'], true);
@@ -295,22 +308,5 @@ class BookingController extends Controller
     private function canAccess(Request $request, Booking $booking): bool
     {
         return $this->isStaff($request) || $booking->user_id === $request->user()->id;
-    }
-
-    private function forbidden(string $message)
-    {
-        return response()->json([
-            'success' => false,
-            'message' => $message,
-        ], 403);
-    }
-
-    private function unprocessable(string $message, array $errors = [])
-    {
-        return response()->json(array_filter([
-            'success' => false,
-            'message' => $message,
-            'errors' => $errors,
-        ], fn ($value) => $value !== []), 422);
     }
 }
