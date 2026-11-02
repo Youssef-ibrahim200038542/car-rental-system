@@ -1,0 +1,48 @@
+{
+  // DriveX dev servers. Run all three with Ctrl+Shift+B (or Terminal > Run Build Task).
+  // Each one opens in its own VS Code terminal; stop them with the trash icon or Ctrl+C.
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "DriveX: API (Laravel :8000)",
+      "type": "shell",
+      "command": "php artisan serve --port 8000",
+      "options": { "cwd": "${workspaceFolder}/backend" },
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": { "panel": "dedicated", "group": "drivex", "reveal": "always" }
+    },
+    {
+      "label": "DriveX: AI (Python :8001)",
+      "type": "shell",
+      "command": ".venv/bin/python -m uvicorn app:app --app-dir ML/service --port 8001",
+      "windows": {
+        "command": "if (Test-Path .venv\\Scripts\\python.exe) { .venv\\Scripts\\python.exe -m uvicorn app:app --app-dir ML/service --port 8001 } else { python -m uvicorn app:app --app-dir ML/service --port 8001 }",
+        "options": {
+          "cwd": "${workspaceFolder}",
+          "shell": { "executable": "powershell.exe", "args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-Command"] }
+        }
+      },
+      "options": { "cwd": "${workspaceFolder}" },
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": { "panel": "dedicated", "group": "drivex", "reveal": "always" }
+    },
+    {
+      "label": "DriveX: Web (Next.js :3000)",
+      "type": "shell",
+      "command": "npm run dev",
+      "options": { "cwd": "${workspaceFolder}/frontend" },
+      "isBackground": true,
+      "problemMatcher": [],
+      "presentation": { "panel": "dedicated", "group": "drivex", "reveal": "always" }
+    },
+    {
+      "label": "DriveX: Start all",
+      "dependsOn": ["DriveX: API (Laravel :8000)", "DriveX: AI (Python :8001)", "DriveX: Web (Next.js :3000)"],
+      "dependsOrder": "parallel",
+      "problemMatcher": [],
+      "group": { "kind": "build", "isDefault": true }
+    }
+  ]
+}

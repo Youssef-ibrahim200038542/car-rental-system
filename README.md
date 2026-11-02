@@ -207,6 +207,8 @@ Laravel calls it at `AI_RECOMMENDER_URL` (default `http://127.0.0.1:8001`). If i
 
 After the one-time setup above, double-click `start-dev.bat` at the project root. It opens three windows: Laravel API (port 8000), AI service (port 8001) and the Next.js site (port 3000).
 
+Prefer VS Code? Open the project folder and press **Ctrl+Shift+B** (task *DriveX: Start all* in `.vscode/tasks.json`). The three servers start in their own VS Code terminals.
+
 ## 🔐 Environment Configuration
 
 - Keep backend credentials in `backend/.env`.
