@@ -1,5 +1,7 @@
 import type { FormEvent } from "react";
 import type { Branch, CarCategory } from "@/lib/types";
+import DateRangePicker from "@/app/components/DateRangePicker";
+import { capitalise } from "@/lib/format";
 import { FUEL_TYPES, TRANSMISSIONS } from "./recommendations-api";
 
 export type FormValues = {
@@ -32,7 +34,7 @@ type Props = {
   branches: Branch[];
   loading: boolean;
   error: string;
-  onChange: (field: keyof FormValues, value: string) => void;
+  onChange: (patch: Partial<FormValues>) => void;
   onSubmit: () => void;
 };
 
@@ -40,8 +42,6 @@ const inputClass =
   "mt-2 w-full rounded-xl border border-[#e5e6e1] bg-white px-4 py-3.5 text-sm text-[#0a1411] outline-none transition focus:border-[#c6a15b] focus:ring-2 focus:ring-[#c6a15b]/20";
 
 const labelClass = "text-sm font-semibold text-[#526057]";
-
-const capitalise = (value: string) => value.charAt(0).toUpperCase() + value.slice(1);
 
 export default function RecommendationForm({
   values,
@@ -52,8 +52,6 @@ export default function RecommendationForm({
   onChange,
   onSubmit,
 }: Props) {
-  const today = new Date().toISOString().slice(0, 10);
-
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     onSubmit();
@@ -82,7 +80,7 @@ export default function RecommendationForm({
             min="0"
             step="any"
             value={values.budget}
-            onChange={(event) => onChange("budget", event.target.value)}
+            onChange={(event) => onChange({ budget: event.target.value })}
             placeholder="Any budget"
             className={inputClass}
           />
@@ -92,7 +90,7 @@ export default function RecommendationForm({
           Car category
           <select
             value={values.category}
-            onChange={(event) => onChange("category", event.target.value)}
+            onChange={(event) => onChange({ category: event.target.value })}
             className={inputClass}
           >
             <option value="">Any category</option>
@@ -108,7 +106,7 @@ export default function RecommendationForm({
           Fuel type
           <select
             value={values.fuelType}
-            onChange={(event) => onChange("fuelType", event.target.value)}
+            onChange={(event) => onChange({ fuelType: event.target.value })}
             className={inputClass}
           >
             <option value="">Any fuel type</option>
@@ -124,7 +122,7 @@ export default function RecommendationForm({
           Transmission
           <select
             value={values.transmission}
-            onChange={(event) => onChange("transmission", event.target.value)}
+            onChange={(event) => onChange({ transmission: event.target.value })}
             className={inputClass}
           >
             <option value="">Any transmission</option>
@@ -143,7 +141,7 @@ export default function RecommendationForm({
             min="1"
             max="20"
             value={values.seats}
-            onChange={(event) => onChange("seats", event.target.value)}
+            onChange={(event) => onChange({ seats: event.target.value })}
             placeholder="Any"
             className={inputClass}
           />
@@ -153,7 +151,7 @@ export default function RecommendationForm({
           Pickup branch
           <select
             value={values.branchId}
-            onChange={(event) => onChange("branchId", event.target.value)}
+            onChange={(event) => onChange({ branchId: event.target.value })}
             className={inputClass}
           >
             <option value="">Any branch</option>
@@ -165,33 +163,19 @@ export default function RecommendationForm({
           </select>
         </label>
 
-        <label className={labelClass}>
-          Pickup date
-          <input
-            type="date"
-            min={today}
-            value={values.pickupDate}
-            onChange={(event) => onChange("pickupDate", event.target.value)}
-            className={inputClass}
-          />
-        </label>
-
-        <label className={labelClass}>
-          Return date
-          <input
-            type="date"
-            min={values.pickupDate || today}
-            value={values.returnDate}
-            onChange={(event) => onChange("returnDate", event.target.value)}
-            className={inputClass}
-          />
-        </label>
+        <DateRangePicker
+          value={{ start: values.pickupDate, end: values.returnDate }}
+          onChange={({ start, end }) => onChange({ pickupDate: start, returnDate: end })}
+          fieldClassName={labelClass}
+          labelClassName=""
+          inputClassName={inputClass}
+        />
 
         <label className={labelClass}>
           Number of results
           <select
             value={values.limit}
-            onChange={(event) => onChange("limit", event.target.value)}
+            onChange={(event) => onChange({ limit: event.target.value })}
             className={inputClass}
           >
             {["3", "6", "10", "20"].map((count) => (

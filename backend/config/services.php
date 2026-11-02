@@ -33,6 +33,13 @@ return [
         'model' => env('GEMINI_MODEL', 'gemini-3.6-flash'),
     ],
 
+    // Share of recommendation requests whose top results get one adjacent pair swapped, so the
+    // impression/click logs are not purely position-biased (needed to learn weights from them
+    // later). Tests run with 0 so rankings stay deterministic.
+    'recommendations' => [
+        'explore_rate' => (float) env('RECOMMENDATION_EXPLORE_RATE', env('APP_ENV') === 'testing' ? 0 : 0.1),
+    ],
+
     'slack' => [
         'notifications' => [
             'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),

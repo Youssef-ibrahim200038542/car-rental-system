@@ -11,74 +11,137 @@ use Throwable;
  * Turns a free-text rental request into RecommendationScorer preferences.
  *
  * Uses Gemini when a key is configured; on a missing key or any Gemini
- * failure it falls back to a deterministic keyword parser, so the endpoint
- * never depends on the external service being up. Gemini output is passed
- * through a whitelist: only known fields, known fuel types and category
+ * failure it falls back to KeywordPreferenceParser, so the endpoint never
+ * depends on the external service being up. Gemini output is passed through
+ * a whitelist: only known fields, fuel types, transmissions and category
  * names that exist in car_categories survive.
+ *
+ * The parsed budget is the amount the user stated; budget_period says
+ * whether they meant it per day. budgetPlan() decides the daily budget the
+ * scorer gets and explains that decision in `notes`.
  */
 class PreferenceParser
 {
     private const GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models/%s:generateContent';
 
-    private const CATEGORY_ALIASES = [
-        'economy' => ['economy', 'economical', 'cheap', 'cheapest', 'affordable', 'budget car', 'small car', 'compact'],
-        'sedan' => ['sedan', 'saloon', 'four-door'],
-        'suv' => ['suv', '4x4', 'four by four', 'jeep', 'crossover', 'sport utility'],
-        'luxury' => ['luxury', 'luxurious', 'premium', 'high-end', 'executive', 'prestige'],
-    ];
+    /**
+     * With no rental length, an amount up to this is read as a daily budget;
+     * above it, it is almost certainly a total and cannot be split.
+     */
+    private const DAILY_BUDGET_CEILING = 10000;
 
-    private const FUEL_KEYWORDS = [
-        'electric' => ['electric', ' ev ', 'ev.', 'ev,'],
-        'hybrid' => ['hybrid'],
-        'diesel' => ['diesel'],
-        'petrol' => ['petrol', 'gasoline', 'benzine'],
-    ];
+    public function __construct(private readonly KeywordPreferenceParser $keywords) {}
 
     /**
-     * @return array{source: string, preferences: array{budget: ?float, seats: ?int, duration: ?int, fuel_type: ?string, category: ?string}}
+     * @return array{source: string, preferences: array{budget: ?float, budget_period: ?string, seats: ?int, duration: ?int, fuel_type: ?string, transmission: ?string, category: ?string, notes: string[]}}
      */
     public function parse(string $message): array
     {
-        $categories = CarCategory::query()->pluck('name')->all();
-        $apiKey = config('services.gemini.key');
+        $categories = $this->categoryNames();
+        $source = 'keyword';
+        $preferences = null;
 
-        if ($apiKey) {
+        if (config('services.gemini.key')) {
             try {
-                return [
-                    'source' => 'gemini',
-                    'preferences' => $this->whitelist($this->askGemini($message, $apiKey, $categories), $categories),
-                ];
+                $preferences = $this->parseWithGemini($message, $categories);
+                $source = 'gemini';
             } catch (Throwable $e) {
                 report($e);
             }
         }
 
+        $preferences ??= $this->keywords->parse($message, $categories);
+        $note = self::budgetPlan($preferences)['note'];
+
         return [
-            'source' => 'keyword',
-            'preferences' => $this->parseKeywords($message, $categories),
+            'source' => $source,
+            'preferences' => $preferences + ['notes' => $note === null ? [] : [$note]],
         ];
     }
 
     /**
-     * Converts parsed preferences to scorer input. The user states a total
-     * budget; the scorer compares against a daily rate.
+     * Gemini only, no fallback: throws when the key is missing or the call fails.
+     *
+     * @param  string[]|null  $categories  defaults to the names in car_categories
+     */
+    public function parseWithGemini(string $message, ?array $categories = null): array
+    {
+        $apiKey = config('services.gemini.key');
+
+        if (! $apiKey) {
+            throw new RuntimeException('GEMINI_API_KEY is not set.');
+        }
+
+        $categories ??= $this->categoryNames();
+
+        return $this->whitelist($this->askGemini($message, $apiKey, $categories), $categories);
+    }
+
+    /**
+     * Converts parsed preferences to scorer input.
      */
     public static function toScorerInput(array $preferences): array
     {
-        $duration = max(1, (int) ($preferences['duration'] ?? 1));
-
         return [
-            'budget' => $preferences['budget'] !== null ? $preferences['budget'] / $duration : null,
+            'budget' => self::budgetPlan($preferences)['daily'],
             'seats' => $preferences['seats'],
             'fuel_type' => $preferences['fuel_type'],
+            'transmission' => $preferences['transmission'] ?? null,
             'category' => $preferences['category'],
         ];
+    }
+
+    /**
+     * The scorer compares a daily rate, so the stated budget becomes a daily one:
+     * per-day as stated; a total split over the duration; with no duration, a
+     * plausible daily amount is kept and anything larger is dropped.
+     *
+     * @return array{daily: ?float, note: ?string}
+     */
+    public static function budgetPlan(array $preferences): array
+    {
+        $budget = $preferences['budget'] ?? null;
+        $duration = $preferences['duration'] ?? null;
+
+        if ($budget === null) {
+            return ['daily' => null, 'note' => null];
+        }
+
+        $amount = number_format($budget);
+
+        if (($preferences['budget_period'] ?? null) === 'day') {
+            return ['daily' => (float) $budget, 'note' => "Budget of {$amount} EGP read as per day, as you said."];
+        }
+
+        if ($duration !== null && $duration > 0) {
+            $daily = $budget / $duration;
+
+            return [
+                'daily' => $daily,
+                'note' => sprintf('Total budget of %s EGP split over %d day(s): about %s EGP/day.', $amount, $duration, number_format($daily)),
+            ];
+        }
+
+        if ($budget <= self::DAILY_BUDGET_CEILING) {
+            return ['daily' => (float) $budget, 'note' => "No rental length given, so {$amount} EGP is read as a daily budget."];
+        }
+
+        return [
+            'daily' => null,
+            'note' => "{$amount} EGP looks like a total budget, but no rental length was given, so budget was not used. Add the number of days to use it.",
+        ];
+    }
+
+    /** @return string[] */
+    private function categoryNames(): array
+    {
+        return CarCategory::query()->pluck('name')->all();
     }
 
     private function askGemini(string $message, string $apiKey, array $categories): array
     {
         $response = Http::connectTimeout(5)
-            ->timeout(15)
+            ->timeout(5)
             ->withHeaders(['x-goog-api-key' => $apiKey])
             ->post(sprintf(self::GEMINI_URL, config('services.gemini.model')), [
                 'contents' => [['parts' => [['text' => $this->prompt($message, $categories)]]]],
@@ -104,82 +167,19 @@ class PreferenceParser
     private function whitelist(array $raw, array $categories): array
     {
         $fuel = RecommendationScorer::normaliseFuelType(is_string($raw['fuel_type'] ?? null) ? $raw['fuel_type'] : null);
+        $transmission = is_string($raw['transmission'] ?? null) ? strtolower(trim($raw['transmission'])) : null;
         $category = is_string($raw['category'] ?? null) ? $this->matchCategoryName($raw['category'], $categories) : null;
+        $budget = is_numeric($raw['budget'] ?? null) && $raw['budget'] > 0 ? (float) $raw['budget'] : null;
 
         return [
-            'budget' => is_numeric($raw['budget'] ?? null) && $raw['budget'] > 0 ? (float) $raw['budget'] : null,
+            'budget' => $budget,
+            'budget_period' => $budget === null ? null : (($raw['budget_period'] ?? null) === 'day' ? 'day' : 'total'),
             'seats' => is_numeric($raw['seats'] ?? null) && $raw['seats'] > 0 ? (int) $raw['seats'] : null,
             'duration' => is_numeric($raw['duration'] ?? null) && $raw['duration'] > 0 ? (int) $raw['duration'] : null,
             'fuel_type' => in_array($fuel, RecommendationScorer::FUEL_TYPES, true) ? $fuel : null,
+            'transmission' => in_array($transmission, RecommendationScorer::TRANSMISSIONS, true) ? $transmission : null,
             'category' => $category,
         ];
-    }
-
-    private function parseKeywords(string $message, array $categories): array
-    {
-        $text = ' '.strtolower($message).' ';
-
-        return [
-            'budget' => $this->firstNumber($text, '/(?:budget|spend|up to|max(?:imum)?|under|less than|no more than)\D{0,15}([\d,]+(?:\.\d+)?)/'),
-            'seats' => ($seats = $this->firstNumber($text, '/(?:family of|group of)\s*(\d+)|(\d+)\s*(?:people|persons|passengers|seats)/')) ? (int) $seats : null,
-            'duration' => $this->parseDuration($text),
-            'fuel_type' => $this->firstKeywordMatch($text, self::FUEL_KEYWORDS),
-            'category' => $this->matchCategoryInText($text, $categories),
-        ];
-    }
-
-    private function parseDuration(string $text): ?int
-    {
-        if ($days = $this->firstNumber($text, '/(\d+)\s*days?/')) {
-            return (int) $days;
-        }
-        if ($weeks = $this->firstNumber($text, '/(\d+)\s*weeks?/')) {
-            return (int) $weeks * 7;
-        }
-
-        return match (true) {
-            str_contains($text, 'month') => 30,
-            str_contains($text, 'week') => 7,
-            str_contains($text, 'a day') || str_contains($text, 'tomorrow') => 1,
-            default => null,
-        };
-    }
-
-    private function firstNumber(string $text, string $pattern): ?float
-    {
-        if (! preg_match($pattern, $text, $matches)) {
-            return null;
-        }
-
-        $captured = array_values(array_filter(array_slice($matches, 1), fn ($group) => $group !== ''));
-
-        return $captured ? (float) str_replace(',', '', $captured[0]) : null;
-    }
-
-    private function firstKeywordMatch(string $text, array $keywordsByValue): ?string
-    {
-        foreach ($keywordsByValue as $value => $keywords) {
-            foreach ($keywords as $keyword) {
-                if (str_contains($text, $keyword)) {
-                    return $value;
-                }
-            }
-        }
-
-        return null;
-    }
-
-    private function matchCategoryInText(string $text, array $categories): ?string
-    {
-        foreach ($categories as $name) {
-            $aliases = self::CATEGORY_ALIASES[strtolower($name)] ?? [strtolower($name)];
-
-            if ($this->firstKeywordMatch($text, [$name => $aliases]) !== null) {
-                return $name;
-            }
-        }
-
-        return null;
     }
 
     private function matchCategoryName(string $candidate, array $categories): ?string
@@ -198,26 +198,32 @@ class PreferenceParser
         $categoryList = implode(', ', $categories);
 
         return <<<PROMPT
-You are a car rental assistant. Extract the user's preferences from their request.
-Users write casually, with synonyms and in any sentence structure. Never invent
-information the user did not give; use null when a field is missing or unclear.
+You are a car rental assistant in Egypt. Extract the user's preferences from their request.
+Users write casually in English, Egyptian Arabic or Franco-Arabic (Arabic in Latin letters
+and digits, e.g. "3ayez 3arabeya automatic l 4 afrad"), with synonyms and typos. Never
+invent information the user did not give; use null when a field is missing or unclear.
 
-Return ONLY a JSON object with exactly these five fields:
+Return ONLY a JSON object with exactly these seven fields:
 
-- "budget": maximum TOTAL rental budget as a number ("up to 15000", "around 15000" = 15000), else null.
+- "budget": the budget amount as a number, exactly as stated ("up to 15000",
+  "around 15k", "15 الف" = 15000), else null. Prices are in EGP.
+- "budget_period": "day" if the user said the amount is per day ("1500 a day",
+  "1500 في اليوم", "1500 fel yom"), otherwise "total". null when budget is null.
 - "seats": number of passengers as an integer ("for a couple" = 2, "family of 5" = 5,
-  "for me" = 1). "for my family" without a number = null.
-- "duration": rental length in days ("a day"/"tomorrow" = 1, "a week" = 7,
-  "two weeks" = 14, "a month" = 30, "a few days" = null).
+  "for me" = 1, "4 أشخاص" = 4). "for my family" without a number = null.
+- "duration": rental length in days ("a day"/"tomorrow" = 1, "a week"/"اسبوع" = 7,
+  "two weeks"/"اسبوعين" = 14, "a month"/"شهر" = 30, "a few days" = null).
 - "fuel_type": exactly one of "petrol", "diesel", "hybrid", "electric", or null.
-  gasoline/gas = petrol; EV = electric; "any fuel" = null.
+  gasoline/gas/benzin/بنزين = petrol; سولار = diesel; EV/كهربا = electric; "any fuel" = null.
+- "transmission": exactly "automatic" or "manual", or null.
+  auto/اوتوماتيك = automatic; stick/مانيوال/عادي = manual.
 - "category": exactly one of these names, or null: {$categoryList}.
-  Map synonyms to the closest name (cheap/affordable/compact -> an economy-type
-  category; 4x4/crossover/jeep -> an SUV-type category; premium/executive -> a
+  Map synonyms to the closest name (cheap/affordable/compact/اقتصادي -> an economy-type
+  category; 4x4/crossover/jeep/جيب -> an SUV-type category; premium/executive/فخمة -> a
   luxury-type category). "comfortable car" or "family car" alone = null.
 
-Example: "Looking for something affordable for 5 people for a week, up to 15000."
--> {"budget": 15000, "seats": 5, "duration": 7, "fuel_type": null, "category": "Economy"}
+Example: "Looking for something affordable for 5 people for a week, up to 15000, automatic."
+-> {"budget": 15000, "budget_period": "total", "seats": 5, "duration": 7, "fuel_type": null, "transmission": "automatic", "category": "Economy"}
 
 User request:
 {$message}

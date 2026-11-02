@@ -175,6 +175,68 @@ class RecommendationTest extends TestCase
             ->assertJsonPath('data.recommendations.0.car.id', $suv->id);
     }
 
+    public function test_transmission_carries_twenty_points_of_weight(): void
+    {
+        $car = $this->makeCar(['transmission' => 'automatic']);
+
+        $response = $this->postJson('/api/ml/recommendations', ['transmission' => 'automatic'])->assertOk();
+
+        // transmission 20/20 + rating 5/10 (no reviews) + popularity 0/5 = 25 of 35.
+        $this->assertSame($car->id, $response->json('data.recommendations.0.car.id'));
+        $this->assertSame(71, $response->json('data.recommendations.0.score'));
+    }
+
+    public function test_transmission_outweighs_fuel_type(): void
+    {
+        $rightGearbox = $this->makeCar(['transmission' => 'automatic', 'fuel_type' => 'petrol', 'daily_rate' => 1500]);
+        $this->makeCar(['transmission' => 'manual', 'fuel_type' => 'diesel', 'daily_rate' => 500]);
+
+        $ids = $this->recommendedIds(['transmission' => 'automatic', 'fuel_type' => 'diesel']);
+
+        $this->assertSame($rightGearbox->id, $ids[0]);
+    }
+
+    public function test_unknown_category_is_reported_not_silently_ignored(): void
+    {
+        $this->makeCar();
+
+        $response = $this->postJson('/api/ml/recommendations', ['category' => 'Minivan'])->assertOk();
+
+        $this->assertContains("Category 'Minivan' not found — ignored", $response->json('data.recommendations.0.reasons'));
+    }
+
+    public function test_ai_recommend_reads_egyptian_arabic_and_passes_transmission(): void
+    {
+        config(['services.gemini.key' => null]);
+        $manual = $this->makeCar(['transmission' => 'manual', 'daily_rate' => 400]);
+        $automatic = $this->makeCar(['transmission' => 'automatic', 'daily_rate' => 900]);
+
+        $response = $this->postJson('/api/ai/recommendations', ['message' => 'عايز عربية اوتوماتيك لـ ٤ أشخاص ٣ ايام في حدود ٣ آلاف'])->assertOk();
+
+        $response->assertJsonPath('data.preferences.transmission', 'automatic')
+            ->assertJsonPath('data.preferences.seats', 4)
+            ->assertJsonPath('data.preferences.duration', 3)
+            ->assertJsonPath('data.preferences.budget', 3000)
+            ->assertJsonPath('data.preferences.notes.0', 'Total budget of 3,000 EGP split over 3 day(s): about 1,000 EGP/day.')
+            ->assertJsonPath('data.recommendations.0.car.id', $automatic->id);
+        $this->assertNotSame($manual->id, $response->json('data.recommendations.0.car.id'));
+    }
+
+    public function test_large_total_budget_without_duration_is_ignored_with_a_note(): void
+    {
+        config(['services.gemini.key' => null]);
+        $this->makeCar(['daily_rate' => 3000]);
+
+        $response = $this->postJson('/api/ai/recommendations', ['message' => 'any car, budget 50000'])->assertOk();
+
+        $response->assertJsonPath('data.preferences.budget', 50000)
+            ->assertJsonPath('data.preferences.budget_period', 'total');
+        $this->assertStringContainsString('budget was not used', $response->json('data.preferences.notes.0'));
+        foreach ($response->json('data.recommendations.0.reasons') as $reason) {
+            $this->assertStringNotContainsString('budget', strtolower($reason));
+        }
+    }
+
     private function makeCar(array $overrides = []): Car
     {
         $this->plate++;

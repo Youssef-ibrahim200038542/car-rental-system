@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Concerns\RespondsWithErrors;
 use App\Http\Controllers\Controller;
 use App\Models\Car;
 use Illuminate\Http\Request;
@@ -9,6 +10,8 @@ use Illuminate\Support\Facades\Storage;
 
 class CarController extends Controller
 {
+    use RespondsWithErrors;
+
     /**
      * Display a listing of cars.
      */
@@ -36,11 +39,11 @@ class CarController extends Controller
             'color' => 'nullable|string|max:100',
             'license_plate' => 'required|string|max:50|unique:cars,license_plate',
             'vin' => 'required|string|max:100|unique:cars,vin',
-            'mileage' => 'nullable|integer|min:0',
+            'mileage' => 'nullable|integer|min:0|max:4294967295',
             'fuel_type' => 'required|in:petrol,diesel,hybrid,electric',
             'transmission' => 'required|in:manual,automatic',
             'seats' => 'required|integer|min:1|max:20',
-            'daily_rate' => 'required|numeric|min:0',
+            'daily_rate' => 'required|numeric|min:0|max:99999999.99',
             'status' => 'nullable|in:available,maintenance,inactive',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
             'description' => 'nullable|string',
@@ -50,6 +53,9 @@ class CarController extends Controller
             $validated['image'] = $request->file('image')
                 ->store('cars', 'public');
         }
+
+        // The column is NOT NULL DEFAULT 0, so an explicit null means "no mileage recorded".
+        $validated['mileage'] = $validated['mileage'] ?? 0;
 
         $car = Car::create($validated);
 
@@ -114,11 +120,11 @@ class CarController extends Controller
             'color' => 'nullable|string|max:100',
             'license_plate' => 'sometimes|required|string|max:50|unique:cars,license_plate,'.$car->id,
             'vin' => 'sometimes|required|string|max:100|unique:cars,vin,'.$car->id,
-            'mileage' => 'nullable|integer|min:0',
+            'mileage' => 'nullable|integer|min:0|max:4294967295',
             'fuel_type' => 'sometimes|required|in:petrol,diesel,hybrid,electric',
             'transmission' => 'sometimes|required|in:manual,automatic',
             'seats' => 'sometimes|required|integer|min:1|max:20',
-            'daily_rate' => 'sometimes|required|numeric|min:0',
+            'daily_rate' => 'sometimes|required|numeric|min:0|max:99999999.99',
             'status' => 'sometimes|in:available,maintenance,inactive',
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
             'description' => 'nullable|string',
@@ -131,6 +137,10 @@ class CarController extends Controller
 
             $validated['image'] = $request->file('image')
                 ->store('cars', 'public');
+        }
+
+        if (array_key_exists('mileage', $validated)) {
+            $validated['mileage'] = $validated['mileage'] ?? 0;
         }
 
         $car->update($validated);
@@ -148,10 +158,7 @@ class CarController extends Controller
     public function destroy(Car $car)
     {
         if ($car->bookings()->exists() || $car->maintenanceRecords()->exists() || $car->reviews()->exists()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Cannot delete this car because it has bookings, maintenance records or reviews. Set it to inactive instead.',
-            ], 422);
+            return $this->unprocessable('Cannot delete this car because it has bookings, maintenance records or reviews. Set it to inactive instead.');
         }
 
         if ($car->image) {

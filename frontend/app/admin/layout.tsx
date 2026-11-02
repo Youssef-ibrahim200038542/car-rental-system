@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect } from "react";
@@ -6,8 +5,10 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useRequireRole } from "@/lib/auth";
 import type { Role } from "@/lib/types";
+import { PageState } from "../components/StateViews";
+import { Icon, type IconName } from "./_components/icons";
 
-const navigation: { href: string; label: string; icon: string; roles: Role[] }[] = [
+const navigation: { href: string; label: string; icon: IconName; roles: Role[] }[] = [
   { href: "/admin", label: "Overview", icon: "grid", roles: ["admin"] },
   { href: "/admin/cars", label: "Fleet Management", icon: "car", roles: ["admin"] },
   { href: "/admin/bookings", label: "Bookings", icon: "calendar", roles: ["admin", "staff"] },
@@ -32,76 +33,6 @@ function canAccessPath(role: Role | undefined, pathname: string) {
   return false;
 }
 
-function Icon({
-  name,
-  className = "h-5 w-5",
-}: {
-  name: string;
-  className?: string;
-}) {
-  const common = {
-    className,
-    viewBox: "0 0 24 24",
-    fill: "none",
-    stroke: "currentColor",
-    strokeWidth: 1.7,
-    strokeLinecap: "round" as const,
-    strokeLinejoin: "round" as const,
-    "aria-hidden": true as const,
-  };
-
-  const paths: Record<string, React.ReactNode> = {
-    grid: (
-      <>
-        <rect x="3" y="3" width="7" height="7" rx="1.5" />
-        <rect x="14" y="3" width="7" height="7" rx="1.5" />
-        <rect x="14" y="14" width="7" height="7" rx="1.5" />
-        <rect x="3" y="14" width="7" height="7" rx="1.5" />
-      </>
-    ),
-    car: (
-      <>
-        <path d="m5 11 1.5-5h11l1.5 5" />
-        <path d="M3.5 13 5 11h14l1.5 2v5h-17z" />
-        <path d="M6 18v2m12-2v2M6 14h.01M18 14h.01" />
-      </>
-    ),
-    calendar: (
-      <>
-        <rect x="3" y="5" width="18" height="16" rx="2" />
-        <path d="M16 3v4M8 3v4M3 10h18" />
-      </>
-    ),
-    wallet: (
-      <>
-        <rect x="3" y="5" width="18" height="15" rx="2" />
-        <path d="M3 9h18M16 14h2M3 5V4a1 1 0 0 1 1-1h14" />
-      </>
-    ),
-    branch: (
-      <path d="M3 21h18M5 21V5l7-3 7 3v16M9 9h.01M15 9h.01M9 13h.01M15 13h.01M10 21v-4h4v4" />
-    ),
-    users: (
-      <>
-        <circle cx="9" cy="8" r="3" />
-        <path d="M3 20c0-3.3 2.3-5 6-5s6 1.7 6 5M16 5.5a3 3 0 0 1 0 5.8M18 15c2 .7 3 2.2 3 5" />
-      </>
-    ),
-    star: (
-      <path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3 6.4 20.2l1.1-6.2L3 9.6l6.2-.9L12 3Z" />
-    ),
-    chart: (
-      <>
-        <path d="M3 3v18h18" />
-        <path d="m7 14 4-4 3 3 6-7" />
-      </>
-    ),
-    arrow: <path d="M5 12h14M13 6l6 6-6 6" />,
-  };
-
-  return <svg {...common}>{paths[name] ?? paths.grid}</svg>;
-}
-
 export default function AdminLayout({
   children,
 }: Readonly<{
@@ -118,6 +49,17 @@ export default function AdminLayout({
       router.replace(user?.role === "staff" ? "/staff" : "/");
     }
   }, [auth.status, pathAllowed, router, user?.role]);
+
+  if (auth.status === "error") {
+    return (
+      <PageState
+        tone="error"
+        title="Unable to verify your session"
+        message={auth.message}
+        action={{ label: "Try Again", onClick: auth.retry }}
+      />
+    );
+  }
 
   if (!pathAllowed) {
     return (

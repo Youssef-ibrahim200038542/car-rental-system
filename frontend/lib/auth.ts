@@ -6,6 +6,7 @@ import {
   AUTH_CHANGED_EVENT,
   USER_UPDATED_EVENT,
   apiFetch,
+  errorMessage,
   getStoredUserRaw,
   getToken,
   isApiError,
@@ -48,7 +49,9 @@ export function useSessionUser(): User | null {
 
 export type AuthState =
   | { status: "loading"; user: null }
-  | { status: "allowed"; user: User };
+  | { status: "allowed"; user: User }
+  /** /me failed for a reason other than 401/403 (network, 5xx); `retry` re-runs it. */
+  | { status: "error"; user: null; message: string; retry: () => void };
 
 type Navigator = { replace: (href: string) => void };
 
@@ -78,11 +81,14 @@ export async function fetchCurrentUser(): Promise<User> {
 
 /**
  * Guard a page: waits for /me, then allows only the given roles.
- * No token or a 401 → /login; a missing or wrong role → "/" (deny by default).
+ * No token or a 401 → /login; a 403 or a wrong role → "/" (deny by default).
+ * Any other failure (network, 5xx) keeps the user here in an "error" state
+ * so the page can offer a retry instead of bouncing them home.
  */
 export function useRequireRole(roles: readonly Role[]): AuthState {
   const router = useRouter();
   const [state, setState] = useState<AuthState>({ status: "loading", user: null });
+  const [attempt, setAttempt] = useState(0);
   const rolesKey = roles.join(",");
 
   useEffect(() => {
@@ -107,13 +113,30 @@ export function useRequireRole(roles: readonly Role[]): AuthState {
       })
       .catch((error: unknown) => {
         if (cancelled) return;
-        router.replace(isApiError(error, 401) ? "/login" : "/");
+
+        if (isApiError(error, 401)) {
+          router.replace("/login");
+        } else if (isApiError(error, 403)) {
+          router.replace("/");
+        } else {
+          setState({
+            status: "error",
+            user: null,
+            message: isApiError(error)
+              ? errorMessage(error, "We could not verify your session.")
+              : "We could not reach the server. Check your connection and try again.",
+            retry: () => {
+              setState({ status: "loading", user: null });
+              setAttempt((count) => count + 1);
+            },
+          });
+        }
       });
 
     return () => {
       cancelled = true;
     };
-  }, [router, rolesKey]);
+  }, [router, rolesKey, attempt]);
 
   return state;
 }

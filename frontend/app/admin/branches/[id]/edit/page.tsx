@@ -1,301 +1,77 @@
+"use client";
 
-    "use client";
+import { useParams, useRouter } from "next/navigation";
+import { apiFetch } from "@/lib/api";
+import type { Branch } from "@/lib/types";
+import { AdminPage } from "../../../_components/AdminPage";
+import { PageHeader } from "../../../_components/PageHeader";
+import { ErrorAlert, ErrorState, LoadingState } from "../../../_components/states";
+import { useAdminRecord } from "../../../_lib/useAdminRecord";
+import { useAdminSubmit } from "../../../_lib/useAdminSubmit";
+import {
+  BranchForm,
+  branchToFormValues,
+  type BranchFormValues,
+} from "../../_components/BranchForm";
 
-    import { useEffect, useState } from "react";
-    import type { ChangeEvent, FormEvent } from "react";
-    import Link from "next/link";
-    import { useParams, useRouter } from "next/navigation";
-    import { apiFetch, errorMessage } from "@/lib/api";
-    import { redirectIfUnauthorized } from "@/lib/auth";
-    import type { Branch } from "@/lib/types";
+const BACK = { href: "/admin/branches", label: "Back to Branches" };
 
-    type BranchFormData = {
-    name: string;
-    address: string;
-    city: string;
-    phone: string;
-    };
+export default function EditBranchPage() {
+  const router = useRouter();
+  const { id: branchId } = useParams<{ id: string }>();
+  const branch = useAdminRecord<Branch>(
+    `/branches/${branchId}`,
+    "Failed to load branch details."
+  );
 
-    const initialFormData: BranchFormData = {
-    name: "",
-    address: "",
-    city: "",
-    phone: "",
-    };
+  const { saving, error, setError, submit } = useAdminSubmit(
+    async (values: BranchFormValues) => {
+      await apiFetch(`/branches/${branchId}`, { method: "PUT", body: values });
+      router.push("/admin/branches");
+      router.refresh();
+    },
+    "Failed to update branch."
+  );
 
-    export default function EditBranchPage() {
-    const router = useRouter();
-    const params = useParams<{ id: string }>();
-    const branchId = params.id;
+  if (branch.loading) {
+    return <LoadingState message="Loading branch details..." width="form" />;
+  }
 
-    const [formData, setFormData] =
-        useState<BranchFormData>(initialFormData);
-    const [loading, setLoading] = useState(false);
-    const [loadingBranch, setLoadingBranch] = useState(true);
-    const [error, setError] = useState("");
-
-    useEffect(() => {
-        if (!branchId) return;
-
-        const controller = new AbortController();
-
-        const fetchBranch = async () => {
-        try {
-            const branch = await apiFetch<Branch>(`/branches/${branchId}`, {
-            signal: controller.signal,
-            });
-
-            if (!branch || typeof branch.name !== "string") {
-            throw new Error("The branch data could not be found in the API response.");
-            }
-
-            setFormData({
-            name: branch.name ?? "",
-            address: branch.address ?? "",
-            city: branch.city ?? "",
-            phone: branch.phone ?? "",
-            });
-        } catch (err) {
-            if (controller.signal.aborted) return;
-            if (redirectIfUnauthorized(err, router)) return;
-            setError(errorMessage(err, "Failed to load branch details."));
-        } finally {
-            if (!controller.signal.aborted) {
-            setLoadingBranch(false);
-            }
-        }
-        };
-
-        fetchBranch();
-
-        return () => controller.abort();
-    }, [branchId, router]);
-
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-
-        setFormData((current) => ({
-        ...current,
-        [name]: value,
-        }));
-    };
-
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        setLoading(true);
-        setError("");
-
-        try {
-        await apiFetch(`/branches/${branchId}`, { method: "PUT", body: formData });
-
-        router.push("/admin/branches");
-        router.refresh();
-        } catch (err) {
-        if (redirectIfUnauthorized(err, router)) return;
-        setError(errorMessage(err, "Failed to update branch."));
-        } finally {
-        setLoading(false);
-        }
-    };
-
-    if (loadingBranch) {
-        return (
-        <main className="flex min-h-screen items-center justify-center bg-[#f8f8f7] px-5 py-20 text-[#0a1411]">
-            <div className="w-full max-w-md rounded-3xl border border-[#e8e5dc] bg-white p-10 text-center shadow-sm">
-            <div className="mx-auto mb-5 h-10 w-10 animate-spin rounded-full border-2 border-[#e8e5dc] border-t-[#c6a15b]" />
-            <p className="text-sm font-medium text-[#68736c]">
-                Loading branch details...
-            </p>
-            </div>
-        </main>
-        );
-    }
-
+  if (branch.error || !branch.data) {
     return (
-        <main className="min-h-screen bg-[#f8f8f7] px-5 py-10 text-[#0a1411] sm:px-8 lg:px-12">
-        <div className="mx-auto max-w-3xl">
-            <Link
-            href="/admin/branches"
-            className="inline-flex items-center gap-2 text-sm font-medium text-[#68736c] transition hover:text-[#9a783c]"
-            >
-            <span aria-hidden="true">←</span>
-            Back to Branches
-            </Link>
-
-            <div className="mb-8 mt-7">
-            <div className="mb-3 flex items-center gap-2">
-                <span className="h-px w-8 bg-[#c6a15b]" />
-                <span className="text-xs font-semibold uppercase tracking-[0.22em] text-[#9a783c]">
-                Branch Management
-                </span>
-            </div>
-
-            <h1 className="text-3xl font-bold tracking-tight text-[#0a1411] sm:text-4xl">
-                Edit Branch
-            </h1>
-
-            <p className="mt-3 max-w-xl text-sm leading-6 text-[#68736c] sm:text-base">
-                Update your rental location details below and save your changes.
-            </p>
-            </div>
-
-            {error && (
-            <div
-                role="alert"
-                className="mb-6 flex items-start gap-3 rounded-2xl border border-red-200 bg-red-50 px-5 py-4 text-sm text-red-700"
-            >
-                <span className="font-bold">!</span>
-                <p>{error}</p>
-            </div>
-            )}
-
-            <form
-            onSubmit={handleSubmit}
-            className="overflow-hidden rounded-3xl border border-[#e8e5dc] bg-white shadow-[0_12px_40px_rgba(10,20,17,0.04)]"
-            >
-            <div className="border-b border-[#eeece5] bg-[#0a1411] px-6 py-5 sm:px-8">
-                <div className="flex items-center gap-4">
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-[#c6a15b]/30 bg-[#c6a15b]/10 text-[#c6a15b]">
-                    <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.6"
-                    className="h-6 w-6"
-                    aria-hidden="true"
-                    >
-                    <path d="M12 20h9" />
-                    <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z" />
-                    </svg>
-                </div>
-
-                <div>
-                    <h2 className="font-semibold text-white">Branch Information</h2>
-                    <p className="mt-1 text-sm text-white/55">
-                    Update the location&apos;s contact details.
-                    </p>
-                </div>
-                </div>
-            </div>
-
-            <div className="p-6 sm:p-8">
-                <div className="grid gap-6 sm:grid-cols-2">
-                <div className="sm:col-span-2">
-                    <label
-                    htmlFor="name"
-                    className="mb-2 block text-sm font-semibold text-[#26352d]"
-                    >
-                    Branch Name <span className="text-[#b58b43]">*</span>
-                    </label>
-                    <input
-                    id="name"
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    placeholder="e.g. Cairo Main Branch"
-                    autoComplete="organization"
-                    required
-                    className="w-full rounded-xl border border-[#e3e1d9] bg-[#fcfcfa] px-4 py-3.5 text-sm text-[#0a1411] outline-none transition placeholder:text-[#a3aaa4] focus:border-[#c6a15b] focus:bg-white focus:ring-4 focus:ring-[#c6a15b]/10"
-                    />
-                </div>
-
-                <div className="sm:col-span-2">
-                    <label
-                    htmlFor="address"
-                    className="mb-2 block text-sm font-semibold text-[#26352d]"
-                    >
-                    Street Address <span className="text-[#b58b43]">*</span>
-                    </label>
-                    <input
-                    id="address"
-                    type="text"
-                    name="address"
-                    value={formData.address}
-                    onChange={handleChange}
-                    placeholder="e.g. 123 Main Street"
-                    autoComplete="street-address"
-                    required
-                    className="w-full rounded-xl border border-[#e3e1d9] bg-[#fcfcfa] px-4 py-3.5 text-sm text-[#0a1411] outline-none transition placeholder:text-[#a3aaa4] focus:border-[#c6a15b] focus:bg-white focus:ring-4 focus:ring-[#c6a15b]/10"
-                    />
-                </div>
-
-                <div>
-                    <label
-                    htmlFor="city"
-                    className="mb-2 block text-sm font-semibold text-[#26352d]"
-                    >
-                    City <span className="text-[#b58b43]">*</span>
-                    </label>
-                    <input
-                    id="city"
-                    type="text"
-                    name="city"
-                    value={formData.city}
-                    onChange={handleChange}
-                    placeholder="e.g. Cairo"
-                    autoComplete="address-level2"
-                    required
-                    className="w-full rounded-xl border border-[#e3e1d9] bg-[#fcfcfa] px-4 py-3.5 text-sm text-[#0a1411] outline-none transition placeholder:text-[#a3aaa4] focus:border-[#c6a15b] focus:bg-white focus:ring-4 focus:ring-[#c6a15b]/10"
-                    />
-                </div>
-
-                <div>
-                    <label
-                    htmlFor="phone"
-                    className="mb-2 block text-sm font-semibold text-[#26352d]"
-                    >
-                    Phone Number <span className="text-[#b58b43]">*</span>
-                    </label>
-                    <input
-                    id="phone"
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    placeholder="e.g. 01000000000"
-                    autoComplete="tel"
-                    required
-                    className="w-full rounded-xl border border-[#e3e1d9] bg-[#fcfcfa] px-4 py-3.5 text-sm text-[#0a1411] outline-none transition placeholder:text-[#a3aaa4] focus:border-[#c6a15b] focus:bg-white focus:ring-4 focus:ring-[#c6a15b]/10"
-                    />
-                </div>
-                </div>
-
-                <div className="mt-8 flex flex-col-reverse gap-3 border-t border-[#eeece5] pt-6 sm:flex-row sm:justify-end">
-                <Link
-                    href="/admin/branches"
-                    className="inline-flex items-center justify-center rounded-xl border border-[#deded5] px-6 py-3 text-sm font-semibold text-[#526057] transition hover:border-[#b9b9ad] hover:bg-[#f8f8f5] hover:text-[#0a1411]"
-                >
-                    Cancel
-                </Link>
-
-                <button
-                    type="submit"
-                    disabled={loading}
-                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#c6a15b] px-6 py-3 text-sm font-bold text-[#0a1411] shadow-sm transition hover:bg-[#d4b474] focus:outline-none focus:ring-4 focus:ring-[#c6a15b]/25 disabled:cursor-not-allowed disabled:opacity-60"
-                >
-                    {loading ? (
-                    <>
-                        <span className="h-4 w-4 animate-spin rounded-full border-2 border-[#0a1411]/25 border-t-[#0a1411]" />
-                        Saving Changes...
-                    </>
-                    ) : (
-                    <>
-                        Save Changes
-                        <span aria-hidden="true">→</span>
-                    </>
-                    )}
-                </button>
-                </div>
-            </div>
-            </form>
-
-            <p className="mt-5 text-center text-xs text-[#929990]">
-            Fields marked with{" "}
-            <span className="font-semibold text-[#9a783c]">*</span> are required.
-            </p>
-        </div>
-        </main>
+      <ErrorState
+        title="Unable to load branch"
+        message={branch.error || "The requested branch could not be found."}
+        onRetry={branch.reload}
+        back={BACK}
+        width="form"
+      />
     );
-    }
+  }
+
+  return (
+    <AdminPage width="form">
+      <PageHeader
+        back={BACK}
+        eyebrow="Branch Management"
+        title="Edit Branch"
+        description="Update your rental location details below and save your changes."
+      />
+
+      <ErrorAlert message={error} onDismiss={() => setError("")} />
+
+      <BranchForm
+        initialValues={branchToFormValues(branch.data)}
+        header={{
+          icon: "pencil",
+          title: "Branch Information",
+          subtitle: "Update the location's contact details.",
+        }}
+        saving={saving}
+        submitLabel="Save Changes"
+        savingLabel="Saving Changes..."
+        onSubmit={(values) => void submit(values)}
+      />
+    </AdminPage>
+  );
+}

@@ -45,16 +45,25 @@ class Booking extends Model
      */
     public function scopeOverlapping(Builder $query, int $carId, string $pickupDate, string $returnDate, ?int $ignoreId = null): Builder
     {
+        return $query
+            ->where('car_id', $carId)
+            ->blocking($pickupDate, $returnDate)
+            ->when($ignoreId, fn (Builder $q) => $q->where('id', '!=', $ignoreId));
+    }
+
+    /**
+     * Bookings of any car that hold any day of [$pickupDate, $returnDate] (inclusive).
+     */
+    public function scopeBlocking(Builder $query, string $pickupDate, string $returnDate): Builder
+    {
         // Normalise so a non-ISO string can never slip past a text comparison.
         $pickupDate = Carbon::parse($pickupDate)->toDateString();
         $returnDate = Carbon::parse($returnDate)->toDateString();
 
         return $query
-            ->where('car_id', $carId)
             ->whereIn('status', self::BLOCKING_STATUSES)
             ->whereDate('pickup_date', '<=', $returnDate)
-            ->whereDate('return_date', '>=', $pickupDate)
-            ->when($ignoreId, fn (Builder $q) => $q->where('id', '!=', $ignoreId));
+            ->whereDate('return_date', '>=', $pickupDate);
     }
 
     public function user(): BelongsTo

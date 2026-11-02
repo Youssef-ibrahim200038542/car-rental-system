@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Concerns\RespondsWithErrors;
 use App\Http\Controllers\Controller;
 use App\Models\Branch;
 use Illuminate\Http\Request;
 
 class BranchController extends Controller
 {
+    use RespondsWithErrors;
+
     public function index()
     {
         $branches = Branch::with('cars')->get();
@@ -24,7 +27,7 @@ class BranchController extends Controller
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'city' => 'required|string|max:100',
-            'phone' => 'nullable|string|max:50',
+            'phone' => 'nullable|string|max:20',
         ]);
 
         $branch = Branch::create($validated);
@@ -52,7 +55,7 @@ class BranchController extends Controller
             'name' => 'sometimes|required|string|max:255',
             'address' => 'sometimes|required|string|max:255',
             'city' => 'sometimes|required|string|max:100',
-            'phone' => 'nullable|string|max:50',
+            'phone' => 'nullable|string|max:20',
         ]);
 
         $branch->update($validated);
@@ -71,10 +74,7 @@ class BranchController extends Controller
             $branch->pickupBookings()->exists() ||
             $branch->dropoffBookings()->exists()
         ) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Cannot delete this branch because it has cars or bookings.',
-            ], 422);
+            return $this->unprocessable('Cannot delete this branch because it has cars or bookings.');
         }
 
         $branch->delete();

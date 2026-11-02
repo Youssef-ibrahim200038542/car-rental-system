@@ -34,7 +34,7 @@ class RecommendationScorer
         'budget' => 25,
         'category' => 20,
         'fuel_type' => 10,
-        'transmission' => 10,
+        'transmission' => 20,
         'seats' => 10,
         'branch' => 10,
         'rating' => 10,
@@ -47,10 +47,6 @@ class RecommendationScorer
         'benzine' => 'petrol',
         'ev' => 'electric',
     ];
-
-    private const BLOCKING_BOOKING_STATUSES = ['pending', 'confirmed', 'active'];
-
-    private const UNBOOKABLE_CAR_STATUSES = ['maintenance', 'inactive'];
 
     public static function normaliseFuelType(?string $fuelType): ?string
     {
@@ -78,7 +74,7 @@ class RecommendationScorer
      * @param  array{budget?: float|int|null, category?: string|null, fuel_type?: string|null,
      *               transmission?: string|null, seats?: int|null, branch_id?: int|null,
      *               pickup_date?: string|null, return_date?: string|null, limit?: int|null}  $preferences
-     * @return Collection<int, array{car: Car, score: int, reasons: string[]}>
+     * @return Collection<int, array{car: Car, score: int, reasons: string[], features: array<string, float>}> features: the fraction of each applicable criterion's weight the car earned
      */
     public function recommend(array $preferences): Collection
     {
@@ -101,9 +97,13 @@ class RecommendationScorer
     {
         $limit = (int) ($preferences['limit'] ?? self::DEFAULT_LIMIT);
 
+        $categoryName = isset($preferences['category']) ? trim($preferences['category']) : '';
+        $category = self::findCategoryByName($categoryName);
+
         return [
             'budget' => isset($preferences['budget']) ? (float) $preferences['budget'] : null,
-            'category' => self::findCategoryByName($preferences['category'] ?? null),
+            'category' => $category,
+            'unknown_category' => $category === null && $categoryName !== '' ? $categoryName : null,
             'fuel_type' => self::normaliseFuelType($preferences['fuel_type'] ?? null),
             'transmission' => isset($preferences['transmission'])
                 ? strtolower($preferences['transmission'])
@@ -125,13 +125,10 @@ class RecommendationScorer
                 'reviews',
                 'bookings as completed_bookings_count' => fn (Builder $q) => $q->where('status', 'completed'),
             ])
-            ->whereNotIn('status', self::UNBOOKABLE_CAR_STATUSES);
+            ->whereNotIn('status', Car::UNBOOKABLE_STATUSES);
 
         if ($criteria['pickup_date'] && $criteria['return_date']) {
-            $query->whereDoesntHave('bookings', fn (Builder $q) => $q
-                ->whereIn('status', self::BLOCKING_BOOKING_STATUSES)
-                ->whereDate('pickup_date', '<=', $criteria['return_date'])
-                ->whereDate('return_date', '>=', $criteria['pickup_date']));
+            $query->whereDoesntHave('bookings', fn (Builder $q) => $q->blocking($criteria['pickup_date'], $criteria['return_date']));
         }
 
         return $query->get();
@@ -153,17 +150,25 @@ class RecommendationScorer
         $earned = 0.0;
         $applicable = 0;
         $reasons = [];
+        $features = [];
 
         foreach ($results as $criterion => [$fraction, $reason]) {
             $earned += self::WEIGHTS[$criterion] * $fraction;
             $applicable += self::WEIGHTS[$criterion];
             $reasons[] = $reason;
+            $features[$criterion] = round($fraction, 4);
+        }
+
+        // An unknown category is reported rather than silently dropped; it carries no weight.
+        if ($criteria['unknown_category'] !== null) {
+            $reasons[] = "Category '{$criteria['unknown_category']}' not found — ignored";
         }
 
         return [
             'car' => $car,
             'score' => (int) round($earned / $applicable * 100),
             'reasons' => $reasons,
+            'features' => $features,
         ];
     }
 
